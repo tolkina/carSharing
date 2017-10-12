@@ -1,9 +1,6 @@
 package com.exposit.carsharing.configuration;
 
-import com.exposit.carsharing.endpoint.CreditCardEndpoint;
-import com.exposit.carsharing.endpoint.DriverLicenseEndpoint;
-import com.exposit.carsharing.endpoint.PassportDataEndpoint;
-import com.exposit.carsharing.endpoint.ProfileEndpoint;
+import com.exposit.carsharing.endpoint.*;
 import com.exposit.carsharing.exception.EntityAlreadyExistExceptionMapper;
 import com.exposit.carsharing.exception.EntityNotFoundExceptionMapper;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -19,6 +16,7 @@ public class JerseyConfig extends ResourceConfig {
         register(DriverLicenseEndpoint.class);
         register(PassportDataEndpoint.class);
         register(ProfileEndpoint.class);
+        register(AdEndpoint.class);
         register(EntityNotFoundExceptionMapper.class);
         register(EntityAlreadyExistExceptionMapper.class);
     }

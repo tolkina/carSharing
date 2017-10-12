@@ -37,6 +37,9 @@ public class Profile implements Serializable {
     @OneToOne(mappedBy = "owner")
     private PassportData passportData;
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Ad> ads;
+
     public Profile() {
     }
 
@@ -118,5 +121,13 @@ public class Profile implements Serializable {
 
     public void setPassportData(PassportData passportData) {
         this.passportData = passportData;
+    }
+
+    public Set<Ad> getAds() {
+        return ads;
+    }
+
+    public void setAds(Set<Ad> ads) {
+        this.ads = ads;
     }
 }
