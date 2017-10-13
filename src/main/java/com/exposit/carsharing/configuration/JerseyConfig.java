@@ -20,5 +20,9 @@ public class JerseyConfig extends ResourceConfig {
         register(DealEndpoint.class);
         register(EntityNotFoundExceptionMapper.class);
         register(EntityAlreadyExistExceptionMapper.class);
+        register(CurrentConditionEndpoint.class);
+        register(CarEndpoint.class);
+        register(GeneralParametersEndpoint.class);
+        register(TechnicalParametersEndpoint.class);
     }
 }
