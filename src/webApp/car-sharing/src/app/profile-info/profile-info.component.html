@@ -1,0 +1,11 @@
+<div *ngIf="profile">
+  <h2>{{profile.id}} details!</h2>
+  <div><label>id: </label>{{profile.id}}</div>
+  <div>
+    <label>model: </label>
+    <input [(ngModel)]="profile.email" placeholder="email"/>
+  </div>
+  <div>
+    <label>Password: </label> {{profile.password}}
+  </div>
+</div>
