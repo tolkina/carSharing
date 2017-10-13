@@ -17,6 +17,7 @@ public class JerseyConfig extends ResourceConfig {
         register(PassportDataEndpoint.class);
         register(ProfileEndpoint.class);
         register(AdEndpoint.class);
+        register(DealEndpoint.class);
         register(EntityNotFoundExceptionMapper.class);
         register(EntityAlreadyExistExceptionMapper.class);
     }

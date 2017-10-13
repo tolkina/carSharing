@@ -40,6 +40,12 @@ public class Profile implements Serializable {
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Ad> ads;
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Deal> dealsWithMe;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Deal> myDeals;
+
     public Profile() {
     }
 
@@ -129,5 +135,21 @@ public class Profile implements Serializable {
 
     public void setAds(Set<Ad> ads) {
         this.ads = ads;
+    }
+
+    public Set<Deal> getDealsWithMe() {
+        return dealsWithMe;
+    }
+
+    public void setDealsWithMe(Set<Deal> dealsWithMe) {
+        this.dealsWithMe = dealsWithMe;
+    }
+
+    public Set<Deal> getMyDeals() {
+        return myDeals;
+    }
+
+    public void setMyDeals(Set<Deal> myDeals) {
+        this.myDeals = myDeals;
     }
 }

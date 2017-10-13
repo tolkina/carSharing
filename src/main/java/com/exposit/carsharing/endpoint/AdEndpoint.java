@@ -2,16 +2,12 @@ package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.Ad;
-import com.exposit.carsharing.model.CreditCard;
 import com.exposit.carsharing.service.AdService;
-import com.exposit.carsharing.service.CreditCardService;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
-import java.util.List;
 
 @Component
 @Consumes({MediaType.APPLICATION_JSON})
