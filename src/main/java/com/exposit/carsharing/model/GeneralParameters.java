@@ -1,18 +1,17 @@
 package com.exposit.carsharing.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-/**
- * Created by Sergei on 10/12/2017.
- */
 @Entity
 @Table(name = "general_parameters")
-public class GeneralParameters {
+public class GeneralParameters implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String brand;
 
@@ -21,14 +20,19 @@ public class GeneralParameters {
     @Column(name = "year_of_issue", length = 4)
     private Integer yearOfIssue;
 
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id", nullable = false)
+    private Car car;
+
     public GeneralParameters() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -54,5 +58,13 @@ public class GeneralParameters {
 
     public void setYearOfIssue(Integer yearOfIssue) {
         this.yearOfIssue = yearOfIssue;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
     }
 }
