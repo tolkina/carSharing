@@ -21,9 +21,9 @@ public class AdEndpoint {
     }
 
     @POST
-    @Path("/{id}")
-    public Response createAd(@PathParam("id") Long ownerId, Ad ad) throws EntityNotFoundException {
-        adService.createAd(ad, ownerId);
+    @Path("/{ownerId}/{carId}")
+    public Response createAd(@PathParam("ownerId") Long ownerId,@PathParam("carId") Long carId, Ad ad) throws EntityNotFoundException {
+        adService.createAd(ad, ownerId, carId);
         return Response.status(201).entity(ad).build();
     }
 

@@ -1,5 +1,7 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.exception.EntityAlreadyExistException;
+import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.Car;
 import com.exposit.carsharing.service.CarService;
 import org.springframework.stereotype.Component;
@@ -20,8 +22,9 @@ public class CarEndpoint {
     }
 
     @POST
-    public Response createCar(Car car) {
-        carService.createCar(car);
+    @Path("{id}")
+    public Response createCar(@PathParam("id") Long ownerId, Car car) throws EntityNotFoundException, EntityAlreadyExistException {
+        carService.createCar(car, ownerId);
         return Response.status(201).entity(car).build();
     }
 
@@ -32,7 +35,7 @@ public class CarEndpoint {
 
     @GET
     @Path("{id}")
-    public Response getCar(@PathParam("id") Long id) {
+    public Response getCar(@PathParam("id") Long id) throws EntityNotFoundException {
         return Response.status(200).entity(carService.getCar(id)).build();
     }
 }

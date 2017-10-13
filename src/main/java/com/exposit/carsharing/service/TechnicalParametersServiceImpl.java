@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.TechnicalParameters;
 import com.exposit.carsharing.repository.TechnicalParametersRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class TechnicalParametersServiceImpl implements TechnicalParametersServic
     }
 
     @Override
-    public void createTechnicalParameters(TechnicalParameters technicalParameters, Long carId) {
+    public void createTechnicalParameters(TechnicalParameters technicalParameters, Long carId) throws EntityNotFoundException {
         technicalParameters.setCar(carService.getCar(carId));
         technicalParametersRepository.save(technicalParameters);
     }

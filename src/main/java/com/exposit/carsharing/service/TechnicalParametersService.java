@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.TechnicalParameters;
 
 import java.util.List;
@@ -9,5 +10,5 @@ public interface TechnicalParametersService {
 
     List<TechnicalParameters> getAllTechnicalParameters();
 
-    void createTechnicalParameters(TechnicalParameters technicalParameters, Long carId);
+    void createTechnicalParameters(TechnicalParameters technicalParameters, Long carId) throws EntityNotFoundException;
 }

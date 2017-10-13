@@ -1,5 +1,6 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.CurrentCondition;
 import com.exposit.carsharing.service.CurrentConditionService;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class CurrentConditionEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createCurrentCondition(@PathParam("id") Long carId, CurrentCondition currentCondition) {
+    public Response createCurrentCondition(@PathParam("id") Long carId, CurrentCondition currentCondition) throws EntityNotFoundException {
         currentConditionService.createCurrentCondition(currentCondition, carId);
         return Response.status(201).entity(currentCondition).build();
     }

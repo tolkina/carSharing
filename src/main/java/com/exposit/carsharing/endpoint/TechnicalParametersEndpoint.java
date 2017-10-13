@@ -1,5 +1,6 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.TechnicalParameters;
 import com.exposit.carsharing.service.TechnicalParametersService;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ public class TechnicalParametersEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createTechnicalParameters(@PathParam("id") Long carId, TechnicalParameters technicalParameters) {
+    public Response createTechnicalParameters(@PathParam("id") Long carId, TechnicalParameters technicalParameters) throws EntityNotFoundException {
         technicalParametersService.createTechnicalParameters(technicalParameters, carId);
         return Response.status(201).entity(technicalParameters).build();
     }

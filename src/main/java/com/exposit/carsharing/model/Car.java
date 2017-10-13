@@ -1,5 +1,7 @@
 package com.exposit.carsharing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -19,6 +21,16 @@ public class Car implements Serializable {
 
     @OneToOne(mappedBy = "car")
     private CurrentCondition currentCondition;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private Profile owner;
+
+    @JsonIgnore
+    @OneToOne()
+    @JoinColumn(name = "ad_id")
+    private Ad ad;
 
     public Car() {
     }
@@ -53,5 +65,21 @@ public class Car implements Serializable {
 
     public void setCurrentCondition(CurrentCondition currentCondition) {
         this.currentCondition = currentCondition;
+    }
+
+    public Profile getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Profile owner) {
+        this.owner = owner;
+    }
+
+    public Ad getAd() {
+        return ad;
+    }
+
+    public void setAd(Ad ad) {
+        this.ad = ad;
     }
 }

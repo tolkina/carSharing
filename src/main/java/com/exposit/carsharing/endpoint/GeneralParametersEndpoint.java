@@ -1,5 +1,6 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.GeneralParameters;
 import com.exposit.carsharing.service.GeneralParametersService;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ public class GeneralParametersEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createGeneralParameters(@PathParam("id") Long carId, GeneralParameters generalParameters) {
+    public Response createGeneralParameters(@PathParam("id") Long carId, GeneralParameters generalParameters) throws EntityNotFoundException {
         generalParametersService.createGeneralParameters(generalParameters, carId);
         return Response.status(201).entity(generalParameters).build();
     }

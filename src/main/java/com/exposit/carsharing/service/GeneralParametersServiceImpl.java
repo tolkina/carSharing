@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.GeneralParameters;
 import com.exposit.carsharing.repository.GeneralParametersRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class GeneralParametersServiceImpl implements GeneralParametersService {
     }
 
     @Override
-    public void createGeneralParameters(GeneralParameters generalParameters, Long carId) {
+    public void createGeneralParameters(GeneralParameters generalParameters, Long carId) throws EntityNotFoundException {
         generalParameters.setCar(carService.getCar(carId));
         generalParametersRepository.save(generalParameters);
     }

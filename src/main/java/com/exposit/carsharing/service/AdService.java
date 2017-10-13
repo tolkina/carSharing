@@ -12,5 +12,5 @@ public interface AdService {
 
     List<Ad> getAllAds();
 
-    void createAd(Ad ad, Long ownerId) throws EntityNotFoundException;
+    void createAd(Ad ad, Long ownerId, Long carId) throws EntityNotFoundException;
 }

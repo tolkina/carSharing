@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.CurrentCondition;
 import com.exposit.carsharing.repository.CurrentConditionRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class CurrentConditionServiceImpl implements CurrentConditionService {
     }
 
     @Override
-    public void createCurrentCondition(CurrentCondition currentCondition, Long carId) {
+    public void createCurrentCondition(CurrentCondition currentCondition, Long carId) throws EntityNotFoundException {
         currentCondition.setCar(carService.getCar(carId));
         currentConditionRepository.save(currentCondition);
     }

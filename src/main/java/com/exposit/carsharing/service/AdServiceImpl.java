@@ -3,9 +3,7 @@ package com.exposit.carsharing.service;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.Ad;
 import com.exposit.carsharing.repository.AdRepository;
-import com.exposit.carsharing.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,10 +11,12 @@ import java.util.List;
 public class AdServiceImpl implements AdService {
     private final ProfileService profileService;
     private final AdRepository adRepository;
+    private final CarService carService;
 
-    public AdServiceImpl(ProfileService profileService, AdRepository adRepository) {
+    public AdServiceImpl(ProfileService profileService, AdRepository adRepository, CarService carService) {
         this.profileService = profileService;
         this.adRepository = adRepository;
+        this.carService = carService;
     }
 
     @Override
@@ -39,8 +39,9 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public void createAd(Ad ad, Long ownerId) throws EntityNotFoundException {
+    public void createAd(Ad ad, Long ownerId, Long carId) throws EntityNotFoundException {
         ad.setOwner(profileService.getProfile(ownerId));
+        ad.setCar(carService.getCar(carId));
         adRepository.save(ad);
     }
 }

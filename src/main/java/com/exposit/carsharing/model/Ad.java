@@ -35,6 +35,9 @@ public class Ad implements Serializable {
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
 
+    @OneToOne(mappedBy = "ad")
+    private Car car;
+
     public Ad() {
     }
 
@@ -100,5 +103,13 @@ public class Ad implements Serializable {
 
     public void setOwner(Profile owner) {
         this.owner = owner;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
     }
 }
