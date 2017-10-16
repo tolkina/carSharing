@@ -8,11 +8,11 @@ public interface AdminService {
 
     // ---------------------- Body type --------------------
 
-    void createBodyType(String name);
+    BodyType createBodyType(String name);
 
     void deleteBodyType(Long id);
 
-    void updateBodyType(Long id, String name);
+    BodyType updateBodyType(Long id, String name);
 
     List<BodyType> getAllBodyTypes();
 
@@ -20,11 +20,11 @@ public interface AdminService {
 
     // ---------------------- Brand --------------------
 
-    void createBrand(String name);
+    Brand createBrand(String name);
 
     void deleteBrand(Long id);
 
-    void updateBrand(Long id, String name);
+    Brand updateBrand(Long id, String name);
 
     List<Brand> getAllBrands();
 
@@ -32,11 +32,11 @@ public interface AdminService {
 
     // ---------------------- Color --------------------
 
-    void createColor(String name);
+    Color createColor(String name);
 
     void deleteColor(Long id);
 
-    void updateColor(Long id, String name);
+    Color updateColor(Long id, String name);
 
     List<Color> getAllColors();
 
@@ -44,11 +44,11 @@ public interface AdminService {
 
     // ---------------------- Drive unit --------------------
 
-    void createDriveUnit(String name);
+    DriveUnit createDriveUnit(String name);
 
     void deleteDriveUnit(Long id);
 
-    void updateDriveUnit(Long id, String name);
+    DriveUnit updateDriveUnit(Long id, String name);
 
     List<DriveUnit> getAllDriveUnits();
 
@@ -56,11 +56,11 @@ public interface AdminService {
 
     // ---------------------- Fuel type --------------------
 
-    void createFuelType(String name);
+    FuelType createFuelType(String name);
 
     void deleteFuelType(Long id);
 
-    void updateFuelType(Long id, String name);
+    FuelType updateFuelType(Long id, String name);
 
     List<FuelType> getAllFuelTypes();
 
@@ -68,11 +68,11 @@ public interface AdminService {
 
     // ---------------------- Gearbox --------------------
 
-    void createGearbox(String name);
+    Gearbox createGearbox(String name);
 
     void deleteGearbox(Long id);
 
-    void updateGearbox(Long id, String name);
+    Gearbox updateGearbox(Long id, String name);
 
     List<Gearbox> getAllGearboxes();
 
@@ -80,11 +80,11 @@ public interface AdminService {
 
     // ---------------------- Interior material --------------------
 
-    void createInteriorMaterial(String name);
+    InteriorMaterial createInteriorMaterial(String name);
 
     void deleteInteriorMaterial(Long id);
 
-    void updateInteriorMaterial(Long id, String name);
+    InteriorMaterial updateInteriorMaterial(Long id, String name);
 
     List<InteriorMaterial> getAllInteriorMaterials();
 
@@ -92,11 +92,11 @@ public interface AdminService {
 
     // ---------------------- Model --------------------
 
-    void createModel(String name);
+    Model createModel(String name);
 
     void deleteModel(Long id);
 
-    void updateModel(Long id, String name);
+    Model updateModel(Long id, String name);
 
     List<Model> getAllModels();
 
@@ -106,11 +106,11 @@ public interface AdminService {
 
     // ---------------------- Tires season --------------------
 
-    void createTiresSeason(String name);
+    TiresSeason createTiresSeason(String name);
 
     void deleteTiresSeason(Long id);
 
-    void updateTiresSeason(Long id, String name);
+    TiresSeason updateTiresSeason(Long id, String name);
 
     List<TiresSeason> getAllTiresSeasons();
 

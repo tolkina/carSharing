@@ -31,8 +31,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createBodyType(String name) {
-
+    public BodyType createBodyType(String name) {
+        return null;
     }
 
     @Override
@@ -41,8 +41,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateBodyType(Long id, String name) {
-
+    public BodyType updateBodyType(Long id, String name) {
+        return null;
     }
 
     @Override
@@ -56,8 +56,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createBrand(String name) {
-
+    public Brand createBrand(String name) {
+        return null;
     }
 
     @Override
@@ -66,8 +66,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateBrand(Long id, String name) {
-
+    public Brand updateBrand(Long id, String name) {
+        return null;
     }
 
     @Override
@@ -81,8 +81,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createColor(String name) {
-
+    public Color createColor(String name) {
+        return null;
     }
 
     @Override
@@ -91,8 +91,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateColor(Long id, String name) {
-
+    public Color updateColor(Long id, String name) {
+        return null;
     }
 
     @Override
@@ -106,8 +106,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createDriveUnit(String name) {
-
+    public DriveUnit createDriveUnit(String name) {
+        return null;
     }
 
     @Override
@@ -116,8 +116,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateDriveUnit(Long id, String name) {
-
+    public DriveUnit updateDriveUnit(Long id, String name) {
+        return null;
     }
 
     @Override
@@ -131,8 +131,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createFuelType(String name) {
-
+    public FuelType createFuelType(String name) {
+        return null;
     }
 
     @Override
@@ -141,8 +141,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateFuelType(Long id, String name) {
-
+    public FuelType updateFuelType(Long id, String name) {
+        return null;
     }
 
     @Override
@@ -156,8 +156,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createGearbox(String name) {
-
+    public Gearbox createGearbox(String name) {
+        return null;
     }
 
     @Override
@@ -166,8 +166,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateGearbox(Long id, String name) {
-
+    public Gearbox updateGearbox(Long id, String name) {
+        return null;
     }
 
     @Override
@@ -181,8 +181,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createInteriorMaterial(String name) {
-
+    public InteriorMaterial createInteriorMaterial(String name) {
+        return null;
     }
 
     @Override
@@ -191,8 +191,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateInteriorMaterial(Long id, String name) {
-
+    public InteriorMaterial updateInteriorMaterial(Long id, String name) {
+        return null;
     }
 
     @Override
@@ -206,8 +206,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createModel(String name) {
-
+    public Model createModel(String name) {
+        return null;
     }
 
     @Override
@@ -216,8 +216,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateModel(Long id, String name) {
-
+    public Model updateModel(Long id, String name) {
+        return null;
     }
 
     @Override
@@ -236,8 +236,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createTiresSeason(String name) {
-
+    public TiresSeason createTiresSeason(String name) {
+        return null;
     }
 
     @Override
@@ -246,8 +246,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateTiresSeason(Long id, String name) {
-
+    public TiresSeason updateTiresSeason(Long id, String name) {
+        return null;
     }
 
     @Override
