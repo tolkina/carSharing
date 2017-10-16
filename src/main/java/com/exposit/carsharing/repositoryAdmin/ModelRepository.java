@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ModelRepository extends JpaRepository<Model, Long> {
+    Model findByModel(String model);
     List<Model> findAllByBrand(Brand brand);
 }
