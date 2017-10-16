@@ -21,33 +21,34 @@ public class DealEndpoint {
     }
 
     @POST
-    @Path("/{owner_id}/{customer_id}")
-    public Response createDeal(@PathParam("owner_id") Long ownerId, @PathParam("customer_id") Long customerId, Deal deal) throws EntityNotFoundException {
-        dealService.createDeal(deal, ownerId, customerId);
+    @Path("/{ad_id}/{owner_id}/{customer_id}")
+    public Response createDeal(@PathParam("ad_id") Long adId, @PathParam("owner_id") Long ownerId,
+                               @PathParam("customer_id") Long customerId, Deal deal) throws EntityNotFoundException {
+        dealService.create(deal, adId, ownerId, customerId);
         return Response.status(201).entity(deal).build();
     }
 
     @GET
     public Response getAllDeals() {
-        return Response.status(200).entity(dealService.getAllDeals()).build();
+        return Response.status(200).entity(dealService.getAll()).build();
     }
 
     @GET
     @Path("/my/{id}")
     public Response getAllMyDeals(@PathParam("id") Long customerId) throws EntityNotFoundException {
-        return Response.status(200).entity(dealService.getAllMyDeals(customerId)).build();
+        return Response.status(200).entity(dealService.getAllByCustomer(customerId)).build();
     }
 
     @GET
     @Path("/by-me/{id}")
     public Response getAllDealsWithMe(@PathParam("id") Long ownerId) throws EntityNotFoundException {
-        return Response.status(200).entity(dealService.getAllDealsWithMe(ownerId)).build();
+        return Response.status(200).entity(dealService.getAllByOwner(ownerId)).build();
     }
 
     @GET
     @Path("{id}")
     public Response getDeal(@PathParam("id") Long id) throws EntityNotFoundException {
-        Deal deal = dealService.getDeal(id);
+        Deal deal = dealService.get(id);
         return Response.status(200).entity(deal).build();
     }
 }

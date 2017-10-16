@@ -2,6 +2,7 @@ package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.Car;
 
 import java.util.List;
@@ -9,9 +10,13 @@ import java.util.List;
 public interface CarService {
     boolean isExist(Long id);
 
-    Car getCar(Long id) throws EntityNotFoundException;
+    Car get(Long id) throws EntityNotFoundException;
 
-    List<Car> getAllCars();
+    List<Car> getAll();
 
-    void createCar(Car car, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException;
+    List<Car> getAllByOwner(Long ownerId) throws EntityNotFoundException;
+
+    void create(Car car, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException;
+
+    void delete(Long carId, Long ownerId) throws PrivilegeException, EntityNotFoundException;
 }

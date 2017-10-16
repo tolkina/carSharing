@@ -1,14 +1,20 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.TechnicalParameters;
 
 import java.util.List;
 
 public interface TechnicalParametersService {
-    TechnicalParameters getTechnicalParameters(Long id);
+    boolean isExist(Long technicalParametersId);
 
-    List<TechnicalParameters> getAllTechnicalParameters();
+    TechnicalParameters get(Long id) throws EntityNotFoundException;
 
-    void createTechnicalParameters(TechnicalParameters technicalParameters, Long carId) throws EntityNotFoundException;
+    List<TechnicalParameters> getAll();
+
+    void create(TechnicalParameters technicalParameters, Long carId) throws EntityNotFoundException, EntityAlreadyExistException;
+
+    void delete(Long technicalParameterId, Long carId) throws PrivilegeException, EntityNotFoundException;
 }

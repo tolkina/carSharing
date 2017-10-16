@@ -8,13 +8,13 @@ import java.util.List;
 public interface DealService {
     boolean isExist(Long id);
 
-    Deal getDeal(Long id) throws EntityNotFoundException;
+    Deal get(Long id) throws EntityNotFoundException;
 
-    List<Deal> getAllDeals();
+    List<Deal> getAll();
 
-    List<Deal> getAllMyDeals(Long customerId) throws EntityNotFoundException;
+    List<Deal> getAllByCustomer(Long customerId) throws EntityNotFoundException;
 
-    List<Deal> getAllDealsWithMe(Long ownerId) throws EntityNotFoundException;
+    List<Deal> getAllByOwner(Long ownerId) throws EntityNotFoundException;
 
-    void createDeal(Deal deal, Long ownerId, Long customerId) throws EntityNotFoundException;
+    void create(Deal deal, Long adId, Long ownerId, Long customerId) throws EntityNotFoundException;
 }

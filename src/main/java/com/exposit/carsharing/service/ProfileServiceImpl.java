@@ -30,7 +30,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile getProfile(Long id) throws EntityNotFoundException {
+    public Profile get(Long id) throws EntityNotFoundException {
         Profile profile = profileRepository.findOne(id);
         if (profile == null) {
             throw new EntityNotFoundException(String.format("Profile with id %d not found", id));
@@ -39,12 +39,12 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public List<Profile> getAllProfiles() {
+    public List<Profile> getAll() {
         return profileRepository.findAll();
     }
 
     @Override
-    public void createProfile(Profile profile) throws EntityAlreadyExistException {
+    public void create(Profile profile) throws EntityAlreadyExistException {
         if (profile.getId() != null && isExist(profile.getId())) {
             throw new EntityAlreadyExistException(String.format("Id %d already used", profile.getId()));
         }
@@ -52,5 +52,10 @@ public class ProfileServiceImpl implements ProfileService {
             throw new EntityAlreadyExistException(String.format("Email %s already used", profile.getEmail()));
         }
         profileRepository.save(profile);
+    }
+
+    @Override
+    public void delete(Long profileId) throws EntityNotFoundException {
+        profileRepository.delete(get(profileId));
     }
 }

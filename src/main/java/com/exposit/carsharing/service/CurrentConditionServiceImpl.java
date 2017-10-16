@@ -1,6 +1,8 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.CurrentCondition;
 import com.exposit.carsharing.repository.CurrentConditionRepository;
 import org.springframework.stereotype.Service;
@@ -18,51 +20,38 @@ public class CurrentConditionServiceImpl implements CurrentConditionService {
     }
 
     @Override
-    public CurrentCondition getCurrentCondition(Long id) {
-        return currentConditionRepository.findOne(id);
+    public boolean isExist(Long currentConditionId) {
+        return currentConditionRepository.findOne(currentConditionId) != null;
     }
 
     @Override
-    public List<CurrentCondition> getAllCurrentConditions() {
+    public CurrentCondition get(Long id) throws EntityNotFoundException {
+        CurrentCondition currentCondition = currentConditionRepository.findOne(id);
+        if (currentCondition == null) {
+            throw new EntityNotFoundException("Current condition", id);
+        }
+        return currentCondition;
+    }
+
+    @Override
+    public List<CurrentCondition> getAll() {
         return currentConditionRepository.findAll();
     }
 
     @Override
-    public void createCurrentCondition(CurrentCondition currentCondition, Long carId) throws EntityNotFoundException {
-        currentCondition.setCar(carService.getCar(carId));
+    public void create(CurrentCondition currentCondition, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
+        if (currentCondition.getId() != null && isExist(currentCondition.getId())) {
+            throw new EntityAlreadyExistException("Current condition", currentCondition.getId());
+        }
+        currentCondition.setCar(carService.get(carId));
         currentConditionRepository.save(currentCondition);
     }
 
-  /*  @PostConstruct
-    @Transactional
-    public void populate() {
-        TechnicalParameters technicalParameters = new TechnicalParameters();
-        technicalParameters.setGearbox("Mechanical");
-        technicalParameters.setBodyType("Sedan");
-        technicalParameters.setSeatNumber(4);
-        technicalParameters.setDoorNumber(5);
-        technicalParameters.setFuelType("AI-95");
-        technicalParameters.setFuelConsumption(1.6);
-        technicalParameters.setDriveUnit("Front-wheel");
-        technicalParameters.setTiresSeason("All seasons");
-        technicalParameters.setInteriorMaterial("Leather");
-        technicalParameters.setColor("Black Metallic");
-        technicalParameters.setVin(12658963);
-        technicalParameters.setGovNumber("1111 AA-1");
-        technicalParameters.setStsFormNumber(90876453);
-        technicalParameters.setStsImageLink("Super Photo URL");
-        technicalParameters.setPtsImageLink("PTS Super Photo URL");
-
-        currentConditionRepository.saveAndFlush(technicalParameters);
+    @Override
+    public void delete(Long currentConditionId, Long carId) throws PrivilegeException, EntityNotFoundException {
+        if (!get(currentConditionId).getCar().getId().equals(carId)) {
+            throw new PrivilegeException();
+        }
+        currentConditionRepository.delete(currentConditionId);
     }
-
-    @Transactional
-    public List<TechnicalParameters> getAll() {
-        return currentConditionRepository.findAll();
-    }
-
-    @Transactional
-    public void delete(long id) {
-        currentConditionRepository.delete(id);
-    }*/
 }

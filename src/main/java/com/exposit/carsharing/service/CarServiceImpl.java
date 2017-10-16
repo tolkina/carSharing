@@ -2,7 +2,9 @@ package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.Car;
+import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.CarRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,38 +26,39 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car getCar(Long id) throws EntityNotFoundException {
-        Car car =  carRepository.findOne(id);
-        if (car == null){
-            throw new EntityNotFoundException(String.format("Car with id %d not found", id));
+    public Car get(Long id) throws EntityNotFoundException {
+        Car car = carRepository.findOne(id);
+        if (car == null) {
+            throw new EntityNotFoundException("Car", id);
         }
         return car;
     }
 
     @Override
-    public List<Car> getAllCars() {
+    public List<Car> getAll() {
         return carRepository.findAll();
     }
 
     @Override
-    public void createCar(Car car, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException {
+    public List<Car> getAllByOwner(Long ownerId) throws EntityNotFoundException {
+        Profile owner = profileService.get(ownerId);
+        return carRepository.findAllByOwner(owner);
+    }
+
+    @Override
+    public void create(Car car, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException {
         if (car.getId() != null && isExist(car.getId())) {
-            throw new EntityAlreadyExistException(String.format("Car id %d already used", car.getId()));
+            throw new EntityAlreadyExistException("Car", car.getId());
         }
-        car.setOwner(profileService.getProfile(ownerId));
+        car.setOwner(profileService.get(ownerId));
         carRepository.save(car);
     }
 
-/*   @PostConstruct
-    @Transactional
-    public void populate(){
-        Car cars = new Car();
-
-        carRepository.saveAndFlush(cars);
+    @Override
+    public void delete(Long carId, Long ownerId) throws PrivilegeException, EntityNotFoundException {
+        if (!get(carId).getOwner().getId().equals(ownerId)) {
+            throw new PrivilegeException();
+        }
+        carRepository.delete(carId);
     }
-
-    @Transactional
-    public List<Car> getAll(){
-        return carRepository.findAll();
-    }*/
 }

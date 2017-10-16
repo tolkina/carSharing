@@ -18,7 +18,7 @@
 //   }
 //
 //   ngOnInit(): void {
-//     this.route.params.switchMap((params: Params) => this.profileService.getProfile(+params['id']))
+//     this.route.params.switchMap((params: Params) => this.profileService.get(+params['id']))
 //       .subscribe(profile => this.profile = profile);
 //   }
 //

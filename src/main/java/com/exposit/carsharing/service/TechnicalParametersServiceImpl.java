@@ -1,6 +1,8 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.TechnicalParameters;
 import com.exposit.carsharing.repository.TechnicalParametersRepository;
 import org.springframework.stereotype.Service;
@@ -18,18 +20,38 @@ public class TechnicalParametersServiceImpl implements TechnicalParametersServic
     }
 
     @Override
-    public TechnicalParameters getTechnicalParameters(Long id) {
-        return technicalParametersRepository.findOne(id);
+    public boolean isExist(Long technicalParametersId) {
+        return technicalParametersRepository.findOne(technicalParametersId) != null;
     }
 
     @Override
-    public List<TechnicalParameters> getAllTechnicalParameters() {
+    public TechnicalParameters get(Long id) throws EntityNotFoundException {
+        TechnicalParameters technicalParameters = technicalParametersRepository.findOne(id);
+        if (technicalParameters == null) {
+            throw new EntityNotFoundException("Technical parameters", id);
+        }
+        return technicalParameters;
+    }
+
+    @Override
+    public List<TechnicalParameters> getAll() {
         return technicalParametersRepository.findAll();
     }
 
     @Override
-    public void createTechnicalParameters(TechnicalParameters technicalParameters, Long carId) throws EntityNotFoundException {
-        technicalParameters.setCar(carService.getCar(carId));
+    public void create(TechnicalParameters technicalParameters, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
+        if (technicalParameters.getId() != null && isExist(technicalParameters.getId())) {
+            throw new EntityAlreadyExistException("Technical parameters", technicalParameters.getId());
+        }
+        technicalParameters.setCar(carService.get(carId));
         technicalParametersRepository.save(technicalParameters);
+    }
+
+    @Override
+    public void delete(Long technicalParameterId, Long carId) throws PrivilegeException, EntityNotFoundException {
+        if (!get(technicalParameterId).getCar().getId().equals(carId)) {
+            throw new PrivilegeException();
+        }
+        technicalParametersRepository.delete(technicalParameterId);
     }
 }

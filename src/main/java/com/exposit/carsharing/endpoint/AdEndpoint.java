@@ -1,8 +1,11 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.Ad;
 import com.exposit.carsharing.service.AdService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -22,20 +25,27 @@ public class AdEndpoint {
 
     @POST
     @Path("/{ownerId}/{carId}")
-    public Response createAd(@PathParam("ownerId") Long ownerId,@PathParam("carId") Long carId, Ad ad) throws EntityNotFoundException {
-        adService.createAd(ad, ownerId, carId);
+    public Response createAd(@PathParam("ownerId") Long ownerId, @PathParam("carId") Long carId, Ad ad) throws EntityNotFoundException, EntityAlreadyExistException {
+        adService.create(ad, ownerId, carId);
         return Response.status(201).entity(ad).build();
     }
 
     @GET
     public Response getAllAds() {
-        return Response.status(200).entity(adService.getAllAds()).build();
+        return Response.status(200).entity(adService.getAll()).build();
     }
 
     @GET
     @Path("{id}")
     public Response getAd(@PathParam("id") Long id) throws EntityNotFoundException {
-        Ad ad = adService.getAd(id);
+        Ad ad = adService.get(id);
         return Response.status(200).entity(ad).build();
+    }
+
+    @DELETE
+    @Path("{ad_id}/{owner_id}")
+    public Response deleteAd(@PathParam("ad_id") Long adId, @PathParam("owner_id") Long ownerId) throws PrivilegeException, EntityNotFoundException {
+        adService.delete(adId, ownerId);
+        return Response.status(200).build();
     }
 }
