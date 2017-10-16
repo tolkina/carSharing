@@ -17,4 +17,6 @@ public interface TechnicalParametersService {
     void create(TechnicalParameters technicalParameters, Long carId) throws EntityNotFoundException, EntityAlreadyExistException;
 
     void delete(Long technicalParameterId, Long carId) throws PrivilegeException, EntityNotFoundException;
+
+    void check(TechnicalParameters technicalParameters) throws EntityAlreadyExistException, EntityNotFoundException;
 }

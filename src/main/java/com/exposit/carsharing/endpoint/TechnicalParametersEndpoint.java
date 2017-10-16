@@ -25,7 +25,8 @@ public class TechnicalParametersEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createTechnicalParameters(@PathParam("id") Long carId, TechnicalParameters technicalParameters) throws EntityNotFoundException, EntityAlreadyExistException {
+    public Response createTechnicalParameters(@PathParam("id") Long carId, TechnicalParameters technicalParameters)
+            throws EntityNotFoundException, EntityAlreadyExistException {
         technicalParametersService.create(technicalParameters, carId);
         return Response.status(201).entity(technicalParameters).build();
     }

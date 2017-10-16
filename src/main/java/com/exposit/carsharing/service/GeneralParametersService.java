@@ -14,7 +14,9 @@ public interface GeneralParametersService {
 
     List<GeneralParameters> getAll();
 
-    void create(GeneralParameters generalParameters, Long carId) throws EntityNotFoundException, EntityAlreadyExistException;
+    void create(GeneralParameters generalParameters, Long carId) throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException;
 
     void delete(Long generalParametersId, Long carId) throws PrivilegeException, EntityNotFoundException;
+
+    void check(GeneralParameters generalParameters) throws EntityNotFoundException, PrivilegeException;
 }

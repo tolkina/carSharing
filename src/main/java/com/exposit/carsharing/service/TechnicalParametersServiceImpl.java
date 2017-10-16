@@ -13,10 +13,13 @@ import java.util.List;
 public class TechnicalParametersServiceImpl implements TechnicalParametersService {
     private final TechnicalParametersRepository technicalParametersRepository;
     private final CarService carService;
+    private final AdminService adminService;
 
-    public TechnicalParametersServiceImpl(TechnicalParametersRepository technicalParametersRepository, CarService carService) {
+    public TechnicalParametersServiceImpl(TechnicalParametersRepository technicalParametersRepository,
+                                          CarService carService, AdminService adminService) {
         this.technicalParametersRepository = technicalParametersRepository;
         this.carService = carService;
+        this.adminService = adminService;
     }
 
     @Override
@@ -43,6 +46,7 @@ public class TechnicalParametersServiceImpl implements TechnicalParametersServic
         if (technicalParameters.getId() != null && isExist(technicalParameters.getId())) {
             throw new EntityAlreadyExistException("Technical parameters", technicalParameters.getId());
         }
+        check(technicalParameters);
         technicalParameters.setCar(carService.get(carId));
         technicalParametersRepository.save(technicalParameters);
     }
@@ -53,5 +57,16 @@ public class TechnicalParametersServiceImpl implements TechnicalParametersServic
             throw new PrivilegeException();
         }
         technicalParametersRepository.delete(technicalParameterId);
+    }
+
+    @Override
+    public void check(TechnicalParameters technicalParameters) throws EntityAlreadyExistException, EntityNotFoundException {
+        adminService.checkBodyTypeExist(technicalParameters.getBodyType());
+        adminService.checkColorExist(technicalParameters.getColor());
+        adminService.checkGearboxExist(technicalParameters.getGearbox());
+        adminService.checkFuelTypeExist(technicalParameters.getFuelType());
+        adminService.checkInteriorMaterialExist(technicalParameters.getInteriorMaterial());
+        adminService.checkTiresSeasonExist(technicalParameters.getTiresSeason());
+        adminService.checkDriveUnitExist(technicalParameters.getDriveUnit());
     }
 }

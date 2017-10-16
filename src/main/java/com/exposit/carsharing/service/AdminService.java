@@ -2,6 +2,7 @@ package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.modelAdmin.*;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface AdminService {
 
     // ---------------------- Body type --------------------
 
-    boolean isBodyTypeExist(Long id);
+    void checkBodyTypeExist(String name) throws EntityNotFoundException;
 
     void checkBodyTypeNameUsed(String name) throws EntityAlreadyExistException;
 
@@ -25,7 +26,9 @@ public interface AdminService {
     BodyType getBodyType(Long id) throws EntityNotFoundException;
 
     // ---------------------- Brand --------------------
-    boolean isBrandExist(Long id);
+    void checkBrandExist(String name) throws EntityNotFoundException;
+
+    void checkBrandAndModelExist(String brand, String model) throws EntityNotFoundException, PrivilegeException;
 
     void checkBrandNameUsed(String name) throws EntityAlreadyExistException;
 
@@ -40,7 +43,7 @@ public interface AdminService {
     Brand getBrand(Long id) throws EntityNotFoundException;
 
     // ---------------------- Color --------------------
-    boolean isColorExist(Long id);
+    void checkColorExist(String name) throws EntityNotFoundException;
 
     void checkColorNameUsed(String name) throws EntityAlreadyExistException;
 
@@ -55,7 +58,7 @@ public interface AdminService {
     Color getColor(Long id) throws EntityNotFoundException;
 
     // ---------------------- Drive unit --------------------
-    boolean isDriveUnitExist(Long id);
+    void checkDriveUnitExist(String name) throws EntityNotFoundException;
 
     void checkDriveUnitNameUsed(String name) throws EntityAlreadyExistException;
 
@@ -70,7 +73,7 @@ public interface AdminService {
     DriveUnit getDriveUnit(Long id) throws EntityNotFoundException;
 
     // ---------------------- Fuel type --------------------
-    boolean isFuelTypeExist(Long id);
+    void checkFuelTypeExist(String name) throws EntityNotFoundException;
 
     void checkFuelTypeNameUsed(String name) throws EntityAlreadyExistException;
 
@@ -85,7 +88,7 @@ public interface AdminService {
     FuelType getFuelType(Long id) throws EntityNotFoundException;
 
     // ---------------------- Gearbox --------------------
-    boolean isGearboxExist(Long id);
+    void checkGearboxExist(String name) throws EntityNotFoundException;
 
     void checkGearboxNameUsed(String name) throws EntityAlreadyExistException;
 
@@ -100,7 +103,7 @@ public interface AdminService {
     Gearbox getGearbox(Long id) throws EntityNotFoundException;
 
     // ---------------------- Interior material --------------------
-    boolean isInteriorMaterialExist(Long id);
+    void checkInteriorMaterialExist(String name) throws EntityNotFoundException;
 
     void checkInteriorMaterialNameUsed(String name) throws EntityAlreadyExistException;
 
@@ -115,7 +118,7 @@ public interface AdminService {
     InteriorMaterial getInteriorMaterial(Long id) throws EntityNotFoundException;
 
     // ---------------------- Model --------------------
-    boolean isModelExist(Long id);
+    void checkModelExist(String name) throws EntityNotFoundException;
 
     void checkModelNameUsed(String name) throws EntityAlreadyExistException;
 
@@ -132,7 +135,7 @@ public interface AdminService {
     Model getModel(Long id) throws EntityNotFoundException;
 
     // ---------------------- Tires season --------------------
-    boolean isTiresSeasonExist(Long id);
+    void checkTiresSeasonExist(String name) throws EntityNotFoundException;
 
     void checkTiresSeasonNameUsed(String name) throws EntityAlreadyExistException;
 

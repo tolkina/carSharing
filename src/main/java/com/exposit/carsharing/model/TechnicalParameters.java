@@ -1,5 +1,6 @@
 package com.exposit.carsharing.model;
 
+import com.exposit.carsharing.modelAdmin.BodyType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -180,8 +181,8 @@ public class TechnicalParameters implements Serializable {
         return stsImageLink;
     }
 
-    public void setStsImageLink(String stsImagelink) {
-        this.stsImageLink = stsImagelink;
+    public void setStsImageLink(String stsImageLink) {
+        this.stsImageLink = stsImageLink;
     }
 
     public String getPtsImageLink() {

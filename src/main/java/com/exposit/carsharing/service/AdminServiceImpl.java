@@ -2,6 +2,7 @@ package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.modelAdmin.*;
 import com.exposit.carsharing.repositoryAdmin.*;
 import org.springframework.stereotype.Service;
@@ -41,8 +42,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isBodyTypeExist(Long id) {
-        return bodyTypeRepository.findOne(id) != null;
+    public void checkBodyTypeExist(String name) throws EntityNotFoundException {
+        if (name != null && bodyTypeRepository.findByBodyType(name) == null) {
+            throw new EntityNotFoundException("Body type", name);
+        }
     }
 
     @Override
@@ -89,8 +92,20 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isBrandExist(Long id) {
-        return brandRepository.findOne(id) != null;
+    public void checkBrandExist(String name) throws EntityNotFoundException {
+        if (name != null && brandRepository.findByBrand(name) == null) {
+            throw new EntityNotFoundException("Brand", name);
+        }
+    }
+
+    @Override
+    public void checkBrandAndModelExist(String brand, String model) throws EntityNotFoundException, PrivilegeException {
+        checkBrandExist(brand);
+        checkModelExist(model);
+        if (model != null && brand != null &&
+                modelRepository.findByModelAndBrand(model, brandRepository.findByBrand(brand)) == null) {
+            throw new PrivilegeException(String.format("Model %s don't belong to brand %s", model, brand));
+        }
     }
 
     @Override
@@ -138,8 +153,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isColorExist(Long id) {
-        return colorRepository.findOne(id) != null;
+    public void checkColorExist(String name) throws EntityNotFoundException {
+        if (name != null && colorRepository.findByColor(name) == null) {
+            throw new EntityNotFoundException("Color", name);
+        }
     }
 
     @Override
@@ -187,8 +204,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isDriveUnitExist(Long id) {
-        return driveUnitRepository.findOne(id) != null;
+    public void checkDriveUnitExist(String name) throws EntityNotFoundException {
+        if (name != null && driveUnitRepository.findByDriveUnit(name) == null) {
+            throw new EntityNotFoundException("Drive unit", name);
+        }
     }
 
     @Override
@@ -235,8 +254,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isFuelTypeExist(Long id) {
-        return fuelTypeRepository.findOne(id) != null;
+    public void checkFuelTypeExist(String name) throws EntityNotFoundException {
+        if (name != null && fuelTypeRepository.findByFuelType(name) == null) {
+            throw new EntityNotFoundException("Fuel type", name);
+        }
     }
 
     @Override
@@ -283,8 +304,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isGearboxExist(Long id) {
-        return gearboxRepository.findOne(id) != null;
+    public void checkGearboxExist(String name) throws EntityNotFoundException {
+        if (name != null && gearboxRepository.findByGearbox(name) == null) {
+            throw new EntityNotFoundException("Gearbox", name);
+        }
     }
 
     @Override
@@ -331,8 +354,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isInteriorMaterialExist(Long id) {
-        return interiorMaterialRepository.findOne(id) != null;
+    public void checkInteriorMaterialExist(String name) throws EntityNotFoundException {
+        if (name != null && interiorMaterialRepository.findByInteriorMaterial(name) == null) {
+            throw new EntityNotFoundException("Interior type", name);
+        }
     }
 
     @Override
@@ -379,8 +404,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isModelExist(Long id) {
-        return modelRepository.findOne(id) != null;
+    public void checkModelExist(String name) throws EntityNotFoundException {
+        if (name != null && modelRepository.findByModel(name) == null) {
+            throw new EntityNotFoundException("Model", name);
+        }
     }
 
     @Override
@@ -434,8 +461,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean isTiresSeasonExist(Long id) {
-        return tiresSeasonRepository.findOne(id) != null;
+    public void checkTiresSeasonExist(String name) throws EntityNotFoundException {
+        if (name != null && tiresSeasonRepository.findByTiresSeason(name) == null) {
+            throw new EntityNotFoundException("Tires season", name);
+        }
     }
 
     @Override

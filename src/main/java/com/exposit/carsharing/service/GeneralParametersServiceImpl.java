@@ -13,10 +13,14 @@ import java.util.List;
 public class GeneralParametersServiceImpl implements GeneralParametersService {
     private final GeneralParametersRepository generalParametersRepository;
     private final CarService carService;
+    private final AdminService adminService;
 
-    public GeneralParametersServiceImpl(GeneralParametersRepository generalParametersRepository, CarService carService) {
+    public GeneralParametersServiceImpl(GeneralParametersRepository generalParametersRepository,
+                                        CarService carService,
+                                        AdminService adminService) {
         this.generalParametersRepository = generalParametersRepository;
         this.carService = carService;
+        this.adminService = adminService;
     }
 
     @Override
@@ -39,11 +43,12 @@ public class GeneralParametersServiceImpl implements GeneralParametersService {
     }
 
     @Override
-    public void create(GeneralParameters generalParameters, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
+    public void create(GeneralParameters generalParameters, Long carId) throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         if (generalParameters.getId() != null && isExist(generalParameters.getId())) {
             throw new EntityAlreadyExistException("General parameters", generalParameters.getId());
         }
         generalParameters.setCar(carService.get(carId));
+        check(generalParameters);
         generalParametersRepository.save(generalParameters);
     }
 
@@ -53,5 +58,10 @@ public class GeneralParametersServiceImpl implements GeneralParametersService {
             throw new PrivilegeException();
         }
         generalParametersRepository.delete(generalParametersId);
+    }
+
+    @Override
+    public void check(GeneralParameters generalParameters) throws EntityNotFoundException, PrivilegeException {
+        adminService.checkBrandAndModelExist(generalParameters.getBrand(), generalParameters.getModel());
     }
 }

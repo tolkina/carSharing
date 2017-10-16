@@ -25,7 +25,8 @@ public class GeneralParametersEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createGeneralParameters(@PathParam("id") Long carId, GeneralParameters generalParameters) throws EntityNotFoundException, EntityAlreadyExistException {
+    public Response createGeneralParameters(@PathParam("id") Long carId, GeneralParameters generalParameters)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         generalParametersService.create(generalParameters, carId);
         return Response.status(201).entity(generalParameters).build();
     }
