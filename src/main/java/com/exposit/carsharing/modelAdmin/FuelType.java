@@ -10,7 +10,7 @@ public class FuelType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fuelType;
+    private String name;
 
     public FuelType() {
     }
@@ -23,11 +23,11 @@ public class FuelType {
         this.id = id;
     }
 
-    public String getFuelType() {
-        return fuelType;
+    public String getName() {
+        return name;
     }
 
-    public void setFuelType(String fuelType) {
-        this.fuelType = fuelType;
+    public void setName(String name) {
+        this.name = name;
     }
 }

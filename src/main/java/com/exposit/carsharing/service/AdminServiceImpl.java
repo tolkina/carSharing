@@ -43,14 +43,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkBodyTypeExist(String name) throws EntityNotFoundException {
-        if (name != null && bodyTypeRepository.findByBodyType(name) == null) {
+        if (name != null && bodyTypeRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Body type", name);
         }
     }
 
     @Override
     public void checkBodyTypeNameUsed(String name) throws EntityAlreadyExistException {
-        if (bodyTypeRepository.findByBodyType(name) != null) {
+        if (bodyTypeRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -59,7 +59,7 @@ public class AdminServiceImpl implements AdminService {
     public BodyType createBodyType(String name) throws EntityAlreadyExistException {
         checkBodyTypeNameUsed(name);
         BodyType bodyType = new BodyType();
-        bodyType.setBodyType(name);
+        bodyType.setName(name);
         bodyTypeRepository.save(bodyType);
         return bodyType;
     }
@@ -73,7 +73,7 @@ public class AdminServiceImpl implements AdminService {
     public BodyType updateBodyType(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         BodyType bodyType = getBodyType(id);
         checkBodyTypeNameUsed(name);
-        bodyType.setBodyType(name);
+        bodyType.setName(name);
         return bodyTypeRepository.save(bodyType);
     }
 
@@ -93,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkBrandExist(String name) throws EntityNotFoundException {
-        if (name != null && brandRepository.findByBrand(name) == null) {
+        if (name != null && brandRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Brand", name);
         }
     }
@@ -103,14 +103,14 @@ public class AdminServiceImpl implements AdminService {
         checkBrandExist(brand);
         checkModelExist(model);
         if (model != null && brand != null &&
-                modelRepository.findByModelAndBrand(model, brandRepository.findByBrand(brand)) == null) {
+                modelRepository.findByNameAndBrand(model, brandRepository.findByName(brand)) == null) {
             throw new PrivilegeException(String.format("Model %s don't belong to brand %s", model, brand));
         }
     }
 
     @Override
     public void checkBrandNameUsed(String name) throws EntityAlreadyExistException {
-        if (brandRepository.findByBrand(name) != null) {
+        if (brandRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -119,7 +119,7 @@ public class AdminServiceImpl implements AdminService {
     public Brand createBrand(String name) throws EntityAlreadyExistException {
         checkBrandNameUsed(name);
         Brand brand = new Brand();
-        brand.setBrand(name);
+        brand.setName(name);
         brandRepository.save(brand);
         return brand;
     }
@@ -134,7 +134,7 @@ public class AdminServiceImpl implements AdminService {
     public Brand updateBrand(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         Brand brand = getBrand(id);
         checkBrandNameUsed(name);
-        brand.setBrand(name);
+        brand.setName(name);
         return brandRepository.save(brand);
     }
 
@@ -154,14 +154,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkColorExist(String name) throws EntityNotFoundException {
-        if (name != null && colorRepository.findByColor(name) == null) {
+        if (name != null && colorRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Color", name);
         }
     }
 
     @Override
     public void checkColorNameUsed(String name) throws EntityAlreadyExistException {
-        if (colorRepository.findByColor(name) != null) {
+        if (colorRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -170,7 +170,7 @@ public class AdminServiceImpl implements AdminService {
     public Color createColor(String name) throws EntityAlreadyExistException {
         checkColorNameUsed(name);
         Color color = new Color();
-        color.setColor(name);
+        color.setName(name);
         colorRepository.save(color);
         return color;
     }
@@ -185,7 +185,7 @@ public class AdminServiceImpl implements AdminService {
     public Color updateColor(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         Color color = getColor(id);
         checkColorNameUsed(name);
-        color.setColor(name);
+        color.setName(name);
         return colorRepository.save(color);
     }
 
@@ -205,14 +205,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkDriveUnitExist(String name) throws EntityNotFoundException {
-        if (name != null && driveUnitRepository.findByDriveUnit(name) == null) {
+        if (name != null && driveUnitRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Drive unit", name);
         }
     }
 
     @Override
     public void checkDriveUnitNameUsed(String name) throws EntityAlreadyExistException {
-        if (driveUnitRepository.findByDriveUnit(name) != null) {
+        if (driveUnitRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -221,7 +221,7 @@ public class AdminServiceImpl implements AdminService {
     public DriveUnit createDriveUnit(String name) throws EntityAlreadyExistException {
         checkDriveUnitNameUsed(name);
         DriveUnit driveUnit = new DriveUnit();
-        driveUnit.setDriveUnit(name);
+        driveUnit.setName(name);
         driveUnitRepository.save(driveUnit);
         return driveUnit;
     }
@@ -235,7 +235,7 @@ public class AdminServiceImpl implements AdminService {
     public DriveUnit updateDriveUnit(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         DriveUnit driveUnit = getDriveUnit(id);
         checkDriveUnitNameUsed(name);
-        driveUnit.setDriveUnit(name);
+        driveUnit.setName(name);
         return driveUnitRepository.save(driveUnit);
     }
 
@@ -255,14 +255,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkFuelTypeExist(String name) throws EntityNotFoundException {
-        if (name != null && fuelTypeRepository.findByFuelType(name) == null) {
+        if (name != null && fuelTypeRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Fuel type", name);
         }
     }
 
     @Override
     public void checkFuelTypeNameUsed(String name) throws EntityAlreadyExistException {
-        if (fuelTypeRepository.findByFuelType(name) != null) {
+        if (fuelTypeRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -271,7 +271,7 @@ public class AdminServiceImpl implements AdminService {
     public FuelType createFuelType(String name) throws EntityAlreadyExistException {
         checkFuelTypeNameUsed(name);
         FuelType fuelType = new FuelType();
-        fuelType.setFuelType(name);
+        fuelType.setName(name);
         fuelTypeRepository.save(fuelType);
         return fuelType;
     }
@@ -285,7 +285,7 @@ public class AdminServiceImpl implements AdminService {
     public FuelType updateFuelType(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         FuelType fuelType = getFuelType(id);
         checkFuelTypeNameUsed(name);
-        fuelType.setFuelType(name);
+        fuelType.setName(name);
         return fuelTypeRepository.save(fuelType);
     }
 
@@ -305,14 +305,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkGearboxExist(String name) throws EntityNotFoundException {
-        if (name != null && gearboxRepository.findByGearbox(name) == null) {
+        if (name != null && gearboxRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Gearbox", name);
         }
     }
 
     @Override
     public void checkGearboxNameUsed(String name) throws EntityAlreadyExistException {
-        if (gearboxRepository.findByGearbox(name) != null) {
+        if (gearboxRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -321,7 +321,7 @@ public class AdminServiceImpl implements AdminService {
     public Gearbox createGearbox(String name) throws EntityAlreadyExistException {
         checkGearboxNameUsed(name);
         Gearbox gearbox = new Gearbox();
-        gearbox.setGearbox(name);
+        gearbox.setName(name);
         gearboxRepository.save(gearbox);
         return gearbox;
     }
@@ -335,7 +335,7 @@ public class AdminServiceImpl implements AdminService {
     public Gearbox updateGearbox(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         Gearbox gearbox = getGearbox(id);
         checkGearboxNameUsed(name);
-        gearbox.setGearbox(name);
+        gearbox.setName(name);
         return gearboxRepository.save(gearbox);
     }
 
@@ -355,14 +355,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkInteriorMaterialExist(String name) throws EntityNotFoundException {
-        if (name != null && interiorMaterialRepository.findByInteriorMaterial(name) == null) {
+        if (name != null && interiorMaterialRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Interior type", name);
         }
     }
 
     @Override
     public void checkInteriorMaterialNameUsed(String name) throws EntityAlreadyExistException {
-        if (interiorMaterialRepository.findByInteriorMaterial(name) != null) {
+        if (interiorMaterialRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -371,7 +371,7 @@ public class AdminServiceImpl implements AdminService {
     public InteriorMaterial createInteriorMaterial(String name) throws EntityAlreadyExistException {
         checkInteriorMaterialNameUsed(name);
         InteriorMaterial interiorMaterial = new InteriorMaterial();
-        interiorMaterial.setInteriorMaterial(name);
+        interiorMaterial.setName(name);
         interiorMaterialRepository.save(interiorMaterial);
         return interiorMaterial;
     }
@@ -385,7 +385,7 @@ public class AdminServiceImpl implements AdminService {
     public InteriorMaterial updateInteriorMaterial(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         InteriorMaterial interiorMaterial = getInteriorMaterial(id);
         checkInteriorMaterialNameUsed(name);
-        interiorMaterial.setInteriorMaterial(name);
+        interiorMaterial.setName(name);
         return interiorMaterialRepository.save(interiorMaterial);
     }
 
@@ -405,14 +405,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkModelExist(String name) throws EntityNotFoundException {
-        if (name != null && modelRepository.findByModel(name) == null) {
+        if (name != null && modelRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Model", name);
         }
     }
 
     @Override
     public void checkModelNameUsed(String name) throws EntityAlreadyExistException {
-        if (modelRepository.findByModel(name) != null) {
+        if (modelRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -422,7 +422,7 @@ public class AdminServiceImpl implements AdminService {
         Brand brand = getBrand(branId);
         checkModelNameUsed(name);
         Model model = new Model();
-        model.setModel(name);
+        model.setName(name);
         model.setBrand(brand);
         modelRepository.save(model);
         return model;
@@ -437,7 +437,7 @@ public class AdminServiceImpl implements AdminService {
     public Model updateModel(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         Model model = getModel(id);
         checkModelNameUsed(name);
-        model.setModel(name);
+        model.setName(name);
         return modelRepository.save(model);
     }
 
@@ -462,14 +462,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkTiresSeasonExist(String name) throws EntityNotFoundException {
-        if (name != null && tiresSeasonRepository.findByTiresSeason(name) == null) {
+        if (name != null && tiresSeasonRepository.findByName(name) == null) {
             throw new EntityNotFoundException("Tires season", name);
         }
     }
 
     @Override
     public void checkTiresSeasonNameUsed(String name) throws EntityAlreadyExistException {
-        if (tiresSeasonRepository.findByTiresSeason(name) != null) {
+        if (tiresSeasonRepository.findByName(name) != null) {
             throw new EntityAlreadyExistException();
         }
     }
@@ -478,7 +478,7 @@ public class AdminServiceImpl implements AdminService {
     public TiresSeason createTiresSeason(String name) throws EntityAlreadyExistException {
         checkTiresSeasonNameUsed(name);
         TiresSeason tiresSeason = new TiresSeason();
-        tiresSeason.setTiresSeason(name);
+        tiresSeason.setName(name);
         tiresSeasonRepository.save(tiresSeason);
         return tiresSeason;
     }
@@ -492,7 +492,7 @@ public class AdminServiceImpl implements AdminService {
     public TiresSeason updateTiresSeason(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException {
         TiresSeason tiresSeason = getTiresSeason(id);
         checkTiresSeasonNameUsed(name);
-        tiresSeason.setTiresSeason(name);
+        tiresSeason.setName(name);
         return tiresSeasonRepository.save(tiresSeason);
     }
 

@@ -6,7 +6,7 @@ import {Http} from "@angular/http";
 @Injectable()
 export class ProfileService {
 
-  private profileUrl = '/api/profile';
+  private profileUrl = 'api/profile';
 
   constructor(private http: Http) {
   }

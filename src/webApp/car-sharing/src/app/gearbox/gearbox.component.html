@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="col-md-12">
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+      <tr>
+        <th class="text-center">ID</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">&nbsp;</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let gearbox of parameters">
+        <td>{{ gearbox.id }}</td>
+        <td>{{ gearbox.name }}</td>
+        <td>
+          <button class="btn btn-info"
+                  (click)="showEditParameterForm(gearbox)">Изменить
+          </button>
+          <button class="btn btn-danger"
+                  (click)="removeParameter(gearbox)">Удалить
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="btn btn-success"
+          (click)="showAddParameterForm()">Добавить</button>
+  <br/>
+  <br/>
+
+  <form *ngIf="parameterForm">
+    <h2>Add New Parameter</h2>
+    <p>Name: <input type="text"
+                    name="name"
+                    [(ngModel)]="newParameter.name"/></p>
+    <p>
+      <button type="button"
+              class="btn btn-primary"
+              (click)="saveParameter(newParameter)">Submit
+      </button>
+      <button type="button"
+              class="btn btn-warning"
+              (click)="cancelNewParameter()">Cancel
+      </button>
+    </p>
+  </form>
+
+  <form *ngIf="editParameterForm">
+    <h2>Изменить</h2>
+    <p>Name: <input type="text"
+                    name="name"
+                    [(ngModel)]="editedParameter.name"/></p>
+    <p>
+      <button type="button"
+              class="btn btn-primary"
+              (click)="updateParameter(editedParameter)">Submit
+      </button>
+      <button type="button"
+              class="btn btn-warning"
+              (click)="cancelEdits()">Cancel
+      </button>
+    </p>
+  </form>
+</div>

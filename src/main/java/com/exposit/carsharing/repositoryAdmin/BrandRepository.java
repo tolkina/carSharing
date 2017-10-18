@@ -4,5 +4,5 @@ import com.exposit.carsharing.modelAdmin.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BrandRepository extends JpaRepository<Brand, Long> {
-    Brand findByBrand(String brand);
+    Brand findByName(String name);
 }

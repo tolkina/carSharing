@@ -10,7 +10,7 @@ public class DriveUnit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String driveUnit;
+    private String name;
 
     public DriveUnit() {
     }
@@ -23,11 +23,11 @@ public class DriveUnit {
         this.id = id;
     }
 
-    public String getDriveUnit() {
-        return driveUnit;
+    public String getName() {
+        return name;
     }
 
-    public void setDriveUnit(String driveUnit) {
-        this.driveUnit = driveUnit;
+    public void setName(String name) {
+        this.name = name;
     }
 }

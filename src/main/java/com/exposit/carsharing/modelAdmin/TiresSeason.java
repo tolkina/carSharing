@@ -10,7 +10,7 @@ public class TiresSeason {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tiresSeason;
+    private String name;
 
     public TiresSeason() {
     }
@@ -23,11 +23,11 @@ public class TiresSeason {
         this.id = id;
     }
 
-    public String getTiresSeason() {
-        return tiresSeason;
+    public String getName() {
+        return name;
     }
 
-    public void setTiresSeason(String tiresSeason) {
-        this.tiresSeason = tiresSeason;
+    public void setName(String name) {
+        this.name = name;
     }
 }
