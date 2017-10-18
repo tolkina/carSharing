@@ -7,11 +7,13 @@ import {AppComponent} from './app.component';
 import {ProfilesComponent} from './profiles/profiles.component';
 import {ProfileService} from "./profile.service";
 import {AppRoutingModule} from "./app-routing/app-routing.module";
+import {ProfileComponent} from "./profile/profile.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfilesComponent
+    ProfilesComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
