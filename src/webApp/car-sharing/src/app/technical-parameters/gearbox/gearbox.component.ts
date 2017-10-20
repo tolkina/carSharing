@@ -9,94 +9,78 @@ import {TechnicalParameterService} from "../../service/technical-parameter.servi
   styleUrls: ['./gearbox.component.css']
 })
 export class GearboxComponent implements OnInit {
+  name = "gearbox";
   parameters: TechnicalParameter[];
-  parameterForm: boolean = false;
-  editParameterForm: boolean = false;
-  isNewForm: boolean;
   newParameter: any = {};
   editedParameter: any = {};
-  errorUpdate: String = "";
-  errorSave: String = "";
-  errorGet: String = "";
-  errorDelete: String = "";
-  cloneParameter: any ={};
+  error: String = "";
+  cloneParameter: any = {};
+  flag: boolean = false;
 
   constructor(private technicalParameterService: TechnicalParameterService) {
   }
 
   ngOnInit() {
+    this.getTechnicalParameters();
   }
 
   getTechnicalParameters() {
-    this.technicalParameterService.getParameters()
+    this.technicalParameterService.getParameters(this.name)
       .then(parameters => {
           this.parameters = parameters;
-          this.errorGet = "";
+          this.clearError();
         }
       )
-      .catch(error => this.errorGet = error);
+      .catch();
   }
 
-  showEditParameterForm(parameter: TechnicalParameter) {
-    if (!parameter) {
-      this.parameterForm = false;
-      this.errorUpdate = "";
-      return;
-    }
-    this.editParameterForm = true;
-    this.cloneParameter = clone(parameter);
+  showEditParameterModal(parameter: TechnicalParameter) {
+    this.cloneParameter = parameter;
     this.editedParameter.id = parameter.id;
-    this.editedParameter.name = parameter.name;
+    this.flag = true;
   }
 
-  showAddParameterForm() {
-    if (this.parameters.length) {
-      this.newParameter = {};
-      this.errorSave = "";
-    }
-    this.parameterForm = true;
-    this.isNewForm = true;
+  showDeleteParameterModal(parameter: TechnicalParameter) {
+    this.cloneParameter = parameter;
   }
 
   saveParameter(parameter: TechnicalParameter) {
-    if (this.isNewForm) {
-      this.technicalParameterService.addParameter(parameter)
-        .then(result => {
-          this.parameters.push(result);
-          this.parameterForm = false;
-        })
-        .catch(error => this.errorSave = error);
-    }
+    this.technicalParameterService.addParameter(this.name, parameter)
+      .then(result => {
+        this.parameters.push(result);
+        this.cancelNewParameter();
+        this.clearError();
+      })
+      .catch();
   }
 
   removeParameter(parameter: TechnicalParameter) {
-    this.technicalParameterService.deleteParameter("parameter", parameter)
+    this.technicalParameterService.deleteParameter(this.name, parameter)
       .then(result => {
         this.parameters.splice(this.parameters.indexOf(parameter), 1);
-        this.errorDelete = "";
-      }).catch(error => this.errorDelete = error);
+        this.clearError();
+      }).catch();
   }
 
   updateParameter() {
-    this.technicalParameterService.updateParameter("parameter", this.editedParameter)
+    this.technicalParameterService.updateParameter(this.name, this.editedParameter)
       .then(result => {
-        this.parameters.splice(this.parameters.indexOf(this.cloneParameter), 1, result);
-        this.editParameterForm = false;
-        this.editedParameter = {};
-        this.cloneParameter = {};
-      }).catch(error => this.errorUpdate = error);
-
+        this.parameters[this.parameters.indexOf(this.cloneParameter)].name = result.name;
+        this.cancelEdits();
+        this.clearError();
+      }).catch();
   }
 
   cancelNewParameter() {
     this.newParameter = {};
-    this.parameterForm = false;
-    this.errorSave = "";
   }
 
   cancelEdits() {
     this.editedParameter = {};
-    this.editParameterForm = false;
-    this.errorUpdate = "";
+    this.cloneParameter = {};
+  }
+
+  clearError() {
+    this.error = "";
   }
 }

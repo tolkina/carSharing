@@ -6,14 +6,13 @@ import {TechnicalParameter} from "../model/technical-parameter";
 @Injectable()
 export class TechnicalParameterService {
 
-  parameterName = "brand";
   private adminUrl = '/api/admin/';
   private bodyTypeUrl = this.adminUrl + "body-type";
   private brandUrl = this.adminUrl + "brand";
   private colorUrl = this.adminUrl + "color";
   private driveUnitUrl = this.adminUrl + "drive-unit";
   private fuelTypeUrl = this.adminUrl + "fuel-type";
-  private gearboxUrl = this.adminUrl + 'parameter';
+  private gearboxUrl = this.adminUrl + 'gearbox';
   private interiorMaterialUrl = this.adminUrl + "interior-material";
   private modelUrl = this.adminUrl + "model";
   private tiresSeasonUrl = this.adminUrl + "tires-season";
@@ -21,8 +20,8 @@ export class TechnicalParameterService {
   constructor(private http: Http) {
   }
 
-  addParameter(parameter: TechnicalParameter) {
-    switch (this.parameterName) {
+  addParameter(name: String, parameter: TechnicalParameter) {
+    switch (name) {
       case "bodyType": {
         return this.addTechnicalParameter(this.bodyTypeUrl, parameter);
       }
@@ -38,7 +37,7 @@ export class TechnicalParameterService {
       case "fuelType": {
         return this.addTechnicalParameter(this.fuelTypeUrl, parameter);
       }
-      case "parameter": {
+      case "gearbox": {
         return this.addTechnicalParameter(this.gearboxUrl, parameter);
       }
       case "interiorMaterial": {
@@ -53,8 +52,8 @@ export class TechnicalParameterService {
     }
   }
 
-  getParameters() {
-    switch (this.parameterName) {
+  getParameters(name: String) {
+    switch (name) {
       case "bodyType": {
         return this.getTechnicalParameters(this.bodyTypeUrl);
       }
@@ -70,7 +69,7 @@ export class TechnicalParameterService {
       case "fuelType": {
         return this.getTechnicalParameters(this.fuelTypeUrl);
       }
-      case "parameter": {
+      case "gearbox": {
         return this.getTechnicalParameters(this.gearboxUrl);
       }
       case "interiorMaterial": {
@@ -102,7 +101,7 @@ export class TechnicalParameterService {
       case "fuelType": {
         return this.updateTechnicalParameter(this.fuelTypeUrl, parameter);
       }
-      case "parameter": {
+      case "gearbox": {
         return this.updateTechnicalParameter(this.gearboxUrl, parameter);
       }
       case "interiorMaterial": {
@@ -134,7 +133,7 @@ export class TechnicalParameterService {
       case "fuelType": {
         return this.deleteTechnicalParameter(this.fuelTypeUrl, parameter);
       }
-      case "parameter": {
+      case "gearbox": {
         return this.deleteTechnicalParameter(this.gearboxUrl, parameter);
       }
       case "interiorMaterial": {

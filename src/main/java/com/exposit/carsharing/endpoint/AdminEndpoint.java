@@ -235,32 +235,32 @@ public class AdminEndpoint {
     // ---------------------- Gearbox --------------------
 
     @POST
-    @Path("/parameter")
+    @Path("/gearbox")
     public Response createGearbox(@Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
         return Response.status(200).entity(adminService.createGearbox(technicalParameterDto)).build();
     }
 
     @DELETE
-    @Path("/parameter/{id}")
+    @Path("/gearbox/{id}")
     public Response deleteGearbox(@PathParam("id") Long id) throws EntityNotFoundException {
         adminService.deleteGearbox(id);
         return Response.status(200).build();
     }
 
     @PUT
-    @Path("/parameter/{id}")
+    @Path("/gearbox/{id}")
     public Response updateGearbox(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateGearbox(id, technicalParameterDto)).build();
     }
 
     @GET
-    @Path("/parameter")
+    @Path("/gearbox")
     public Response getAllGearboxes() {
         return Response.status(200).entity(adminService.getAllGearboxes()).build();
     }
 
     @GET
-    @Path("/parameter/{id}")
+    @Path("/gearbox/{id}")
     public Response getGearbox(@PathParam("id") Long id) throws EntityNotFoundException {
         return Response.status(200).entity(adminService.getGearbox(id)).build();
     }

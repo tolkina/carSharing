@@ -1,69 +1,111 @@
 <div class="container">
-  <div *ngIf="errorDelete" class="alert-danger">{{errorDelete}}</div>
-  <div *ngIf="errorGet" class="alert-danger">{{errorGet}}</div>
-  <div class="col-md-12">
-    <table class="table table-bordered table-striped table-hover">
-      <thead>
-      <tr>
-        <th class="text-center">ID</th>
-        <th class="text-center">Name</th>
-        <th class="text-center">&nbsp;</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let parameter of parameters">
-        <td>{{ parameter.id }}</td>
-        <td>{{ parameter.name }}</td>
-        <td>
-          <button class="btn btn-info"
-                  (click)="showEditParameterForm(parameter)">Изменить
-          </button>
-          <button class="btn btn-danger"
-                  (click)="removeParameter(parameter)">Удалить
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <button class="btn btn-success"
-          (click)="showAddParameterForm()">Добавить
-  </button>
-  <br/>
-  <br/>
+  <p align="center">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newGearbox">Добавить</button>
+  </p>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+      <th class="text-center" width="5%">Id</th>
+      <th class="text-center" colspan="2">Название</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let parameter of parameters">
+      <td>{{ parameter.id }}</td>
+      <td>{{ parameter.name }}</td>
+      <td align="center" width="20%">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeGearbox"
+                (click)="showEditParameterModal(parameter)">Изменить
+        </button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteGearbox"
+                (click)="showDeleteParameterModal(parameter)">Удалить
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-  <div *ngIf="errorSave" class="alert-danger">{{errorSave}}</div>
-  <form *ngIf="parameterForm">
-    <h2>Add New Parameter</h2>
-    <p>Name: <input type="text"
-                    name="name"
-                    [(ngModel)]="newParameter.name"/></p>
-    <p>
-      <button type="button"
-              class="btn btn-primary"
-              (click)="saveParameter(newParameter)">Submit
-      </button>
-      <button type="button"
-              class="btn btn-warning"
-              (click)="cancelNewParameter()">Cancel
-      </button>
-    </p>
-  </form>
-  <div *ngIf="errorUpdate" class="alert">{{errorUpdate}}</div>
-  <form *ngIf="editParameterForm">
-    <h2>Изменить</h2>
-    <p>Name: <input type="text"
-                    name="name"
-                    [(ngModel)]="editedParameter.name"/></p>
-    <p>
-      <button type="button"
-              class="btn btn-primary"
-              (click)="updateParameter(editedParameter)">Submit
-      </button>
-      <button type="button"
-              class="btn btn-warning"
-              (click)="cancelEdits()">Cancel
-      </button>
-    </p>
-  </form>
+<div class="modal fade" id="newGearbox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Новый параметр</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--<div class="alert alert-danger" role="alert">
+          <strong>Ошибка!</strong> {{error}}
+        </div>-->
+        <form name="myForm">
+          <div class="form-group">
+            <label for="nameParam" class="col-form-label">Название:</label>
+            <input class="form-control" id="nameParam" name="name" [(ngModel)]="newParameter.name"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelNewParameter()">Отмена
+        </button>
+        <button type="button" class="btn btn-primary" (click)="saveParameter(newParameter)" data-dismiss="modal">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="changeGearbox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Введите новое название</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="myForm">
+          <div class="form-group">
+            <label for="oldName" class="col-form-label">Старое название:</label>
+            <input disabled type="text" class="form-control" id="oldName" placeholder="{{cloneParameter.name}}">
+          </div>
+          <div class="form-group">
+            <label for="newName" class="col-form-label">Новое название:</label>
+            <input class="form-control" id="newName" name="name" [(ngModel)]="editedParameter.name"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelEdits()">Отмена</button>
+        <button type="button" class="btn btn-primary" (click)="updateParameter()" data-dismiss="modal">Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteGearbox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Точно удалить?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Id: <b>{{cloneParameter.id}}</b></p>
+        <p>Название: <b>{{cloneParameter.name}}</b></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelEdits()">Отмена</button>
+        <button type="button" class="btn btn-primary" (click)="removeParameter(cloneParameter)" data-dismiss="modal">
+          Удалить
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
