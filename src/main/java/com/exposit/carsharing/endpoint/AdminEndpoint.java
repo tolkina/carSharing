@@ -42,7 +42,7 @@ public class AdminEndpoint {
 
     @PUT
     @Path("/body-type/{id}")
-    public Response updateBodyType(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateBodyType(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         BodyType bodyType = adminService.updateBodyType(id, technicalParameterDto);
         return Response.status(200).entity(bodyType).build();
     }
@@ -63,7 +63,7 @@ public class AdminEndpoint {
 
     @POST
     @Path("/brand")
-    public Response createBrand(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
+    public Response createBrand(@Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
         Brand brand = adminService.createBrand(technicalParameterDto);
         return Response.status(200).entity(brand).build();
     }
@@ -77,7 +77,7 @@ public class AdminEndpoint {
 
     @PUT
     @Path("/brand/{id}")
-    public Response updateBrand(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateBrand(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateBrand(id, technicalParameterDto)).build();
     }
 
@@ -98,7 +98,7 @@ public class AdminEndpoint {
 
     @POST
     @Path("brand/{brand_id}/model")
-    public Response createModel(@PathParam("brand_id") Long brandId, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response createModel(@PathParam("brand_id") Long brandId, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.createModel(brandId, technicalParameterDto)).build();
     }
 
@@ -111,7 +111,7 @@ public class AdminEndpoint {
 
     @PUT
     @Path("/model/{id}")
-    public Response updateModel(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateModel(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateModel(id, technicalParameterDto)).build();
     }
 
@@ -137,7 +137,7 @@ public class AdminEndpoint {
 
     @POST
     @Path("/color")
-    public Response createColor(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
+    public Response createColor(@Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
         return Response.status(200).entity(adminService.createColor(technicalParameterDto)).build();
     }
 
@@ -150,7 +150,7 @@ public class AdminEndpoint {
 
     @PUT
     @Path("/color/{id}")
-    public Response updateColor(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateColor(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateColor(id, technicalParameterDto)).build();
     }
 
@@ -170,7 +170,7 @@ public class AdminEndpoint {
 
     @POST
     @Path("/drive-unit")
-    public Response createDriveUnit(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
+    public Response createDriveUnit(@Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
         return Response.status(200).entity(adminService.createDriveUnit(technicalParameterDto)).build();
     }
 
@@ -183,7 +183,7 @@ public class AdminEndpoint {
 
     @PUT
     @Path("/drive-unit/{id}")
-    public Response updateDriveUnit(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateDriveUnit(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateDriveUnit(id, technicalParameterDto)).build();
     }
 
@@ -203,7 +203,7 @@ public class AdminEndpoint {
 
     @POST
     @Path("/fuel-type")
-    public Response createFuelType(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
+    public Response createFuelType(@Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
         return Response.status(200).entity(adminService.createFuelType(technicalParameterDto)).build();
     }
 
@@ -216,7 +216,7 @@ public class AdminEndpoint {
 
     @PUT
     @Path("/fuel-type/{id}")
-    public Response updateFuelType(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateFuelType(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateFuelType(id, technicalParameterDto)).build();
     }
 
@@ -235,32 +235,32 @@ public class AdminEndpoint {
     // ---------------------- Gearbox --------------------
 
     @POST
-    @Path("/gearbox")
-    public Response createGearbox(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
+    @Path("/parameter")
+    public Response createGearbox(@Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
         return Response.status(200).entity(adminService.createGearbox(technicalParameterDto)).build();
     }
 
     @DELETE
-    @Path("/gearbox/{id}")
+    @Path("/parameter/{id}")
     public Response deleteGearbox(@PathParam("id") Long id) throws EntityNotFoundException {
         adminService.deleteGearbox(id);
         return Response.status(200).build();
     }
 
     @PUT
-    @Path("/gearbox/{id}")
-    public Response updateGearbox(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    @Path("/parameter/{id}")
+    public Response updateGearbox(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateGearbox(id, technicalParameterDto)).build();
     }
 
     @GET
-    @Path("/gearbox")
+    @Path("/parameter")
     public Response getAllGearboxes() {
         return Response.status(200).entity(adminService.getAllGearboxes()).build();
     }
 
     @GET
-    @Path("/gearbox/{id}")
+    @Path("/parameter/{id}")
     public Response getGearbox(@PathParam("id") Long id) throws EntityNotFoundException {
         return Response.status(200).entity(adminService.getGearbox(id)).build();
     }
@@ -269,7 +269,7 @@ public class AdminEndpoint {
 
     @POST
     @Path("/interior-material")
-    public Response createInteriorMaterial(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
+    public Response createInteriorMaterial(@Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
         return Response.status(200).entity(adminService.createInteriorMaterial(technicalParameterDto)).build();
     }
 
@@ -282,7 +282,7 @@ public class AdminEndpoint {
 
     @PUT
     @Path("/interior-material/{id}")
-    public Response updateInteriorMaterial(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateInteriorMaterial(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateInteriorMaterial(id, technicalParameterDto)).build();
     }
 
@@ -302,7 +302,7 @@ public class AdminEndpoint {
 
     @POST
     @Path("/tires-season")
-    public Response createTiresSeason(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
+    public Response createTiresSeason(@Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
         return Response.status(200).entity(adminService.createTiresSeason(technicalParameterDto)).build();
     }
 
@@ -315,7 +315,7 @@ public class AdminEndpoint {
 
     @PUT
     @Path("/tires-season/{id}")
-    public Response updateTiresSeason(@PathParam("id") Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateTiresSeason(@PathParam("id") Long id, @Valid TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
         return Response.status(200).entity(adminService.updateTiresSeason(id, technicalParameterDto)).build();
     }
 

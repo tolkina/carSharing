@@ -14,7 +14,7 @@ public class TechnicalParameters implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "gearbox", length = 15)
+    @Column(name = "parameter", length = 15)
     private String gearbox;             //Коробка передач
 
     @Column(name = "body_type")

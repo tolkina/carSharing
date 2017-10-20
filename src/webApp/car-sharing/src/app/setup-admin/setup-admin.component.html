@@ -1,29 +1,74 @@
-<mat-tab-group>
-  <mat-tab label="Коробка передач">
-    <app-gearbox></app-gearbox>
-  </mat-tab>
-  <mat-tab label="Тип кузова">
-    <h1>Some tab content</h1>
-  </mat-tab>
-  <mat-tab label="Тип топлива">
-    <h1>Some tab content</h1>
-  </mat-tab>
-  <mat-tab label="Привод">
-    <h1>Some tab content</h1>
-  </mat-tab>
-  <mat-tab label="Сезон шин">
-    <h1>Some more tab content</h1>
-  </mat-tab>
-  <mat-tab label="Материал салона">
-    <h1>Some tab content</h1>
-  </mat-tab>
-  <mat-tab label="Цвет">
-    <h1>Some more tab content</h1>
-  </mat-tab>
-  <mat-tab label="Марка">
-    <h1>Some tab content</h1>
-  </mat-tab>
-  <mat-tab label="Модель">
-    <h1>Some more tab content</h1>
-  </mat-tab>
-</mat-tab-group>
+<div id="tech-param">
+  <p class="text-center">
+    <br>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#brand" data-parent="#tech-param">Марка</button>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#model" data-parent="#tech-param">Модель
+    </button>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#gearbox" data-parent="#tech-param">Коробка
+      передач
+    </button>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#body-type" data-parent="#tech-param">Тип
+      кузова
+    </button>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#fuel-type" data-parent="#tech-param">Тип
+      топлива
+    </button>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#tires-season" data-parent="#tech-param">Сезон
+      шин
+    </button>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#interior-material" data-parent="#tech-param">
+      Материал салона
+    </button>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#color" data-parent="#tech-param">Цвет</button>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#drive-unit" data-parent="#tech-param">Привод
+    </button>
+  </p>
+  <div class="accordion-group">
+    <div class="collapse" id="brand">
+      <div class="card card-body"><h4 class="text-center">Марка</h4>
+        <app-brand></app-brand>
+      </div>
+    </div>
+    <div class="collapse" id="model">
+      <div class="card card-body"><h4 class="text-center">Модель</h4>
+        <app-model></app-model>
+      </div>
+    </div>
+    <div class="collapse" id="gearbox">
+      <div class="card card-body">
+        <h4 class="text-center">Коробка передач</h4>
+        <app-gearbox></app-gearbox>
+      </div>
+    </div>
+    <div class="collapse" id="body-type">
+      <div class="card card-body"><h4 class="text-center">Тип кузова</h4>
+        <app-body-type></app-body-type>
+      </div>
+    </div>
+    <div class="collapse" id="fuel-type">
+      <div class="card card-body"><h4 class="text-center">Тип топлива</h4>
+        <app-fuel-type></app-fuel-type>
+      </div>
+    </div>
+    <div class="collapse" id="tires-season">
+      <div class="card card-body"><h4 class="text-center">Сезон шин</h4>
+        <app-tires-season></app-tires-season>
+      </div>
+    </div>
+    <div class="collapse" id="interior-material">
+      <div class="card card-body"><h4 class="text-center">Материал салона</h4>
+        <app-interior-material></app-interior-material>
+      </div>
+    </div>
+    <div class="collapse" id="color">
+      <div class="card card-body"><h4 class="text-center">Цвет</h4>
+        <app-color></app-color>
+      </div>
+    </div>
+    <div class="collapse" id="drive-unit">
+      <div class="card card-body"><h4 class="text-center">Привод</h4>
+        <app-drive-unit></app-drive-unit>
+      </div>
+    </div>
+  </div>
+</div>
