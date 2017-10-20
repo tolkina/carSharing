@@ -1,3 +1,112 @@
-<p>
-  fuel-type works!
-</p>
+<div class="container">
+  <p align="center">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newFuelType">Добавить</button>
+  </p>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+      <th class="text-center" width="5%">Id</th>
+      <th class="text-center" colspan="2">Название</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let parameter of parameters">
+      <td>{{ parameter.id }}</td>
+      <td>{{ parameter.name }}</td>
+      <td align="center" width="20%">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeFuelType"
+                (click)="showEditParameterModal(parameter)">Изменить
+        </button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteFuelType"
+                (click)="showDeleteParameterModal(parameter)">Удалить
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="newFuelType" tabindex="-1" role="dialog" aria-labelledby="modalNewFuelType" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNewFuelType">Новый параметр</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--<div class="alert alert-danger" role="alert">
+          <strong>Ошибка!</strong> {{error}}
+        </div>-->
+        <form name="myForm">
+          <div class="form-group">
+            <label for="nameParamFuelType" class="col-form-label">Название:</label>
+            <input class="form-control" id="nameParamFuelType" name="name" [(ngModel)]="newParameter.name"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelNewParameter()">Отмена
+        </button>
+        <button type="button" class="btn btn-primary" (click)="saveParameter(newParameter)" data-dismiss="modal">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="changeFuelType" tabindex="-1" role="dialog" aria-labelledby="modalChangeFuelType" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalChangeFuelType">Введите новое название</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="myForm">
+          <div class="form-group">
+            <label for="oldNameFuelType" class="col-form-label">Старое название:</label>
+            <input disabled type="text" class="form-control" id="oldNameFuelType" placeholder="{{cloneParameter.name}}">
+          </div>
+          <div class="form-group">
+            <label for="newNameFuelType" class="col-form-label">Новое название:</label>
+            <input class="form-control" id="newNameFuelType" name="name" [(ngModel)]="editedParameter.name"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelEdits()">Отмена</button>
+        <button type="button" class="btn btn-primary" (click)="updateParameter()" data-dismiss="modal">Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteFuelType" tabindex="-1" role="dialog" aria-labelledby="modalDeleteFuelType" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDeleteFuelType">Точно удалить?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Id: <b>{{cloneParameter.id}}</b></p>
+        <p>Название: <b>{{cloneParameter.name}}</b></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelEdits()">Отмена</button>
+        <button type="button" class="btn btn-primary" (click)="removeParameter(cloneParameter)" data-dismiss="modal">
+          Удалить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

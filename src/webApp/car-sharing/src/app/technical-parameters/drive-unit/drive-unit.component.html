@@ -1,3 +1,111 @@
-<p>
-  drive-unit works!
-</p>
+<div class="container">
+  <p align="center">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newDriveUnit">Добавить</button>
+  </p>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+      <th class="text-center" width="5%">Id</th>
+      <th class="text-center" colspan="2">Название</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let parameter of parameters">
+      <td>{{ parameter.id }}</td>
+      <td>{{ parameter.name }}</td>
+      <td align="center" width="20%">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeDriveUnit"
+                (click)="showEditParameterModal(parameter)">Изменить
+        </button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDriveUnit"
+                (click)="showDeleteParameterModal(parameter)">Удалить
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="newDriveUnit" tabindex="-1" role="dialog" aria-labelledby="modalNewDriveUnit" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNewDriveUnit">Новый параметр</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--<div class="alert alert-danger" role="alert">
+          <strong>Ошибка!</strong> {{error}}
+        </div>-->
+        <form name="myForm">
+          <div class="form-group">
+            <label for="nameParamDriveUnit" class="col-form-label">Название:</label>
+            <input class="form-control" id="nameParamDriveUnit" name="name" [(ngModel)]="newParameter.name"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelNewParameter()">Отмена
+        </button>
+        <button type="button" class="btn btn-primary" (click)="saveParameter(newParameter)" data-dismiss="modal">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="changeDriveUnit" tabindex="-1" role="dialog" aria-labelledby="modalChangeDriveUnit" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalChangeDriveUnit">Введите новое название</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="myForm">
+          <div class="form-group">
+            <label for="oldNameDriveUnit" class="col-form-label">Старое название:</label>
+            <input disabled type="text" class="form-control" id="oldNameDriveUnit" placeholder="{{cloneParameter.name}}">
+          </div>
+          <div class="form-group">
+            <label for="newNameDriveUnit" class="col-form-label">Новое название:</label>
+            <input class="form-control" id="newNameDriveUnit" name="name" [(ngModel)]="editedParameter.name"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelEdits()">Отмена</button>
+        <button type="button" class="btn btn-primary" (click)="updateParameter()" data-dismiss="modal">Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteDriveUnit" tabindex="-1" role="dialog" aria-labelledby="modalDeleteDriveUnit" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDeleteDriveUnit">Точно удалить?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Id: <b>{{cloneParameter.id}}</b></p>
+        <p>Название: <b>{{cloneParameter.name}}</b></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelEdits()">Отмена</button>
+        <button type="button" class="btn btn-primary" (click)="removeParameter(cloneParameter)" data-dismiss="modal">
+          Удалить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
