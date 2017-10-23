@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TechnicalParameter} from "../../model/technical-parameter";
 import {TechnicalParameterService} from "../../service/technical-parameter.service";
 import {Brand_} from "../../model/brand_";
@@ -51,6 +51,7 @@ export class BrandComponent implements OnInit {
   saveParameter(parameter: Brand_) {
     this.technicalParameterService.addParameter(this.name, parameter)
       .then(result => {
+        result.models = [];
         this.parameters.push(result);
         this.cancelNewParameter();
         this.clearError();
@@ -100,7 +101,10 @@ export class BrandComponent implements OnInit {
   saveModel() {
     this.technicalParameterService.addModel(this.cloneParameter, this.newModel)
       .then(result => {
-        this.cloneParameter.models.push(result);
+        if (this.cloneParameter.models == null) {
+          this.cloneParameter.models = [];
+        }
+        this.cloneParameter.models.push(result)
       })
       .catch();
   }
@@ -131,7 +135,7 @@ export class BrandComponent implements OnInit {
     this.cloneModel = model;
   }
 
-  showNewModelModal(brand: Brand_){
+  showNewModelModal(brand: Brand_) {
     this.cloneParameter = brand;
     this.newModel = {};
   }

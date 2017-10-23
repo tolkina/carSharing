@@ -427,8 +427,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteModel(Long id) throws EntityNotFoundException {
-        getModel(id);
-        modelRepository.delete(id);
+        modelRepository.delete(getModel(id));
     }
 
     @Override

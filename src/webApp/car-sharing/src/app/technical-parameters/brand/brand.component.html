@@ -13,7 +13,9 @@
     <tr *ngFor="let parameter of parameters">
       <td>{{ parameter.id }}</td>
       <td>
-        <button type="button" class="btn btn-outline-info" (click)="showModels(parameter)">{{ parameter.name }}</button>
+        <button type="button" class="btn btn-outline-info" (click)="showModels(parameter)">{{ parameter.name }}
+          <span class="badge badge-light" *ngIf="parameter.models != null">{{parameter.models.length}}</span>
+        </button>
         <!--start models-->
         <div *ngIf="flag_model == parameter.id">
           <p align="center">
