@@ -5,11 +5,13 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
+@Transactional
 public class ProfileServiceImpl implements ProfileService {
 
     private final

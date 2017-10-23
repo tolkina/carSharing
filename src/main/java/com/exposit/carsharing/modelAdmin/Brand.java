@@ -9,7 +9,7 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Model> models;
 
     public Brand() {

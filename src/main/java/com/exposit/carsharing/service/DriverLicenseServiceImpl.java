@@ -6,10 +6,12 @@ import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.DriverLicense;
 import com.exposit.carsharing.repository.DriverLicenseRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 @Service
+@Transactional
 public class DriverLicenseServiceImpl implements DriverLicenseService {
     private final DriverLicenseRepository driverLicenseRepository;
     private final ProfileService profileService;

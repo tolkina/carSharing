@@ -9,10 +9,12 @@ import com.exposit.carsharing.repositoryAdmin.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class AdminServiceImpl implements AdminService {
     private final BodyTypeRepository bodyTypeRepository;
     private final BrandRepository brandRepository;
@@ -23,9 +25,9 @@ public class AdminServiceImpl implements AdminService {
     private final InteriorMaterialRepository interiorMaterialRepository;
     private final ModelRepository modelRepository;
     private final TiresSeasonRepository tiresSeasonRepository;
-    @Autowired
-    ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
+    @Autowired
     public AdminServiceImpl(BodyTypeRepository bodyTypeRepository,
                             BrandRepository brandRepository,
                             ColorRepository colorRepository,
@@ -34,7 +36,8 @@ public class AdminServiceImpl implements AdminService {
                             GearboxRepository gearboxRepository,
                             InteriorMaterialRepository interiorMaterialRepository,
                             ModelRepository modelRepository,
-                            TiresSeasonRepository tiresSeasonRepository) {
+                            TiresSeasonRepository tiresSeasonRepository,
+                            ModelMapper modelMapper) {
         this.bodyTypeRepository = bodyTypeRepository;
         this.brandRepository = brandRepository;
         this.colorRepository = colorRepository;
@@ -44,6 +47,7 @@ public class AdminServiceImpl implements AdminService {
         this.interiorMaterialRepository = interiorMaterialRepository;
         this.modelRepository = modelRepository;
         this.tiresSeasonRepository = tiresSeasonRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -129,7 +133,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteBrand(Long id) throws EntityNotFoundException {
-        modelRepository.delete(getAllModelsByBrand(id));
         brandRepository.delete(getBrand(id));
     }
 

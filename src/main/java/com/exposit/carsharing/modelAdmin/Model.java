@@ -12,7 +12,7 @@ public class Model {
     private String name;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "model_id")
+    @JoinColumn(name = "model_id", nullable = false)
     private Brand brand;
 
     public Model() {
