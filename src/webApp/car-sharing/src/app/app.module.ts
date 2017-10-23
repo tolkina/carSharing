@@ -31,7 +31,7 @@ import {GearboxComponent} from "./technical-parameters/gearbox/gearbox.component
     FuelTypeComponent,
     InteriorMaterialComponent,
     TiresSeasonComponent,
-    BodyTypeComponent,
+    BodyTypeComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +39,7 @@ import {GearboxComponent} from "./technical-parameters/gearbox/gearbox.component
     HttpModule,
     AppRoutingModule
   ],
-  providers: [GearboxComponent, TechnicalParameterService],
+  providers: [TechnicalParameterService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

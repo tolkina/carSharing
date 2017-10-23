@@ -2,6 +2,7 @@ import 'rxjs/add/operator/toPromise';
 import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {TechnicalParameter} from "../model/technical-parameter";
+import {Brand_} from "../model/brand_";
 
 @Injectable()
 export class TechnicalParameterService {
@@ -175,6 +176,20 @@ export class TechnicalParameterService {
       .catch(this.handleError);
   }
 
+  getBrands(): Promise<Brand_[]> {
+    return this.http.get(this.brandUrl)
+      .toPromise()
+      .then(this.extractDataBrand)
+      .catch(this.handleError);
+  }
+
+  addModel(brand: Brand_, model: TechnicalParameter) {
+    return this.http.post(this.brandUrl + "/" + brand.id + "/model", model)
+      .toPromise()
+      .then(this.extractData)
+      .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);
     return Promise.reject(error.json().message || error)
@@ -183,5 +198,10 @@ export class TechnicalParameterService {
   private extractData(res) {
     let body = res.json();
     return body as TechnicalParameter || {};
+  }
+
+  private extractDataBrand(res) {
+    let body = res.json();
+    return body as Brand_ || {};
   }
 }

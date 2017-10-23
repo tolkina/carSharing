@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TechnicalParameter} from "../../model/technical-parameter";
 import {TechnicalParameterService} from "../../service/technical-parameter.service";
 
@@ -41,16 +41,6 @@ export class ModelComponent implements OnInit {
 
   showDeleteParameterModal(parameter: TechnicalParameter) {
     this.cloneParameter = parameter;
-  }
-
-  saveParameter(parameter: TechnicalParameter) {
-    this.technicalParameterService.addParameter(this.name, parameter)
-      .then(result => {
-        this.parameters.push(result);
-        this.cancelNewParameter();
-        this.clearError();
-      })
-      .catch();
   }
 
   removeParameter(parameter: TechnicalParameter) {

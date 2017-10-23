@@ -129,8 +129,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteBrand(Long id) throws EntityNotFoundException {
-        brandRepository.delete(getBrand(id));
         modelRepository.delete(getAllModelsByBrand(id));
+        brandRepository.delete(getBrand(id));
     }
 
     @Override
@@ -148,7 +148,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Brand getBrand(Long id) throws EntityNotFoundException {
-        Brand brand = brandRepository.findOne(id);
+        Brand brand = brandRepository.findById(id);
         if (brand == null) {
             throw new EntityNotFoundException("Brand", id);
         }
@@ -427,7 +427,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteModel(Long id) throws EntityNotFoundException {
-        modelRepository.delete(getModel(id));
+        getModel(id);
+        modelRepository.delete(id);
     }
 
     @Override
