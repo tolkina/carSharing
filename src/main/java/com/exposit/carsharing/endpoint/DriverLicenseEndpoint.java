@@ -30,6 +30,13 @@ public class DriverLicenseEndpoint {
         return Response.status(201).entity(driverLicense).build();
     }
 
+    @PUT
+    @Path("{id}")
+    public Response updateProfile(@PathParam("id") Long ownerId, DriverLicense driverLicense) throws EntityNotFoundException {
+        driverLicenseService.updateDriverLicense(driverLicense, ownerId);
+        return Response.ok().entity(driverLicense).build();
+    }
+
     @GET
     public Response retrieveAllDriverLicenses() {
         Collection<DriverLicense> driverLicenses = driverLicenseService.getAll();

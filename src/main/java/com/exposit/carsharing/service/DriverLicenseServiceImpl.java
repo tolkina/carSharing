@@ -48,6 +48,14 @@ public class DriverLicenseServiceImpl implements DriverLicenseService {
     }
 
     @Override
+    public DriverLicense updateDriverLicense (DriverLicense driverLicense, Long ownerId) throws EntityNotFoundException {
+
+        driverLicense.setOwner(profileService.get(ownerId));
+        driverLicenseRepository.save(driverLicense);
+        return driverLicense;
+    }
+
+    @Override
     public void delete(Long driverLicenseId, Long ownerId) throws PrivilegeException, EntityNotFoundException {
         if (!get(driverLicenseId).getOwner().getId().equals(ownerId)) {
             throw new PrivilegeException();

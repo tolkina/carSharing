@@ -30,6 +30,13 @@ public class PassportDataEndpoint {
         return Response.status(201).entity(passportData).build();
     }
 
+    @PUT
+    @Path("{id}")
+    public Response updateProfile(@PathParam("id") Long ownerId, PassportData passportData) throws EntityNotFoundException {
+        passportDataService.updatePassport(passportData, ownerId);
+        return Response.ok().entity(passportData).build();
+    }
+
     @GET
     public Response retrieveAllPassportData() {
         Collection<PassportData> passportData = passportDataService.getAll();

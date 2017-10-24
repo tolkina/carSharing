@@ -4,6 +4,7 @@ import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.PassportData;
+import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.PassportDataRepository;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,14 @@ public class PassportDataServiceImpl implements PassportDataService {
         }
         passportData.setOwner(profileService.get(ownerId));
         passportDataRepository.save(passportData);
+    }
+
+    @Override
+    public PassportData updatePassport (PassportData passportData, Long ownerId) throws EntityNotFoundException {
+
+        passportData.setOwner(profileService.get(ownerId));
+        passportDataRepository.save(passportData);
+        return passportData;
     }
 
     @Override

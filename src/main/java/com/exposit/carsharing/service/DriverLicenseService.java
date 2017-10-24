@@ -12,6 +12,7 @@ public interface DriverLicenseService {
 
     DriverLicense get(Long id) throws EntityNotFoundException;
 
+    DriverLicense updateDriverLicense(DriverLicense driverLicense, Long ownerId) throws EntityNotFoundException;
     Collection<DriverLicense> getAll();
 
     void create(DriverLicense driverLicense, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException;
