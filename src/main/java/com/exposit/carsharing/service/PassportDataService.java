@@ -12,6 +12,8 @@ public interface PassportDataService {
 
     PassportData get(Long id) throws EntityNotFoundException;
 
+    PassportData updatePassport(PassportData passportData, Long ownerId) throws EntityNotFoundException;
+
     Collection<PassportData> getAll();
 
     void create(PassportData passportData, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException;

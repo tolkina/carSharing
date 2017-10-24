@@ -6,6 +6,7 @@ import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.service.ProfileService;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -26,6 +27,14 @@ public class ProfileEndpoint {
     public Response createProfile(Profile profile) throws EntityAlreadyExistException {
         profileService.create(profile);
         return Response.status(201).entity(profile).build();
+    }
+
+
+    @PUT
+    @Path("{id}")
+    public Response updateProfile(@PathParam("id") Integer id, Profile profile){
+        profileService.updateProfile(profile);
+        return Response.ok().entity(profile).build();
     }
 
     @GET

@@ -5,8 +5,8 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -52,6 +52,11 @@ public class ProfileServiceImpl implements ProfileService {
             throw new EntityAlreadyExistException(String.format("Email %s already used", profile.getEmail()));
         }
         profileRepository.save(profile);
+    }
+
+    public Profile updateProfile(Profile profile) {
+        profileRepository.save(profile);
+        return profile;
     }
 
     @Override

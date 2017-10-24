@@ -5,13 +5,17 @@ import {HttpModule} from "@angular/http";
 
 import {AppComponent} from './app.component';
 import {ProfilesComponent} from './profiles/profiles.component';
-import {ProfileService} from "./profile.service";
+import {ProfileService} from "./service/profile.service";
 import {AppRoutingModule} from "./app-routing/app-routing.module";
+import {ProfileComponent} from "./profile/profile.component";
+import {PassportDataService} from "./service/passport-data.service";
+import {DriverLicenseService} from "./service/driver-license.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfilesComponent
+    ProfilesComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -19,7 +23,7 @@ import {AppRoutingModule} from "./app-routing/app-routing.module";
     HttpModule,
     AppRoutingModule,
   ],
-  providers: [ProfileService],
+  providers: [ProfileService, PassportDataService, DriverLicenseService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

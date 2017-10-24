@@ -13,6 +13,8 @@ public interface ProfileService {
 
     Profile get(Long id) throws EntityNotFoundException;
 
+    Profile updateProfile(Profile profile);
+
     List<Profile> getAll();
 
     void create(Profile profile) throws EntityAlreadyExistException;

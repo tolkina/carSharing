@@ -1,1 +1,14 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.footer{
+  margin-top:30px;
+  padding-top:10px;
+}
+.footer h6{
+  color: #f6f4ff;
+}
+.footer li{
+  color: #b6b9ff;
+}
+.footer li a{
+  color: #b6b9ff;
+}
