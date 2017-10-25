@@ -1,12 +1,14 @@
 package com.exposit.carsharing.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "deal")
+@Data
 public class Deal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,79 +39,4 @@ public class Deal {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Profile customer;
-
-    public Deal() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getBookingStartTime() {
-        return bookingStartTime;
-    }
-
-    public void setBookingStartTime(Date bookingStartTime) {
-        this.bookingStartTime = bookingStartTime;
-    }
-
-    public Date getRentalStartTime() {
-        return rentalStartTime;
-    }
-
-    public void setRentalStartTime(Date rentalStartTime) {
-        this.rentalStartTime = rentalStartTime;
-    }
-
-    public Date getEstimatedRentalEndTime() {
-        return estimatedRentalEndTime;
-    }
-
-    public void setEstimatedRentalEndTime(Date estimatedRentalEndTime) {
-        this.estimatedRentalEndTime = estimatedRentalEndTime;
-    }
-
-    public Date getRentalEndTime() {
-        return rentalEndTime;
-    }
-
-    public void setRentalEndTime(Date rentalEndTime) {
-        this.rentalEndTime = rentalEndTime;
-    }
-
-    public double getDeposit() {
-        return deposit;
-    }
-
-    public void setDeposit(double deposit) {
-        this.deposit = deposit;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Profile getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Profile owner) {
-        this.owner = owner;
-    }
-
-    public Profile getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Profile customer) {
-        this.customer = customer;
-    }
 }

@@ -1,7 +1,7 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.*;
-import com.exposit.carsharing.dto.TechnicalParameterDto;
+import com.exposit.carsharing.dto.CarParameterRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -65,9 +65,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public BodyType createBodyType(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
-        checkBodyTypeNameUsed(technicalParameterDto.getName());
-        BodyType bodyType = modelMapper.map(technicalParameterDto, BodyType.class);
+    public BodyType createBodyType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+        checkBodyTypeNameUsed(carParameterRequest.getName());
+        BodyType bodyType = modelMapper.map(carParameterRequest, BodyType.class);
         bodyTypeRepository.save(bodyType);
         return bodyType;
     }
@@ -78,10 +78,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public BodyType updateBodyType(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public BodyType updateBodyType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         BodyType bodyType = getBodyType(id);
-        checkBodyTypeNameUsed(technicalParameterDto.getName());
-        bodyType.setName(technicalParameterDto.getName());
+        checkBodyTypeNameUsed(carParameterRequest.getName());
+        bodyType.setName(carParameterRequest.getName());
         return bodyTypeRepository.save(bodyType);
     }
 
@@ -124,9 +124,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Brand createBrand(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
-        checkBrandNameUsed(technicalParameterDto.getName());
-        Brand brand = modelMapper.map(technicalParameterDto, Brand.class);
+    public Brand createBrand(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+        checkBrandNameUsed(carParameterRequest.getName());
+        Brand brand = modelMapper.map(carParameterRequest, Brand.class);
         brandRepository.save(brand);
         return brand;
     }
@@ -137,10 +137,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Brand updateBrand(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Brand updateBrand(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         Brand brand = getBrand(id);
-        checkBrandNameUsed(technicalParameterDto.getName());
-        brand.setName(technicalParameterDto.getName());
+        checkBrandNameUsed(carParameterRequest.getName());
+        brand.setName(carParameterRequest.getName());
         return brandRepository.save(brand);
     }
 
@@ -173,9 +173,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Color createColor(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
-        checkColorNameUsed(technicalParameterDto.getName());
-        Color color = modelMapper.map(technicalParameterDto, Color.class);
+    public Color createColor(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+        checkColorNameUsed(carParameterRequest.getName());
+        Color color = modelMapper.map(carParameterRequest, Color.class);
         colorRepository.save(color);
         return color;
     }
@@ -187,10 +187,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Color updateColor(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Color updateColor(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         Color color = getColor(id);
-        checkColorNameUsed(technicalParameterDto.getName());
-        color.setName(technicalParameterDto.getName());
+        checkColorNameUsed(carParameterRequest.getName());
+        color.setName(carParameterRequest.getName());
         return colorRepository.save(color);
     }
 
@@ -223,9 +223,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public DriveUnit createDriveUnit(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
-        checkDriveUnitNameUsed(technicalParameterDto.getName());
-        DriveUnit driveUnit = modelMapper.map(technicalParameterDto, DriveUnit.class);
+    public DriveUnit createDriveUnit(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+        checkDriveUnitNameUsed(carParameterRequest.getName());
+        DriveUnit driveUnit = modelMapper.map(carParameterRequest, DriveUnit.class);
         driveUnitRepository.save(driveUnit);
         return driveUnit;
     }
@@ -236,10 +236,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public DriveUnit updateDriveUnit(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public DriveUnit updateDriveUnit(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         DriveUnit driveUnit = getDriveUnit(id);
-        checkDriveUnitNameUsed(technicalParameterDto.getName());
-        driveUnit.setName(technicalParameterDto.getName());
+        checkDriveUnitNameUsed(carParameterRequest.getName());
+        driveUnit.setName(carParameterRequest.getName());
         return driveUnitRepository.save(driveUnit);
     }
 
@@ -272,9 +272,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public FuelType createFuelType(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
-        checkFuelTypeNameUsed(technicalParameterDto.getName());
-        FuelType fuelType = modelMapper.map(technicalParameterDto, FuelType.class);
+    public FuelType createFuelType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+        checkFuelTypeNameUsed(carParameterRequest.getName());
+        FuelType fuelType = modelMapper.map(carParameterRequest, FuelType.class);
         fuelTypeRepository.save(fuelType);
         return fuelType;
     }
@@ -285,10 +285,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public FuelType updateFuelType(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public FuelType updateFuelType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         FuelType fuelType = getFuelType(id);
-        checkFuelTypeNameUsed(technicalParameterDto.getName());
-        fuelType.setName(technicalParameterDto.getName());
+        checkFuelTypeNameUsed(carParameterRequest.getName());
+        fuelType.setName(carParameterRequest.getName());
         return fuelTypeRepository.save(fuelType);
     }
 
@@ -321,9 +321,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Gearbox createGearbox(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
-        checkGearboxNameUsed(technicalParameterDto.getName());
-        Gearbox gearbox = modelMapper.map(technicalParameterDto, Gearbox.class);
+    public Gearbox createGearbox(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+        checkGearboxNameUsed(carParameterRequest.getName());
+        Gearbox gearbox = modelMapper.map(carParameterRequest, Gearbox.class);
         gearboxRepository.save(gearbox);
         return gearbox;
     }
@@ -334,10 +334,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Gearbox updateGearbox(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Gearbox updateGearbox(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         Gearbox gearbox = getGearbox(id);
-        checkGearboxNameUsed(technicalParameterDto.getName());
-        gearbox.setName(technicalParameterDto.getName());
+        checkGearboxNameUsed(carParameterRequest.getName());
+        gearbox.setName(carParameterRequest.getName());
         return gearboxRepository.save(gearbox);
     }
 
@@ -370,9 +370,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public InteriorMaterial createInteriorMaterial(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
-        checkInteriorMaterialNameUsed(technicalParameterDto.getName());
-        InteriorMaterial interiorMaterial = modelMapper.map(technicalParameterDto, InteriorMaterial.class);
+    public InteriorMaterial createInteriorMaterial(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+        checkInteriorMaterialNameUsed(carParameterRequest.getName());
+        InteriorMaterial interiorMaterial = modelMapper.map(carParameterRequest, InteriorMaterial.class);
         interiorMaterialRepository.save(interiorMaterial);
         return interiorMaterial;
     }
@@ -383,10 +383,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public InteriorMaterial updateInteriorMaterial(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public InteriorMaterial updateInteriorMaterial(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         InteriorMaterial interiorMaterial = getInteriorMaterial(id);
-        checkInteriorMaterialNameUsed(technicalParameterDto.getName());
-        interiorMaterial.setName(technicalParameterDto.getName());
+        checkInteriorMaterialNameUsed(carParameterRequest.getName());
+        interiorMaterial.setName(carParameterRequest.getName());
         return interiorMaterialRepository.save(interiorMaterial);
     }
 
@@ -419,10 +419,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Model createModel(Long branId, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Model createModel(Long branId, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         Brand brand = getBrand(branId);
-        checkModelNameUsed(technicalParameterDto.getName());
-        Model model = modelMapper.map(technicalParameterDto, Model.class);
+        checkModelNameUsed(carParameterRequest.getName());
+        Model model = modelMapper.map(carParameterRequest, Model.class);
         model.setBrand(brand);
         modelRepository.save(model);
         return model;
@@ -434,10 +434,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Model updateModel(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Model updateModel(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         Model model = getModel(id);
-        checkModelNameUsed(technicalParameterDto.getName());
-        model.setName(technicalParameterDto.getName());
+        checkModelNameUsed(carParameterRequest.getName());
+        model.setName(carParameterRequest.getName());
         return modelRepository.save(model);
     }
 
@@ -475,10 +475,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public TiresSeason createTiresSeason(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException {
-        checkTiresSeasonNameUsed(technicalParameterDto.getName());
+    public TiresSeason createTiresSeason(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+        checkTiresSeasonNameUsed(carParameterRequest.getName());
         TiresSeason tiresSeason = new TiresSeason();
-        tiresSeason.setName(technicalParameterDto.getName());
+        tiresSeason.setName(carParameterRequest.getName());
         tiresSeasonRepository.save(tiresSeason);
         return tiresSeason;
     }
@@ -489,10 +489,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public TiresSeason updateTiresSeason(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException {
+    public TiresSeason updateTiresSeason(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
         TiresSeason tiresSeason = getTiresSeason(id);
-        checkTiresSeasonNameUsed(technicalParameterDto.getName());
-        tiresSeason.setName(technicalParameterDto.getName());
+        checkTiresSeasonNameUsed(carParameterRequest.getName());
+        tiresSeason.setName(carParameterRequest.getName());
         return tiresSeasonRepository.save(tiresSeason);
     }
 

@@ -1,12 +1,14 @@
 package com.exposit.carsharing.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "technical_parameters")
+@Data
 public class TechnicalParameters implements Serializable {
 
     @Id
@@ -60,143 +62,4 @@ public class TechnicalParameters implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;
-
-    public TechnicalParameters() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getGearbox() {
-        return gearbox;
-    }
-
-    public void setGearbox(String gearbox) {
-        this.gearbox = gearbox;
-    }
-
-    public String getBodyType() {
-        return bodyType;
-    }
-
-    public void setBodyType(String bodyType) {
-        this.bodyType = bodyType;
-    }
-
-    public Integer getSeatNumber() {
-        return seatNumber;
-    }
-
-    public void setSeatNumber(Integer seatNumber) {
-        this.seatNumber = seatNumber;
-    }
-
-    public Integer getDoorNumber() {
-        return doorNumber;
-    }
-
-    public void setDoorNumber(Integer doorNumber) {
-        this.doorNumber = doorNumber;
-    }
-
-    public String getFuelType() {
-        return fuelType;
-    }
-
-    public void setFuelType(String fuelType) {
-        this.fuelType = fuelType;
-    }
-
-    public Double getFuelConsumption() {
-        return fuelConsumption;
-    }
-
-    public void setFuelConsumption(Double fuelConsumption) {
-        this.fuelConsumption = fuelConsumption;
-    }
-
-    public String getDriveUnit() {
-        return driveUnit;
-    }
-
-    public void setDriveUnit(String driveUnit) {
-        this.driveUnit = driveUnit;
-    }
-
-    public String getTiresSeason() {
-        return tiresSeason;
-    }
-
-    public void setTiresSeason(String tiresSeason) {
-        this.tiresSeason = tiresSeason;
-    }
-
-    public String getInteriorMaterial() {
-        return interiorMaterial;
-    }
-
-    public void setInteriorMaterial(String interiorMaterial) {
-        this.interiorMaterial = interiorMaterial;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public Integer getVin() {
-        return vin;
-    }
-
-    public void setVin(Integer vin) {
-        this.vin = vin;
-    }
-
-    public String getGovNumber() {
-        return govNumber;
-    }
-
-    public void setGovNumber(String govNumber) {
-        this.govNumber = govNumber;
-    }
-
-    public Integer getStsFormNumber() {
-        return stsFormNumber;
-    }
-
-    public void setStsFormNumber(Integer stsFormNumber) {
-        this.stsFormNumber = stsFormNumber;
-    }
-
-    public String getStsImageLink() {
-        return stsImageLink;
-    }
-
-    public void setStsImageLink(String stsImageLink) {
-        this.stsImageLink = stsImageLink;
-    }
-
-    public String getPtsImageLink() {
-        return ptsImageLink;
-    }
-
-    public void setPtsImageLink(String ptsImageLink) {
-        this.ptsImageLink = ptsImageLink;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
 }

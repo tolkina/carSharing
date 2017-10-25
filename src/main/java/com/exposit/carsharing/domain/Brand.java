@@ -1,9 +1,12 @@
 package com.exposit.carsharing.domain;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Data
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,31 +14,4 @@ public class Brand {
     private String name;
     @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Model> models;
-
-    public Brand() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Model> getModels() {
-        return models;
-    }
-
-    public void setModels(Set<Model> models) {
-        this.models = models;
-    }
 }

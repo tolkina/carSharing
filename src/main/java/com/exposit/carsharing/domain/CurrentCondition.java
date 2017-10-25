@@ -1,12 +1,14 @@
 package com.exposit.carsharing.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "current_condition")
+@Data
 public class CurrentCondition implements Serializable {
 
     @Id
@@ -24,47 +26,4 @@ public class CurrentCondition implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;
-
-    public CurrentCondition() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public boolean isDamage() {
-        return damage;
-    }
-
-    public void setDamage(boolean damage) {
-        this.damage = damage;
-    }
-
-    public String getDamageDescription() {
-        return damageDescription;
-    }
-
-    public void setDamageDescription(String damageDescription) {
-        this.damageDescription = damageDescription;
-    }
-
-    public double getMileage() {
-        return mileage;
-    }
-
-    public void setMileage(double mileage) {
-        this.mileage = mileage;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
 }

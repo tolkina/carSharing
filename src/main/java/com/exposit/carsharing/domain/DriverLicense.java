@@ -1,12 +1,14 @@
 package com.exposit.carsharing.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "driver_license")
+@Data
 public class DriverLicense implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,55 +29,4 @@ public class DriverLicense implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
-
-    public DriverLicense() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getSeriesAndNumber() {
-        return seriesAndNumber;
-    }
-
-    public void setSeriesAndNumber(String seriesAndNumber) {
-        this.seriesAndNumber = seriesAndNumber;
-    }
-
-    public Character getCategory() {
-        return category;
-    }
-
-    public void setCategory(Character category) {
-        this.category = category;
-    }
-
-    public String getFrontSideImageUrl() {
-        return frontSideImageUrl;
-    }
-
-    public void setFrontSideImageUrl(String frontSideImageUrl) {
-        this.frontSideImageUrl = frontSideImageUrl;
-    }
-
-    public String getBackSideImageUrl() {
-        return backSideImageUrl;
-    }
-
-    public void setBackSideImageUrl(String backSideImageUrl) {
-        this.backSideImageUrl = backSideImageUrl;
-    }
-
-    public Profile getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Profile owner) {
-        this.owner = owner;
-    }
 }

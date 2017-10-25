@@ -1,12 +1,14 @@
 package com.exposit.carsharing.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "ad")
+@Data
 public class Ad implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,79 +39,4 @@ public class Ad implements Serializable {
 
     @OneToOne(mappedBy = "ad")
     private Car car;
-
-    public Ad() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public AdStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AdStatus status) {
-        this.status = status;
-    }
-
-    public String getCarLocation() {
-        return carLocation;
-    }
-
-    public void setCarLocation(String carLocation) {
-        this.carLocation = carLocation;
-    }
-
-    public String getReturnPlace() {
-        return returnPlace;
-    }
-
-    public void setReturnPlace(String returnPlace) {
-        this.returnPlace = returnPlace;
-    }
-
-    public double getCostPerHour() {
-        return costPerHour;
-    }
-
-    public void setCostPerHour(double costPerHour) {
-        this.costPerHour = costPerHour;
-    }
-
-    public double getCostPerDay() {
-        return CostPerDay;
-    }
-
-    public void setCostPerDay(double costPerDay) {
-        CostPerDay = costPerDay;
-    }
-
-    public double getCostPer3Days() {
-        return CostPer3Days;
-    }
-
-    public void setCostPer3Days(double costPer3Days) {
-        CostPer3Days = costPer3Days;
-    }
-
-    public Profile getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Profile owner) {
-        this.owner = owner;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
 }

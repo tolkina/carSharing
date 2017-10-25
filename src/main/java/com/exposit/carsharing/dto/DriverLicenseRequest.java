@@ -5,8 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class DriverLicenseResponse implements Serializable {
-    private Long id;
+public class DriverLicenseRequest implements Serializable {
     private String seriesAndNumber;
     private Character category;
     private String frontSideImageUrl;
