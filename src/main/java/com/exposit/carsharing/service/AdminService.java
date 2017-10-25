@@ -1,10 +1,10 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.domain.*;
 import com.exposit.carsharing.dto.TechnicalParameterDto;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.modelAdmin.*;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 import 'rxjs/add/operator/toPromise';
 import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
-import {TechnicalParameter} from "../model/technical-parameter";
-import {Brand_} from "../model/brand_";
+import {TechnicalParameter} from "../domain/technical-parameter";
+import {Brand_} from "../domain/brand_";
 
 @Injectable()
 export class TechnicalParameterService {

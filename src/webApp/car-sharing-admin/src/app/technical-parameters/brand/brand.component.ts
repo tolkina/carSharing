@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {TechnicalParameter} from "../../model/technical-parameter";
+import {TechnicalParameter} from "../../domain/technical-parameter";
 import {TechnicalParameterService} from "../../service/technical-parameter.service";
-import {Brand_} from "../../model/brand_";
+import {Brand_} from "../../domain/brand_";
 
 @Component({
   selector: 'app-brand',

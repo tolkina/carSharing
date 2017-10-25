@@ -3,7 +3,7 @@ package com.exposit.carsharing.endpoint;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.model.CreditCard;
+import com.exposit.carsharing.domain.CreditCard;
 import com.exposit.carsharing.service.CreditCardService;
 import org.springframework.stereotype.Component;
 

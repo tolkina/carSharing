@@ -1,9 +1,7 @@
 package com.exposit.carsharing.configuration;
 
 import com.exposit.carsharing.endpoint.*;
-import com.exposit.carsharing.exception.EntityAlreadyExistExceptionMapper;
-import com.exposit.carsharing.exception.EntityNotFoundExceptionMapper;
-import com.exposit.carsharing.exception.PrivilegeExceptionMapper;
+import com.exposit.carsharing.exception.MyExceptionMapper;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,9 +23,6 @@ public class JerseyConfig extends ResourceConfig {
         register(GeneralParametersEndpoint.class);
         register(TechnicalParametersEndpoint.class);
         register(AdminEndpoint.class);
-        // -------------------- Mappers ---------------
-        register(EntityNotFoundExceptionMapper.class);
-        register(EntityAlreadyExistExceptionMapper.class);
-        register(PrivilegeExceptionMapper.class);
+        register(MyExceptionMapper.class);
     }
 }

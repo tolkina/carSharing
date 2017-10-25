@@ -1,19 +1,16 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.ProfileRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
->>>>>>> feature/admin-panel
 import java.util.List;
 
 @Service

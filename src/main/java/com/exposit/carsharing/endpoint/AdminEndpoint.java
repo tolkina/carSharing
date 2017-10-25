@@ -1,10 +1,10 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.domain.BodyType;
+import com.exposit.carsharing.domain.Brand;
 import com.exposit.carsharing.dto.TechnicalParameterDto;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.modelAdmin.BodyType;
-import com.exposit.carsharing.modelAdmin.Brand;
 import com.exposit.carsharing.service.AdminService;
 import org.springframework.stereotype.Component;
 

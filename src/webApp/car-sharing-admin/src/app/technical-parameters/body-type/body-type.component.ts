@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TechnicalParameterService} from "../../service/technical-parameter.service";
-import {TechnicalParameter} from "../../model/technical-parameter";
+import {TechnicalParameter} from "../../domain/technical-parameter";
 
 @Component({
   selector: 'app-body-type',

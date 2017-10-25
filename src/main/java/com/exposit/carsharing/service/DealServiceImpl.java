@@ -1,7 +1,7 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.model.Deal;
+import com.exposit.carsharing.domain.Deal;
 import com.exposit.carsharing.repository.DealRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

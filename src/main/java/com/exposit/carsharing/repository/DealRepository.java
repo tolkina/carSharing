@@ -1,7 +1,7 @@
 package com.exposit.carsharing.repository;
 
-import com.exposit.carsharing.model.Deal;
-import com.exposit.carsharing.model.Profile;
+import com.exposit.carsharing.domain.Deal;
+import com.exposit.carsharing.domain.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

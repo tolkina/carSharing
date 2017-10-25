@@ -1,11 +1,10 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.domain.Ad;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.model.Ad;
 import com.exposit.carsharing.service.AdService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;

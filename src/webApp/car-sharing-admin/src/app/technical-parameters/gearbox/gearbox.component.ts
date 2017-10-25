@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {clone} from 'lodash/clone'
-import {TechnicalParameter} from "../../model/technical-parameter";
+import {TechnicalParameter} from "../../domain/technical-parameter";
 import {TechnicalParameterService} from "../../service/technical-parameter.service";
 
 @Component({

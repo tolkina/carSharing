@@ -3,7 +3,7 @@ package com.exposit.carsharing.service;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.model.DriverLicense;
+import com.exposit.carsharing.domain.DriverLicense;
 
 import java.util.Collection;
 

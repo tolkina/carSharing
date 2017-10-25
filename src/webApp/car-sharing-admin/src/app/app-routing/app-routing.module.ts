@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: '', component: HomePageAdminComponent},
   {path: 'setup', component: SetupAdminComponent},
 /*  {path: 'setup/brand', component: BrandComponent},
-  {path: 'setup/model', component: ModelComponent},
+  {path: 'setup/domain', component: ModelComponent},
   {path: 'setup/gearbox', component: GearboxComponent},
   {path: 'setup/body-type', component: BodyTypeComponent},
   {path: 'setup/fuel-type', component: FuelTypeComponent},

@@ -3,7 +3,7 @@ package com.exposit.carsharing.endpoint;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.model.Car;
+import com.exposit.carsharing.domain.Car;
 import com.exposit.carsharing.service.CarService;
 import org.springframework.stereotype.Component;
 
