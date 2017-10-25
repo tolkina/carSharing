@@ -28,7 +28,7 @@ public class Profile implements Serializable {
 
     private boolean confirmProfile;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<CreditCard> creditCards;
 
     @OneToOne(mappedBy = "owner", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
@@ -37,16 +37,16 @@ public class Profile implements Serializable {
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private PassportData passportData;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Ad> ads;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Deal> dealsWithMe;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Deal> myDeals;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Car> cars;
 
     public Profile() {

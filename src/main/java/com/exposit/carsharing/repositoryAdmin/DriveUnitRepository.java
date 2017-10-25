@@ -4,5 +4,5 @@ import com.exposit.carsharing.modelAdmin.DriveUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DriveUnitRepository extends JpaRepository<DriveUnit, Long> {
-    DriveUnit findByDriveUnit(String driveUnit);
+    DriveUnit findByName(String driveName);
 }

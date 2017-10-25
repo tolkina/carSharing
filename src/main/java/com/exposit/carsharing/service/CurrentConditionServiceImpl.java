@@ -6,10 +6,12 @@ import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.CurrentCondition;
 import com.exposit.carsharing.repository.CurrentConditionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class CurrentConditionServiceImpl implements CurrentConditionService {
     private final CurrentConditionRepository currentConditionRepository;
     private final CarService carService;

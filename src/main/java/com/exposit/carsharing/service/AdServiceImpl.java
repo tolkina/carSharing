@@ -7,10 +7,12 @@ import com.exposit.carsharing.model.Ad;
 import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.AdRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class AdServiceImpl implements AdService {
     private final ProfileService profileService;
     private final AdRepository adRepository;

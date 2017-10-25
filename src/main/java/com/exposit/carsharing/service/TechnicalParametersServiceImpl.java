@@ -6,10 +6,12 @@ import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.model.TechnicalParameters;
 import com.exposit.carsharing.repository.TechnicalParametersRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class TechnicalParametersServiceImpl implements TechnicalParametersService {
     private final TechnicalParametersRepository technicalParametersRepository;
     private final CarService carService;

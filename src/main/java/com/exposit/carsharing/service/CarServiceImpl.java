@@ -7,10 +7,13 @@ import com.exposit.carsharing.model.Car;
 import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.CarRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
+
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final ProfileService profileService;

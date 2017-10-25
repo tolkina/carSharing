@@ -4,10 +4,12 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.Deal;
 import com.exposit.carsharing.repository.DealRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class DealServiceImpl implements DealService {
     private final DealRepository dealRepository;
     private final ProfileService profileService;

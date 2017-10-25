@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.dto.TechnicalParameterDto;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -15,11 +16,11 @@ public interface AdminService {
 
     void checkBodyTypeNameUsed(String name) throws EntityAlreadyExistException;
 
-    BodyType createBodyType(String name) throws EntityAlreadyExistException;
+    BodyType createBodyType(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException;
 
     void deleteBodyType(Long id) throws EntityNotFoundException;
 
-    BodyType updateBodyType(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    BodyType updateBodyType(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<BodyType> getAllBodyTypes();
 
@@ -32,11 +33,11 @@ public interface AdminService {
 
     void checkBrandNameUsed(String name) throws EntityAlreadyExistException;
 
-    Brand createBrand(String name) throws EntityAlreadyExistException;
+    Brand createBrand(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException;
 
     void deleteBrand(Long id) throws EntityNotFoundException;
 
-    Brand updateBrand(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    Brand updateBrand(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<Brand> getAllBrands();
 
@@ -47,11 +48,11 @@ public interface AdminService {
 
     void checkColorNameUsed(String name) throws EntityAlreadyExistException;
 
-    Color createColor(String name) throws EntityAlreadyExistException;
+    Color createColor(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException;
 
     void deleteColor(Long id) throws EntityNotFoundException;
 
-    Color updateColor(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    Color updateColor(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<Color> getAllColors();
 
@@ -62,11 +63,11 @@ public interface AdminService {
 
     void checkDriveUnitNameUsed(String name) throws EntityAlreadyExistException;
 
-    DriveUnit createDriveUnit(String name) throws EntityAlreadyExistException;
+    DriveUnit createDriveUnit(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException;
 
     void deleteDriveUnit(Long id) throws EntityNotFoundException;
 
-    DriveUnit updateDriveUnit(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    DriveUnit updateDriveUnit(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<DriveUnit> getAllDriveUnits();
 
@@ -77,11 +78,11 @@ public interface AdminService {
 
     void checkFuelTypeNameUsed(String name) throws EntityAlreadyExistException;
 
-    FuelType createFuelType(String name) throws EntityAlreadyExistException;
+    FuelType createFuelType(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException;
 
     void deleteFuelType(Long id) throws EntityNotFoundException;
 
-    FuelType updateFuelType(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    FuelType updateFuelType(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<FuelType> getAllFuelTypes();
 
@@ -92,11 +93,11 @@ public interface AdminService {
 
     void checkGearboxNameUsed(String name) throws EntityAlreadyExistException;
 
-    Gearbox createGearbox(String name) throws EntityAlreadyExistException;
+    Gearbox createGearbox(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException;
 
     void deleteGearbox(Long id) throws EntityNotFoundException;
 
-    Gearbox updateGearbox(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    Gearbox updateGearbox(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<Gearbox> getAllGearboxes();
 
@@ -107,11 +108,11 @@ public interface AdminService {
 
     void checkInteriorMaterialNameUsed(String name) throws EntityAlreadyExistException;
 
-    InteriorMaterial createInteriorMaterial(String name) throws EntityAlreadyExistException;
+    InteriorMaterial createInteriorMaterial(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException;
 
     void deleteInteriorMaterial(Long id) throws EntityNotFoundException;
 
-    InteriorMaterial updateInteriorMaterial(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    InteriorMaterial updateInteriorMaterial(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<InteriorMaterial> getAllInteriorMaterials();
 
@@ -122,11 +123,11 @@ public interface AdminService {
 
     void checkModelNameUsed(String name) throws EntityAlreadyExistException;
 
-    Model createModel(Long brandId, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    Model createModel(Long brandId, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     void deleteModel(Long id) throws EntityNotFoundException;
 
-    Model updateModel(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    Model updateModel(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<Model> getAllModels();
 
@@ -139,11 +140,11 @@ public interface AdminService {
 
     void checkTiresSeasonNameUsed(String name) throws EntityAlreadyExistException;
 
-    TiresSeason createTiresSeason(String name) throws EntityAlreadyExistException;
+    TiresSeason createTiresSeason(TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException;
 
     void deleteTiresSeason(Long id) throws EntityNotFoundException;
 
-    TiresSeason updateTiresSeason(Long id, String name) throws EntityAlreadyExistException, EntityNotFoundException;
+    TiresSeason updateTiresSeason(Long id, TechnicalParameterDto technicalParameterDto) throws EntityAlreadyExistException, EntityNotFoundException;
 
     List<TiresSeason> getAllTiresSeasons();
 

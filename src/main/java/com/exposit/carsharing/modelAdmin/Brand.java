@@ -8,8 +8,8 @@ public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String brand;
-    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private String name;
+    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Model> models;
 
     public Brand() {
@@ -23,12 +23,12 @@ public class Brand {
         this.id = id;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getName() {
+        return name;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<Model> getModels() {

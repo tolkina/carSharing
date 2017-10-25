@@ -10,7 +10,7 @@ public class BodyType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String bodyType;
+    private String name;
 
     public BodyType() {
     }
@@ -23,11 +23,11 @@ public class BodyType {
         this.id = id;
     }
 
-    public String getBodyType() {
-        return bodyType;
+    public String getName() {
+        return name;
     }
 
-    public void setBodyType(String bodyType) {
-        this.bodyType = bodyType;
+    public void setName(String name) {
+        this.name = name;
     }
 }

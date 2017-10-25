@@ -10,7 +10,7 @@ public class InteriorMaterial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String interiorMaterial;
+    private String name;
 
     public InteriorMaterial() {
     }
@@ -23,11 +23,11 @@ public class InteriorMaterial {
         this.id = id;
     }
 
-    public String getInteriorMaterial() {
-        return interiorMaterial;
+    public String getName() {
+        return name;
     }
 
-    public void setInteriorMaterial(String interiorMaterial) {
-        this.interiorMaterial = interiorMaterial;
+    public void setName(String name) {
+        this.name = name;
     }
 }

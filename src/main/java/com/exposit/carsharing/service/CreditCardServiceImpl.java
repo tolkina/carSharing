@@ -7,11 +7,13 @@ import com.exposit.carsharing.model.CreditCard;
 import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.CreditCardRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
+@Transactional
 public class CreditCardServiceImpl implements CreditCardService {
     private final CreditCardRepository creditCardRepository;
     private final ProfileService profileService;

@@ -10,7 +10,7 @@ public class Gearbox {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String gearbox;
+    private String name;
 
     public Gearbox() {
     }
@@ -23,11 +23,11 @@ public class Gearbox {
         this.id = id;
     }
 
-    public String getGearbox() {
-        return gearbox;
+    public String getName() {
+        return name;
     }
 
-    public void setGearbox(String gearbox) {
-        this.gearbox = gearbox;
+    public void setName(String name) {
+        this.name = name;
     }
 }

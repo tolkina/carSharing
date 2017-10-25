@@ -7,10 +7,12 @@ import com.exposit.carsharing.model.PassportData;
 import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.PassportDataRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 @Service
+@Transactional
 public class PassportDataServiceImpl implements PassportDataService {
     private final PassportDataRepository passportDataRepository;
     private final ProfileService profileService;

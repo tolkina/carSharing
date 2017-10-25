@@ -4,7 +4,6 @@ import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 
 import {AppComponent} from './app.component';
-import {ProfilesComponent} from './profiles/profiles.component';
 import {ProfileService} from "./service/profile.service";
 import {AppRoutingModule} from "./app-routing/app-routing.module";
 import {ProfileComponent} from "./profile/profile.component";
@@ -14,14 +13,13 @@ import {DriverLicenseService} from "./service/driver-license.service";
 @NgModule({
   declarations: [
     AppComponent,
-    ProfilesComponent,
-    ProfileComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService],
   bootstrap: [AppComponent]
