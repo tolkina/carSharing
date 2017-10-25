@@ -1,7 +1,10 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.*;
+import com.exposit.carsharing.dto.BrandResponse;
 import com.exposit.carsharing.dto.CarParameterRequest;
+import com.exposit.carsharing.dto.CarParameterResponse;
+import com.exposit.carsharing.dto.ModelResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -65,38 +69,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public BodyType createBodyType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public CarParameterResponse createBodyType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
         checkBodyTypeNameUsed(carParameterRequest.getName());
         BodyType bodyType = modelMapper.map(carParameterRequest, BodyType.class);
         bodyTypeRepository.save(bodyType);
-        return bodyType;
+        return modelMapper.map(bodyType, CarParameterResponse.class);
     }
 
     @Override
     public void deleteBodyType(Long id) throws EntityNotFoundException {
-        bodyTypeRepository.delete(getBodyType(id));
+        getBodyType(id);
+        bodyTypeRepository.delete(id);
     }
 
     @Override
-    public BodyType updateBodyType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        BodyType bodyType = getBodyType(id);
+    public CarParameterResponse updateBodyType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        CarParameterResponse bodyType = getBodyType(id);
         checkBodyTypeNameUsed(carParameterRequest.getName());
         bodyType.setName(carParameterRequest.getName());
-        return bodyTypeRepository.save(bodyType);
+        bodyTypeRepository.save(modelMapper.map(bodyType, BodyType.class));
+        return bodyType;
     }
 
     @Override
-    public List<BodyType> getAllBodyTypes() {
-        return bodyTypeRepository.findAll();
+    public List<CarParameterResponse> getAllBodyTypes() {
+        List<CarParameterResponse> bodyTypes = new ArrayList<>();
+        bodyTypeRepository.findAll().forEach(bodyType -> bodyTypes.add(modelMapper.map(bodyType, CarParameterResponse.class)));
+        return bodyTypes;
     }
 
     @Override
-    public BodyType getBodyType(Long id) throws EntityNotFoundException {
+    public CarParameterResponse getBodyType(Long id) throws EntityNotFoundException {
         BodyType bodyType = bodyTypeRepository.findOne(id);
         if (bodyType == null) {
             throw new EntityNotFoundException("Body type", id);
         }
-        return bodyType;
+        return modelMapper.map(bodyType, CarParameterResponse.class);
     }
 
     @Override
@@ -124,38 +132,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Brand createBrand(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public BrandResponse createBrand(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
         checkBrandNameUsed(carParameterRequest.getName());
         Brand brand = modelMapper.map(carParameterRequest, Brand.class);
         brandRepository.save(brand);
-        return brand;
+        return modelMapper.map(brand, BrandResponse.class);
     }
 
     @Override
     public void deleteBrand(Long id) throws EntityNotFoundException {
-        brandRepository.delete(getBrand(id));
+        getBrand(id);
+        brandRepository.delete(id);
     }
 
     @Override
-    public Brand updateBrand(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        Brand brand = getBrand(id);
+    public BrandResponse updateBrand(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        BrandResponse brand = getBrand(id);
         checkBrandNameUsed(carParameterRequest.getName());
         brand.setName(carParameterRequest.getName());
-        return brandRepository.save(brand);
+        brandRepository.save(modelMapper.map(brand, Brand.class));
+        return brand;
     }
 
     @Override
-    public List<Brand> getAllBrands() {
-        return brandRepository.findAll();
+    public List<BrandResponse> getAllBrands() {
+        List<BrandResponse> brands = new ArrayList<>();
+        brandRepository.findAll().forEach(brand -> brands.add(modelMapper.map(brand, BrandResponse.class)));
+        return brands;
     }
 
     @Override
-    public Brand getBrand(Long id) throws EntityNotFoundException {
+    public BrandResponse getBrand(Long id) throws EntityNotFoundException {
         Brand brand = brandRepository.findById(id);
         if (brand == null) {
             throw new EntityNotFoundException("Brand", id);
         }
-        return brand;
+        return modelMapper.map(brand, BrandResponse.class);
     }
 
     @Override
@@ -173,39 +185,43 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Color createColor(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public CarParameterResponse createColor(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
         checkColorNameUsed(carParameterRequest.getName());
         Color color = modelMapper.map(carParameterRequest, Color.class);
         colorRepository.save(color);
-        return color;
+        return modelMapper.map(color, CarParameterResponse.class);
     }
 
     @Override
     public void deleteColor(Long id) throws EntityNotFoundException {
-        colorRepository.delete(getColor(id));
+        getColor(id);
+        colorRepository.delete(id);
 
     }
 
     @Override
-    public Color updateColor(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        Color color = getColor(id);
+    public CarParameterResponse updateColor(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        CarParameterResponse color = getColor(id);
         checkColorNameUsed(carParameterRequest.getName());
         color.setName(carParameterRequest.getName());
-        return colorRepository.save(color);
+        colorRepository.save(modelMapper.map(color, Color.class));
+        return color;
     }
 
     @Override
-    public List<Color> getAllColors() {
-        return colorRepository.findAll();
+    public List<CarParameterResponse> getAllColors() {
+        List<CarParameterResponse> colors = new ArrayList<>();
+        colorRepository.findAll().forEach(color -> colors.add(modelMapper.map(color, CarParameterResponse.class)));
+        return colors;
     }
 
     @Override
-    public Color getColor(Long id) throws EntityNotFoundException {
+    public CarParameterResponse getColor(Long id) throws EntityNotFoundException {
         Color color = colorRepository.findOne(id);
         if (color == null) {
             throw new EntityNotFoundException("Color", id);
         }
-        return color;
+        return modelMapper.map(color, CarParameterResponse.class);
     }
 
     @Override
@@ -223,38 +239,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public DriveUnit createDriveUnit(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public CarParameterResponse createDriveUnit(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
         checkDriveUnitNameUsed(carParameterRequest.getName());
         DriveUnit driveUnit = modelMapper.map(carParameterRequest, DriveUnit.class);
         driveUnitRepository.save(driveUnit);
-        return driveUnit;
+        return modelMapper.map(driveUnit, CarParameterResponse.class);
     }
 
     @Override
     public void deleteDriveUnit(Long id) throws EntityNotFoundException {
-        driveUnitRepository.delete(getDriveUnit(id));
+        getDriveUnit(id);
+        driveUnitRepository.delete(id);
     }
 
     @Override
-    public DriveUnit updateDriveUnit(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        DriveUnit driveUnit = getDriveUnit(id);
+    public CarParameterResponse updateDriveUnit(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        CarParameterResponse driveUnit = getDriveUnit(id);
         checkDriveUnitNameUsed(carParameterRequest.getName());
         driveUnit.setName(carParameterRequest.getName());
-        return driveUnitRepository.save(driveUnit);
+        driveUnitRepository.save(modelMapper.map(driveUnit, DriveUnit.class));
+        return driveUnit;
     }
 
     @Override
-    public List<DriveUnit> getAllDriveUnits() {
-        return driveUnitRepository.findAll();
+    public List<CarParameterResponse> getAllDriveUnits() {
+        List<CarParameterResponse> driveUnits = new ArrayList<>();
+        driveUnitRepository.findAll().forEach(driveUnit -> driveUnits.add(modelMapper.map(driveUnit, CarParameterResponse.class)));
+        return driveUnits;
     }
 
     @Override
-    public DriveUnit getDriveUnit(Long id) throws EntityNotFoundException {
+    public CarParameterResponse getDriveUnit(Long id) throws EntityNotFoundException {
         DriveUnit driveUnit = driveUnitRepository.findOne(id);
         if (driveUnit == null) {
             throw new EntityNotFoundException("Drive unit", id);
         }
-        return driveUnit;
+        return modelMapper.map(driveUnit, CarParameterResponse.class);
     }
 
     @Override
@@ -272,38 +292,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public FuelType createFuelType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public CarParameterResponse createFuelType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
         checkFuelTypeNameUsed(carParameterRequest.getName());
         FuelType fuelType = modelMapper.map(carParameterRequest, FuelType.class);
         fuelTypeRepository.save(fuelType);
-        return fuelType;
+        return modelMapper.map(fuelType, CarParameterResponse.class);
     }
 
     @Override
     public void deleteFuelType(Long id) throws EntityNotFoundException {
-        fuelTypeRepository.delete(getFuelType(id));
+        getFuelType(id);
+        fuelTypeRepository.delete(id);
     }
 
     @Override
-    public FuelType updateFuelType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        FuelType fuelType = getFuelType(id);
+    public CarParameterResponse updateFuelType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        CarParameterResponse fuelType = getFuelType(id);
         checkFuelTypeNameUsed(carParameterRequest.getName());
         fuelType.setName(carParameterRequest.getName());
-        return fuelTypeRepository.save(fuelType);
+        fuelTypeRepository.save(modelMapper.map(fuelType, FuelType.class));
+        return fuelType;
     }
 
     @Override
-    public List<FuelType> getAllFuelTypes() {
-        return fuelTypeRepository.findAll();
+    public List<CarParameterResponse> getAllFuelTypes() {
+        List<CarParameterResponse> fuelTypes = new ArrayList<>();
+        fuelTypeRepository.findAll().forEach(fuelType -> fuelTypes.add(modelMapper.map(fuelType, CarParameterResponse.class)));
+        return fuelTypes;
     }
 
     @Override
-    public FuelType getFuelType(Long id) throws EntityNotFoundException {
+    public CarParameterResponse getFuelType(Long id) throws EntityNotFoundException {
         FuelType fuelType = fuelTypeRepository.findOne(id);
         if (fuelType == null) {
             throw new EntityNotFoundException("Fuel type", id);
         }
-        return fuelType;
+        return modelMapper.map(fuelType, CarParameterResponse.class);
     }
 
     @Override
@@ -321,38 +345,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Gearbox createGearbox(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public CarParameterResponse createGearbox(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
         checkGearboxNameUsed(carParameterRequest.getName());
         Gearbox gearbox = modelMapper.map(carParameterRequest, Gearbox.class);
         gearboxRepository.save(gearbox);
-        return gearbox;
+        return modelMapper.map(gearbox, CarParameterResponse.class);
     }
 
     @Override
     public void deleteGearbox(Long id) throws EntityNotFoundException {
-        gearboxRepository.delete(getGearbox(id));
+        getGearbox(id);
+        gearboxRepository.delete(id);
     }
 
     @Override
-    public Gearbox updateGearbox(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        Gearbox gearbox = getGearbox(id);
+    public CarParameterResponse updateGearbox(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        CarParameterResponse gearbox = getGearbox(id);
         checkGearboxNameUsed(carParameterRequest.getName());
         gearbox.setName(carParameterRequest.getName());
-        return gearboxRepository.save(gearbox);
+        gearboxRepository.save(modelMapper.map(gearbox, Gearbox.class));
+        return gearbox;
     }
 
     @Override
-    public List<Gearbox> getAllGearboxes() {
-        return gearboxRepository.findAll();
+    public List<CarParameterResponse> getAllGearboxes() {
+        List<CarParameterResponse> gearboxes = new ArrayList<>();
+        gearboxRepository.findAll().forEach(gearbox -> gearboxes.add(modelMapper.map(gearbox, CarParameterResponse.class)));
+        return gearboxes;
     }
 
     @Override
-    public Gearbox getGearbox(Long id) throws EntityNotFoundException {
+    public CarParameterResponse getGearbox(Long id) throws EntityNotFoundException {
         Gearbox gearbox = gearboxRepository.findOne(id);
         if (gearbox == null) {
             throw new EntityNotFoundException("Gearbox", id);
         }
-        return gearbox;
+        return modelMapper.map(gearbox, CarParameterResponse.class);
     }
 
     @Override
@@ -370,38 +398,43 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public InteriorMaterial createInteriorMaterial(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public CarParameterResponse createInteriorMaterial(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
         checkInteriorMaterialNameUsed(carParameterRequest.getName());
         InteriorMaterial interiorMaterial = modelMapper.map(carParameterRequest, InteriorMaterial.class);
         interiorMaterialRepository.save(interiorMaterial);
-        return interiorMaterial;
+        return modelMapper.map(interiorMaterial, CarParameterResponse.class);
     }
 
     @Override
     public void deleteInteriorMaterial(Long id) throws EntityNotFoundException {
-        interiorMaterialRepository.delete(getInteriorMaterial(id));
+        getInteriorMaterial(id);
+        interiorMaterialRepository.delete(id);
     }
 
     @Override
-    public InteriorMaterial updateInteriorMaterial(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        InteriorMaterial interiorMaterial = getInteriorMaterial(id);
+    public CarParameterResponse updateInteriorMaterial(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        CarParameterResponse interiorMaterial = getInteriorMaterial(id);
         checkInteriorMaterialNameUsed(carParameterRequest.getName());
         interiorMaterial.setName(carParameterRequest.getName());
-        return interiorMaterialRepository.save(interiorMaterial);
+        interiorMaterialRepository.save(modelMapper.map(interiorMaterial, InteriorMaterial.class));
+        return interiorMaterial;
     }
 
     @Override
-    public List<InteriorMaterial> getAllInteriorMaterials() {
-        return interiorMaterialRepository.findAll();
+    public List<CarParameterResponse> getAllInteriorMaterials() {
+        List<CarParameterResponse> interiorMaterials = new ArrayList<>();
+        interiorMaterialRepository.findAll().forEach(interiorMaterial ->
+                interiorMaterials.add(modelMapper.map(interiorMaterial, CarParameterResponse.class)));
+        return interiorMaterials;
     }
 
     @Override
-    public InteriorMaterial getInteriorMaterial(Long id) throws EntityNotFoundException {
+    public CarParameterResponse getInteriorMaterial(Long id) throws EntityNotFoundException {
         InteriorMaterial interiorMaterial = interiorMaterialRepository.findOne(id);
         if (interiorMaterial == null) {
             throw new EntityNotFoundException("Interior material", id);
         }
-        return interiorMaterial;
+        return modelMapper.map(interiorMaterial, CarParameterResponse.class);
     }
 
     @Override
@@ -419,45 +452,52 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Model createModel(Long branId, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        Brand brand = getBrand(branId);
+    public ModelResponse createModel(Long branId, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        Brand brand = modelMapper.map(getBrand(branId), Brand.class);
         checkModelNameUsed(carParameterRequest.getName());
         Model model = modelMapper.map(carParameterRequest, Model.class);
         model.setBrand(brand);
         modelRepository.save(model);
-        return model;
+        return modelMapper.map(model, ModelResponse.class);
     }
 
     @Override
     public void deleteModel(Long id) throws EntityNotFoundException {
-        modelRepository.delete(getModel(id));
+        getModel(id);
+        modelRepository.delete(id);
     }
 
     @Override
-    public Model updateModel(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        Model model = getModel(id);
+    public ModelResponse updateModel(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        ModelResponse model = getModel(id);
         checkModelNameUsed(carParameterRequest.getName());
         model.setName(carParameterRequest.getName());
-        return modelRepository.save(model);
+        modelRepository.save(modelMapper.map(model, Model.class));
+        return model;
     }
 
     @Override
-    public List<Model> getAllModels() {
-        return modelRepository.findAll();
+    public List<ModelResponse> getAllModels() {
+        List<ModelResponse> models = new ArrayList<>();
+        modelRepository.findAll().forEach(model -> models.add(modelMapper.map(model, ModelResponse.class)));
+        return models;
     }
 
     @Override
-    public List<Model> getAllModelsByBrand(Long brand_id) throws EntityNotFoundException {
-        return modelRepository.findAllByBrand(getBrand(brand_id));
+    public List<CarParameterResponse> getAllModelsByBrand(Long brandId) throws EntityNotFoundException {
+        List<CarParameterResponse> models = new ArrayList<>();
+        modelRepository.findAllByBrand(modelMapper.map(getBrand(brandId), Brand.class))
+                .forEach(model -> models.add(modelMapper.map(model, CarParameterResponse.class)));
+        return models;
     }
 
     @Override
-    public Model getModel(Long id) throws EntityNotFoundException {
+    public ModelResponse getModel(Long id) throws EntityNotFoundException {
         Model model = modelRepository.findOne(id);
         if (model == null) {
             throw new EntityNotFoundException("Model", id);
         }
-        return model;
+        return modelMapper.map(model, ModelResponse.class);
     }
 
     @Override
@@ -475,38 +515,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public TiresSeason createTiresSeason(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public CarParameterResponse createTiresSeason(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
         checkTiresSeasonNameUsed(carParameterRequest.getName());
         TiresSeason tiresSeason = new TiresSeason();
         tiresSeason.setName(carParameterRequest.getName());
         tiresSeasonRepository.save(tiresSeason);
-        return tiresSeason;
+        return modelMapper.map(tiresSeason, CarParameterResponse.class);
     }
 
     @Override
     public void deleteTiresSeason(Long id) throws EntityNotFoundException {
-        tiresSeasonRepository.delete(getTiresSeason(id));
+        getTiresSeason(id);
+        tiresSeasonRepository.delete(id);
     }
 
     @Override
-    public TiresSeason updateTiresSeason(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        TiresSeason tiresSeason = getTiresSeason(id);
+    public CarParameterResponse updateTiresSeason(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+        CarParameterResponse tiresSeason = getTiresSeason(id);
         checkTiresSeasonNameUsed(carParameterRequest.getName());
         tiresSeason.setName(carParameterRequest.getName());
-        return tiresSeasonRepository.save(tiresSeason);
+        tiresSeasonRepository.save(modelMapper.map(tiresSeason, TiresSeason.class));
+        return tiresSeason;
     }
 
     @Override
-    public List<TiresSeason> getAllTiresSeasons() {
-        return tiresSeasonRepository.findAll();
+    public List<CarParameterResponse> getAllTiresSeasons() {
+        List<CarParameterResponse> tiresSeasons = new ArrayList<>();
+        tiresSeasonRepository.findAll().forEach(tiresSeason -> tiresSeasons.add(modelMapper.map(tiresSeason, CarParameterResponse.class)));
+        return tiresSeasons;
     }
 
     @Override
-    public TiresSeason getTiresSeason(Long id) throws EntityNotFoundException {
+    public CarParameterResponse getTiresSeason(Long id) throws EntityNotFoundException {
         TiresSeason tiresSeason = tiresSeasonRepository.findOne(id);
         if (tiresSeason == null) {
             throw new EntityNotFoundException("Tires season", id);
         }
-        return tiresSeason;
+        return modelMapper.map(tiresSeason, CarParameterResponse.class);
     }
 }

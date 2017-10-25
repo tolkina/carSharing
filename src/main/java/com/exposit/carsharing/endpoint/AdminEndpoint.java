@@ -1,8 +1,8 @@
 package com.exposit.carsharing.endpoint;
 
-import com.exposit.carsharing.domain.BodyType;
 import com.exposit.carsharing.domain.Brand;
 import com.exposit.carsharing.dto.CarParameterRequest;
+import com.exposit.carsharing.dto.CarParameterResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.service.AdminService;
@@ -29,8 +29,7 @@ public class AdminEndpoint {
     @POST
     @Path("/body-type")
     public Response createBodyType(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
-        BodyType bodyType = adminService.createBodyType(carParameterRequest);
-        return Response.status(201).entity(bodyType).build();
+        return Response.status(201).entity(adminService.createBodyType(carParameterRequest)).build();
     }
 
     @DELETE
@@ -43,8 +42,7 @@ public class AdminEndpoint {
     @PUT
     @Path("/body-type/{id}")
     public Response updateBodyType(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        BodyType bodyType = adminService.updateBodyType(id, carParameterRequest);
-        return Response.status(200).entity(bodyType).build();
+        return Response.status(200).entity(adminService.updateBodyType(id, carParameterRequest)).build();
     }
 
     @GET
@@ -64,8 +62,7 @@ public class AdminEndpoint {
     @POST
     @Path("/brand")
     public Response createBrand(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
-        Brand brand = adminService.createBrand(carParameterRequest);
-        return Response.status(200).entity(brand).build();
+        return Response.status(200).entity(adminService.createBrand(carParameterRequest)).build();
     }
 
     @DELETE

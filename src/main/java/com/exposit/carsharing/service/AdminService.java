@@ -1,7 +1,10 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.*;
+import com.exposit.carsharing.dto.BrandResponse;
 import com.exposit.carsharing.dto.CarParameterRequest;
+import com.exposit.carsharing.dto.CarParameterResponse;
+import com.exposit.carsharing.dto.ModelResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -16,15 +19,15 @@ public interface AdminService {
 
     void checkBodyTypeNameUsed(String name) throws EntityAlreadyExistException;
 
-    BodyType createBodyType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
+    CarParameterResponse createBodyType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
 
     void deleteBodyType(Long id) throws EntityNotFoundException;
 
-    BodyType updateBodyType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    CarParameterResponse updateBodyType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<BodyType> getAllBodyTypes();
+    List<CarParameterResponse> getAllBodyTypes();
 
-    BodyType getBodyType(Long id) throws EntityNotFoundException;
+    CarParameterResponse getBodyType(Long id) throws EntityNotFoundException;
 
     // ---------------------- Brand --------------------
     void checkBrandExist(String name) throws EntityNotFoundException;
@@ -33,120 +36,120 @@ public interface AdminService {
 
     void checkBrandNameUsed(String name) throws EntityAlreadyExistException;
 
-    Brand createBrand(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
+    BrandResponse createBrand(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
 
     void deleteBrand(Long id) throws EntityNotFoundException;
 
-    Brand updateBrand(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    BrandResponse updateBrand(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<Brand> getAllBrands();
+    List<BrandResponse> getAllBrands();
 
-    Brand getBrand(Long id) throws EntityNotFoundException;
+    BrandResponse getBrand(Long id) throws EntityNotFoundException;
 
     // ---------------------- Color --------------------
     void checkColorExist(String name) throws EntityNotFoundException;
 
     void checkColorNameUsed(String name) throws EntityAlreadyExistException;
 
-    Color createColor(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
+    CarParameterResponse createColor(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
 
     void deleteColor(Long id) throws EntityNotFoundException;
 
-    Color updateColor(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    CarParameterResponse updateColor(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<Color> getAllColors();
+    List<CarParameterResponse> getAllColors();
 
-    Color getColor(Long id) throws EntityNotFoundException;
+    CarParameterResponse getColor(Long id) throws EntityNotFoundException;
 
     // ---------------------- Drive unit --------------------
     void checkDriveUnitExist(String name) throws EntityNotFoundException;
 
     void checkDriveUnitNameUsed(String name) throws EntityAlreadyExistException;
 
-    DriveUnit createDriveUnit(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
+    CarParameterResponse createDriveUnit(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
 
     void deleteDriveUnit(Long id) throws EntityNotFoundException;
 
-    DriveUnit updateDriveUnit(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    CarParameterResponse updateDriveUnit(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<DriveUnit> getAllDriveUnits();
+    List<CarParameterResponse> getAllDriveUnits();
 
-    DriveUnit getDriveUnit(Long id) throws EntityNotFoundException;
+    CarParameterResponse getDriveUnit(Long id) throws EntityNotFoundException;
 
     // ---------------------- Fuel type --------------------
     void checkFuelTypeExist(String name) throws EntityNotFoundException;
 
     void checkFuelTypeNameUsed(String name) throws EntityAlreadyExistException;
 
-    FuelType createFuelType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
+    CarParameterResponse createFuelType(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
 
     void deleteFuelType(Long id) throws EntityNotFoundException;
 
-    FuelType updateFuelType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    CarParameterResponse updateFuelType(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<FuelType> getAllFuelTypes();
+    List<CarParameterResponse> getAllFuelTypes();
 
-    FuelType getFuelType(Long id) throws EntityNotFoundException;
+    CarParameterResponse getFuelType(Long id) throws EntityNotFoundException;
 
     // ---------------------- Gearbox --------------------
     void checkGearboxExist(String name) throws EntityNotFoundException;
 
     void checkGearboxNameUsed(String name) throws EntityAlreadyExistException;
 
-    Gearbox createGearbox(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
+    CarParameterResponse createGearbox(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
 
     void deleteGearbox(Long id) throws EntityNotFoundException;
 
-    Gearbox updateGearbox(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    CarParameterResponse updateGearbox(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<Gearbox> getAllGearboxes();
+    List<CarParameterResponse> getAllGearboxes();
 
-    Gearbox getGearbox(Long id) throws EntityNotFoundException;
+    CarParameterResponse getGearbox(Long id) throws EntityNotFoundException;
 
     // ---------------------- Interior material --------------------
     void checkInteriorMaterialExist(String name) throws EntityNotFoundException;
 
     void checkInteriorMaterialNameUsed(String name) throws EntityAlreadyExistException;
 
-    InteriorMaterial createInteriorMaterial(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
+    CarParameterResponse createInteriorMaterial(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
 
     void deleteInteriorMaterial(Long id) throws EntityNotFoundException;
 
-    InteriorMaterial updateInteriorMaterial(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    CarParameterResponse updateInteriorMaterial(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<InteriorMaterial> getAllInteriorMaterials();
+    List<CarParameterResponse> getAllInteriorMaterials();
 
-    InteriorMaterial getInteriorMaterial(Long id) throws EntityNotFoundException;
+    CarParameterResponse getInteriorMaterial(Long id) throws EntityNotFoundException;
 
     // ---------------------- Model --------------------
     void checkModelExist(String name) throws EntityNotFoundException;
 
     void checkModelNameUsed(String name) throws EntityAlreadyExistException;
 
-    Model createModel(Long brandId, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    ModelResponse createModel(Long brandId, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
     void deleteModel(Long id) throws EntityNotFoundException;
 
-    Model updateModel(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    ModelResponse updateModel(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<Model> getAllModels();
+    List<ModelResponse> getAllModels();
 
-    List<Model> getAllModelsByBrand(Long brand_id) throws EntityNotFoundException;
+    List<CarParameterResponse> getAllModelsByBrand(Long brand_id) throws EntityNotFoundException;
 
-    Model getModel(Long id) throws EntityNotFoundException;
+    ModelResponse getModel(Long id) throws EntityNotFoundException;
 
     // ---------------------- Tires season --------------------
     void checkTiresSeasonExist(String name) throws EntityNotFoundException;
 
     void checkTiresSeasonNameUsed(String name) throws EntityAlreadyExistException;
 
-    TiresSeason createTiresSeason(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
+    CarParameterResponse createTiresSeason(CarParameterRequest carParameterRequest) throws EntityAlreadyExistException;
 
     void deleteTiresSeason(Long id) throws EntityNotFoundException;
 
-    TiresSeason updateTiresSeason(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
+    CarParameterResponse updateTiresSeason(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    List<TiresSeason> getAllTiresSeasons();
+    List<CarParameterResponse> getAllTiresSeasons();
 
-    TiresSeason getTiresSeason(Long id) throws EntityNotFoundException;
+    CarParameterResponse getTiresSeason(Long id) throws EntityNotFoundException;
 }
