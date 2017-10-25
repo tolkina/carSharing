@@ -22,5 +22,4 @@ public class TechnicalParametersResponse implements Serializable {
     private Integer stsFormNumber;
     private String stsImageLink;
     private String ptsImageLink;
-    private CarResponse car;
 }

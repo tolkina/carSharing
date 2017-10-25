@@ -1,14 +1,18 @@
 package com.exposit.carsharing.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "general_parameters")
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class GeneralParameters implements Serializable {
 
     @Id
@@ -22,7 +26,6 @@ public class GeneralParameters implements Serializable {
     @Column(name = "year_of_issue", length = 4)
     private Integer yearOfIssue;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;

@@ -1,9 +1,9 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.dto.CarRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.domain.Car;
 import com.exposit.carsharing.service.CarService;
 import org.springframework.stereotype.Component;
 
@@ -24,9 +24,8 @@ public class CarEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createCar(@PathParam("id") Long ownerId, Car car) throws EntityNotFoundException, EntityAlreadyExistException {
-        carService.create(car, ownerId);
-        return Response.status(201).entity(car).build();
+    public Response createCar(@PathParam("id") Long ownerId, CarRequest car) throws EntityNotFoundException, EntityAlreadyExistException {
+        return Response.status(201).entity(carService.create(car, ownerId)).build();
     }
 
     @GET

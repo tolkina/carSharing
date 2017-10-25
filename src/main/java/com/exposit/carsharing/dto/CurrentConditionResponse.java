@@ -10,5 +10,4 @@ public class CurrentConditionResponse implements Serializable {
     private boolean damage;
     private String damageDescription;
     private double mileage;
-    private CarResponse car;
 }

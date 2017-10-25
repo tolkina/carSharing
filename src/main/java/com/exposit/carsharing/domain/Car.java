@@ -1,6 +1,5 @@
 package com.exposit.carsharing.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,27 +9,24 @@ import java.io.Serializable;
 @Table(name = "car")
 @Data
 public class Car implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "car")
+    @OneToOne(mappedBy = "car", orphanRemoval = true)
     private GeneralParameters generalParameters;
 
-    @OneToOne(mappedBy = "car")
+    @OneToOne(mappedBy = "car", orphanRemoval = true)
     private TechnicalParameters technicalParameters;
 
-    @OneToOne(mappedBy = "car")
+    @OneToOne(mappedBy = "car", orphanRemoval = true)
     private CurrentCondition currentCondition;
 
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
 
-    @JsonIgnore
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ad_id")
     private Ad ad;
 }

@@ -10,5 +10,4 @@ public class GeneralParametersResponse implements Serializable {
     private String brand;
     private String model;
     private Integer yearOfIssue;
-    private CarResponse car;
 }

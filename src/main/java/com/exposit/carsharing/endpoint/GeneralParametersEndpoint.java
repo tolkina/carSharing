@@ -1,16 +1,15 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.dto.GeneralParametersRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.domain.GeneralParameters;
 import com.exposit.carsharing.service.GeneralParametersService;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Component
 @Path("/general-parameters")
@@ -25,23 +24,20 @@ public class GeneralParametersEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createGeneralParameters(@PathParam("id") Long carId, GeneralParameters generalParameters)
+    public Response createGeneralParameters(@PathParam("id") Long carId, GeneralParametersRequest generalParameters)
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
-        generalParametersService.create(generalParameters, carId);
-        return Response.status(201).entity(generalParameters).build();
+        return Response.status(201).entity(generalParametersService.create(generalParameters, carId)).build();
     }
 
     @GET
     public Response getAllGeneralParameters() {
-        List<GeneralParameters> generalParameters = generalParametersService.getAll();
-        return Response.status(200).entity(generalParameters).build();
+        return Response.status(200).entity(generalParametersService.getAll()).build();
     }
 
     @GET
     @Path("{id}")
     public Response getGeneralParameters(@PathParam("id") Long id) throws EntityNotFoundException {
-        GeneralParameters generalParameters = generalParametersService.get(id);
-        return Response.status(200).entity(generalParameters).build();
+        return Response.status(200).entity(generalParametersService.get(id)).build();
     }
 
     @DELETE

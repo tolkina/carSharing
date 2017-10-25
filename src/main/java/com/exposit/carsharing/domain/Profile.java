@@ -1,6 +1,8 @@
 package com.exposit.carsharing.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,7 +11,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "profile")
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class Profile implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +53,6 @@ public class Profile implements Serializable {
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Deal> myDeals;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Car> cars;
 }

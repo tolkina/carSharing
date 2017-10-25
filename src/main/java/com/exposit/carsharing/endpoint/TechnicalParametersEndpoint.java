@@ -1,16 +1,15 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.dto.TechnicalParametersRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.domain.TechnicalParameters;
 import com.exposit.carsharing.service.TechnicalParametersService;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Component
 @Path("/technical-parameters")
@@ -25,23 +24,20 @@ public class TechnicalParametersEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createTechnicalParameters(@PathParam("id") Long carId, TechnicalParameters technicalParameters)
+    public Response createTechnicalParameters(@PathParam("id") Long carId, TechnicalParametersRequest technicalParameters)
             throws EntityNotFoundException, EntityAlreadyExistException {
-        technicalParametersService.create(technicalParameters, carId);
-        return Response.status(201).entity(technicalParameters).build();
+        return Response.status(201).entity(technicalParametersService.create(technicalParameters, carId)).build();
     }
 
     @GET
     public Response getAllTechnicalParameters() {
-        List<TechnicalParameters> technicalParameters = technicalParametersService.getAll();
-        return Response.status(200).entity(technicalParameters).build();
+        return Response.status(200).entity(technicalParametersService.getAll()).build();
     }
 
     @GET
     @Path("{id}")
     public Response getTechnicalParameters(@PathParam("id") Long id) throws EntityNotFoundException {
-        TechnicalParameters technicalParameters = technicalParametersService.get(id);
-        return Response.status(200).entity(technicalParameters).build();
+        return Response.status(200).entity(technicalParametersService.get(id)).build();
     }
 
     @DELETE

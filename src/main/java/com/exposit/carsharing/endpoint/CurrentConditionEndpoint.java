@@ -1,9 +1,10 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.domain.CurrentCondition;
+import com.exposit.carsharing.dto.CurrentConditionRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.domain.CurrentCondition;
 import com.exposit.carsharing.service.CurrentConditionService;
 import org.springframework.stereotype.Component;
 
@@ -26,22 +27,19 @@ public class CurrentConditionEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createCurrentCondition(@PathParam("id") Long carId, CurrentCondition currentCondition) throws EntityNotFoundException, EntityAlreadyExistException {
-        currentConditionService.create(currentCondition, carId);
-        return Response.status(201).entity(currentCondition).build();
+    public Response createCurrentCondition(@PathParam("id") Long carId, CurrentConditionRequest currentCondition) throws EntityNotFoundException, EntityAlreadyExistException {
+        return Response.status(201).entity(currentConditionService.create(currentCondition, carId)).build();
     }
 
     @GET
     public Response getAllCurrentConditions() {
-        List<CurrentCondition> currentConditions = currentConditionService.getAll();
-        return Response.status(200).entity(currentConditions).build();
+        return Response.status(200).entity(currentConditionService.getAll()).build();
     }
 
     @GET
     @Path("{id}")
     public Response getCurrentCondition(@PathParam("id") Long id) throws EntityNotFoundException {
-        CurrentCondition currentCondition = currentConditionService.get(id);
-        return Response.status(200).entity(currentCondition).build();
+        return Response.status(200).entity(currentConditionService.get(id)).build();
     }
 
     @DELETE

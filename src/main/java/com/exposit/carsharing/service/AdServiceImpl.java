@@ -1,11 +1,13 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.domain.Ad;
+import com.exposit.carsharing.domain.Car;
+import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.domain.Ad;
-import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.repository.AdRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +19,13 @@ public class AdServiceImpl implements AdService {
     private final ProfileService profileService;
     private final AdRepository adRepository;
     private final CarService carService;
+    private final ModelMapper modelMapper;
 
-    public AdServiceImpl(ProfileService profileService, AdRepository adRepository, CarService carService) {
+    public AdServiceImpl(ProfileService profileService, AdRepository adRepository, CarService carService, ModelMapper modelMapper) {
         this.profileService = profileService;
         this.adRepository = adRepository;
         this.carService = carService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -55,7 +59,7 @@ public class AdServiceImpl implements AdService {
             throw new EntityAlreadyExistException("Ad", ad.getId());
         }
         ad.setOwner(profileService.get(ownerId));
-        ad.setCar(carService.get(carId));
+        ad.setCar(modelMapper.map(carService.get(carId), Car.class));
         adRepository.save(ad);
     }
 

@@ -11,5 +11,4 @@ public class CarResponse implements Serializable {
     private TechnicalParametersResponse technicalParameters;
     private CurrentConditionResponse currentCondition;
     private ProfileResponse owner;
-    private AdResponse ad;
 }

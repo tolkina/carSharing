@@ -1,14 +1,18 @@
 package com.exposit.carsharing.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "current_condition")
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class CurrentCondition implements Serializable {
 
     @Id
@@ -22,7 +26,6 @@ public class CurrentCondition implements Serializable {
 
     private double mileage;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;

@@ -1,14 +1,18 @@
 package com.exposit.carsharing.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "technical_parameters")
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class TechnicalParameters implements Serializable {
 
     @Id
@@ -16,13 +20,13 @@ public class TechnicalParameters implements Serializable {
     private Long id;
 
     @Column(name = "parameter", length = 15)
-    private String gearbox;             //Коробка передач
+    private String gearbox;
 
     @Column(name = "body_type")
     private String bodyType;
 
     @Column(name = "seat_number", length = 2)
-    private Integer seatNumber;         //Кол-во мест
+    private Integer seatNumber;
 
     @Column(name = "door_number", length = 1)
     private Integer doorNumber;
@@ -31,13 +35,13 @@ public class TechnicalParameters implements Serializable {
     private String fuelType;
 
     @Column(name = "fuel_consumption")
-    private Double fuelConsumption;     //Расход топлива
+    private Double fuelConsumption;
 
     @Column(name = "drive_unit")
-    private String driveUnit;           //Привод
+    private String driveUnit;
 
     @Column(name = "tires_season")
-    private String tiresSeason;         //Шины
+    private String tiresSeason;
 
     @Column(name = "interior_material")
     private String interiorMaterial;
@@ -58,7 +62,6 @@ public class TechnicalParameters implements Serializable {
     @Column(name = "pts_image_link")
     private String ptsImageLink;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;

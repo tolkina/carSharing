@@ -1,5 +1,7 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.dto.CurrentConditionRequest;
+import com.exposit.carsharing.dto.CurrentConditionResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -10,11 +12,13 @@ import java.util.List;
 public interface CurrentConditionService {
     boolean isExist(Long currentConditionId);
 
-    CurrentCondition get(Long id) throws EntityNotFoundException;
+    CurrentConditionResponse get(Long id) throws EntityNotFoundException;
 
-    List<CurrentCondition> getAll();
+    List<CurrentConditionResponse> getAll();
 
-    void create(CurrentCondition currentCondition, Long carId) throws EntityNotFoundException, EntityAlreadyExistException;
+    CurrentConditionResponse create(CurrentConditionRequest currentCondition, Long carId) throws EntityNotFoundException, EntityAlreadyExistException;
 
     void delete(Long currentConditionId, Long carId) throws PrivilegeException, EntityNotFoundException;
+
+    CurrentConditionResponse mapToResponse(CurrentCondition currentCondition);
 }
