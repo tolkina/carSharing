@@ -1,24 +1,28 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.model.Profile;
 import com.exposit.carsharing.repository.ProfileRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 public class ProfileServiceImpl implements ProfileService {
+    private final ModelMapper modelMapper;
+    private final ProfileRepository profileRepository;
 
-    private final
-    ProfileRepository profileRepository;
-
-    public ProfileServiceImpl(ProfileRepository profileRepository) {
+    @Autowired
+    public ProfileServiceImpl(ProfileRepository profileRepository, ModelMapper modelMapper) {
         this.profileRepository = profileRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -41,8 +45,11 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public List<Profile> getAll() {
-        return profileRepository.findAll();
+    public List<ProfileResponse> getAll() {
+        List<ProfileResponse> profiles = new ArrayList<>();
+        profileRepository.findAll().forEach(
+                profile -> profiles.add(modelMapper.map(profile, ProfileResponse.class)));
+        return profiles;
     }
 
     @Override
