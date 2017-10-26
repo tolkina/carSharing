@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
-import {PassportData} from "./passport-data";
+import {PassportData} from "../domain/passport-data";
 
 @Injectable()
 export class PassportDataService {

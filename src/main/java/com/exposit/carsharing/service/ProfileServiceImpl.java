@@ -63,7 +63,7 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.save(profile);
     }
 
-    public Profile updateProfile(Profile profile) {
+    public Profile updateProfile(Profile  profile) {
         profileRepository.save(profile);
         return profile;
     }

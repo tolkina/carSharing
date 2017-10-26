@@ -12,6 +12,7 @@ import {DriverLicenseService} from "./service/driver-license.service";
 import {ProfileInfoComponent} from './profile-info/profile-info.component';
 import {ProfileCarComponent} from './profile-car/profile-car.component';
 import {ProfileAdComponent} from './profile-ad/profile-ad.component';
+import {ProfileCarService} from "./service/profile-car.service";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import {ProfileAdComponent} from './profile-ad/profile-ad.component';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [ProfileService, PassportDataService, DriverLicenseService],
+  providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

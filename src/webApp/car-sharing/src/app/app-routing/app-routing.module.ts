@@ -13,7 +13,13 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'info', pathMatch: 'full'},
       {path: 'info', component: ProfileInfoComponent},
-      {path: 'car', component: ProfileCarComponent},
+      {path: 'car', component: ProfileCarComponent,
+        children: [
+          {path: '', redirectTo: 'all', pathMatch: 'full'},
+          {path: 'all', component: ProfileCarComponent},
+          {path: 'new', component: ProfileCarComponent},
+          {path: ':carId', component: ProfileCarComponent},
+        ]},
       {path: 'ad', component: ProfileAdComponent}
     ]
   }

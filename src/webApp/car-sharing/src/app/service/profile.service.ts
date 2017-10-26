@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/toPromise';
 import {Injectable} from '@angular/core';
-import {Profile} from "./profile";
+import {Profile} from "../domain/profile";
 import {Http} from "@angular/http";
 
 @Injectable()

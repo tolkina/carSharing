@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import {Http} from "@angular/http";
 import { Injectable } from '@angular/core';
-import {DriverLicense} from "./driver-license";
+import {DriverLicense} from "../domain/driver-license";
 
 @Injectable()
 export class DriverLicenseService {
