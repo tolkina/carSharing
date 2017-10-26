@@ -1,5 +1,6 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.dto.PassportDataRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -7,6 +8,7 @@ import com.exposit.carsharing.domain.PassportData;
 import com.exposit.carsharing.service.PassportDataService;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,16 +27,14 @@ public class PassportDataEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createPassportData(@PathParam("id") Long ownerId, PassportData passportData) throws EntityNotFoundException, EntityAlreadyExistException {
-        passportDataService.create(passportData, ownerId);
-        return Response.status(201).entity(passportData).build();
+    public Response createPassportData(@PathParam("id") Long ownerId, @Valid PassportDataRequest passportDataRequest) throws EntityNotFoundException, EntityAlreadyExistException {
+        return Response.status(201).entity(passportDataService.createPassport(ownerId, passportDataRequest)).build();
     }
 
     @PUT
     @Path("{id}")
-    public Response updateProfile(@PathParam("id") Long ownerId, PassportData passportData) throws EntityNotFoundException {
-        passportDataService.updatePassport(passportData, ownerId);
-        return Response.ok().entity(passportData).build();
+    public Response updateProfile(@PathParam("id") Long ownerId, @Valid PassportDataRequest passportDataRequest) throws EntityNotFoundException {
+        return Response.status(200).entity(passportDataService.updatePassport(ownerId, passportDataRequest)).build();
     }
 
     @GET
@@ -46,8 +46,7 @@ public class PassportDataEndpoint {
     @GET
     @Path("{id}")
     public Response retrievePassportData(@PathParam("id") Long id) throws EntityNotFoundException {
-        PassportData passportData = passportDataService.get(id);
-        return Response.status(200).entity(passportData).build();
+        return Response.status(200).entity(passportDataService.get(id)).build();
     }
 
     @DELETE

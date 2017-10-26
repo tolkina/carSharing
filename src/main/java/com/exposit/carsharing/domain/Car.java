@@ -25,7 +25,7 @@ public class Car implements Serializable {
     private CurrentCondition currentCondition;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
 

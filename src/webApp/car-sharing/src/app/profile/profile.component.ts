@@ -15,9 +15,9 @@ import {DriverLicenseService} from "../service/driver-license.service";
 
 export class ProfileComponent implements OnInit {
 
-  profiles:Profile;
-  passport: PassportData;
-  driverLicense: DriverLicense;
+  profiles:Profile = new Profile();
+  passport: PassportData = new PassportData();
+  driverLicense: DriverLicense = new DriverLicense();
   /*modalProfile;*/
   constructor(private router: Router,
               private profileService: ProfileService,
@@ -41,6 +41,10 @@ export class ProfileComponent implements OnInit {
 
   updateDriverLicense(): void {
     this.driverLicenseService.updateDriverLicense(this.driverLicense, 1);
+  }
+
+  deleteDriverLicense(): void {
+    this.driverLicenseService.deleteDriverLicense(this.driverLicense);
   }
 
 

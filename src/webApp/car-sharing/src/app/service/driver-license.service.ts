@@ -27,6 +27,15 @@ export class DriverLicenseService {
       .catch(this.handleError);
   }
 
+  deleteDriverLicense(driverLicense: DriverLicense): Promise<void> {
+    const url = `${this.driverLicenseUrl}/${driverLicense.id}`;
+    return this.http
+      .delete(url)
+      .toPromise()
+      .then(()=>null)
+      .catch(this.handleError)
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);
     return Promise.reject(error.message || error)
