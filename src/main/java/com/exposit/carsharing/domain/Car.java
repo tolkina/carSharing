@@ -13,13 +13,13 @@ public class Car implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "car", orphanRemoval = true)
+    @OneToOne(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private GeneralParameters generalParameters;
 
-    @OneToOne(mappedBy = "car", orphanRemoval = true)
+    @OneToOne(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private TechnicalParameters technicalParameters;
 
-    @OneToOne(mappedBy = "car", orphanRemoval = true)
+    @OneToOne(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CurrentCondition currentCondition;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -32,52 +32,30 @@ public class TechnicalParametersServiceImpl implements TechnicalParametersServic
     }
 
     @Override
-    public boolean isExist(Long technicalParametersId) {
-        return technicalParametersRepository.findOne(technicalParametersId) != null;
-    }
-
-    @Override
-    public TechnicalParametersResponse get(Long id) throws EntityNotFoundException {
-        return modelMapper.map(load(id), TechnicalParametersResponse.class);
-    }
-
-    @Override
-    public TechnicalParameters load(Long id) throws EntityNotFoundException {
-        TechnicalParameters technicalParameters = technicalParametersRepository.findOne(id);
-        if (technicalParameters == null) {
-            throw new EntityNotFoundException("Technical parameters", id);
-        }
-        return technicalParameters;
+    public TechnicalParametersResponse get(Long carId) throws EntityNotFoundException {
+        TechnicalParameters technicalParameters = technicalParametersRepository.findByCar(carService.getCar(carId));
+        return mapToResponse(technicalParameters);
     }
 
     @Override
     public List<TechnicalParametersResponse> getAll() {
         List<TechnicalParametersResponse> technicalParameters = new ArrayList<>();
         technicalParametersRepository.findAll().forEach(parameter ->
-                technicalParameters.add(modelMapper.map(parameter, TechnicalParametersResponse.class)));
+                technicalParameters.add(mapToResponse(parameter)));
         return technicalParameters;
     }
 
     @Override
-    public TechnicalParametersResponse create(TechnicalParametersRequest technicalParametersRequest, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
+    public TechnicalParametersResponse update(TechnicalParametersRequest technicalParametersRequest, Long carId, Long ownerId)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         Car car = carService.getCar(carId);
-        if (car.getTechnicalParameters() != null) {
-            throw new EntityAlreadyExistException();
-        }
+        carService.checkCarOwner(car, ownerId);
         TechnicalParameters technicalParameters = modelMapper.map(technicalParametersRequest, TechnicalParameters.class);
         check(technicalParameters);
+        technicalParameters.setId(car.getTechnicalParameters().getId());
         technicalParameters.setCar(car);
         technicalParametersRepository.save(technicalParameters);
-        return modelMapper.map(technicalParameters, TechnicalParametersResponse.class);
-    }
-
-    @Override
-    public void delete(Long technicalParameterId, Long carId) throws PrivilegeException, EntityNotFoundException {
-        TechnicalParameters technicalParameters = load(carId);
-        if (!technicalParameters.getCar().getId().equals(carId)) {
-            throw new PrivilegeException();
-        }
-        technicalParametersRepository.delete(technicalParameterId);
+        return mapToResponse(technicalParameters);
     }
 
     @Override
@@ -91,8 +69,7 @@ public class TechnicalParametersServiceImpl implements TechnicalParametersServic
         adminService.checkDriveUnitExist(technicalParameters.getDriveUnit());
     }
 
-    @Override
-    public TechnicalParametersResponse mapParametersToResponse(TechnicalParameters technicalParameters) {
+    private TechnicalParametersResponse mapToResponse(TechnicalParameters technicalParameters) {
         if (technicalParameters == null) {
             return null;
         }

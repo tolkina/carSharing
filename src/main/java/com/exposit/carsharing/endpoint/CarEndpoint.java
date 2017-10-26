@@ -23,8 +23,8 @@ public class CarEndpoint {
     }
 
     @POST
-    @Path("{id}")
-    public Response createCar(@PathParam("id") Long ownerId, CarRequest car) throws EntityNotFoundException, EntityAlreadyExistException {
+    public Response createCar(CarRequest car) throws EntityNotFoundException, EntityAlreadyExistException {
+        Long ownerId = 1L;
         return Response.status(201).entity(carService.create(car, ownerId)).build();
     }
 
@@ -34,14 +34,15 @@ public class CarEndpoint {
     }
 
     @GET
-    @Path("{id}")
-    public Response getCar(@PathParam("id") Long id) throws EntityNotFoundException {
-        return Response.status(200).entity(carService.get(id)).build();
+    @Path("/{car_id}")
+    public Response getCar(@PathParam("car_id") Long carId) throws EntityNotFoundException {
+        return Response.status(200).entity(carService.getCarResponse(carId)).build();
     }
 
     @DELETE
-    @Path("{car_id}/{owner_id}")
-    public Response deleteCar(@PathParam("car_id") Long carId, @PathParam("owner_id") Long ownerId) throws PrivilegeException, EntityNotFoundException {
+    @Path("/{car_id}")
+    public Response deleteCar(@PathParam("car_id") Long carId) throws PrivilegeException, EntityNotFoundException {
+        Long ownerId = 1L;
         carService.delete(carId, ownerId);
         return Response.status(200).build();
     }

@@ -59,7 +59,7 @@ public class AdServiceImpl implements AdService {
             throw new EntityAlreadyExistException("Ad", ad.getId());
         }
         ad.setOwner(profileService.get(ownerId));
-        ad.setCar(modelMapper.map(carService.get(carId), Car.class));
+        ad.setCar(modelMapper.map(carService.getCarResponse(carId), Car.class));
         adRepository.save(ad);
     }
 

@@ -1,6 +1,5 @@
 package com.exposit.carsharing.domain;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

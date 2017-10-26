@@ -4,7 +4,9 @@ import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.domain.Profile;
+import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.ProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -17,9 +19,11 @@ import javax.ws.rs.core.Response;
 @Path("/profile")
 public class ProfileEndpoint {
     private final ProfileService profileService;
+    private final CarService carService;
 
-    public ProfileEndpoint(ProfileService profileService) {
+    public ProfileEndpoint(ProfileService profileService, CarService carService) {
         this.profileService = profileService;
+        this.carService = carService;
     }
 
     @POST
@@ -27,7 +31,6 @@ public class ProfileEndpoint {
         profileService.create(profile);
         return Response.status(201).entity(profile).build();
     }
-
 
     @PUT
     @Path("{id}")
@@ -55,4 +58,9 @@ public class ProfileEndpoint {
         return Response.status(200).build();
     }
 
+    @GET
+    @Path("/{owner_id}/car")
+    public Response getAllCarsByOwner(@PathParam("owner_id") Long ownerId) throws EntityNotFoundException {
+        return Response.status(200).entity(carService.getAllByOwner(ownerId)).build();
+    }
 }

@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Component
-@Path("/general-parameters")
+@Path("/car")
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 public class GeneralParametersEndpoint {
@@ -22,28 +22,24 @@ public class GeneralParametersEndpoint {
         this.generalParametersService = generalParametersService;
     }
 
-    @POST
-    @Path("{id}")
-    public Response createGeneralParameters(@PathParam("id") Long carId, GeneralParametersRequest generalParameters)
+    @PUT
+    @Path("/{car_id}/general-parameters")
+    public Response createGeneralParameters(
+            @PathParam("car_id") Long carId, GeneralParametersRequest generalParametersRequest)
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
-        return Response.status(201).entity(generalParametersService.create(generalParameters, carId)).build();
+        Long owner = 1L;
+        return Response.status(200).entity(generalParametersService.update(generalParametersRequest, carId, owner)).build();
     }
 
     @GET
+    @Path("/general-parameters")
     public Response getAllGeneralParameters() {
         return Response.status(200).entity(generalParametersService.getAll()).build();
     }
 
     @GET
-    @Path("{id}")
-    public Response getGeneralParameters(@PathParam("id") Long id) throws EntityNotFoundException {
-        return Response.status(200).entity(generalParametersService.get(id)).build();
-    }
-
-    @DELETE
-    @Path("{general_parameters_id}/{car_id}")
-    public Response deleteGeneralParameters(@PathParam("general_parameters_id") Long generalParametersId, @PathParam("car_id") Long carId) throws PrivilegeException, EntityNotFoundException {
-        generalParametersService.delete(generalParametersId, carId);
-        return Response.status(200).build();
+    @Path("/{car_id}/general-parameters")
+    public Response getGeneralParameters(@PathParam("car_id") Long carId) throws EntityNotFoundException {
+        return Response.status(200).entity(generalParametersService.get(carId)).build();
     }
 }

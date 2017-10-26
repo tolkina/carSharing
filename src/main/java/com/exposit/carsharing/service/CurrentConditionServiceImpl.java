@@ -29,50 +29,33 @@ public class CurrentConditionServiceImpl implements CurrentConditionService {
     }
 
     @Override
-    public boolean isExist(Long currentConditionId) {
-        return currentConditionRepository.findOne(currentConditionId) != null;
-    }
-
-    @Override
-    public CurrentConditionResponse get(Long id) throws EntityNotFoundException {
-        CurrentCondition currentCondition = currentConditionRepository.findOne(id);
-        if (currentCondition == null) {
-            throw new EntityNotFoundException("Current condition", id);
-        }
-        return modelMapper.map(currentCondition, CurrentConditionResponse.class);
+    public CurrentConditionResponse get(Long carId) throws EntityNotFoundException {
+        CurrentCondition currentCondition = currentConditionRepository.findByCar(carService.getCar(carId));
+        return mapToResponse(currentCondition);
     }
 
     @Override
     public List<CurrentConditionResponse> getAll() {
         List<CurrentConditionResponse> currentConditions = new ArrayList<>();
         currentConditionRepository.findAll().forEach(currentCondition ->
-                currentConditions.add(modelMapper.map(currentCondition, CurrentConditionResponse.class)));
+                currentConditions.add(mapToResponse(currentCondition)));
         return currentConditions;
     }
 
     @Override
-    public CurrentConditionResponse create(CurrentConditionRequest currentCondition, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
+    public CurrentConditionResponse update(
+            CurrentConditionRequest currentConditionRequest, Long carId, Long ownerId)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         Car car = carService.getCar(carId);
-        if (car.getCurrentCondition() != null) {
-            throw new EntityAlreadyExistException();
-        }
-        CurrentCondition condition = modelMapper.map(currentCondition, CurrentCondition.class);
-        condition.setCar(car);
-        currentConditionRepository.save(condition);
-        return modelMapper.map(condition, CurrentConditionResponse.class);
+        carService.checkCarOwner(car, ownerId);
+        CurrentCondition currentCondition = modelMapper.map(currentConditionRequest, CurrentCondition.class);
+        currentCondition.setId(car.getCurrentCondition().getId());
+        currentCondition.setCar(car);
+        currentConditionRepository.save(currentCondition);
+        return mapToResponse(currentCondition);
     }
 
-    @Override
-    public void delete(Long currentConditionId, Long carId) throws PrivilegeException, EntityNotFoundException {
-        CurrentCondition currentCondition = modelMapper.map(get(currentConditionId), CurrentCondition.class);
-        if (!currentCondition.getCar().getId().equals(carId)) {
-            throw new PrivilegeException();
-        }
-        currentConditionRepository.delete(currentConditionId);
-    }
-
-    @Override
-    public CurrentConditionResponse mapToResponse(CurrentCondition currentCondition) {
+    private CurrentConditionResponse mapToResponse(CurrentCondition currentCondition) {
         if (currentCondition == null) {
             return null;
         }

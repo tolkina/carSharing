@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Component
-@Path("/technical-parameters")
+@Path("/car")
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 public class TechnicalParametersEndpoint {
@@ -22,28 +22,24 @@ public class TechnicalParametersEndpoint {
         this.technicalParametersService = technicalParametersService;
     }
 
-    @POST
-    @Path("{id}")
-    public Response createTechnicalParameters(@PathParam("id") Long carId, TechnicalParametersRequest technicalParameters)
-            throws EntityNotFoundException, EntityAlreadyExistException {
-        return Response.status(201).entity(technicalParametersService.create(technicalParameters, carId)).build();
+    @PUT
+    @Path("/{car_id}/technical-parameters")
+    public Response updateTechnicalParameters(@PathParam("car_id") Long carId,
+                                              TechnicalParametersRequest technicalParametersRequest)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
+        Long ownerId = 1L;
+        return Response.status(200).entity(technicalParametersService.update(technicalParametersRequest, carId, ownerId)).build();
     }
 
     @GET
+    @Path("/technical-parameters")
     public Response getAllTechnicalParameters() {
         return Response.status(200).entity(technicalParametersService.getAll()).build();
     }
 
     @GET
-    @Path("{id}")
-    public Response getTechnicalParameters(@PathParam("id") Long id) throws EntityNotFoundException {
-        return Response.status(200).entity(technicalParametersService.get(id)).build();
-    }
-
-    @DELETE
-    @Path("{technical_parameters_id}/{car_id}")
-    public Response deleteAd(@PathParam("technical_parameters_id") Long technicalParameterId, @PathParam("car_id") Long carId) throws PrivilegeException, EntityNotFoundException {
-        technicalParametersService.delete(technicalParameterId, carId);
-        return Response.status(200).build();
+    @Path("/{car_id}/technical-parameters")
+    public Response getTechnicalParameters(@PathParam("car_id") Long carId) throws EntityNotFoundException {
+        return Response.status(200).entity(technicalParametersService.get(carId)).build();
     }
 }

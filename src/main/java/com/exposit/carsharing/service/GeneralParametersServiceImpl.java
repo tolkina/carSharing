@@ -1,9 +1,7 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.Car;
-import com.exposit.carsharing.domain.CurrentCondition;
 import com.exposit.carsharing.domain.GeneralParameters;
-import com.exposit.carsharing.dto.CurrentConditionResponse;
 import com.exposit.carsharing.dto.GeneralParametersRequest;
 import com.exposit.carsharing.dto.GeneralParametersResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
@@ -36,47 +34,29 @@ public class GeneralParametersServiceImpl implements GeneralParametersService {
     }
 
     @Override
-    public boolean isExist(Long generalParametersId) {
-        return generalParametersRepository.findOne(generalParametersId) != null;
-    }
-
-    @Override
-    public GeneralParametersResponse get(Long id) throws EntityNotFoundException {
-        GeneralParameters generalParameters = generalParametersRepository.findOne(id);
-        if (generalParameters == null) {
-            throw new EntityNotFoundException("General parameters", id);
-        }
-        return modelMapper.map(generalParameters, GeneralParametersResponse.class);
+    public GeneralParametersResponse get(Long carId) throws EntityNotFoundException {
+        GeneralParameters generalParameters = generalParametersRepository.findByCar(carService.getCar(carId));
+        return mapToResponse(generalParameters);
     }
 
     @Override
     public List<GeneralParametersResponse> getAll() {
         List<GeneralParametersResponse> generalParameters = new ArrayList<>();
-        generalParametersRepository.findAll().forEach(parameter ->
-                generalParameters.add(modelMapper.map(parameter, GeneralParametersResponse.class)));
+        generalParametersRepository.findAll().forEach(parameter -> generalParameters.add(mapToResponse(parameter)));
         return generalParameters;
     }
 
     @Override
-    public GeneralParametersResponse create(GeneralParametersRequest parameters, Long carId) throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
+    public GeneralParametersResponse update(GeneralParametersRequest generalParametersRequest, Long carId, Long ownerId)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         Car car = carService.getCar(carId);
-        if (car.getGeneralParameters() != null) {
-            throw new EntityAlreadyExistException();
-        }
-        GeneralParameters generalParameters = modelMapper.map(parameters, GeneralParameters.class);
-        generalParameters.setCar(car);
+        carService.checkCarOwner(car, ownerId);
+        GeneralParameters generalParameters = modelMapper.map(generalParametersRequest, GeneralParameters.class);
         check(generalParameters);
+        generalParameters.setId(car.getTechnicalParameters().getId());
+        generalParameters.setCar(car);
         generalParametersRepository.save(generalParameters);
-        return modelMapper.map(generalParameters, GeneralParametersResponse.class);
-    }
-
-    @Override
-    public void delete(Long generalParametersId, Long carId) throws PrivilegeException, EntityNotFoundException {
-        GeneralParameters generalParameters = modelMapper.map(get(generalParametersId), GeneralParameters.class);
-        if (!generalParameters.getCar().getId().equals(carId)) {
-            throw new PrivilegeException();
-        }
-        generalParametersRepository.delete(generalParametersId);
+        return mapToResponse(generalParameters);
     }
 
     @Override
@@ -84,8 +64,7 @@ public class GeneralParametersServiceImpl implements GeneralParametersService {
         adminService.checkBrandAndModelExist(generalParameters.getBrand(), generalParameters.getModel());
     }
 
-    @Override
-    public GeneralParametersResponse mapToResponse(GeneralParameters generalParameters) {
+    private GeneralParametersResponse mapToResponse(GeneralParameters generalParameters) {
         if (generalParameters == null) {
             return null;
         }
