@@ -9,11 +9,17 @@ import {AppRoutingModule} from "./app-routing/app-routing.module";
 import {ProfileComponent} from "./profile/profile.component";
 import {PassportDataService} from "./service/passport-data.service";
 import {DriverLicenseService} from "./service/driver-license.service";
+import {ProfileInfoComponent} from './profile-info/profile-info.component';
+import {ProfileCarComponent} from './profile-car/profile-car.component';
+import {ProfileAdComponent} from './profile-ad/profile-ad.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProfileInfoComponent,
+    ProfileCarComponent,
+    ProfileAdComponent
   ],
   imports: [
     BrowserModule,

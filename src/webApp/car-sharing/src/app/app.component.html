@@ -1,54 +1,50 @@
-<!--<head>
-  <link href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>-->
-<div class="row">
-  <div class="col-12">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a href="http://localhost:4200"><img src="../assets/images/logo.png" style="height: 70%; width: 70%"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<div class="wrapper">
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a routerLink=""><img src="../assets/images/logo.png" style="height: 70%; width: 70%"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
+            aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarsExample02">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="http://localhost:4200">На главную <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="http://localhost:4200/profile">Мой профиль</a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-md-0">
-          <input class="form-control" type="text" placeholder="Search">
-        </form>
-      </div>
-    </nav>
-  </div>
-</div>
-
-<router-outlet></router-outlet>
-
-<footer class="footer bg-dark">
-  <div class="row">
-    <div class="col-md-2 footer-brand">
-      <a href="http://localhost:4200"><img src="../assets/images/logo.png" style="height: 50%; width: 50%"></a>
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="">На главную <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="profile">Мой профиль</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-md-0">
+        <input class="form-control" type="text" placeholder="Search">
+      </form>
     </div>
-    <div class="col-md-4">
-      <h6>Контактная информация:</h6>
-      <div class="col-md-12">
+  </nav>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="footer bg-dark">
+    <div class="row">
+      <div class="col-md-2">
+        <a routerLink=""><img src="../assets/images/logo.png" style="height: 50%"></a>
+      </div>
+      <div class="col-md-4">
+        <h6>Контактная информация:</h6>
         <ul class="pages">
           <li>Телефон: +375339635874</li>
           <li>E-mail: useyourcar@bestmail.com</li>
           <li>Адрес: Беларусь, г.Гродно.</li>
         </ul>
       </div>
-    </div>
-    <div class="col-md-2">
-      <h6>Мы в социальных сетях</h6>
-      <ul>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Вконтакте</a></li>
-      </ul>
+      <div class="col-md-2">
+        <h6>Мы в социальных сетях</h6>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Вконтакте</a></li>
+        </ul>
+      </div>
     </div>
   </div>
-</footer>
+
+</div>

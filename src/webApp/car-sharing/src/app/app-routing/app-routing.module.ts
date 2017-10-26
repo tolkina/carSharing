@@ -2,9 +2,21 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 
 import {ProfileComponent} from "../profile/profile.component";
+import {ProfileInfoComponent} from "../profile-info/profile-info.component";
+import {ProfileCarComponent} from "../profile-car/profile-car.component";
+import {ProfileAdComponent} from "../profile-ad/profile-ad.component";
+import {AppComponent} from "../app.component";
 
 const routes: Routes = [
-  {path: 'profile', component: ProfileComponent}
+  {
+    path: 'profile', component: ProfileComponent,
+    children: [
+      {path: '', redirectTo: 'info', pathMatch: 'full'},
+      {path: 'info', component: ProfileInfoComponent},
+      {path: 'car', component: ProfileCarComponent},
+      {path: 'ad', component: ProfileAdComponent}
+    ]
+  }
 ];
 
 @NgModule({

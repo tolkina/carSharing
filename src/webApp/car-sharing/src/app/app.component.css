@@ -1,13 +1,21 @@
-.footer{
-  margin-top:30px;
-  padding-top:10px;
+.footer {
+  margin-top: 30px;
+  padding-top: 10px;
 }
-.footer h6{
+
+.footer h6 {
   color: #f6f4ff;
 }
-.footer li{
+
+.footer li {
   color: #b6b9ff;
 }
-.footer li a{
+
+.footer li a {
   color: #b6b9ff;
+}
+
+.footer div.row {
+  margin-right: 0;
+  margin-left: 0;
 }
