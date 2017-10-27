@@ -1,0 +1,68 @@
+<h4 align="center">Общие параметры:</h4>
+<div class="row">
+  <div class="col-6">
+    <label for="brand" class="col-form-label">Марка</label>
+    <input type="text" class="form-control" id="brand" [(ngModel)]="generalParameters.brand">
+    <label for="model" class="col-form-label">Модель</label>
+    <input type="text" class="form-control" id="model" [(ngModel)]="generalParameters.model">
+    <label for="yearOfIssue" class="col-form-label">Год выпуска</label>
+    <input type="text" class="form-control" id="yearOfIssue" [(ngModel)]="generalParameters.yearOfIssue">
+  </div>
+  <div class="col-6">
+    <img src="../../assets/images/placeholder-car.png" alt="Car image" width="100%">
+  </div>
+</div>
+<hr>
+<h4 align="center">Технические параметры:</h4>
+<div class="row">
+  <div class="col-6">
+    <label for="gearbox" class="col-form-label">Коробка передач:</label>
+    <input type="text" class="form-control" id="gearbox" [(ngModel)]="technicalParameters.gearbox">
+    <label for="bodyType" class="col-form-label">Тип кузова:</label>
+    <input type="text" class="form-control" id="bodyType" [(ngModel)]="technicalParameters.bodyType">
+    <label for="seatNumber" class="col-form-label">Кол-во мест:</label>
+    <input type="text" class="form-control" id="seatNumber" [(ngModel)]="technicalParameters.seatNumber">
+    <label for="doorNumber" class="col-form-label">Кол-во дверей:</label>
+    <input type="text" class="form-control" id="doorNumber" [(ngModel)]="technicalParameters.doorNumber">
+    <label for="fuelType" class="col-form-label">Тип топлива:</label>
+    <input type="text" class="form-control" id="fuelType" [(ngModel)]="technicalParameters.fuelType">
+    <label for="fuelConsumption" class="col-form-label">Расход топлива на 100 км. (смешанный цикл):</label>
+    <input type="text" class="form-control" id="fuelConsumption" [(ngModel)]="technicalParameters.fuelConsumption">
+    <label for="driveUnit" class="col-form-label">Привод:</label>
+    <input type="text" class="form-control" id="driveUnit" [(ngModel)]="technicalParameters.driveUnit">
+  </div>
+  <div class="col-6">
+    <label for="tiresSeason" class="col-form-label">Сезон шин:</label>
+    <input type="text" class="form-control" id="tiresSeason" [(ngModel)]="technicalParameters.tiresSeason">
+    <label for="interiorMaterial" class="col-form-label">Материал салона:</label>
+    <input type="text" class="form-control" id="interiorMaterial" [(ngModel)]="technicalParameters.interiorMaterial">
+    <label for="color" class="col-form-label">Цвет:</label>
+    <input type="text" class="form-control" id="color" [(ngModel)]="technicalParameters.color">
+    <label for="vin" class="col-form-label">VIN:</label>
+    <input type="text" class="form-control" id="vin" [(ngModel)]="technicalParameters.vin">
+    <label for="govNumber" class="col-form-label">Гос. номер:</label>
+    <input type="text" class="form-control" id="govNumber" [(ngModel)]="technicalParameters.govNumber">
+    <label for="stsFormNumber" class="col-form-label">Номер бланка СТС:</label>
+    <input type="text" class="form-control" id="stsFormNumber" [(ngModel)]="technicalParameters.stsFormNumber">
+    <label for="stsImageLink" class="col-form-label">Фото СТС:</label>
+    <input type="text" class="form-control" id="stsImageLink" [(ngModel)]="technicalParameters.stsImageLink">
+    <label for="ptsImageLink" class="col-form-label">Фото ПТС:</label>
+    <input type="text" class="form-control" id="ptsImageLink" [(ngModel)]="technicalParameters.ptsImageLink">
+  </div>
+</div>
+<hr>
+<h4 align="center">Текущее состояние:</h4>
+<div class="row">
+  <div class="col-6">
+    <label for="damageDescription" class="col-form-label">Повреждения</label>
+    <input type="text" class="form-control" id="damageDescription" [(ngModel)]="currentCondition.damageDescription">
+  </div>
+  <div class="col-6">
+    <label for="mileage" class="col-form-label">Пробег</label>
+    <input type="text" class="form-control" id="mileage" [(ngModel)]="currentCondition.mileage">
+  </div>
+</div>
+<hr>
+<div align="center">
+  <button type="button" class="btn btn-success" (click)="saveCar()" style="width: 100%">Добавить</button>
+</div>
