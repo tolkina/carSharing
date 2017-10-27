@@ -1,5 +1,7 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.dto.DriverLicenseRequest;
+import com.exposit.carsharing.dto.DriverLicenseResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -7,6 +9,7 @@ import com.exposit.carsharing.domain.DriverLicense;
 import com.exposit.carsharing.service.DriverLicenseService;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,16 +28,14 @@ public class DriverLicenseEndpoint {
 
     @POST
     @Path("{id}")
-    public Response createDriverLicense(@PathParam("id") Long ownerId, DriverLicense driverLicense) throws EntityNotFoundException, EntityAlreadyExistException {
-        driverLicenseService.create(driverLicense, ownerId);
-        return Response.status(201).entity(driverLicense).build();
+    public Response createDriverLicense(@PathParam("id") Long ownerId, @Valid DriverLicenseRequest driverLicenseRequest) throws EntityNotFoundException, EntityAlreadyExistException {
+        return Response.status(201).entity(driverLicenseService.createDriverLicense(ownerId, driverLicenseRequest)).build();
     }
 
     @PUT
     @Path("{id}")
-    public Response updateProfile(@PathParam("id") Long ownerId, DriverLicense driverLicense) throws EntityNotFoundException {
-        driverLicenseService.updateDriverLicense(driverLicense, ownerId);
-        return Response.ok().entity(driverLicense).build();
+    public Response updateProfile(@PathParam("id") Long ownerId, DriverLicenseResponse driverLicenseResponse) throws EntityNotFoundException {
+        return Response.ok().entity(driverLicenseService.updateDriverLicense(ownerId, driverLicenseResponse)).build();
     }
 
     @GET
@@ -46,14 +47,13 @@ public class DriverLicenseEndpoint {
     @GET
     @Path("{id}")
     public Response retrieveDriverLicense(@PathParam("id") Long id) throws EntityNotFoundException {
-        DriverLicense driverLicense = driverLicenseService.get(id);
-        return Response.status(200).entity(driverLicense).build();
+        return Response.status(200).entity(driverLicenseService.get(id)).build();
     }
 
     @DELETE
-    @Path("{driver_license_id}/{owner_id}")
-    public Response deleteDriverLicense(@PathParam("driver_license_id") Long driverLicenseId, @PathParam("owner_id") Long ownerId) throws PrivilegeException, EntityNotFoundException {
-        driverLicenseService.delete(driverLicenseId, ownerId);
+    @Path("/{id}")
+    public Response deleteDriverLicense(@PathParam("id") Long id) throws PrivilegeException, EntityNotFoundException {
+        driverLicenseService.delete(id);
         return Response.status(200).build();
     }
 }

@@ -18,6 +18,15 @@ export class PassportDataService {
       .catch(this.handleError);
   }
 
+  createPassportData(passportData:PassportData, id:number): Promise<PassportData> {
+    const url = `${this.passportUrl}/${id}`;
+    return this.http
+      .post(url, passportData)
+      .toPromise()
+      .then(() => passportData)
+      .catch(this.handleError);
+  }
+
   updatePassport(passportData:PassportData, id:number): Promise<PassportData> {
     const url = `${this.passportUrl}/${id}`;
     return this.http
@@ -25,6 +34,15 @@ export class PassportDataService {
       .toPromise()
       .then(() => passportData)
       .catch(this.handleError);
+  }
+
+  deletePassportData(passportData: PassportData): Promise<void> {
+    const url = `${this.passportUrl}/${passportData.id}`;
+    return this.http
+      .delete(url)
+      .toPromise()
+      .then(()=>null)
+      .catch(this.handleError)
   }
 
   private handleError(error: any): Promise<any> {

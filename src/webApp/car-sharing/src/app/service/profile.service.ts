@@ -19,6 +19,14 @@ export class ProfileService {
       .catch(this.handleError);
   }
 
+  createProfile(profile:Profile): Promise<Profile> {
+    return this.http
+      .post(this.profileUrl, profile)
+      .toPromise()
+      .then(() => profile)
+      .catch(this.handleError);
+  }
+
   updateProfiles(profile:Profile, id:number): Promise<Profile> {
     const url = `${this.profileUrl}/${id}`;
     return this.http
@@ -26,6 +34,15 @@ export class ProfileService {
       .toPromise()
       .then(() => profile)
       .catch(this.handleError);
+  }
+
+  deleteProfile(profile: Profile): Promise<void> {
+    const url = `${this.profileUrl}/${profile.id}`;
+    return this.http
+      .delete(url)
+      .toPromise()
+      .then(()=>null)
+      .catch(this.handleError)
   }
 
   private handleError(error: any): Promise<any> {

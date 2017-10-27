@@ -1,14 +1,14 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.ProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,16 +27,14 @@ public class ProfileEndpoint {
     }
 
     @POST
-    public Response createProfile(Profile profile) throws EntityAlreadyExistException {
-        profileService.create(profile);
-        return Response.status(201).entity(profile).build();
+    public Response createProfile(@Valid ProfileRequest profileRequest) throws EntityAlreadyExistException {
+        return Response.status(201).entity(profileService.createProfile(profileRequest)).build();
     }
 
     @PUT
     @Path("{id}")
-    public Response updateProfile(@PathParam("id") Integer id, Profile profile){
-        profileService.updateProfile(profile);
-        return Response.ok().entity(profile).build();
+    public Response updateProfile(@PathParam("id") Long id, @Valid ProfileRequest profileRequest) throws EntityNotFoundException {
+        return Response.status(200).entity(profileService.updateProfile(id, profileRequest)).build();
     }
 
     @GET
@@ -47,8 +45,7 @@ public class ProfileEndpoint {
     @GET
     @Path("{id}")
     public Response getProfile(@PathParam("id") Long id) throws EntityNotFoundException {
-        Profile profile = profileService.get(id);
-        return Response.status(200).entity(profile).build();
+        return Response.status(200).entity(profileService.getProfileResponse(id)).build();
     }
 
     @DELETE

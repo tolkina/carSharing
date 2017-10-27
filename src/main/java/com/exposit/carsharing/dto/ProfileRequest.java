@@ -2,6 +2,7 @@ package com.exposit.carsharing.dto;
 
 import com.exposit.carsharing.configuration.Constants;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
