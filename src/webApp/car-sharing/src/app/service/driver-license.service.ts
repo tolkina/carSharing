@@ -18,6 +18,15 @@ export class DriverLicenseService {
       .catch(this.handleError);
   }
 
+  createDriverLicense(driverLicense:DriverLicense, id:number): Promise<DriverLicense> {
+    const url = `${this.driverLicenseUrl}/${id}`;
+    return this.http
+      .post(url, driverLicense)
+      .toPromise()
+      .then(() => driverLicense)
+      .catch(this.handleError);
+  }
+
   updateDriverLicense(driverLicense:DriverLicense, id:number): Promise<DriverLicense> {
     const url = `${this.driverLicenseUrl}/${id}`;
     return this.http

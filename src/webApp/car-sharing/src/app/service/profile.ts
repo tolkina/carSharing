@@ -3,5 +3,6 @@ export class Profile {
   email: String;
   birthday: Date;
   drivingExperience: number;
+  password: String;
 
 }

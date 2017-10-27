@@ -31,12 +31,32 @@ export class ProfileComponent implements OnInit {
     this.driverLicenseService.getDriverLicense(1).then(driverLicense => this.driverLicense = driverLicense);
   }
 
+
   updateProfile(): void {
     this.profileService.updateProfiles(this.profiles, 1);
   }
 
+  createProfile(): void {
+    this.profileService.createProfile(this.profiles);
+  }
+  deleteProfile(): void {
+    this.profileService.deleteProfile(this.profiles);
+  }
+
+
+  createPassportData():void {
+    this.passportService.createPassportData(this.passport, 1);
+  }
   updatePassport(): void {
     this.passportService.updatePassport(this.passport, 1);
+  }
+  deletePassport():void {
+    this.passportService.deletePassportData(this.passport);
+  }
+
+
+  createDriverLicense(): void {
+    this.driverLicenseService.createDriverLicense(this.driverLicense, 1);
   }
 
   updateDriverLicense(): void {
