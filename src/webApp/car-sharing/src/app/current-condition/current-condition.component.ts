@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {CurrentCondition} from "../domain/currentCondition";
 import {ProfileCarService} from "../service/profile-car.service";
+import {clone} from "lodash";
 
 @Component({
   selector: 'app-current-condition',
@@ -8,20 +8,20 @@ import {ProfileCarService} from "../service/profile-car.service";
   styleUrls: ['./current-condition.component.css']
 })
 export class CurrentConditionComponent implements OnInit {
-  profileId: number;
   carId: number;
   currentCondition: any = {};
+  editedCurrentCondition: any = {};
 
   constructor(private carService: ProfileCarService) {
   }
 
   ngOnInit() {
-    this.carId = 1;
+    this.carId = 2;
     this.getCurrentCondition(this.carId);
   }
 
-  updateCurrentCondition(currentCondition: CurrentCondition, carId: number) {
-    this.carService.updateCurrentCondition(currentCondition, carId).then()
+  updateCurrentCondition() {
+    this.carService.updateCurrentCondition(this.editedCurrentCondition, this.carId).then()
       .then(res => this.currentCondition = res)
       .catch();
   }
@@ -32,4 +32,7 @@ export class CurrentConditionComponent implements OnInit {
       .catch();
   }
 
+  editParams() {
+    this.editedCurrentCondition = clone(this.currentCondition);
+  }
 }

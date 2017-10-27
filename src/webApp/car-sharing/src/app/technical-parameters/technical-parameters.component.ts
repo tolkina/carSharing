@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {TechnicalParameters} from "../domain/technicalParameters";
 import {ProfileCarService} from "../service/profile-car.service";
-
+import {clone} from "lodash";
 @Component({
   selector: 'app-technical-parameters',
   templateUrl: './technical-parameters.component.html',
@@ -9,18 +8,20 @@ import {ProfileCarService} from "../service/profile-car.service";
 })
 export class TechnicalParametersComponent implements OnInit {
   carId: number;
-  technicalParameters: TechnicalParameters;
+  technicalParameters: any = {};
+  editedTechnicalParameters: any = {};
 
   constructor(private carService: ProfileCarService) {
   }
 
   ngOnInit() {
-    this.carId = 1;
+    this.carId = 2;
     this.getTechnicalParameters(this.carId);
   }
 
-  updateTechnicalParameters(technicalParameters: TechnicalParameters, carId: number) {
-    this.carService.updateTechnicalParameters(technicalParameters, carId).then()
+  updateTechnicalParameters() {
+    console.log(this.editedTechnicalParameters);
+    this.carService.updateTechnicalParameters(this.editedTechnicalParameters, this.carId).then()
       .then(res => this.technicalParameters = res)
       .catch();
   }
@@ -31,4 +32,7 @@ export class TechnicalParametersComponent implements OnInit {
       .catch();
   }
 
+  editParams() {
+    this.editedTechnicalParameters = clone(this.technicalParameters);
+  }
 }

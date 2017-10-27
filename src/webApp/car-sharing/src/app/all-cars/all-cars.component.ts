@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
 import {GeneralParameters} from "../domain/generalParameters";
-import {TechnicalParameters} from "../domain/technicalParameters";
-import {CurrentCondition} from "../domain/currentCondition";
-import {ActivatedRoute} from '@angular/router';
 import {Car} from "../domain/car";
 
 @Component({
@@ -27,12 +24,6 @@ export class AllCarsComponent implements OnInit {
   getCarsByOwner(ownerId: number) {
     this.carService.getCarsByOwner(ownerId).then()
       .then(cars => this.cars = cars)
-      .catch();
-  }
-
-  deleteCar(carId: number) {
-    this.carService.deleteCar(carId).then()
-      .then()
       .catch();
   }
 }

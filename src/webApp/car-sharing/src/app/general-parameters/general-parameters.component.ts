@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {GeneralParameters} from "../domain/generalParameters";
 import {ProfileCarService} from "../service/profile-car.service";
+import {clone} from "lodash";
 
 @Component({
   selector: 'app-general-parameters',
@@ -8,20 +8,20 @@ import {ProfileCarService} from "../service/profile-car.service";
   styleUrls: ['./general-parameters.component.css']
 })
 export class GeneralParametersComponent implements OnInit {
-  profileId: number;
   carId: number;
   generalParameters: any = {};
+  editedGeneralParameters: any = {};
 
   constructor(private carService: ProfileCarService) {
   }
 
   ngOnInit() {
-    this.carId = 1;
+    this.carId = 2;
     this.getGeneralParameters(this.carId);
   }
 
-  updateGeneralParameters(generalParameters: GeneralParameters, carId: number) {
-    this.carService.updateGeneralParameters(generalParameters, carId).then()
+  updateGeneralParameters() {
+    this.carService.updateGeneralParameters(this.editedGeneralParameters, this.carId).then()
       .then(res => this.generalParameters = res)
       .catch();
   }
@@ -32,4 +32,7 @@ export class GeneralParametersComponent implements OnInit {
       .catch();
   }
 
+  editParams() {
+    this.editedGeneralParameters = clone(this.generalParameters);
+  }
 }

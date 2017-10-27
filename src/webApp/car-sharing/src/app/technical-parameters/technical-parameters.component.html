@@ -1,19 +1,104 @@
 <div align="left">
-  <p><b>Коробка передач:</b> {{technicalParameters.gearbox}}</p>
-  <p><b>Тип кузова:</b> {{technicalParameters.bodyType}}</p>
-  <p><b>Кол-во мест:</b> {{technicalParameters.seatNumber}}</p>
-  <p><b>Кол-во дверей:</b> {{technicalParameters.doorNumber}}</p>
-  <p><b>Тип топлива:</b> {{technicalParameters.fuelType}}</p>
-  <p><b>Расход топлива на 100 км. (смешанный цикл):</b> {{technicalParameters.fuelConsumption}} л. / 100 км.</p>
-  <p><b>Привод:</b> {{technicalParameters.driveUnit}}</p>
-  <p><b>Сезон шин:</b> {{technicalParameters.tiresSeason}}</p>
-  <p><b>Материал салона:</b> {{technicalParameters.interiorMaterial}}</p>
-  <p><b>Цвет:</b> {{technicalParameters.color}}</p>
-  <p><b>VIN:</b> {{technicalParameters.vin}}</p>
-  <p><b>Гос. номер:</b> {{technicalParameters.govNumber}}</p>
-  <p><b>Номер бланка СТС:</b> {{technicalParameters.stsFormNumber}}</p>
-  <p><b>Фото СТС:</b> {{technicalParameters.stsImageLink}}</p>
-  <p><b>Фото ПТС:</b> {{technicalParameters.ptsImageLink}}</p>
-  <button type="button" class="btn-sm btn-secondary" data-toggle="modal" data-target="#technicalParameters">Редактировать
-  </button>
+  <div class="row">
+    <div class="col-6">
+      <p><b>Коробка передач:</b> {{technicalParameters.gearbox}}</p>
+      <p><b>Тип кузова:</b> {{technicalParameters.bodyType}}</p>
+      <p><b>Кол-во мест:</b> {{technicalParameters.seatNumber}}</p>
+      <p><b>Кол-во дверей:</b> {{technicalParameters.doorNumber}}</p>
+      <p><b>Тип топлива:</b> {{technicalParameters.fuelType}}</p>
+      <p><b>Расход топлива на 100 км. (смешанный цикл):</b> {{technicalParameters.fuelConsumption}} л. / 100 км.</p>
+      <p><b>Привод:</b> {{technicalParameters.driveUnit}}</p>
+    </div>
+    <div class="col-6">
+      <p><b>Сезон шин:</b> {{technicalParameters.tiresSeason}}</p>
+      <p><b>Материал салона:</b> {{technicalParameters.interiorMaterial}}</p>
+      <p><b>Цвет:</b> {{technicalParameters.color}}</p>
+      <p><b>VIN:</b> {{technicalParameters.vin}}</p>
+      <p><b>Гос. номер:</b> {{technicalParameters.govNumber}}</p>
+      <p><b>Номер бланка СТС:</b> {{technicalParameters.stsFormNumber}}</p>
+      <p><b>Фото СТС:</b> {{technicalParameters.stsImageLink}}</p>
+      <p><b>Фото ПТС:</b> {{technicalParameters.ptsImageLink}}</p>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn-sm btn-secondary" data-toggle="modal" data-target="#technicalParameters"
+        (click)="editParams()">
+  Редактировать
+</button>
+
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="technicalParameters" tabindex="-1" role="dialog"
+     aria-labelledby="technicalParameters"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="technicalParametersLabel">Технические параметры</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <label for="gearbox" class="col-form-label">Коробка передач:</label>
+            <input type="text" class="form-control" id="gearbox" value="{{technicalParameters.gearbox}}"
+                   [(ngModel)]="editedTechnicalParameters.gearbox">
+            <label for="bodyType" class="col-form-label">Тип кузова:</label>
+            <input type="text" class="form-control" id="bodyType" value="{{technicalParameters.bodyType}}"
+                   [(ngModel)]="editedTechnicalParameters.bodyType">
+            <label for="seatNumber" class="col-form-label">Кол-во мест:</label>
+            <input type="text" class="form-control" id="seatNumber" value="{{technicalParameters.seatNumber}}"
+                   [(ngModel)]="editedTechnicalParameters.seatNumber">
+            <label for="doorNumber" class="col-form-label">Кол-во дверей:</label>
+            <input type="text" class="form-control" id="doorNumber" value="{{technicalParameters.doorNumber}}"
+                   [(ngModel)]="editedTechnicalParameters.doorNumber">
+            <label for="fuelType" class="col-form-label">Тип топлива:</label>
+            <input type="text" class="form-control" id="fuelType" value="{{technicalParameters.fuelType}}"
+                   [(ngModel)]="editedTechnicalParameters.fuelType">
+            <label for="fuelConsumption" class="col-form-label">Расход топлива на 100 км. (смешанный цикл):</label>
+            <input type="text" class="form-control" id="fuelConsumption"
+                   value="{{technicalParameters.fuelConsumption}}"
+                   [(ngModel)]="editedTechnicalParameters.fuelConsumption">
+            <label for="driveUnit" class="col-form-label">Привод:</label>
+            <input type="text" class="form-control" id="driveUnit" value="{{technicalParameters.driveUnit}}"
+                   [(ngModel)]="editedTechnicalParameters.driveUnit">
+          </div>
+          <div class="col-6">
+            <label for="tiresSeason" class="col-form-label">Сезон шин:</label>
+            <input type="text" class="form-control" id="tiresSeason" value="{{technicalParameters.tiresSeason}}"
+                   [(ngModel)]="editedTechnicalParameters.tiresSeason">
+            <label for="interiorMaterial" class="col-form-label">Материал салона:</label>
+            <input type="text" class="form-control" id="interiorMaterial"
+                   value="{{technicalParameters.interiorMaterial}}"
+                   [(ngModel)]="editedTechnicalParameters.interiorMaterial">
+            <label for="color" class="col-form-label">Цвет:</label>
+            <input type="text" class="form-control" id="color" value="{{technicalParameters.color}}"
+                   [(ngModel)]="editedTechnicalParameters.color">
+            <label for="vin" class="col-form-label">VIN:</label>
+            <input type="text" class="form-control" id="vin" value="{{technicalParameters.vin}}"
+                   [(ngModel)]="editedTechnicalParameters.vin">
+            <label for="govNumber" class="col-form-label">Гос. номер:</label>
+            <input type="text" class="form-control" id="govNumber" value="{{technicalParameters.govNumber}}"
+                   [(ngModel)]="editedTechnicalParameters.govNumber">
+            <label for="stsFormNumber" class="col-form-label">Номер бланка СТС:</label>
+            <input type="text" class="form-control" id="stsFormNumber"
+                   value="{{technicalParameters.stsFormNumber}}"
+                   [(ngModel)]="editedTechnicalParameters.stsFormNumber">
+            <label for="stsImageLink" class="col-form-label">Фото СТС:</label>
+            <input type="text" class="form-control" id="stsImageLink"
+                   value="{{technicalParameters.stsImageLink}}" [(ngModel)]="editedTechnicalParameters.stsImageLink">
+            <label for="ptsImageLink" class="col-form-label">Фото ПТС:</label>
+            <input type="text" class="form-control" id="ptsImageLink"
+                   value="{{technicalParameters.ptsImageLink}}" [(ngModel)]="editedTechnicalParameters.ptsImageLink">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateTechnicalParameters()">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
