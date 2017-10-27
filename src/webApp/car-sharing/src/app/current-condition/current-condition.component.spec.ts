@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfileInfoComponent } from './profile-info.component';
+import { CurrentConditionComponent } from './current-condition.component';
 
-describe('ProfileInfoComponent', () => {
-  let component: ProfileInfoComponent;
-  let fixture: ComponentFixture<ProfileInfoComponent>;
+describe('CurrentConditionComponent', () => {
+  let component: CurrentConditionComponent;
+  let fixture: ComponentFixture<CurrentConditionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileInfoComponent ]
+      declarations: [ CurrentConditionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfileInfoComponent);
+    fixture = TestBed.createComponent(CurrentConditionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
