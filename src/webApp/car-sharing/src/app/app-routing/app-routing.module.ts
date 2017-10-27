@@ -14,7 +14,7 @@ import {CurrentConditionComponent} from "../current-condition/current-condition.
 
 const routes: Routes = [
   {
-    path: 'profile', component: ProfileComponent,
+    path: 'profile/:id', component: ProfileComponent,
     children: [
       {path: '', redirectTo: 'info', pathMatch: 'full'},
       {path: 'info', component: ProfileInfoComponent},

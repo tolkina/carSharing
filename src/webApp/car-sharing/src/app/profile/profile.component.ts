@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router'
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile',
@@ -7,5 +9,15 @@ import {Component} from '@angular/core';
 })
 
 export class ProfileComponent {
+  profileId: number;
+  private subscription: Subscription;
 
+  constructor(private activateRoute: ActivatedRoute) {
+    this.subscription = activateRoute.params.subscribe(params => this.profileId = params['id']);
+    console.log(this.profileId);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

@@ -5,6 +5,8 @@ import {DriverLicense} from "../domain/driver-license";
 import {ProfileService} from "../service/profile.service";
 import {PassportDataService} from "../service/passport-data.service";
 import {DriverLicenseService} from "../service/driver-license.service";
+import {ActivatedRoute, Router} from '@angular/router'
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile-info',
@@ -12,22 +14,22 @@ import {DriverLicenseService} from "../service/driver-license.service";
   styleUrls: ['./profile-info.component.css']
 })
 export class ProfileInfoComponent {
-
+  profileId: number;
   profiles: Profile = new Profile();
   passport: PassportData = new PassportData();
   driverLicense: DriverLicense = new DriverLicense();
+  private subscription: Subscription;
 
-  /*modalProfile;*/
-  constructor(private profileService: ProfileService,
+  constructor(private activateRoute: ActivatedRoute, private profileService: ProfileService,
               private passportService: PassportDataService,
               private driverLicenseService: DriverLicenseService) {
+    this.profileId = activateRoute.snapshot.parent.params['id'];
   }
 
-
   ngOnInit() {
-    this.profileService.getProfiles(1).then(profiles => this.profiles = profiles);
-    this.passportService.getPassport(1).then(passport => this.passport = passport);
-    this.driverLicenseService.getDriverLicense(1).then(driverLicense => this.driverLicense = driverLicense);
+    this.profileService.getProfiles(this.profileId).then(profiles => this.profiles = profiles);
+    this.passportService.getPassport(this.profileId).then(passport => this.passport = passport);
+    this.driverLicenseService.getDriverLicense(this.profileId).then(driverLicense => this.driverLicense = driverLicense);
   }
 
 
