@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
 import {clone} from "lodash";
+import {ActivatedRoute} from '@angular/router'
+
 @Component({
   selector: 'app-technical-parameters',
   templateUrl: './technical-parameters.component.html',
@@ -11,11 +13,11 @@ export class TechnicalParametersComponent implements OnInit {
   technicalParameters: any = {};
   editedTechnicalParameters: any = {};
 
-  constructor(private carService: ProfileCarService) {
+  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute) {
+    this.carId = activateRoute.snapshot.parent.params['carId'];
   }
 
   ngOnInit() {
-    this.carId = 2;
     this.getTechnicalParameters(this.carId);
   }
 

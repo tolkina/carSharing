@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
-import {Router} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-current-car',
@@ -10,11 +11,17 @@ import {Router} from '@angular/router'
 export class CurrentCarComponent {
   carId: number;
 
-  constructor(private carService: ProfileCarService,  private router: Router) {
+  private subscription: Subscription;
+
+  constructor(private carService: ProfileCarService, private router: Router, private activateRoute: ActivatedRoute) {
+    this.subscription = activateRoute.params.subscribe(params => this.carId = params['carId']);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   ngOnInit() {
-    this.carId = 3;
   }
 
   deleteCar() {

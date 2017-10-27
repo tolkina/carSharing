@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
 import {clone} from "lodash";
+import {ActivatedRoute} from '@angular/router'
 
 @Component({
   selector: 'app-general-parameters',
@@ -12,11 +13,11 @@ export class GeneralParametersComponent implements OnInit {
   generalParameters: any = {};
   editedGeneralParameters: any = {};
 
-  constructor(private carService: ProfileCarService) {
+  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute) {
+    this.carId = activateRoute.snapshot.parent.params['carId'];
   }
 
   ngOnInit() {
-    this.carId = 2;
     this.getGeneralParameters(this.carId);
   }
 
