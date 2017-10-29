@@ -1,0 +1,116 @@
+<!--Driver license-->
+<div class="row">
+  <div class="col-12 newblock"><h3>Водительское удостоверение</h3></div>
+  <div class="col-4">
+    <div class="row">
+      <div class="col-6">
+        <h6>Серия:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{driverLicense.seriesAndNumber}}</div>
+    </div>
+  </div>
+
+  <div class="col-5">
+    <div class="row">
+      <div class="col-6">
+        <h6>Категории:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{driverLicense.category}}</div>
+    </div>
+  </div>
+
+
+  <div class="col-1">
+    <button type="button" class="btn-sm btn-success" data-toggle="modal" data-target="#createDriverLicense"
+            data-placement="bottom" title="Добавить водительское удостоверение">＋
+    </button>
+  </div>
+  <div class="col-1">
+    <button type="button" class="btn-sm btn-primary" (click)="showEdit()" data-toggle="modal" data-target="#updateDriverLicense"
+            data-placement="bottom" title="Редактировать водительское удостоверение">✎
+    </button>
+  </div>
+  <div class="col-1">
+    <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#deleteDriverLicense"
+            data-placement="bottom" title="Удалить информацию о водительском удостоверении">␡
+    </button>
+  </div>
+</div>
+
+<!-- Modal Update DriveLicansion -->
+<div class="modal fade" id="updateDriverLicense" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Водительское удостоверение</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Серия:</label>
+          <input type="text" [(ngModel)]="driverLicense.seriesAndNumber" class="form-control" placeholder="Введите серию водительского удостоверения">
+        </div>
+        <div class="form-group">
+          <label>Категория:</label>
+          <input type="text" [(ngModel)]="driverLicense.category" class="form-control" placeholder="Введите категории водительского удостоверения">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary" (click)="updateDriverLicense()" data-dismiss="modal">Сохранить
+          изменения
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Create Driver License -->
+<div class="modal fade" id="createDriverLicense" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Добавить водительское удостоверение</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Серия:</label>
+          <input type="text" [(ngModel)]="driverLicense.seriesAndNumber" class="form-control" placeholder="Введите серию водительского удостоверения">
+        </div>
+        <div class="form-group">
+          <label>Категория:</label>
+          <input type="text" [(ngModel)]="driverLicense.category" class="form-control" placeholder="Введите категории водительского удостоверения">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary" (click)="createDriverLicense()" data-dismiss="modal">Добавить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Delete Driver License -->
+<div class="modal fade" id="deleteDriverLicense" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Вы действительно хотите удалить информацию о водительском удостоверении?</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteDriverLicense()" data-dismiss="modal">Да</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
+      </div>
+    </div>
+  </div>
+</div>

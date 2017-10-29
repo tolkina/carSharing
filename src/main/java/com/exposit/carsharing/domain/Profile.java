@@ -44,7 +44,7 @@ public class Profile implements Serializable {
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private PassportData passportData;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Ad> ads;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)

@@ -19,6 +19,10 @@ import { CurrentCarComponent } from './current-car/current-car.component';
 import { TechnicalParametersComponent } from './technical-parameters/technical-parameters.component';
 import { GeneralParametersComponent } from './general-parameters/general-parameters.component';
 import { CurrentConditionComponent } from './current-condition/current-condition.component';
+import { CurrentAdComponent } from './current-ad/current-ad.component';
+import {ProfileAdService} from "./service/profile-ad.service";
+import { PassportDataComponent } from './passport-data/passport-data.component';
+import { DriverLicenseComponent } from './driver-license/driver-license.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,10 @@ import { CurrentConditionComponent } from './current-condition/current-condition
     CurrentCarComponent,
     TechnicalParametersComponent,
     GeneralParametersComponent,
-    CurrentConditionComponent
+    CurrentConditionComponent,
+    CurrentAdComponent,
+    PassportDataComponent,
+    DriverLicenseComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +47,7 @@ import { CurrentConditionComponent } from './current-condition/current-condition
     HttpModule,
     AppRoutingModule
   ],
-  providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService],
+  providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

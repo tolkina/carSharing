@@ -68,7 +68,7 @@ public class DriverLicenseServiceImpl implements DriverLicenseService {
         if (driverLicense.getId() != null && isExist(driverLicense.getId())) {
             throw new EntityAlreadyExistException("Driver license", driverLicense.getId());
         }
-        driverLicense.setOwner(profileService.get(ownerId));
+        driverLicense.setOwner(profileService.getAd(ownerId));
         driverLicenseRepository.save(driverLicense);
     }*/
 

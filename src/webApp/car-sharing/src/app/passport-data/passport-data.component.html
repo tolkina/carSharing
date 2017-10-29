@@ -1,0 +1,232 @@
+<!--Passport data-->
+<div class="row">
+  <div class="col-12 newblock"><h3>Паспортные данные</h3></div>
+  <div class="col-4">
+    <div class="row">
+      <div class="col-6">
+        <h6>Фамилия:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.lastName}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Имя:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.firstName}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Отчество:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.middleName}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Серия:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.series}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Номер:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.number}}</div>
+    </div>
+  </div>
+
+  <div class="col-5">
+    <div class="row">
+      <div class="col-6">
+        <h6>Личный номер:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.personalNumber}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Дата выдачи:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.dateOfIssue | date: 'dd/MM/yyyy'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Место выдачи:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.placeOfIssue}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Срок действия:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{passport.validUntil | date: 'dd/MM/yyyy'}}</div>
+    </div>
+  </div>
+
+  <div class="col-1">
+    <button type="button" class="btn-sm btn-success" data-toggle="modal" data-target="#createPassportData"
+            data-placement="bottom" title="Добавить паспортные данные">＋
+    </button>
+  </div>
+  <div class="col-1">
+    <button type="button" class="btn-sm btn-primary" (click)="showEdit()" data-toggle="modal" data-target="#updatePassportData"
+            data-placement="bottom" title="Редактировать паспортные данные">✎
+    </button>
+  </div>
+  <div class="col-1">
+    <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#deletePassportData"
+            data-placement="bottom" title="Удалить паспортные данные">␡
+    </button>
+  </div>
+
+</div>
+
+
+<!-- Modal Update PassportData -->
+<div class="modal fade" id="updatePassportData" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Паспортные данные</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label>Фамилия:</label>
+              <input type="email" [(ngModel)]="editedPassport.lastName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Имя:</label>
+              <input type="text" [(ngModel)]="editedPassport.firstName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Отчество:</label>
+              <input type="text" [(ngModel)]="editedPassport.middleName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Серия:</label>
+              <input type="text" [(ngModel)]="editedPassport.series" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Номер:</label>
+              <input type="text" [(ngModel)]="editedPassport.number" class="form-control">
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label>Личный номер:</label>
+              <input type="text" [(ngModel)]="editedPassport.personalNumber" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Дата выдачи:</label>
+              <input type="text" [(ngModel)]="editedPassport.dateOfIssue  " class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Место выдачи:</label>
+              <input type="text" [(ngModel)]="editedPassport.placeOfIssue" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Срок действия:</label>
+              <input type="text" [(ngModel)]="editedPassport.validUntil" class="form-control">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            <button type="button" (click)="updatePassport()" data-dismiss="modal" class="btn btn-primary">Сохранить
+              изменения
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Create PassportData -->
+<div class="modal fade" id="createPassportData" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Паспортные данные</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label>Фамилия:</label>
+              <input type="email" [(ngModel)]="editedPassport.lastName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Имя:</label>
+              <input type="text" [(ngModel)]="editedPassport.firstName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Отчество:</label>
+              <input type="text" [(ngModel)]="editedPassport.middleName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Серия:</label>
+              <input type="text" [(ngModel)]="editedPassport.series" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Номер:</label>
+              <input type="text" [(ngModel)]="editedPassport.number" class="form-control">
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label>Личный номер:</label>
+              <input type="text" [(ngModel)]="editedPassport.personalNumber" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Дата выдачи:</label>
+              <input type="text" [(ngModel)]="editedPassport.dateOfIssue" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Место выдачи:</label>
+              <input type="text" [(ngModel)]="editedPassport.placeOfIssue" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Срок действия:</label>
+              <input type="text" [(ngModel)]="editedPassport.validUntil" class="form-control">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+            <button type="button" class="btn btn-primary" (click)="createPassportData()" data-dismiss="modal">
+              Добавить
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Delete PassportData -->
+<div class="modal fade" id="deletePassportData" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Вы действительно хотите удалить паспортные данные?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deletePassport()" data-dismiss="modal">Да</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
+      </div>
+    </div>
+  </div>
+</div>

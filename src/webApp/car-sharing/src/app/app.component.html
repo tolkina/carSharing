@@ -1,3 +1,4 @@
+<!--Header-->
 <div class="wrapper">
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a routerLink=""><img src="../assets/images/logo.png" style="height: 70%; width: 70%"></a>
@@ -9,22 +10,22 @@
     <div class="collapse navbar-collapse" id="navbarsExample02">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" routerLink="">На главную <span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="">Главная <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" routerLink="profile">Мой профиль</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-md-0">
-        <input class="form-control" type="text" placeholder="Search">
-      </form>
     </div>
   </nav>
+
   <div class="container">
     <br>
     <router-outlet></router-outlet>
   </div>
 
+
+<!--Footer-->
   <div class="footer bg-dark">
     <div class="row">
       <div class="col-md-2">

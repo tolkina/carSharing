@@ -70,7 +70,7 @@ public class PassportDataServiceImpl implements PassportDataService {
         if (passportData.getId() != null && isExist(passportData.getId())) {
             throw new EntityAlreadyExistException("Passport data", passportData.getId());
         }
-        passportData.setOwner(profileService.get(ownerId));
+        passportData.setOwner(profileService.getAd(ownerId));
         passportDataRepository.save(passportData);
     }*/
     @Override
