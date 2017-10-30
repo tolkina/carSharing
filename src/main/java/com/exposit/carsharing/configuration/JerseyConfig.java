@@ -18,10 +18,7 @@ public class JerseyConfig extends ResourceConfig {
         register(ProfileEndpoint.class);
         register(AdEndpoint.class);
         register(DealEndpoint.class);
-        register(CurrentConditionEndpoint.class);
         register(CarEndpoint.class);
-        register(GeneralParametersEndpoint.class);
-        register(TechnicalParametersEndpoint.class);
         register(AdminEndpoint.class);
         register(MyExceptionMapper.class);
     }

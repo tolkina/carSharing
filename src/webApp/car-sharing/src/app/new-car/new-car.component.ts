@@ -22,6 +22,7 @@ export class NewCarComponent implements OnInit {
     technicalParameters: new TechnicalParameters(),
     owner: null
   };
+  error = "";
   brands: Brand_[] = [];
   models: CarParameter[] = [];
   gearboxes: CarParameter[] = [];
@@ -43,7 +44,7 @@ export class NewCarComponent implements OnInit {
   saveCar() {
     this.carService.addCar(this.car).then()
       .then(res => this.router.navigateByUrl('profile/car/all'))
-      .catch();
+      .catch(error => this.error = error);
   }
 
   private getCarParams() {

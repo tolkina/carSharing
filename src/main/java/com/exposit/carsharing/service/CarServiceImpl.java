@@ -25,20 +25,24 @@ public class CarServiceImpl implements CarService {
     private final CurrentConditionRepository currentConditionRepository;
     private final GeneralParametersRepository generalParametersRepository;
     private final TechnicalParametersRepository technicalParametersRepository;
+    private final AdminService adminService;
 
     public CarServiceImpl(CarRepository carRepository,
                           ProfileService profileService,
                           ModelMapper modelMapper,
                           CurrentConditionRepository currentConditionRepository,
                           GeneralParametersRepository generalParametersRepository,
-                          TechnicalParametersRepository technicalParametersRepository) {
+                          TechnicalParametersRepository technicalParametersRepository, AdminService adminService) {
         this.carRepository = carRepository;
         this.profileService = profileService;
         this.modelMapper = modelMapper;
         this.currentConditionRepository = currentConditionRepository;
         this.generalParametersRepository = generalParametersRepository;
         this.technicalParametersRepository = technicalParametersRepository;
+        this.adminService = adminService;
     }
+
+    // ------------------------------- Car ----------------------------------------------------
 
     @Override
     public boolean isExist(Long id) {
@@ -76,7 +80,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarResponse create(CarRequest carRequest, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException {
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         Car car = new Car();
         car.setOwner(profileService.get(ownerId));
         carRepository.save(car);
@@ -92,6 +96,8 @@ public class CarServiceImpl implements CarService {
         if (carRequest.getTechnicalParameters() != null) {
             technicalParameters = modelMapper.map(carRequest.getTechnicalParameters(), TechnicalParameters.class);
         }
+        checkGeneralParameters(generalParameters);
+        checkTechnicalParameters(technicalParameters);
         currentCondition.setCar(car);
         generalParameters.setCar(car);
         technicalParameters.setCar(car);
@@ -124,15 +130,132 @@ public class CarServiceImpl implements CarService {
         CarResponse carResponse = new CarResponse();
         carResponse.setId(car.getId());
         carResponse.setOwner(modelMapper.map(car.getOwner(), ProfileResponse.class));
-        if (car.getCurrentCondition() != null) {
-            carResponse.setCurrentCondition(modelMapper.map(car.getCurrentCondition(), CurrentConditionResponse.class));
-        }
-        if (car.getGeneralParameters() != null) {
-            carResponse.setGeneralParameters(modelMapper.map(car.getGeneralParameters(), GeneralParametersResponse.class));
-        }
-        if (car.getTechnicalParameters() != null) {
-            carResponse.setTechnicalParameters(modelMapper.map(car.getTechnicalParameters(), TechnicalParametersResponse.class));
-        }
+        carResponse.setCurrentCondition(mapToResponse(car.getCurrentCondition()));
+        carResponse.setGeneralParameters(mapToResponse(car.getGeneralParameters()));
+        carResponse.setTechnicalParameters(mapToResponse(car.getTechnicalParameters()));
         return carResponse;
+    }
+
+    // ------------------------------- Technical Parameters -------------------------------------
+
+    @Override
+    public TechnicalParametersResponse getTechnicalParameters(Long carId) throws EntityNotFoundException {
+        TechnicalParameters technicalParameters = technicalParametersRepository.findByCar(getCar(carId));
+        return mapToResponse(technicalParameters);
+    }
+
+    @Override
+    public List<TechnicalParametersResponse> getAllTechnicalParameters() {
+        List<TechnicalParametersResponse> technicalParameters = new ArrayList<>();
+        technicalParametersRepository.findAll().forEach(parameter ->
+                technicalParameters.add(mapToResponse(parameter)));
+        return technicalParameters;
+    }
+
+    @Override
+    public TechnicalParametersResponse updateTechnicalParameters(TechnicalParametersRequest technicalParametersRequest, Long carId, Long ownerId)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
+        Car car = getCar(carId);
+        checkCarOwner(car, ownerId);
+        TechnicalParameters technicalParameters = modelMapper.map(technicalParametersRequest, TechnicalParameters.class);
+        checkTechnicalParameters(technicalParameters);
+        technicalParameters.setId(car.getTechnicalParameters().getId());
+        technicalParameters.setCar(car);
+        technicalParametersRepository.save(technicalParameters);
+        return mapToResponse(technicalParameters);
+    }
+
+    @Override
+    public void checkTechnicalParameters(TechnicalParameters technicalParameters) throws EntityAlreadyExistException, EntityNotFoundException {
+        adminService.checkBodyTypeExist(technicalParameters.getBodyType());
+        adminService.checkColorExist(technicalParameters.getColor());
+        adminService.checkGearboxExist(technicalParameters.getGearbox());
+        adminService.checkFuelTypeExist(technicalParameters.getFuelType());
+        adminService.checkInteriorMaterialExist(technicalParameters.getInteriorMaterial());
+        adminService.checkTiresSeasonExist(technicalParameters.getTiresSeason());
+        adminService.checkDriveUnitExist(technicalParameters.getDriveUnit());
+    }
+
+    private TechnicalParametersResponse mapToResponse(TechnicalParameters technicalParameters) {
+        if (technicalParameters == null) {
+            return null;
+        }
+        return modelMapper.map(technicalParameters, TechnicalParametersResponse.class);
+    }
+
+    // ------------------------------- General Parameters ---------------------------------------
+
+    @Override
+    public GeneralParametersResponse getGeneralParameters(Long carId) throws EntityNotFoundException {
+        GeneralParameters generalParameters = generalParametersRepository.findByCar(getCar(carId));
+        return mapToResponse(generalParameters);
+    }
+
+    @Override
+    public List<GeneralParametersResponse> getAllGeneralParameters() {
+        List<GeneralParametersResponse> generalParameters = new ArrayList<>();
+        generalParametersRepository.findAll().forEach(parameter -> generalParameters.add(mapToResponse(parameter)));
+        return generalParameters;
+    }
+
+    @Override
+    public GeneralParametersResponse updateGeneralParameters(GeneralParametersRequest generalParametersRequest, Long carId, Long ownerId)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
+        Car car = getCar(carId);
+        checkCarOwner(car, ownerId);
+        GeneralParameters generalParameters = modelMapper.map(generalParametersRequest, GeneralParameters.class);
+        checkGeneralParameters(generalParameters);
+        generalParameters.setId(car.getTechnicalParameters().getId());
+        generalParameters.setCar(car);
+        generalParametersRepository.save(generalParameters);
+        return mapToResponse(generalParameters);
+    }
+
+    @Override
+    public void checkGeneralParameters(GeneralParameters generalParameters) throws EntityNotFoundException, PrivilegeException {
+        adminService.checkBrandAndModelExist(generalParameters.getBrand(), generalParameters.getModel());
+    }
+
+    private GeneralParametersResponse mapToResponse(GeneralParameters generalParameters) {
+        if (generalParameters == null) {
+            return null;
+        }
+        return modelMapper.map(generalParameters, GeneralParametersResponse.class);
+    }
+
+    // ------------------------------- Current Condition ----------------------------------------
+
+    @Override
+    public CurrentConditionResponse getCurrentCondition(Long carId) throws EntityNotFoundException {
+        CurrentCondition currentCondition = currentConditionRepository.findByCar(getCar(carId));
+        return mapToResponse(currentCondition);
+    }
+
+    @Override
+    public List<CurrentConditionResponse> getAllCurrentCondition() {
+        List<CurrentConditionResponse> currentConditions = new ArrayList<>();
+        currentConditionRepository.findAll().forEach(currentCondition ->
+                currentConditions.add(mapToResponse(currentCondition)));
+        return currentConditions;
+    }
+
+    @Override
+    public CurrentConditionResponse updateCurrentCondition(
+            CurrentConditionRequest currentConditionRequest, Long carId, Long ownerId)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
+        Car car = getCar(carId);
+        checkCarOwner(car, ownerId);
+        CurrentCondition currentCondition = modelMapper.map(currentConditionRequest, CurrentCondition.class);
+        currentCondition.setId(car.getCurrentCondition().getId());
+        currentCondition.setCar(car);
+        currentConditionRepository.save(currentCondition);
+        return mapToResponse(currentCondition);
+    }
+
+    private CurrentConditionResponse mapToResponse(CurrentCondition currentCondition) {
+        if (currentCondition == null) {
+            return null;
+        }
+        return modelMapper.map(currentCondition, CurrentConditionResponse.class);
     }
 }
