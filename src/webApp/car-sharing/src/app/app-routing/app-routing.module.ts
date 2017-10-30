@@ -14,39 +14,64 @@ import {CurrentConditionComponent} from "../user/current-condition/current-condi
 import {UserHomePageComponent} from "../user/user-home-page/user-home-page.component";
 import {HomePageAdminComponent} from "../admin/home-page-admin/home-page-admin.component";
 import {SetupAdminComponent} from "../admin/setup-admin/setup-admin.component";
+import {BrandComponent} from "../admin/technical-parameters/brand/brand.component";
+import {ColorComponent} from "../admin/technical-parameters/color/color.component";
+import {InteriorMaterialComponent} from "../admin/technical-parameters/interior-material/interior-material.component";
+import {TiresSeasonComponent} from "../admin/technical-parameters/tires-season/tires-season.component";
+import {DriveUnitComponent} from "../admin/technical-parameters/drive-unit/drive-unit.component";
+import {FuelTypeComponent} from "../admin/technical-parameters/fuel-type/fuel-type.component";
+import {BodyTypeComponent} from "../admin/technical-parameters/body-type/body-type.component";
+import {GearboxComponent} from "../admin/technical-parameters/gearbox/gearbox.component";
+import {ModelComponent} from "../admin/technical-parameters/model/model.component";
 
 const routes: Routes = [
   {
-    path: 'admin', component: HomePageAdminComponent, children: [
-    {path: 'setup', component: SetupAdminComponent}]
+    path: 'admin', component: HomePageAdminComponent,
+    children: [
+      {
+        path: 'setup', component: SetupAdminComponent,
+        children: [
+          {path: '', redirectTo: 'brand', pathMatch: 'full'},
+          {path: 'brand', component: BrandComponent},
+          {path: 'model', component: ModelComponent},
+          {path: 'gearbox', component: GearboxComponent},
+          {path: 'body-type', component: BodyTypeComponent},
+          {path: 'fuel-type', component: FuelTypeComponent},
+          {path: 'drive-unit', component: DriveUnitComponent},
+          {path: 'tires-season', component: TiresSeasonComponent},
+          {path: 'interior-material', component: InteriorMaterialComponent},
+          {path: 'color', component: ColorComponent},
+        ]
+      }]
   },
   {
-    path: '', component: UserHomePageComponent, children: [
-    {
-      path: 'profile', component: ProfileComponent,
-      children: [
-        {path: '', redirectTo: 'info', pathMatch: 'full'},
-        {path: 'info', component: ProfileInfoComponent},
-        {
-          path: 'car', component: ProfileCarComponent,
-          children: [
-            {path: '', redirectTo: 'all', pathMatch: 'full'},
-            {path: 'all', component: AllCarsComponent},
-            {path: 'new', component: NewCarComponent},
-            {
-              path: ':carId', component: CurrentCarComponent,
-              children: [
-                {path: '', redirectTo: 'general-parameters', pathMatch: 'full'},
-                {path: 'general-parameters', component: GeneralParametersComponent},
-                {path: 'technical-parameters', component: TechnicalParametersComponent},
-                {path: 'current-condition', component: CurrentConditionComponent}
-              ]
-            },
-          ]
-        },
-        {path: 'ad', component: ProfileAdComponent}
-      ]
-    }]
+    path: '', component: UserHomePageComponent,
+    children: [
+      {
+        path: 'profile', component: ProfileComponent,
+        children: [
+          {path: '', redirectTo: 'info', pathMatch: 'full'},
+          {path: 'info', component: ProfileInfoComponent},
+          {
+            path: 'car', component: ProfileCarComponent,
+            children: [
+              {path: '', redirectTo: 'all', pathMatch: 'full'},
+              {path: 'all', component: AllCarsComponent},
+              {path: 'new', component: NewCarComponent},
+              {
+                path: ':carId', component: CurrentCarComponent,
+                children: [
+                  {path: '', redirectTo: 'general-parameters', pathMatch: 'full'},
+                  {path: 'general-parameters', component: GeneralParametersComponent},
+                  {path: 'technical-parameters', component: TechnicalParametersComponent},
+                  {path: 'current-condition', component: CurrentConditionComponent}
+                ]
+              },
+            ]
+          },
+          {path: 'ad', component: ProfileAdComponent}
+        ]
+      }]
   }
 ];
 
