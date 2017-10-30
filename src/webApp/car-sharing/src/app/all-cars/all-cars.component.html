@@ -7,7 +7,7 @@
     <div class="card">
       <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image">
       <div class="card-body" align="center">
-        <h4 class="card-title">{{car.generalParameters.brand}} {{car.generalParameters.model}}
+        <h4 class="card-title" *ngIf="car.generalParameters">{{car.generalParameters.brand}} {{car.generalParameters.model}}
           {{car.generalParameters.yearOfIssue}}</h4>
       </div>
         <div class="card-footer" align="center">

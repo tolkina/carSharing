@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {CarParameter} from "../domain/car-parameter";
 import {Brand_} from "../domain/brand_";
+import {Model} from "../domain/model";
 
 @Injectable()
 export class CarParameterService {
@@ -31,7 +32,7 @@ export class CarParameterService {
   getModels() {
     return this.http.get(this.modelUrl)
       .toPromise()
-      .then(res => res.json() as CarParameter)
+      .then(res => res.json() as Model)
       .catch(this.handleError);
   }
 

@@ -4,7 +4,8 @@
 
     <div class="form-group">
       <label for="brand" class="col-form-label">Марка</label>
-      <select class="form-control" id="brand" [(ngModel)]="car.generalParameters.brand">
+      <select class="form-control" id="brand" [(ngModel)]="car.generalParameters.brand"
+              (ngModelChange)="changeModel(car.generalParameters.brand)">
         <option *ngFor="let brand of brands" [ngValue]="brand.name">{{brand.name}}</option>
       </select>
     </div>
