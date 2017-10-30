@@ -23,6 +23,7 @@ import { CurrentAdComponent } from './current-ad/current-ad.component';
 import {ProfileAdService} from "./service/profile-ad.service";
 import { PassportDataComponent } from './passport-data/passport-data.component';
 import { DriverLicenseComponent } from './driver-license/driver-license.component';
+import { NewAdComponent } from './new-ad/new-ad.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { DriverLicenseComponent } from './driver-license/driver-license.componen
     CurrentConditionComponent,
     CurrentAdComponent,
     PassportDataComponent,
-    DriverLicenseComponent
+    DriverLicenseComponent,
+    NewAdComponent
   ],
   imports: [
     BrowserModule,

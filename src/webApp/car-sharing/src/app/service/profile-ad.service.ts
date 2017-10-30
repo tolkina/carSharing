@@ -19,6 +19,13 @@ export class ProfileAdService {
       .catch(this.handleError);
   }
 
+  getAllAds() {
+    return this.http.get(this.adUrl)
+      .toPromise()
+      .then(res => res.json() as Ad[])
+      .catch(this.handleError)
+}
+
 
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);

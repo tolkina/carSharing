@@ -11,6 +11,8 @@ import {CurrentCarComponent} from "../current-car/current-car.component"
 import {GeneralParametersComponent} from "../general-parameters/general-parameters.component";
 import {TechnicalParametersComponent} from "../technical-parameters/technical-parameters.component";
 import {CurrentConditionComponent} from "../current-condition/current-condition.component";
+import {NewAdComponent} from "../new-ad/new-ad.component";
+import {CurrentAdComponent} from "../current-ad/current-ad.component";
 
 const routes: Routes = [
   {
@@ -35,7 +37,16 @@ const routes: Routes = [
           },
         ]
       },
-      {path: 'ad', component: ProfileAdComponent}
+      {path: 'ad', component: ProfileAdComponent,
+      children: [
+        {path: '', redirectTo: 'all', pathMatch: 'full'},
+        {path: 'all', component:ProfileAdComponent},
+        {path: 'new', component: NewAdComponent},
+        {
+          path: ':adId', component: CurrentAdComponent
+        }
+      ]
+      }
     ]
   }
 ];
