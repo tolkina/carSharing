@@ -11,7 +11,6 @@ import {ActivatedRoute} from '@angular/router'
 export class GeneralParametersComponent implements OnInit {
   carId: number;
   generalParameters: any = {};
-  editedGeneralParameters: any = {};
 
   constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute) {
     this.carId = activateRoute.snapshot.parent.params['carId'];
@@ -21,19 +20,21 @@ export class GeneralParametersComponent implements OnInit {
     this.getGeneralParameters(this.carId);
   }
 
-  updateGeneralParameters() {
-    this.carService.updateGeneralParameters(this.editedGeneralParameters, this.carId).then()
-      .then(res => this.generalParameters = res)
-      .catch();
-  }
-
   getGeneralParameters(carId: number) {
     this.carService.getGeneralParameters(carId).then()
       .then(res => this.generalParameters = res)
       .catch();
   }
 
+  /*editedGeneralParameters: any = {};
+
+  updateGeneralParameters() {
+    this.carService.updateGeneralParameters(this.editedGeneralParameters, this.carId).then()
+      .then(res => this.generalParameters = res)
+      .catch();
+  }
+
   editParams() {
     this.editedGeneralParameters = clone(this.generalParameters);
-  }
+  }*/
 }

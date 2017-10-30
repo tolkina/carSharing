@@ -42,56 +42,89 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-6">
-            <label for="gearbox" class="col-form-label">Коробка передач:</label>
-            <input type="text" class="form-control" id="gearbox" value="{{technicalParameters.gearbox}}"
-                   [(ngModel)]="editedTechnicalParameters.gearbox">
-            <label for="bodyType" class="col-form-label">Тип кузова:</label>
-            <input type="text" class="form-control" id="bodyType" value="{{technicalParameters.bodyType}}"
-                   [(ngModel)]="editedTechnicalParameters.bodyType">
+
+            <div class="form-group">
+              <label for="gearbox" class="col-form-label">Коробка передач:</label>
+              <select class="form-control" id="gearbox" [(ngModel)]="editedTechnicalParameters.gearbox">
+                <option *ngFor="let gearbox of gearboxes" [ngValue]="gearbox.name">{{gearbox.name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="bodyType" class="col-form-label">Тип кузова:</label>
+              <select class="form-control" id="bodyType" [(ngModel)]="editedTechnicalParameters.bodyType">
+                <option *ngFor="let bodyType of bodyTypes" [ngValue]="bodyType.name">{{bodyType.name}}</option>
+              </select>
+            </div>
+
             <label for="seatNumber" class="col-form-label">Кол-во мест:</label>
-            <input type="text" class="form-control" id="seatNumber" value="{{technicalParameters.seatNumber}}"
-                   [(ngModel)]="editedTechnicalParameters.seatNumber">
+            <input type="text" class="form-control" id="seatNumber" [(ngModel)]="editedTechnicalParameters.seatNumber">
+
             <label for="doorNumber" class="col-form-label">Кол-во дверей:</label>
-            <input type="text" class="form-control" id="doorNumber" value="{{technicalParameters.doorNumber}}"
-                   [(ngModel)]="editedTechnicalParameters.doorNumber">
-            <label for="fuelType" class="col-form-label">Тип топлива:</label>
-            <input type="text" class="form-control" id="fuelType" value="{{technicalParameters.fuelType}}"
-                   [(ngModel)]="editedTechnicalParameters.fuelType">
+            <input type="text" class="form-control" id="doorNumber" [(ngModel)]="editedTechnicalParameters.doorNumber">
+
+            <div class="form-group">
+              <label for="fuelType" class="col-form-label">Тип топлива:</label>
+              <select class="form-control" id="fuelType" [(ngModel)]="editedTechnicalParameters.fuelType">
+                <option *ngFor="let fuelType of fuelTypes" [ngValue]="fuelType.name">{{fuelType.name}}</option>
+              </select>
+            </div>
+
             <label for="fuelConsumption" class="col-form-label">Расход топлива на 100 км. (смешанный цикл):</label>
             <input type="text" class="form-control" id="fuelConsumption"
-                   value="{{technicalParameters.fuelConsumption}}"
                    [(ngModel)]="editedTechnicalParameters.fuelConsumption">
-            <label for="driveUnit" class="col-form-label">Привод:</label>
-            <input type="text" class="form-control" id="driveUnit" value="{{technicalParameters.driveUnit}}"
-                   [(ngModel)]="editedTechnicalParameters.driveUnit">
+
+            <div class="form-group">
+              <label for="driveUnit" class="col-form-label">Привод:</label>
+              <select class="form-control" id="driveUnit" [(ngModel)]="editedTechnicalParameters.driveUnit">
+                <option *ngFor="let driveUnit of driveUnits" [ngValue]="driveUnit.name">{{driveUnit.name}}</option>
+              </select>
+            </div>
+
           </div>
           <div class="col-6">
-            <label for="tiresSeason" class="col-form-label">Сезон шин:</label>
-            <input type="text" class="form-control" id="tiresSeason" value="{{technicalParameters.tiresSeason}}"
-                   [(ngModel)]="editedTechnicalParameters.tiresSeason">
-            <label for="interiorMaterial" class="col-form-label">Материал салона:</label>
-            <input type="text" class="form-control" id="interiorMaterial"
-                   value="{{technicalParameters.interiorMaterial}}"
-                   [(ngModel)]="editedTechnicalParameters.interiorMaterial">
-            <label for="color" class="col-form-label">Цвет:</label>
-            <input type="text" class="form-control" id="color" value="{{technicalParameters.color}}"
-                   [(ngModel)]="editedTechnicalParameters.color">
+            <div class="form-group">
+              <label for="tiresSeason" class="col-form-label">Сезон шин:</label>
+              <select class="form-control" id="tiresSeason" [(ngModel)]="editedTechnicalParameters.tiresSeason">
+                <option *ngFor="let tiresSeason of tiresSeasons" [ngValue]="tiresSeason.name">{{tiresSeason.name}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="interiorMaterial" class="col-form-label">Материал салона:</label>
+              <select class="form-control" id="interiorMaterial"
+                      [(ngModel)]="editedTechnicalParameters.interiorMaterial">
+                <option *ngFor="let interiorMaterial of interiorMaterial" [ngValue]="interiorMaterial.name">
+                  {{interiorMaterial.name}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="color" class="col-form-label">Цвет:</label>
+              <select class="form-control" id="color" [(ngModel)]="editedTechnicalParameters.color">
+                <option *ngFor="let color of color" [ngValue]="color.name">{{color.name}}</option>
+              </select>
+            </div>
+
             <label for="vin" class="col-form-label">VIN:</label>
-            <input type="text" class="form-control" id="vin" value="{{technicalParameters.vin}}"
-                   [(ngModel)]="editedTechnicalParameters.vin">
+            <input type="text" class="form-control" id="vin" [(ngModel)]="editedTechnicalParameters.vin">
+
             <label for="govNumber" class="col-form-label">Гос. номер:</label>
-            <input type="text" class="form-control" id="govNumber" value="{{technicalParameters.govNumber}}"
-                   [(ngModel)]="editedTechnicalParameters.govNumber">
+            <input type="text" class="form-control" id="govNumber" [(ngModel)]="editedTechnicalParameters.govNumber">
+
             <label for="stsFormNumber" class="col-form-label">Номер бланка СТС:</label>
             <input type="text" class="form-control" id="stsFormNumber"
-                   value="{{technicalParameters.stsFormNumber}}"
                    [(ngModel)]="editedTechnicalParameters.stsFormNumber">
+
             <label for="stsImageLink" class="col-form-label">Фото СТС:</label>
             <input type="text" class="form-control" id="stsImageLink"
-                   value="{{technicalParameters.stsImageLink}}" [(ngModel)]="editedTechnicalParameters.stsImageLink">
+                   [(ngModel)]="editedTechnicalParameters.stsImageLink">
+
             <label for="ptsImageLink" class="col-form-label">Фото ПТС:</label>
             <input type="text" class="form-control" id="ptsImageLink"
-                   value="{{technicalParameters.ptsImageLink}}" [(ngModel)]="editedTechnicalParameters.ptsImageLink">
+                   [(ngModel)]="editedTechnicalParameters.ptsImageLink">
           </div>
         </div>
       </div>
