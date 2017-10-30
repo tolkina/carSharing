@@ -10,7 +10,6 @@ import com.exposit.carsharing.repository.CurrentConditionRepository;
 import com.exposit.carsharing.repository.GeneralParametersRepository;
 import com.exposit.carsharing.repository.TechnicalParametersRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,12 +77,21 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarResponse create(CarRequest carRequest, Long ownerId)
             throws EntityNotFoundException, EntityAlreadyExistException {
-        Car car = modelMapper.map(carRequest, Car.class);
+        Car car = new Car();
         car.setOwner(profileService.get(ownerId));
         carRepository.save(car);
         CurrentCondition currentCondition = new CurrentCondition();
+        if (carRequest.getCurrentCondition() != null) {
+            currentCondition = modelMapper.map(carRequest.getCurrentCondition(), CurrentCondition.class);
+        }
         GeneralParameters generalParameters = new GeneralParameters();
+        if (carRequest.getGeneralParameters() != null) {
+            generalParameters = modelMapper.map(carRequest.getGeneralParameters(), GeneralParameters.class);
+        }
         TechnicalParameters technicalParameters = new TechnicalParameters();
+        if (carRequest.getTechnicalParameters() != null) {
+            technicalParameters = modelMapper.map(carRequest.getTechnicalParameters(), TechnicalParameters.class);
+        }
         currentCondition.setCar(car);
         generalParameters.setCar(car);
         technicalParameters.setCar(car);

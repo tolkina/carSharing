@@ -23,7 +23,8 @@ export class ProfileInfoComponent {
   constructor(private activateRoute: ActivatedRoute, private profileService: ProfileService,
               private passportService: PassportDataService,
               private driverLicenseService: DriverLicenseService) {
-    this.profileId = activateRoute.snapshot.parent.params['id'];
+    // this.profileId = activateRoute.snapshot.parent.params['id'];
+    this.profileId = 1;
   }
 
   ngOnInit() {

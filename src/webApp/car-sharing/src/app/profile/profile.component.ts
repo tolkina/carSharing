@@ -9,15 +9,14 @@ import {Subscription} from 'rxjs/Subscription';
 })
 
 export class ProfileComponent {
-  profileId: number;
+  /*profileId: number;
   private subscription: Subscription;
 
   constructor(private activateRoute: ActivatedRoute) {
     this.subscription = activateRoute.params.subscribe(params => this.profileId = params['id']);
-    console.log(this.profileId);
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
+  }*/
 }
