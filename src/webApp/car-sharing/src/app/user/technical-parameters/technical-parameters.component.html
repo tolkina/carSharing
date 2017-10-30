@@ -104,7 +104,7 @@
             <div class="form-group">
               <label for="color" class="col-form-label">Цвет:</label>
               <select class="form-control" id="color" [(ngModel)]="editedTechnicalParameters.color">
-                <option *ngFor="let color of color" [ngValue]="color.name">{{color.name}}</option>
+                <option *ngFor="let color of colors" [ngValue]="color.name">{{color.name}}</option>
               </select>
             </div>
 
