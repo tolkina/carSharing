@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router'
-import {Subscription} from 'rxjs/Subscription';
+import {Component} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-profile',
@@ -9,14 +9,14 @@ import {Subscription} from 'rxjs/Subscription';
 })
 
 export class ProfileComponent {
-  /*profileId: number;
+  profileId: number;
   private subscription: Subscription;
 
   constructor(private activateRoute: ActivatedRoute) {
-    this.subscription = activateRoute.params.subscribe(params => this.profileId = params['id']);
+    this.subscription = activateRoute.params.subscribe(params => this.profileId = params['profileId']);
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }*/
+  ngOnInit() {
+    this.profileId = 1;
+  }
 }

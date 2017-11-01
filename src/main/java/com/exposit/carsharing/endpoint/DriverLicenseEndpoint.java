@@ -47,7 +47,7 @@ public class DriverLicenseEndpoint {
     @GET
     @Path("{id}")
     public Response retrieveDriverLicense(@PathParam("id") Long id) throws EntityNotFoundException {
-        return Response.status(200).entity(driverLicenseService.get(id)).build();
+        return Response.status(200).entity(driverLicenseService.getDriverLicenseResponse(id)).build();
     }
 
     @DELETE

@@ -1,8 +1,10 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.Ad;
-import com.exposit.carsharing.domain.Car;
 import com.exposit.carsharing.domain.Profile;
+import com.exposit.carsharing.dto.AdRequest;
+import com.exposit.carsharing.dto.AdResponse;
+import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,7 +37,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public Ad get(Long id) throws EntityNotFoundException {
+    public Ad getAd(Long id) throws EntityNotFoundException {
         Ad ad = adRepository.findOne(id);
         if (ad == null) {
             throw new EntityNotFoundException("Ad", id);
@@ -43,31 +46,37 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
+    public AdResponse getAdResponse(Long id) throws EntityNotFoundException {
+        return modelMapper.map(getAd(id), AdResponse.class);
+    }
+
+    @Override
     public List<Ad> getAll() {
         return adRepository.findAll();
     }
 
     @Override
-    public List<Ad> getAllByOwner(Long ownerId) throws EntityNotFoundException {
+    public List<AdResponse> getAllAdByOwner(Long ownerId) throws EntityNotFoundException {
         Profile owner = profileService.get(ownerId);
-        return adRepository.findAllByOwner(owner);
+        List<AdResponse> ads = new ArrayList<>();
+        adRepository.findAllByOwner(owner).forEach(ad -> ads.add(modelMapper.map(ad,AdResponse.class)));
+        return ads;
     }
 
     @Override
-    public void create(Ad ad, Long ownerId, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
-        if (ad.getId() != null && isExist(ad.getId())) {
-            throw new EntityAlreadyExistException("Ad", ad.getId());
-        }
+    public AdResponse createAd(AdRequest adRequest, Long ownerId, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
+        Ad ad = modelMapper.map(adRequest, Ad.class);
         ad.setOwner(profileService.get(ownerId));
-        ad.setCar(modelMapper.map(carService.getCarResponse(carId), Car.class));
+        ad.setCar(carService.getCar(carId));
         adRepository.save(ad);
+        return modelMapper.map(ad, AdResponse.class);
     }
 
     @Override
-    public void delete(Long adId, Long ownerId) throws PrivilegeException, EntityNotFoundException {
-        if (!get(adId).getOwner().getId().equals(ownerId)) {
+    public void delete(Long adId) throws PrivilegeException, EntityNotFoundException {
+        /*if (!getAd(adId).getOwner().getId().equals(ownerId)) {
             throw new PrivilegeException();
-        }
+        }*/
         adRepository.delete(adId);
     }
 }

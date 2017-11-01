@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.DriverLicenseRequest;
 import com.exposit.carsharing.dto.DriverLicenseResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
@@ -42,7 +43,8 @@ public class DriverLicenseServiceImpl implements DriverLicenseService {
 
     @Override
     public DriverLicenseResponse getDriverLicenseResponse(Long id) throws EntityNotFoundException {
-        DriverLicense driverLicense = driverLicenseRepository.findOne(id);
+        Profile profile = profileService.get(id);
+        DriverLicense driverLicense = driverLicenseRepository.findByOwner(profile);
         if (driverLicense == null) {
             throw new EntityNotFoundException("Driver license", id);
         }
@@ -68,7 +70,7 @@ public class DriverLicenseServiceImpl implements DriverLicenseService {
         if (driverLicense.getId() != null && isExist(driverLicense.getId())) {
             throw new EntityAlreadyExistException("Driver license", driverLicense.getId());
         }
-        driverLicense.setOwner(profileService.get(ownerId));
+        driverLicense.setOwner(profileService.getAd(ownerId));
         driverLicenseRepository.save(driverLicense);
     }*/
 

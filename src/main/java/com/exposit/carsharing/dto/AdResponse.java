@@ -14,6 +14,4 @@ public class AdResponse implements Serializable {
     private double costPerHour;
     private double CostPerDay;
     private double CostPer3Days;
-    private ProfileResponse owner;
-    private CarResponse car;
 }

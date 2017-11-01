@@ -3,6 +3,7 @@ package com.exposit.carsharing.dto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -13,9 +14,9 @@ public class PassportDataRequest implements Serializable {
     private String series;
     private Integer number;
     private String personalNumber;
-    private Date dateOfIssue;
+    private LocalDate dateOfIssue;
     private String placeOfIssue;
-    private Date validUntil;
+    private LocalDate validUntil;
     private String registrationPhotoUrl;
     private String photoUrl;
 }

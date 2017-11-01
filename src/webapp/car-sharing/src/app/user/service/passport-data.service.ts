@@ -36,8 +36,8 @@ export class PassportDataService {
       .catch(this.handleError);
   }
 
-  deletePassportData(passportData: PassportData): Promise<void> {
-    const url = `${this.passportUrl}/${passportData.id}`;
+  deletePassportData(passportData: PassportData, ownerId: number): Promise<void> {
+    const url = `${this.passportUrl}/${passportData.id}/${ownerId}`;
     return this.http
       .delete(url)
       .toPromise()

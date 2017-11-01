@@ -52,7 +52,7 @@ public class DealServiceImpl implements DealService {
 
     @Override
     public void create(Deal deal, Long adId, Long ownerId, Long customerId) throws EntityNotFoundException {
-        adService.get(adId);
+        adService.getAd(adId);
         deal.setOwner(profileService.get(ownerId));
         deal.setCustomer(profileService.get(customerId));
         dealRepository.save(deal);

@@ -1,12 +1,14 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.domain.Ad;
+import com.exposit.carsharing.dto.AdRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.service.AdService;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,9 +26,8 @@ public class AdEndpoint {
 
     @POST
     @Path("/{ownerId}/{carId}")
-    public Response createAd(@PathParam("ownerId") Long ownerId, @PathParam("carId") Long carId, Ad ad) throws EntityNotFoundException, EntityAlreadyExistException {
-        adService.create(ad, ownerId, carId);
-        return Response.status(201).entity(ad).build();
+    public Response createAd(@PathParam("ownerId") Long ownerId, @PathParam("carId") Long carId, @Valid AdRequest adRequest) throws EntityNotFoundException, EntityAlreadyExistException {
+        return Response.status(201).entity(adService.createAd(adRequest, ownerId, carId)).build();
     }
 
     @GET
@@ -35,16 +36,22 @@ public class AdEndpoint {
     }
 
     @GET
-    @Path("{id}")
+    @Path("{ownerId}")
+    public Response getAllAdByOwner(@PathParam("ownerId") Long ownerId) throws EntityNotFoundException {
+        return Response.status(200).entity(adService.getAllAdByOwner(ownerId)).build();
+    }
+
+
+    @GET
+    @Path("ad-{id}")
     public Response getAd(@PathParam("id") Long id) throws EntityNotFoundException {
-        Ad ad = adService.get(id);
-        return Response.status(200).entity(ad).build();
+        return Response.status(200).entity(adService.getAdResponse(id)).build();
     }
 
     @DELETE
-    @Path("{ad_id}/{owner_id}")
-    public Response deleteAd(@PathParam("ad_id") Long adId, @PathParam("owner_id") Long ownerId) throws PrivilegeException, EntityNotFoundException {
-        adService.delete(adId, ownerId);
+    @Path("{ad_id}")
+    public Response deleteAd(@PathParam("ad_id") Long adId) throws PrivilegeException, EntityNotFoundException {
+        adService.delete(adId);
         return Response.status(200).build();
     }
 }

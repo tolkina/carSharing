@@ -1,4 +1,5 @@
 import {Profile} from "./profile";
+import {DatePipe} from "@angular/common";
 export class PassportData{
   id: number;
   firstName: String;
