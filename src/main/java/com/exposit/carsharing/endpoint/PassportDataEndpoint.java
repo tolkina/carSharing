@@ -46,7 +46,7 @@ public class PassportDataEndpoint {
     @GET
     @Path("{id}")
     public Response retrievePassportData(@PathParam("id") Long id) throws EntityNotFoundException {
-        return Response.status(200).entity(passportDataService.get(id)).build();
+        return Response.status(200).entity(passportDataService.getPassportResponse(id)).build();
     }
 
     @DELETE

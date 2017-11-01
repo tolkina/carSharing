@@ -24,22 +24,22 @@
 
   <div class="col-5"></div>
 
-  <div class="col-1">
+  <div class="col-1" *ngIf="!profile.id">
     <button type="button" class="btn-sm btn-success" data-toggle="modal" data-target="#createProfile"
             data-placement="bottom" title="Создать профиль">＋
     </button>
   </div>
-  <div class="col-1">
+  <div class="col-1" *ngIf="profile.id">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit()" data-toggle="modal" data-target="#updateProfile"
             data-placement="bottom" title="Редактировать общую информацию">✎
     </button>
   </div>
 
-  <div class="col-1">
+  <!--<div class="col-1" *ngIf="profile.id">
     <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#deleteProfile"
             data-placement="bottom" title="Удалить профиль">␡
     </button>
-  </div>
+  </div>-->
 
 </div>
 
@@ -63,7 +63,17 @@
       <div class="modal-body">
         <div class="form-group">
           <label>Дата рождения:</label>
-          <input type="text" [(ngModel)]="editedProfile.birthday" class="form-control" placeholder="Введите дату рождения">
+          <form class="form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd"
+                       name="dp" [(ngModel)]="editedProfile.birthday" ngbDatepicker #d="ngbDatepicker">
+                <button class="input-group-addon" (click)="d.toggle()" type="button">
+                  <img src="../../assets/images/calendar-icon.svg" style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
         <div class="form-group">
           <label>Стаж вождения:</label>
@@ -120,7 +130,7 @@
 </div>
 
 <!-- Modal Delete Profile -->
-<div class="modal fade" id="deleteProfile" tabindex="-1" role="dialog" aria-hidden="true">
+<!--<div class="modal fade" id="deleteProfile" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -135,6 +145,6 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
 
 

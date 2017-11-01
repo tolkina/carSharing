@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Ad} from "../domain/ad";
+import {ProfileAdService} from "../service/profile-ad.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-ad',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewAdComponent implements OnInit {
 
-  constructor() { }
+  ad: Ad = new Ad();
+
+  constructor(private adService: ProfileAdService, private router:Router) { }
 
   ngOnInit() {
   }
 
+  addAd(){
+    this.adService.addAd(this.ad, 1,1);
+    this.router.navigateByUrl('profile/1/ad/all');
+  }
 }

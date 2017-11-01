@@ -35,23 +35,23 @@ public class AdEndpoint {
         return Response.status(200).entity(adService.getAll()).build();
     }
 
-    /*@GET
+    @GET
     @Path("{ownerId}")
     public Response getAllAdByOwner(@PathParam("ownerId") Long ownerId) throws EntityNotFoundException {
         return Response.status(200).entity(adService.getAllAdByOwner(ownerId)).build();
-    }*/
+    }
 
 
     @GET
-    @Path("{id}")
+    @Path("ad-{id}")
     public Response getAd(@PathParam("id") Long id) throws EntityNotFoundException {
         return Response.status(200).entity(adService.getAdResponse(id)).build();
     }
 
     @DELETE
-    @Path("{ad_id}/{owner_id}")
-    public Response deleteAd(@PathParam("ad_id") Long adId, @PathParam("owner_id") Long ownerId) throws PrivilegeException, EntityNotFoundException {
-        adService.delete(adId, ownerId);
+    @Path("{ad_id}")
+    public Response deleteAd(@PathParam("ad_id") Long adId) throws PrivilegeException, EntityNotFoundException {
+        adService.delete(adId);
         return Response.status(200).build();
     }
 }

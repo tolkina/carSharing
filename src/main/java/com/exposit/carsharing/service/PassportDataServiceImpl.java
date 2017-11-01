@@ -44,7 +44,8 @@ public class PassportDataServiceImpl implements PassportDataService {
 
     @Override
     public PassportDataResponse getPassportResponse(Long id) throws EntityNotFoundException {
-        PassportData passportData = passportDataRepository.findOne(id);
+        Profile profile = profileService.get(id);
+        PassportData passportData = passportDataRepository.findByOwner(profile);
         if (passportData == null) {
             throw new EntityNotFoundException("Passport Data", id);
         }
@@ -101,9 +102,9 @@ public class PassportDataServiceImpl implements PassportDataService {
 
     @Override
     public void delete(Long passportDataId, Long ownerId) throws PrivilegeException, EntityNotFoundException {
-        if (!get(passportDataId).getOwner().getId().equals(ownerId)) {
+        /*if (!get(passportDataId).getOwner().getId().equals(ownerId)) {
             throw new PrivilegeException();
-        }
+        }*/
         passportDataRepository.delete(passportDataId);
     }
 }

@@ -22,5 +22,5 @@ public interface AdService {
 
     AdResponse createAd(AdRequest adRequest, Long ownerId, Long carId) throws EntityNotFoundException, EntityAlreadyExistException;
 
-    void delete(Long adId, Long ownerId) throws PrivilegeException, EntityNotFoundException;
+    void delete(Long adId) throws PrivilegeException, EntityNotFoundException;
 }

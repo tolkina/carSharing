@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -32,13 +33,13 @@ public class PassportData implements Serializable {
     private String personalNumber;
 
     @Column(name = "date_of_issue")
-    private Date dateOfIssue;
+    private LocalDate dateOfIssue;
 
     @Column(name = "place_of_issue")
     private String placeOfIssue;
 
     @Column(name = "valid_until")
-    private Date validUntil;
+    private LocalDate validUntil;
 
     @Column(name = "registration_photo")
     private String registrationPhotoUrl;

@@ -1,3 +1,21 @@
-<p>
-  new-ad works!
-</p>
+<h4 align="center">Создание объявления:</h4>
+<div class="row">
+  <div class="col-6">
+    <label for="gearbox" class="col-form-label">Местоположение машины:</label>
+    <input type="text" class="form-control" id="gearbox" [(ngModel)]="ad.carLocation">
+    <label for="bodyType" class="col-form-label">Место возврата:</label>
+    <input type="text" class="form-control" id="bodyType" [(ngModel)]="ad.returnPlace">
+  </div>
+  <div class="col-6">
+    <label for="tiresSeason" class="col-form-label">Стоимость часа аренды:</label>
+    <input type="text" class="form-control" id="tiresSeason" [(ngModel)]="ad.costPerHour">
+    <label for="interiorMaterial" class="col-form-label">Стоимость аренды на день:</label>
+    <input type="text" class="form-control" id="interiorMaterial" [(ngModel)]="ad.costPerDay">
+    <label for="color" class="col-form-label">Стоимость аренды на 3 дня:</label>
+    <input type="text" class="form-control" id="color" [(ngModel)]="ad.costPer3Days">
+  </div>
+</div>
+<hr>
+<div align="center">
+  <button type="button" class="btn btn-success" (click)="addAd()">Добавить</button>
+</div>

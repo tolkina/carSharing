@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class DriverLicenseResponse implements Serializable {
     private Long id;
     private String seriesAndNumber;
-    private Character category;
+    private String category;
     private String frontSideImageUrl;
     private String backSideImageUrl;
 }

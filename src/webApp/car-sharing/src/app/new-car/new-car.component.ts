@@ -8,6 +8,7 @@ import {Router} from '@angular/router'
   styleUrls: ['./new-car.component.css']
 })
 export class NewCarComponent implements OnInit {
+  profileId: number;
   car: any = {};
   carId: number;
   technicalParametersId: number;
@@ -23,6 +24,7 @@ export class NewCarComponent implements OnInit {
 
   ngOnInit() {
     this.addCar();
+    this.profileId = 1;
   }
 
   addCar() {
@@ -62,7 +64,7 @@ export class NewCarComponent implements OnInit {
     this.updateTechnicalParameters();
     this.updateCurrentCondition();
     if (!this.error) {
-      this.router.navigateByUrl('profile/car/all');
+      this.router.navigateByUrl('profile/this.profileId/car/all');
     }
   }
 }

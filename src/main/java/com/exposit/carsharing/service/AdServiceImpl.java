@@ -73,10 +73,10 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public void delete(Long adId, Long ownerId) throws PrivilegeException, EntityNotFoundException {
-        if (!getAd(adId).getOwner().getId().equals(ownerId)) {
+    public void delete(Long adId) throws PrivilegeException, EntityNotFoundException {
+        /*if (!getAd(adId).getOwner().getId().equals(ownerId)) {
             throw new PrivilegeException();
-        }
+        }*/
         adRepository.delete(adId);
     }
 }

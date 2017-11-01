@@ -19,13 +19,32 @@ export class ProfileAdService {
       .catch(this.handleError);
   }
 
-  getAllAds() {
-    return this.http.get(this.adUrl)
+  getAd(id:number): Promise<Ad> {
+    const url = `${this.adUrl}ad-${id}`;
+    return this.http
+      .get(url)
+      .toPromise()
+      .then(response => response.json() as Ad)
+      .catch(this.handleError)
+  }
+
+  getAllAdsForProfile(profileId:number) {
+    const url = `${this.adUrl}/${profileId}`
+    return this.http
+      .get(url)
       .toPromise()
       .then(res => res.json() as Ad[])
       .catch(this.handleError)
-}
+  }
 
+  deleteAd(id:number) {
+    const url = `${this.adUrl}/${id}`;
+    return this.http
+      .delete(url)
+      .toPromise()
+      .then()
+      .catch(this.handleError)
+  }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);

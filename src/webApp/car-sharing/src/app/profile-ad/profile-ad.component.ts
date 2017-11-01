@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {Ad} from "../domain/ad";
-import {ProfileAdService} from "../service/profile-ad.service";
+import {Component, OnInit} from "@angular/core";
 
 @Component({
   selector: 'app-profile-ad',
@@ -9,18 +7,11 @@ import {ProfileAdService} from "../service/profile-ad.service";
 })
 export class ProfileAdComponent implements OnInit {
 
-  ads : Ad[];
 
-  constructor(private adService: ProfileAdService) { }
-
-  ngOnInit() {
-    this.getAllAds();
+  constructor() {
   }
 
-  getAllAds(){
-    this.adService.getAllAds().then()
-      .then(ads => this.ads = ads)
-      .catch();
+  ngOnInit() {
   }
 
 }

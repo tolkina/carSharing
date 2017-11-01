@@ -20,17 +20,17 @@
   </div>
 
 
-  <div class="col-1">
+  <div class="col-1" *ngIf="!driverLicense.id">
     <button type="button" class="btn-sm btn-success" data-toggle="modal" data-target="#createDriverLicense"
             data-placement="bottom" title="Добавить водительское удостоверение">＋
     </button>
   </div>
-  <div class="col-1">
+  <div class="col-1" *ngIf="driverLicense.id">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit()" data-toggle="modal" data-target="#updateDriverLicense"
             data-placement="bottom" title="Редактировать водительское удостоверение">✎
     </button>
   </div>
-  <div class="col-1">
+  <div class="col-1" *ngIf="driverLicense.id">
     <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#deleteDriverLicense"
             data-placement="bottom" title="Удалить информацию о водительском удостоверении">␡
     </button>

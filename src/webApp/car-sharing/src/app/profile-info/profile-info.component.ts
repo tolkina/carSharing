@@ -4,6 +4,8 @@ import {DriverLicense} from "../domain/driver-license";
 import {ProfileService} from "../service/profile.service";
 import {DriverLicenseService} from "../service/driver-license.service";
 import {clone} from "lodash";
+import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-profile-info',
@@ -12,10 +14,14 @@ import {clone} from "lodash";
 })
 export class ProfileInfoComponent {
 
+  profileId: number;
   profile: Profile = new Profile();
   editedProfile: Profile;
 
-  constructor(private profileService: ProfileService) {
+  private subscription: Subscription;
+
+  constructor(private profileService: ProfileService, private activateRoute: ActivatedRoute) {
+    this.subscription = activateRoute.params.subscribe(params => this.profileId = params['profileId']);
   }
 
 
@@ -33,9 +39,9 @@ export class ProfileInfoComponent {
     this.profileService.createProfile(this.profile);
   }
 
-  deleteProfile(): void {
+  /*deleteProfile(): void {
     this.profileService.deleteProfile(this.profile);
-  }
+  }*/
 
 
   showEdit() {

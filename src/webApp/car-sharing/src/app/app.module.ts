@@ -24,6 +24,9 @@ import {ProfileAdService} from "./service/profile-ad.service";
 import { PassportDataComponent } from './passport-data/passport-data.component';
 import { DriverLicenseComponent } from './driver-license/driver-license.component';
 import { NewAdComponent } from './new-ad/new-ad.component';
+import { AllAdsComponent } from './all-ads/all-ads.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,13 +44,16 @@ import { NewAdComponent } from './new-ad/new-ad.component';
     CurrentAdComponent,
     PassportDataComponent,
     DriverLicenseComponent,
-    NewAdComponent
+    NewAdComponent,
+    AllAdsComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    NgbModule.forRoot()
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService],
   bootstrap: [AppComponent]

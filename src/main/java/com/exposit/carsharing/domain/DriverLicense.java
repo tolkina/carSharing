@@ -17,7 +17,7 @@ public class DriverLicense implements Serializable {
     @Column(name = "series_and_number")
     private String seriesAndNumber;
 
-    private Character category;
+    private String category;
 
     @Column(name = "font_side_image")
     private String frontSideImageUrl;
