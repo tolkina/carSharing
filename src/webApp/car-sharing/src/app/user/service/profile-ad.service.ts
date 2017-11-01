@@ -19,6 +19,15 @@ export class ProfileAdService {
       .catch(this.handleError);
   }
 
+  updateAd(ad:Ad, id:number): Promise<Ad>{
+    const url = `${this.adUrl}${id}`;
+    return this.http
+      .put(url, ad)
+      .toPromise()
+      .then(() => ad)
+      .catch(this.handleError)
+  }
+
   getAd(id:number): Promise<Ad> {
     const url = `${this.adUrl}ad-${id}`;
     return this.http

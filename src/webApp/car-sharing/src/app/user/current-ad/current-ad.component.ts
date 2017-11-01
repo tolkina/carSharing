@@ -3,6 +3,7 @@ import {Subscription} from "rxjs/Subscription";
 import {ProfileAdService} from "../service/profile-ad.service";
 import {Ad} from "../domain/ad";
 import {ActivatedRoute, Router} from "@angular/router";
+import {clone} from "lodash";
 
 @Component({
   selector: 'app-current-ad',
@@ -13,6 +14,7 @@ export class CurrentAdComponent implements OnInit {
 
   adId: number;
   ad: Ad = new Ad();
+  editedAd: Ad;
 
   private subscription: Subscription;
 
@@ -22,6 +24,13 @@ export class CurrentAdComponent implements OnInit {
 
   ngOnInit() {
     this.adService.getAd(this.adId).then(ad => this.ad = ad);
+    this.editedAd = clone(this.ad);
+  }
+
+  updateAd(){
+    this.adService.updateAd(this.editedAd, this.adId)
+      .then(ad => this.ad = this.editedAd)
+      .catch();
   }
 
   deleteAd() {
@@ -29,7 +38,10 @@ export class CurrentAdComponent implements OnInit {
       this.router.navigateByUrl('profile/1/ad/all')
     )
       .catch();
+  }
 
+  showEdit() {
+    this.editedAd = clone(this.ad);
   }
 
 }

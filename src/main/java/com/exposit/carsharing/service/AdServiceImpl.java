@@ -73,6 +73,19 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
+    public AdResponse updateAd(Long adId, AdRequest adRequest) throws EntityNotFoundException {
+        Ad ad = getAd(adId);
+        ad.setCarLocation(adRequest.getCarLocation());
+        ad.setReturnPlace(adRequest.getReturnPlace());
+        ad.setCostPerHour(adRequest.getCostPerHour());
+        ad.setCostPerDay(adRequest.getCostPerDay());
+        ad.setCostPer3Days(adRequest.getCostPer3Days());
+        adRepository.save(ad);
+        return modelMapper.map(ad, AdResponse.class);
+
+    }
+
+    @Override
     public void delete(Long adId) throws PrivilegeException, EntityNotFoundException {
         /*if (!getAd(adId).getOwner().getId().equals(ownerId)) {
             throw new PrivilegeException();

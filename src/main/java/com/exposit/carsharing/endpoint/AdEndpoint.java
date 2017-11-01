@@ -30,6 +30,12 @@ public class AdEndpoint {
         return Response.status(201).entity(adService.createAd(adRequest, ownerId, carId)).build();
     }
 
+    @PUT
+    @Path("{adId}")
+    public Response updateAd(@PathParam("adId") Long adId, @Valid AdRequest adRequest) throws EntityNotFoundException {
+        return Response.status(200).entity(adService.updateAd(adId, adRequest)).build();
+    }
+
     @GET
     public Response getAllAds() {
         return Response.status(200).entity(adService.getAll()).build();

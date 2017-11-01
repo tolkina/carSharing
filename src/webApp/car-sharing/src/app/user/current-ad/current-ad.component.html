@@ -50,17 +50,20 @@
 
 <div class="card footer">
   <div align="center">
-    <button type="button" class="btn btn-danger" style="width: 100%" data-toggle="modal" data-target="#deleteCar">
+    <button type="button" class="btn btn-primary" (click)="showEdit()" style="width:40%" data-toggle="modal" data-target="#updateAd">
+      Редактировать
+    </button>
+    <button type="button" class="btn btn-danger" style="width: 40%" data-toggle="modal" data-target="#deleteAd">
       Удалить
     </button>
   </div>
 </div>
 
-<div class="modal fade" id="deleteCar" tabindex="-1" role="dialog" aria-labelledby="deleteCar" aria-hidden="true">
+<div class="modal fade" id="deleteAd" tabindex="-1" role="dialog" aria-labelledby="deleteAd" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteCarLabel">Подтвердите удаление</h5>
+        <h5 class="modal-title" id="deleteAdLabel">Подтвердите удаление</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -68,6 +71,49 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
         <button type="button" class="btn btn-primary" (click)="deleteAd()" data-dismiss="modal">Удалить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Update Ad -->
+<div class="modal fade" id="updateAd" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Редактировать объявление</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Местоположение машины:</label>
+          <input type="text" [(ngModel)]="editedAd.carLocation" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Место возврата:</label>
+          <input type="text" [(ngModel)]="editedAd.returnPlace" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Стоимость часа аренды:</label>
+          <input type="text" [(ngModel)]="editedAd.costPerHour" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Стоимость аренды на день:</label>
+          <input type="text" [(ngModel)]="editedAd.costPerDay" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Стоимость аренды на 3 дня:</label>
+          <input type="text" [(ngModel)]="editedAd.costPer3Days" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary" (click)="updateAd()" data-dismiss="modal">Сохранить
+          изменения
+        </button>
       </div>
     </div>
   </div>
