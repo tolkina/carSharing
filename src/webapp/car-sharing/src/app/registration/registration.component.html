@@ -1,0 +1,53 @@
+<div align="center">
+  <div class="col-md-6" align="left">
+    <br>
+    <h3 align="center">Registration</h3>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" id="email"
+               required
+               [(ngModel)]="user.email" name="email"
+               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+               #email="ngModel">
+        <div [hidden]="email.valid || email.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!email.hasError('required')">Email is required</div>
+          <div [hidden]="!email.hasError('pattern')">Email format should be
+            <small><b>joe@abc.com</b></small>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password"
+               required
+               [(ngModel)]="user.password" name="password"
+               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+               #password="ngModel">
+        <div [hidden]="password.valid || password.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!password.hasError('required')">Password is required</div>
+          <div [hidden]="!password.hasError('pattern')">Minimum eight characters, at least one letter and one number
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" class="form-control" id="confirmPassword"
+               required
+               validateEqual="password"
+               [(ngModel)]="user.confirmPassword" name="confirmPassword"
+               #confirmPassword="ngModel">
+        <div [hidden]="confirmPassword.valid || confirmPassword.pristine"
+             class="alert alert-danger">
+          Passwords did not match
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success btn-block" [disabled]="!loginForm.form.valid">Submit</button>
+    </form>
+  </div>
+</div>

@@ -79,7 +79,7 @@
     <div class="form-group">
       <label for="interiorMaterial" class="col-form-label">Материал салона:</label>
       <select class="form-control" id="interiorMaterial" [(ngModel)]="car.technicalParameters.interiorMaterial">
-        <option *ngFor="let interiorMaterial of interiorMaterial" [ngValue]="interiorMaterial.name">
+        <option *ngFor="let interiorMaterial of interiorMaterials" [ngValue]="interiorMaterial.name">
           {{interiorMaterial.name}}
         </option>
       </select>

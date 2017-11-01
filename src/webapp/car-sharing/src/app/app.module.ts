@@ -33,6 +33,11 @@ import {FuelTypeComponent} from "./admin/technical-parameters/fuel-type/fuel-typ
 import {InteriorMaterialComponent} from "./admin/technical-parameters/interior-material/interior-material.component";
 import {TiresSeasonComponent} from "./admin/technical-parameters/tires-season/tires-season.component";
 import {BodyTypeComponent} from "./admin/technical-parameters/body-type/body-type.component";
+import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { LogoutComponent } from './logout/logout.component';
+import {EqualValidator} from "./directive/equal-validator";
+import { EqualValidatorDirective } from './equal-validator.directive';
 
 @NgModule({
   declarations: [
@@ -58,7 +63,12 @@ import {BodyTypeComponent} from "./admin/technical-parameters/body-type/body-typ
     FuelTypeComponent,
     InteriorMaterialComponent,
     TiresSeasonComponent,
-    BodyTypeComponent
+    BodyTypeComponent,
+    LoginComponent,
+    RegistrationComponent,
+    LogoutComponent,
+    EqualValidator,
+    EqualValidatorDirective
   ],
   imports: [
     BrowserModule,

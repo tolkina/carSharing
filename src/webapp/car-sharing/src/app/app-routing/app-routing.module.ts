@@ -23,8 +23,14 @@ import {FuelTypeComponent} from "../admin/technical-parameters/fuel-type/fuel-ty
 import {BodyTypeComponent} from "../admin/technical-parameters/body-type/body-type.component";
 import {GearboxComponent} from "../admin/technical-parameters/gearbox/gearbox.component";
 import {ModelComponent} from "../admin/technical-parameters/model/model.component";
+import {LoginComponent} from "../login/login.component";
+import {RegistrationComponent} from "../registration/registration.component";
+import {LogoutComponent} from "../logout/logout.component";
 
 const routes: Routes = [
+  {path: 'login', component: LoginComponent},
+  {path: 'logout', component: LogoutComponent},
+  {path: 'registration', component: RegistrationComponent},
   {
     path: 'admin', component: HomePageAdminComponent,
     children: [
