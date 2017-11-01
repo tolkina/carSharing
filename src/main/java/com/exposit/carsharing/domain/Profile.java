@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -55,4 +56,13 @@ public class Profile implements Serializable {
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Car> cars;
+
+    @ManyToMany
+    @JoinTable(
+            name = "profiles_roles",
+            joinColumns = @JoinColumn(
+                    name = "profile_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 }

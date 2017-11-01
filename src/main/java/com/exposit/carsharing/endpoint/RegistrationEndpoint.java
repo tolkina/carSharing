@@ -1,8 +1,8 @@
 package com.exposit.carsharing.endpoint;
 
-import com.exposit.carsharing.dto.ProfileRequest;
+import com.exposit.carsharing.dto.UserRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
-import com.exposit.carsharing.service.ProfileService;
+import com.exposit.carsharing.service.UserService;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
@@ -16,22 +16,22 @@ import javax.ws.rs.core.Response;
 @Component
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
-@Path("/login")
-public class LoginEndpoint {
-    private final ProfileService profileService;
+@Path("/registration")
+public class RegistrationEndpoint {
+    private final UserService userService;
 
-    public LoginEndpoint(ProfileService profileService) {
-        this.profileService = profileService;
+    public RegistrationEndpoint(UserService userService) {
+        this.userService = userService;
     }
 
     @POST
-    public Response createProfile(@Valid ProfileRequest profileRequest) throws EntityAlreadyExistException {
-        return Response.status(201).entity(profileService.createProfile(profileRequest)).build();
+    public Response createProfile(@Valid UserRequest userRequest) throws EntityAlreadyExistException {
+        return Response.status(201).entity(userService.createUser(userRequest)).build();
     }
 
     @POST
     @Path("/admin")
-    public Response createProfileAdmin(@Valid ProfileRequest profileRequest) throws EntityAlreadyExistException {
-        return Response.status(201).entity(profileService.createProfileAdmin(profileRequest)).build();
+    public Response createProfileAdmin(@Valid UserRequest userRequest) throws EntityAlreadyExistException {
+        return Response.status(201).entity(userService.createAdmin(userRequest)).build();
     }
 }

@@ -20,6 +20,7 @@ public class JerseyConfig extends ResourceConfig {
         register(DealEndpoint.class);
         register(CarEndpoint.class);
         register(AdminEndpoint.class);
+        register(RegistrationEndpoint.class);
         register(MyExceptionMapper.class);
     }
 }

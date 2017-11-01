@@ -2,20 +2,18 @@ package com.exposit.carsharing.dto;
 
 import com.exposit.carsharing.configuration.Constants;
 import lombok.Data;
-import lombok.Getter;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class ProfileRequest implements Serializable {
+public class UserRequest implements Serializable {
     @Pattern(regexp = Constants.EMAIL_REGEX)
+    @NotBlank
     private String email;
     @Pattern(regexp = Constants.PASSWORD_REGEX)
+    @NotBlank
     private String password;
-    private String avatarUrl;
-    private Date birthday;
-    private double drivingExperience;
-    private boolean confirmProfile;
 }

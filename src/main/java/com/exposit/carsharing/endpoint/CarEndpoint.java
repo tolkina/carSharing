@@ -7,7 +7,9 @@ import com.exposit.carsharing.dto.TechnicalParametersRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
+import com.exposit.carsharing.exception.UnauthorizedException;
 import com.exposit.carsharing.service.CarService;
+import com.exposit.carsharing.service.SecurityService;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -20,16 +22,19 @@ import javax.ws.rs.core.Response;
 @Produces({MediaType.APPLICATION_JSON})
 public class CarEndpoint {
     private final CarService carService;
+    private final SecurityService securityService;
 
-    public CarEndpoint(CarService carService) {
+    public CarEndpoint(CarService carService, SecurityService securityService) {
         this.carService = carService;
+        this.securityService = securityService;
     }
 
     // ------------------------------- Car ----------------------------------------------------
 
     @POST
-    public Response createCar(CarRequest car) throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
-        Long ownerId = 1L;
+    public Response createCar(CarRequest car) throws EntityNotFoundException, EntityAlreadyExistException,
+            PrivilegeException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
         return Response.status(201).entity(carService.create(car, ownerId)).build();
     }
 
@@ -46,8 +51,8 @@ public class CarEndpoint {
 
     @DELETE
     @Path("/{car_id}")
-    public Response deleteCar(@PathParam("car_id") Long carId) throws PrivilegeException, EntityNotFoundException {
-        Long ownerId = 1L;
+    public Response deleteCar(@PathParam("car_id") Long carId) throws PrivilegeException, EntityNotFoundException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
         carService.delete(carId, ownerId);
         return Response.status(200).build();
     }
@@ -58,8 +63,8 @@ public class CarEndpoint {
     @Path("/{car_id}/technical-parameters")
     public Response updateTechnicalParameters(@PathParam("car_id") Long carId,
                                               TechnicalParametersRequest technicalParametersRequest)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
-        Long ownerId = 1L;
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.updateTechnicalParameters(technicalParametersRequest, carId, ownerId)).build();
     }
 
@@ -81,9 +86,9 @@ public class CarEndpoint {
     @Path("/{car_id}/general-parameters")
     public Response createGeneralParameters(
             @PathParam("car_id") Long carId, GeneralParametersRequest generalParametersRequest)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
-        Long owner = 1L;
-        return Response.status(200).entity(carService.updateGeneralParameters(generalParametersRequest, carId, owner)).build();
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
+        return Response.status(200).entity(carService.updateGeneralParameters(generalParametersRequest, carId, ownerId)).build();
     }
 
     @GET
@@ -103,8 +108,8 @@ public class CarEndpoint {
     @PUT
     @Path("/{car_id}/current-condition")
     public Response createCurrentCondition(@PathParam("car_id") Long carId, CurrentConditionRequest currentCondition)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
-        Long ownerId = 1L;
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.updateCurrentCondition(currentCondition, carId, ownerId)).build();
     }
 

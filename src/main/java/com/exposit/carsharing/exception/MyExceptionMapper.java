@@ -18,6 +18,9 @@ public class MyExceptionMapper implements ExceptionMapper<Exception> {
         if (exception instanceof PrivilegeException) {
             return Response.status(409).entity(new ExceptionResponse(409, exception.getMessage())).build();
         }
+        if (exception instanceof UnauthorizedException) {
+            return Response.status(401).entity(new ExceptionResponse(401, exception.getMessage())).build();
+        }
         return Response.status(500).entity(new ExceptionResponse(500, exception.getMessage())).build();
     }
 }

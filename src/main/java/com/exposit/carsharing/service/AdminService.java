@@ -13,6 +13,8 @@ import java.util.List;
 
 public interface AdminService {
 
+    void checkAdmin(Long principalId) throws EntityNotFoundException, PrivilegeException;
+
     // ---------------------- Body type --------------------
 
     void checkBodyTypeExist(String name) throws EntityNotFoundException;

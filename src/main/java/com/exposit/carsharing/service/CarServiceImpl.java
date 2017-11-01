@@ -10,6 +10,7 @@ import com.exposit.carsharing.repository.CurrentConditionRepository;
 import com.exposit.carsharing.repository.GeneralParametersRepository;
 import com.exposit.carsharing.repository.TechnicalParametersRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +33,8 @@ public class CarServiceImpl implements CarService {
                           ModelMapper modelMapper,
                           CurrentConditionRepository currentConditionRepository,
                           GeneralParametersRepository generalParametersRepository,
-                          TechnicalParametersRepository technicalParametersRepository, AdminService adminService) {
+                          TechnicalParametersRepository technicalParametersRepository,
+                          AdminService adminService) {
         this.carRepository = carRepository;
         this.profileService = profileService;
         this.modelMapper = modelMapper;

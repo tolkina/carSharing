@@ -1,11 +1,12 @@
 package com.exposit.carsharing.endpoint;
 
-import com.exposit.carsharing.domain.Brand;
 import com.exposit.carsharing.dto.CarParameterRequest;
-import com.exposit.carsharing.dto.CarParameterResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
+import com.exposit.carsharing.exception.UnauthorizedException;
 import com.exposit.carsharing.service.AdminService;
+import com.exposit.carsharing.service.SecurityService;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
@@ -19,35 +20,45 @@ import javax.ws.rs.core.Response;
 @Consumes({MediaType.APPLICATION_JSON})
 public class AdminEndpoint {
     private final AdminService adminService;
+    private final SecurityService securityService;
 
-    public AdminEndpoint(AdminService adminService) {
+    public AdminEndpoint(AdminService adminService, SecurityService securityService) {
         this.adminService = adminService;
+        this.securityService = securityService;
+    }
+
+    private void checkAdmin() throws UnauthorizedException, EntityNotFoundException, PrivilegeException {
+        Long principalId = securityService.getPrincipalId();
+        adminService.checkAdmin(principalId);
     }
 
     // ---------------------- Body type --------------------
 
     @POST
     @Path("/body-type")
-    public Response createBodyType(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public Response createBodyType(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException, PrivilegeException, UnauthorizedException {
+        checkAdmin();
         return Response.status(201).entity(adminService.createBodyType(carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/body-type/{id}")
-    public Response deleteBodyType(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteBodyType(@PathParam("id") Long id) throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        checkAdmin();
         adminService.deleteBodyType(id);
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/body-type/{id}")
-    public Response updateBodyType(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateBodyType(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateBodyType(id, carParameterRequest)).build();
     }
 
     @GET
     @Path("/body-type")
-    public Response getAllBodyTypes() {
+    public Response getAllBodyTypes() throws EntityNotFoundException {
         return Response.status(200).entity(adminService.getAllBodyTypes()).build();
     }
 
@@ -61,20 +72,23 @@ public class AdminEndpoint {
 
     @POST
     @Path("/brand")
-    public Response createBrand(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public Response createBrand(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException, PrivilegeException, UnauthorizedException {
+        checkAdmin();
         return Response.status(200).entity(adminService.createBrand(carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/brand/{id}")
-    public Response deleteBrand(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteBrand(@PathParam("id") Long id) throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        checkAdmin();
         adminService.deleteBrand(id);
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/brand/{id}")
-    public Response updateBrand(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateBrand(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateBrand(id, carParameterRequest)).build();
     }
 
@@ -95,20 +109,23 @@ public class AdminEndpoint {
 
     @POST
     @Path("brand/{brand_id}/model")
-    public Response createModel(@PathParam("brand_id") Long brandId, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response createModel(@PathParam("brand_id") Long brandId, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        checkAdmin();
         return Response.status(200).entity(adminService.createModel(brandId, carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/model/{id}")
-    public Response deleteModel(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteModel(@PathParam("id") Long id) throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        checkAdmin();
         adminService.deleteModel(id);
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/model/{id}")
-    public Response updateModel(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateModel(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateModel(id, carParameterRequest)).build();
     }
 
@@ -134,20 +151,23 @@ public class AdminEndpoint {
 
     @POST
     @Path("/color")
-    public Response createColor(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public Response createColor(@Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.createColor(carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/color/{id}")
-    public Response deleteColor(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteColor(@PathParam("id") Long id) throws UnauthorizedException, PrivilegeException, EntityNotFoundException {
         adminService.deleteColor(id);
+        checkAdmin();
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/color/{id}")
-    public Response updateColor(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateColor(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateColor(id, carParameterRequest)).build();
     }
 
@@ -167,20 +187,23 @@ public class AdminEndpoint {
 
     @POST
     @Path("/drive-unit")
-    public Response createDriveUnit(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public Response createDriveUnit(@Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.createDriveUnit(carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/drive-unit/{id}")
-    public Response deleteDriveUnit(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteDriveUnit(@PathParam("id") Long id) throws UnauthorizedException, PrivilegeException, EntityNotFoundException {
         adminService.deleteDriveUnit(id);
+        checkAdmin();
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/drive-unit/{id}")
-    public Response updateDriveUnit(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateDriveUnit(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateDriveUnit(id, carParameterRequest)).build();
     }
 
@@ -200,20 +223,23 @@ public class AdminEndpoint {
 
     @POST
     @Path("/fuel-type")
-    public Response createFuelType(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public Response createFuelType(@Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.createFuelType(carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/fuel-type/{id}")
-    public Response deleteFuelType(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteFuelType(@PathParam("id") Long id) throws UnauthorizedException, PrivilegeException, EntityNotFoundException {
         adminService.deleteFuelType(id);
+        checkAdmin();
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/fuel-type/{id}")
-    public Response updateFuelType(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateFuelType(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateFuelType(id, carParameterRequest)).build();
     }
 
@@ -233,20 +259,23 @@ public class AdminEndpoint {
 
     @POST
     @Path("/gearbox")
-    public Response createGearbox(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public Response createGearbox(@Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.createGearbox(carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/gearbox/{id}")
-    public Response deleteGearbox(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteGearbox(@PathParam("id") Long id) throws UnauthorizedException, PrivilegeException, EntityNotFoundException {
         adminService.deleteGearbox(id);
+        checkAdmin();
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/gearbox/{id}")
-    public Response updateGearbox(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateGearbox(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateGearbox(id, carParameterRequest)).build();
     }
 
@@ -266,20 +295,23 @@ public class AdminEndpoint {
 
     @POST
     @Path("/interior-material")
-    public Response createInteriorMaterial(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public Response createInteriorMaterial(@Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.createInteriorMaterial(carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/interior-material/{id}")
-    public Response deleteInteriorMaterial(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteInteriorMaterial(@PathParam("id") Long id) throws UnauthorizedException, PrivilegeException, EntityNotFoundException {
         adminService.deleteInteriorMaterial(id);
+        checkAdmin();
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/interior-material/{id}")
-    public Response updateInteriorMaterial(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateInteriorMaterial(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateInteriorMaterial(id, carParameterRequest)).build();
     }
 
@@ -299,20 +331,23 @@ public class AdminEndpoint {
 
     @POST
     @Path("/tires-season")
-    public Response createTiresSeason(@Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException {
+    public Response createTiresSeason(@Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.createTiresSeason(carParameterRequest)).build();
     }
 
     @DELETE
     @Path("/tires-season/{id}")
-    public Response deleteTiresSeason(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response deleteTiresSeason(@PathParam("id") Long id) throws UnauthorizedException, PrivilegeException, EntityNotFoundException {
         adminService.deleteTiresSeason(id);
+        checkAdmin();
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/tires-season/{id}")
-    public Response updateTiresSeason(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
+    public Response updateTiresSeason(@PathParam("id") Long id, @Valid CarParameterRequest carParameterRequest) throws UnauthorizedException, PrivilegeException, EntityAlreadyExistException, EntityNotFoundException {
+        checkAdmin();
         return Response.status(200).entity(adminService.updateTiresSeason(id, carParameterRequest)).build();
     }
 

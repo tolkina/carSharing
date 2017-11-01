@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -30,6 +31,8 @@ public class AdminServiceImpl implements AdminService {
     private final ModelRepository modelRepository;
     private final TiresSeasonRepository tiresSeasonRepository;
     private final ModelMapper modelMapper;
+    private final ProfileService profileService;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public AdminServiceImpl(BodyTypeRepository bodyTypeRepository,
@@ -41,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
                             InteriorMaterialRepository interiorMaterialRepository,
                             ModelRepository modelRepository,
                             TiresSeasonRepository tiresSeasonRepository,
-                            ModelMapper modelMapper) {
+                            ModelMapper modelMapper, ProfileService profileService, RoleRepository roleRepository) {
         this.bodyTypeRepository = bodyTypeRepository;
         this.brandRepository = brandRepository;
         this.colorRepository = colorRepository;
@@ -52,6 +55,16 @@ public class AdminServiceImpl implements AdminService {
         this.modelRepository = modelRepository;
         this.tiresSeasonRepository = tiresSeasonRepository;
         this.modelMapper = modelMapper;
+        this.profileService = profileService;
+        this.roleRepository = roleRepository;
+    }
+
+    @Override
+    public void checkAdmin(Long principalId) throws EntityNotFoundException, PrivilegeException {
+        Collection<Role> roles = profileService.get(principalId).getRoles();
+        if (!roles.contains(roleRepository.findByRole("ROLE_ADMIN"))) {
+            throw new PrivilegeException();
+        }
     }
 
     @Override

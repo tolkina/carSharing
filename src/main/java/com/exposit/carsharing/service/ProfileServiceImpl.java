@@ -3,7 +3,6 @@ package com.exposit.carsharing.service;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.dto.ProfileResponse;
-import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.repository.ProfileRepository;
 import org.modelmapper.ModelMapper;
@@ -65,27 +64,6 @@ public class ProfileServiceImpl implements ProfileService {
         return profiles;
     }
 
-    /*@Override
-    public void create(Profile profile) throws EntityAlreadyExistException {
-        if (profile.getId() != null && isExist(profile.getId())) {
-            throw new EntityAlreadyExistException(String.format("Id %d already used", profile.getId()));
-        }
-        if (profile.getEmail() != null && isEmailUsed(profile.getEmail())) {
-            throw new EntityAlreadyExistException(String.format("Email %s already used", profile.getEmail()));
-        }
-        profileRepository.save(profile);
-    }*/
-
-    @Override
-    public ProfileResponse createProfile(ProfileRequest profileRequest) throws EntityAlreadyExistException {
-        if (profileRequest.getEmail() != null && isEmailUsed(profileRequest.getEmail())) {
-            throw new EntityAlreadyExistException(String.format("Email %s already used", profileRequest.getEmail()));
-        }
-        Profile profile = modelMapper.map(profileRequest, Profile.class);
-        profileRepository.save(profile);
-        return modelMapper.map(profile, ProfileResponse.class);
-    }
-
     @Override
     public ProfileResponse updateProfile(Long id, ProfileRequest profileRequest) throws EntityNotFoundException {
         Profile profile = getProfile(id);
@@ -98,5 +76,14 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void delete(Long profileId) throws EntityNotFoundException {
         profileRepository.delete(get(profileId));
+    }
+
+    @Override
+    public ProfileResponse findByEmail(String email) throws EntityNotFoundException {
+        Profile profile = profileRepository.findByEmail(email);
+        if (profile == null) {
+            throw new EntityNotFoundException("Profile not found.");
+        }
+        return modelMapper.map(profile, ProfileResponse.class);
     }
 }

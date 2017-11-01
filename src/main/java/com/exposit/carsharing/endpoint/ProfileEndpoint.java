@@ -1,11 +1,13 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.ProfileRequest;
-import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.ProfileService;
+import com.exposit.carsharing.service.SecurityService;
+import com.exposit.carsharing.service.SecurityServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
@@ -20,15 +22,12 @@ import javax.ws.rs.core.Response;
 public class ProfileEndpoint {
     private final ProfileService profileService;
     private final CarService carService;
+    private final SecurityService securityService;
 
-    public ProfileEndpoint(ProfileService profileService, CarService carService) {
+    public ProfileEndpoint(ProfileService profileService, CarService carService, SecurityService securityService) {
         this.profileService = profileService;
         this.carService = carService;
-    }
-
-    @POST
-    public Response createProfile(@Valid ProfileRequest profileRequest) throws EntityAlreadyExistException {
-        return Response.status(201).entity(profileService.createProfile(profileRequest)).build();
+        this.securityService = securityService;
     }
 
     @PUT
