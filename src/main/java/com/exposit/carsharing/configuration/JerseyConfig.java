@@ -11,7 +11,6 @@ import javax.ws.rs.ApplicationPath;
 @Configuration
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
-        // -------------------- Endpoints -------------
         register(CreditCardEndpoint.class);
         register(DriverLicenseEndpoint.class);
         register(PassportDataEndpoint.class);
@@ -21,6 +20,7 @@ public class JerseyConfig extends ResourceConfig {
         register(CarEndpoint.class);
         register(AdminEndpoint.class);
         register(RegistrationEndpoint.class);
+        register(ApplicationEndpoint.class);
         register(MyExceptionMapper.class);
     }
 }

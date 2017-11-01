@@ -4,6 +4,7 @@ package com.exposit.carsharing.service;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.domain.Role;
 import com.exposit.carsharing.repository.ProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,23 +18,20 @@ import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final ProfileRepository profileRepository;
-
-    public UserDetailsServiceImpl(ProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
-    }
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Profile profile = profileRepository.findByEmail(email);
+        Profile user = profileRepository.findByEmail(email);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : profile.getRoles()) {
+        for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
         }
         return new org.springframework.security.core.userdetails.User(
-                profile.getEmail(),
-                profile.getPassword(),
+                user.getEmail(),
+                user.getPassword(),
                 grantedAuthorities);
     }
 }

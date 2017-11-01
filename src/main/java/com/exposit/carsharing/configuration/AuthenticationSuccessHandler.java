@@ -17,7 +17,6 @@ import java.io.IOException;
  * authentication 200 without redirect logic.
  */
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
     private RequestCache requestCache = new HttpSessionRequestCache();
 
     @Override
