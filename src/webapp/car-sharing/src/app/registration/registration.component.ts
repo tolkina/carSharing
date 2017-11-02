@@ -18,7 +18,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit() {
-    this.profileService.createProfile(this.user).then(res => this.router.navigateByUrl(''))
+    this.profileService.createProfile(this.user).then(res => this.router.navigateByUrl('login'))
       .catch(err => this.errorMessage = err)
   }
 }

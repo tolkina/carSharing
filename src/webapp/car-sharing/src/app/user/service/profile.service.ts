@@ -21,7 +21,7 @@ export class ProfileService {
 
   createProfile(profile:Profile): Promise<Profile> {
     return this.http
-      .post(this.profileUrl, profile)
+      .post("api/registration", profile)
       .toPromise()
       .then(() => profile)
       .catch(this.handleError);

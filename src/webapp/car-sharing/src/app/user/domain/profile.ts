@@ -4,5 +4,5 @@ export class Profile {
   birthday: Date;
   drivingExperience: number;
   password: String;
-
+  roles: [{ role: String }];
 }
