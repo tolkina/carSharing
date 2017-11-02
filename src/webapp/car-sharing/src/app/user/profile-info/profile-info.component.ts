@@ -24,23 +24,14 @@ export class ProfileInfoComponent {
 
 
   ngOnInit() {
-    this.profileService.getProfiles(1).then(profiles => this.profile = profiles);
+    this.profileService.getProfiles(this.profileId).then(profiles => this.profile = profiles);
     this.editedProfile = clone(this.profile);
   }
 
 
   updateProfile(): void {
-    this.profileService.updateProfiles(this.profile, 1).then(profile => this.profile = this.editedProfile).catch();
+    this.profileService.updateProfiles(this.profile, this.profileId).then(profile => this.profile = this.editedProfile).catch();
   }
-
-  createProfile(): void {
-    this.profileService.createProfile(this.profile);
-  }
-
-  /*deleteProfile(): void {
-   this.profileService.deleteProfile(this.profile);
-   }*/
-
 
   showEdit() {
     this.editedProfile = clone(this.profile);

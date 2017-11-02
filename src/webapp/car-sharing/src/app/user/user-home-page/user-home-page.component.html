@@ -13,13 +13,13 @@
           <a class="nav-link" routerLink="">Главная <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/profile',1,'info']" *ngIf="authenticated">Мой профиль</a>
+          <a class="nav-link" [routerLink]="['/profile',securityModel.principal.id,'info']" *ngIf="securityModel.authenticated">Мой профиль</a>
         </li>
       </ul>
       <div align="right">
-        <button class="btn btn-outline-link" type="submit" *ngIf="!authenticated"  routerLink="/login">Вход</button>
-        <button class="btn btn-outline-link" type="submit" *ngIf="!authenticated"  routerLink="/registration">Регистрация</button>
-        <button class="btn btn-outline-link" type="submit" *ngIf="authenticated"  routerLink="/logout">Выход</button>
+        <button class="btn btn-outline-link" type="submit" *ngIf="!securityModel.authenticated"  routerLink="/login">Вход</button>
+        <button class="btn btn-outline-link" type="submit" *ngIf="!securityModel.authenticated"  routerLink="/registration">Регистрация</button>
+        <button class="btn btn-outline-link" type="submit" *ngIf="securityModel.authenticated"  routerLink="/logout">Выход</button>
       </div>
     </div>
   </nav>

@@ -7,8 +7,6 @@ import {SecurityModel} from "../../security/security-model";
   styleUrls: ['./user-home-page.component.css']
 })
 export class UserHomePageComponent implements OnInit {
-  authenticated = this.securityModel.authenticated;
-  principal = this.securityModel.principal;
 
   constructor(private securityModel: SecurityModel) {
   }

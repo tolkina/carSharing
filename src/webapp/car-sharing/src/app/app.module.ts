@@ -47,6 +47,7 @@ import {ReactiveFormsModule } from '@angular/forms';
 import {ProfileAdService} from "./user/service/profile-ad.service";
 import {SecurityService} from "./security/security.service";
 import {SecurityModel} from "./security/security-model";
+import {AuthGuard} from "./security/auth-guard.service";
 
 
 @NgModule({
@@ -95,7 +96,7 @@ import {SecurityModel} from "./security/security-model";
 
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
-    CarParameterService, TechnicalParameterService, SecurityService, SecurityModel],
+    CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
