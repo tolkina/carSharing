@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
 import {GeneralParameters} from "../domain/generalParameters";
 import {Car} from "../domain/car";
+import {SecurityModel} from "../../security/security-model";
 
 @Component({
   selector: 'app-all-cars',
@@ -13,11 +14,11 @@ export class AllCarsComponent implements OnInit {
   profileId: number;
   generalParameters: GeneralParameters;
 
-  constructor(private carService: ProfileCarService) {
+  constructor(private carService: ProfileCarService, private securityModel: SecurityModel) {
   }
 
   ngOnInit() {
-    this.profileId = 1;
+    this.profileId = this.securityModel.principal.id;
     this.getCarsByOwner(this.profileId);
   }
 
