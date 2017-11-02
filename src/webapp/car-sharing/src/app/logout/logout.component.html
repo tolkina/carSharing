@@ -2,12 +2,18 @@
   <div class="col-md-6" align="left">
     <br>
     <h3 align="center">Выход</h3>
-    <form (ngSubmit)="logout()">
+    <div>
       <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
         {{errorMessage}}
       </div>
-      <button class="btn btn-success btn-block" (click)="onCancel()">Отмена</button>
-      <button type="submit" class="btn btn-success btn-block">Выйти</button>
-    </form>
+      <div class="row">
+        <div class="col-6">
+          <button class="btn btn-primary btn-block" (click)="onCancel()">Отмена</button>
+        </div>
+        <div class="col-6">
+          <button type="submit" class="btn btn-success btn-block" (click)="logout()">Выйти</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

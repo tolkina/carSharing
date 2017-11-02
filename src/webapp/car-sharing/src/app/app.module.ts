@@ -45,8 +45,8 @@ import {DriverLicenseComponent} from "./user/driver-license/driver-license.compo
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ReactiveFormsModule } from '@angular/forms';
 import {ProfileAdService} from "./user/service/profile-ad.service";
-import {SecurityService} from "./service/security.service";
-import {SecurityModel} from "./security-model";
+import {SecurityService} from "./security/security.service";
+import {SecurityModel} from "./security/security-model";
 
 
 @NgModule({

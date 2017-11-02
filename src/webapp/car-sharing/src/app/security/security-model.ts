@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Profile} from "./user/domain/profile";
-import {SecurityService} from "./service/security.service";
+import {Profile} from "../user/domain/profile";
+import {SecurityService} from "./security.service";
 
 @Injectable()
 
@@ -36,5 +36,14 @@ export class SecurityModel {
 
   set authenticated(value: boolean) {
     this._authenticated = value;
+  }
+
+  authenticate() {
+    return this.securityService.authenticate().then(res => {
+      this.authenticated = true;
+      this.principal = res;
+    }).catch(err => {
+      this.errorMessage = err;
+    })
   }
 }

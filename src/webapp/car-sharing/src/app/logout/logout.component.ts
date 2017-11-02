@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SecurityModel} from "../security-model";
-import {SecurityService} from "../service/security.service";
+import {SecurityModel} from "../security/security-model";
+import {SecurityService} from "../security/security.service";
 import {Router} from '@angular/router'
 
 @Component({
