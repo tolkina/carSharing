@@ -3,6 +3,7 @@ package com.exposit.carsharing.endpoint;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -13,7 +14,7 @@ import javax.ws.rs.core.Response;
 @Produces({MediaType.APPLICATION_JSON})
 @Path("/")
 public class ApplicationEndpoint {
-    @Path("")
+    @GET
     public Response home() {
         return Response.status(200).build();
     }

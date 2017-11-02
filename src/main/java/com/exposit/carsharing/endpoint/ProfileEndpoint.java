@@ -3,11 +3,10 @@ package com.exposit.carsharing.endpoint;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
+import com.exposit.carsharing.exception.UnauthorizedException;
 import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.ProfileService;
 import com.exposit.carsharing.service.SecurityService;
-import com.exposit.carsharing.service.SecurityServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
@@ -58,5 +57,11 @@ public class ProfileEndpoint {
     @Path("/{owner_id}/car")
     public Response getAllCarsByOwner(@PathParam("owner_id") Long ownerId) throws EntityNotFoundException {
         return Response.status(200).entity(carService.getAllByOwner(ownerId)).build();
+    }
+
+    @GET
+    @Path("/principal")
+    public Response getPrincipal() throws UnauthorizedException {
+        return Response.status(200).entity(securityService.getPrincipalProfile()).build();
     }
 }
