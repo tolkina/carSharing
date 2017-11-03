@@ -1,19 +1,20 @@
 package com.exposit.carsharing.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
-@Data
-public class DealResponse implements Serializable {
-    private Long id;
+@Getter
+@Setter
+public class DealResponse extends AbstractResponse {
     private Date bookingStartTime;
     private Date rentalStartTime;
     private Date estimatedRentalEndTime;
     private Date rentalEndTime;
-    private double deposit;
-    private double price;
+    private BigDecimal deposit;
+    private BigDecimal price;
     private ProfileResponse owner;
     private ProfileResponse customer;
 }

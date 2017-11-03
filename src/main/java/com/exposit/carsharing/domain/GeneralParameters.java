@@ -5,19 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-@Entity
-@Table(name = "general_parameters")
-@NoArgsConstructor
 @Getter
 @Setter
-public class GeneralParameters implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@NoArgsConstructor
+@Entity
+@Table(name = "general_parameters")
+public class GeneralParameters extends AbstractEntity {
     private String brand;
 
     private String model;

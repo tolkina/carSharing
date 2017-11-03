@@ -1,20 +1,18 @@
 package com.exposit.carsharing.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
-@Data
-public class ProfileResponse implements Serializable {
-    private Long id;
+@Getter
+@Setter
+public class ProfileResponse extends AbstractResponse {
     private String avatarUrl;
     private String email;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
-    private double drivingExperience;
+    private Double drivingExperience;
     private boolean confirmProfile;
 }

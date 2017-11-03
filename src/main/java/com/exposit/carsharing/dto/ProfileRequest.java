@@ -10,5 +10,5 @@ import java.util.Date;
 @Setter
 public class ProfileRequest implements Serializable {
     private Date birthday;
-    private double drivingExperience;
+    private Double drivingExperience;
 }

@@ -5,28 +5,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-@Entity
-@Table(name = "technical_parameters")
-@NoArgsConstructor
 @Getter
 @Setter
-public class TechnicalParameters implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "parameter", length = 15)
+@NoArgsConstructor
+@Entity
+@Table(name = "technical_parameters")
+public class TechnicalParameters extends AbstractEntity {
     private String gearbox;
 
     @Column(name = "body_type")
     private String bodyType;
 
-    @Column(name = "seat_number", length = 2)
+    @Column(name = "seat_number")
     private Integer seatNumber;
 
-    @Column(name = "door_number", length = 1)
+    @Column(name = "door_number")
     private Integer doorNumber;
 
     @Column(name = "fuel_type")

@@ -5,25 +5,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
-@Entity
-@Table(name = "profile")
-@NoArgsConstructor
 @Getter
 @Setter
-public class Profile implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(length = 100)
+@NoArgsConstructor
+@Entity
+@Table(name = "profile")
+public class Profile extends AbstractEntity {
     private String email;
 
-    @Column(length = 60)
     private String password;
 
     @Column(name = "avatar")
@@ -32,7 +25,7 @@ public class Profile implements Serializable {
     private Date birthday;
 
     @Column(name = "driving_experience")
-    private double drivingExperience;
+    private Double drivingExperience;
 
     private boolean confirmProfile;
 

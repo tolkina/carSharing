@@ -1,13 +1,13 @@
 package com.exposit.carsharing.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.Collection;
 
-@Data
-public class UserResponse implements Serializable {
-    private Long id;
+@Getter
+@Setter
+public class UserResponse extends AbstractResponse {
     private String email;
     private Collection<RoleResponse> roles;
 }

@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.Collection;
 
 @NoArgsConstructor
@@ -12,11 +15,7 @@ import java.util.Collection;
 @Setter
 @Entity
 @Table(name = "role")
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Role extends AbstractEntity {
     @Column(nullable = false, length = 45)
     private String role;
 

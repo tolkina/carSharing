@@ -12,6 +12,7 @@ import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.SecurityService;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -62,7 +63,7 @@ public class CarEndpoint {
     @PUT
     @Path("/{car_id}/technical-parameters")
     public Response updateTechnicalParameters(@PathParam("car_id") Long carId,
-                                              TechnicalParametersRequest technicalParametersRequest)
+                                              @Valid TechnicalParametersRequest technicalParametersRequest)
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.updateTechnicalParameters(technicalParametersRequest, carId, ownerId)).build();
@@ -85,7 +86,7 @@ public class CarEndpoint {
     @PUT
     @Path("/{car_id}/general-parameters")
     public Response createGeneralParameters(
-            @PathParam("car_id") Long carId, GeneralParametersRequest generalParametersRequest)
+            @PathParam("car_id") Long carId, @Valid GeneralParametersRequest generalParametersRequest)
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.updateGeneralParameters(generalParametersRequest, carId, ownerId)).build();

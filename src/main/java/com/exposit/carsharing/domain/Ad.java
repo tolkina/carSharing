@@ -1,19 +1,18 @@
 package com.exposit.carsharing.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.math.BigDecimal;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "ad")
-@Data
-public class Ad implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Ad extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private AdStatus status;
 
@@ -24,15 +23,14 @@ public class Ad implements Serializable {
     private String returnPlace;
 
     @Column(name = "cost_per_hour")
-    private double costPerHour;
+    private BigDecimal costPerHour;
 
     @Column(name = "cost_per_day")
-    private double CostPerDay;
+    private BigDecimal CostPerDay;
 
     @Column(name = "cost_per_3_days")
-    private double CostPer3Days;
+    private BigDecimal CostPer3Days;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;

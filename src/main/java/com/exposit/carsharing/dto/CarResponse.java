@@ -1,12 +1,11 @@
 package com.exposit.carsharing.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
-
-@Data
-public class CarResponse implements Serializable {
-    private Long id;
+@Getter
+@Setter
+public class CarResponse extends AbstractResponse {
     private GeneralParametersResponse generalParameters;
     private TechnicalParametersResponse technicalParameters;
     private CurrentConditionResponse currentCondition;

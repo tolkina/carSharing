@@ -7,6 +7,6 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public abstract class AbstractResponse implements Serializable {
+abstract class AbstractResponse implements Serializable {
     private Long id;
 }

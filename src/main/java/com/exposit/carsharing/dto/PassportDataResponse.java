@@ -1,15 +1,14 @@
 package com.exposit.carsharing.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
-@Data
-public class PassportDataResponse implements Serializable {
-    private Long id;
+@Getter
+@Setter
+public class PassportDataResponse extends AbstractResponse {
     private String firstName;
     private String lastName;
     private String middleName;

@@ -1,13 +1,11 @@
 package com.exposit.carsharing.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
-
-@Data
-public class CurrentConditionResponse implements Serializable {
-    private Long id;
-    private boolean damage;
+@Getter
+@Setter
+public class CurrentConditionResponse extends AbstractResponse {
     private String damageDescription;
-    private double mileage;
+    private Double mileage;
 }
