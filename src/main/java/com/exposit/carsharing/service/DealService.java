@@ -1,20 +1,20 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.dto.DealRequest;
+import com.exposit.carsharing.dto.DealResponse;
 import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.domain.Deal;
+import com.exposit.carsharing.exception.PrivilegeException;
 
 import java.util.List;
 
 public interface DealService {
-    boolean isExist(Long id);
+    DealResponse get(Long dealId, Long principalId) throws EntityNotFoundException, PrivilegeException;
 
-    Deal get(Long id) throws EntityNotFoundException;
+    List<DealResponse> getAll();
 
-    List<Deal> getAll();
+    List<DealResponse> getAllByCustomer(Long customerId) throws EntityNotFoundException;
 
-    List<Deal> getAllByCustomer(Long customerId) throws EntityNotFoundException;
+    List<DealResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException;
 
-    List<Deal> getAllByOwner(Long ownerId) throws EntityNotFoundException;
-
-    void create(Deal deal, Long adId, Long ownerId, Long customerId) throws EntityNotFoundException;
+    DealResponse create(DealRequest dealRequest, Long adId, Long ownerId, Long customerId) throws EntityNotFoundException;
 }

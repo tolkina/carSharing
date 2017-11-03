@@ -1,10 +1,14 @@
 package com.exposit.carsharing.endpoint;
 
+import com.exposit.carsharing.dto.DealRequest;
 import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.domain.Deal;
+import com.exposit.carsharing.exception.PrivilegeException;
+import com.exposit.carsharing.exception.UnauthorizedException;
 import com.exposit.carsharing.service.DealService;
+import com.exposit.carsharing.service.SecurityService;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -15,17 +19,20 @@ import javax.ws.rs.core.Response;
 @Path("/deal")
 public class DealEndpoint {
     private final DealService dealService;
+    private final SecurityService securityService;
 
-    public DealEndpoint(DealService dealService) {
+    public DealEndpoint(DealService dealService, SecurityService securityService) {
         this.dealService = dealService;
+        this.securityService = securityService;
     }
 
     @POST
-    @Path("/{ad_id}/{owner_id}/{customer_id}")
+    @Path("/{ad_id}/{owner_id}")
     public Response createDeal(@PathParam("ad_id") Long adId, @PathParam("owner_id") Long ownerId,
-                               @PathParam("customer_id") Long customerId, Deal deal) throws EntityNotFoundException {
-        dealService.create(deal, adId, ownerId, customerId);
-        return Response.status(201).entity(deal).build();
+                               @Valid DealRequest dealRequest) throws EntityNotFoundException, UnauthorizedException {
+        Long customerId = securityService.getPrincipalId();
+        dealService.create(dealRequest, adId, ownerId, customerId);
+        return Response.status(201).entity(dealRequest).build();
     }
 
     @GET
@@ -34,21 +41,24 @@ public class DealEndpoint {
     }
 
     @GET
-    @Path("/my/{id}")
-    public Response getAllMyDeals(@PathParam("id") Long customerId) throws EntityNotFoundException {
+    @Path("/my")
+    public Response getAllMyDeals() throws EntityNotFoundException, UnauthorizedException {
+        Long customerId = securityService.getPrincipalId();
         return Response.status(200).entity(dealService.getAllByCustomer(customerId)).build();
     }
 
     @GET
-    @Path("/by-me/{id}")
-    public Response getAllDealsWithMe(@PathParam("id") Long ownerId) throws EntityNotFoundException {
+    @Path("/by-me")
+    public Response getAllDealsWithMe() throws EntityNotFoundException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(dealService.getAllByOwner(ownerId)).build();
     }
 
     @GET
     @Path("{id}")
-    public Response getDeal(@PathParam("id") Long id) throws EntityNotFoundException {
-        Deal deal = dealService.get(id);
-        return Response.status(200).entity(deal).build();
+    public Response getDeal(@PathParam("id") Long dealId)
+            throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        Long principalId = securityService.getPrincipalId();
+        return Response.status(200).entity(dealService.get(dealId, principalId)).build();
     }
 }
