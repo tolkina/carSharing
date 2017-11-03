@@ -31,12 +31,10 @@ public class Deal implements Serializable {
 
     private double price;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Profile customer;

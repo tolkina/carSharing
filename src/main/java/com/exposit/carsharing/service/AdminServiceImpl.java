@@ -61,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void checkAdmin(Long principalId) throws EntityNotFoundException, PrivilegeException {
-        Collection<Role> roles = profileService.get(principalId).getRoles();
+        Collection<Role> roles = profileService.getProfile(principalId).getRoles();
         if (!roles.contains(roleRepository.findByRole("ROLE_ADMIN"))) {
             throw new PrivilegeException();
         }

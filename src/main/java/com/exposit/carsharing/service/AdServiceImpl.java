@@ -4,7 +4,6 @@ import com.exposit.carsharing.domain.Ad;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.AdRequest;
 import com.exposit.carsharing.dto.AdResponse;
-import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -57,7 +56,7 @@ public class AdServiceImpl implements AdService {
 
     @Override
     public List<AdResponse> getAllAdByOwner(Long ownerId) throws EntityNotFoundException {
-        Profile owner = profileService.get(ownerId);
+        Profile owner = profileService.getProfile(ownerId);
         List<AdResponse> ads = new ArrayList<>();
         adRepository.findAllByOwner(owner).forEach(ad -> ads.add(modelMapper.map(ad,AdResponse.class)));
         return ads;
@@ -66,7 +65,7 @@ public class AdServiceImpl implements AdService {
     @Override
     public AdResponse createAd(AdRequest adRequest, Long ownerId, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
         Ad ad = modelMapper.map(adRequest, Ad.class);
-        ad.setOwner(profileService.get(ownerId));
+        ad.setOwner(profileService.getProfile(ownerId));
         ad.setCar(carService.getCar(carId));
         adRepository.save(ad);
         return modelMapper.map(ad, AdResponse.class);

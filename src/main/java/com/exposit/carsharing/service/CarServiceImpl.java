@@ -10,7 +10,6 @@ import com.exposit.carsharing.repository.CurrentConditionRepository;
 import com.exposit.carsharing.repository.GeneralParametersRepository;
 import com.exposit.carsharing.repository.TechnicalParametersRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,7 +73,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException {
-        Profile owner = profileService.get(ownerId);
+        Profile owner = profileService.getProfile(ownerId);
         List<CarResponse> cars = new ArrayList<>();
         carRepository.findAllByOwner(owner).forEach(car -> cars.add(mapToResponse(car)));
         return cars;
@@ -84,7 +83,7 @@ public class CarServiceImpl implements CarService {
     public CarResponse create(CarRequest carRequest, Long ownerId)
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         Car car = new Car();
-        car.setOwner(profileService.get(ownerId));
+        car.setOwner(profileService.getProfile(ownerId));
         carRepository.save(car);
         CurrentCondition currentCondition = new CurrentCondition();
         if (carRequest.getCurrentCondition() != null) {

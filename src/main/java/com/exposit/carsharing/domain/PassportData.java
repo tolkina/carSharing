@@ -47,7 +47,6 @@ public class PassportData implements Serializable {
     @Column(name = "photo")
     private String photoUrl;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;

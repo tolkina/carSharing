@@ -1,6 +1,6 @@
 package com.exposit.carsharing.service;
 
-import com.exposit.carsharing.dto.ProfileResponse;
+import com.exposit.carsharing.dto.UserResponse;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.UnauthorizedException;
 
@@ -11,7 +11,7 @@ public interface SecurityService {
 
     String getPrincipalUsername() throws UnauthorizedException;
 
-    ProfileResponse getPrincipalProfile() throws UnauthorizedException;
+    UserResponse getPrincipal() throws UnauthorizedException;
 
     Long getPrincipalId() throws UnauthorizedException, EntityNotFoundException;
 }

@@ -42,19 +42,19 @@ public class DealServiceImpl implements DealService {
 
     @Override
     public List<Deal> getAllByCustomer(Long customerId) throws EntityNotFoundException {
-        return dealRepository.findAllByCustomer(profileService.get(customerId));
+        return dealRepository.findAllByCustomer(profileService.getProfile(customerId));
     }
 
     @Override
     public List<Deal> getAllByOwner(Long ownerId) throws EntityNotFoundException {
-        return dealRepository.findAllByOwner(profileService.get(ownerId));
+        return dealRepository.findAllByOwner(profileService.getProfile(ownerId));
     }
 
     @Override
     public void create(Deal deal, Long adId, Long ownerId, Long customerId) throws EntityNotFoundException {
         adService.getAd(adId);
-        deal.setOwner(profileService.get(ownerId));
-        deal.setCustomer(profileService.get(customerId));
+        deal.setOwner(profileService.getProfile(ownerId));
+        deal.setCustomer(profileService.getProfile(customerId));
         dealRepository.save(deal);
     }
 }

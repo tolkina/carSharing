@@ -1,6 +1,6 @@
 package com.exposit.carsharing.service;
 
-import com.exposit.carsharing.dto.ProfileResponse;
+import com.exposit.carsharing.dto.UserResponse;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.UnauthorizedException;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public ProfileResponse getPrincipalProfile() throws UnauthorizedException {
+    public UserResponse getPrincipal() throws UnauthorizedException {
         try {
             return profileService.findByEmail(getPrincipalUsername());
         } catch (EntityNotFoundException e) {
@@ -67,12 +67,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Long getPrincipalId() {
-        try {
-            String loggedInUsername = findLoggedInUsername();
-            return profileService.findByEmail(loggedInUsername).getId();
-        } catch (EntityNotFoundException e) {
-            return null;
-        }
+    public Long getPrincipalId() throws UnauthorizedException {
+        return getPrincipal().getId();
     }
 }

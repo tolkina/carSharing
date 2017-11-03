@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class TechnicalParameters implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

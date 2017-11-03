@@ -13,12 +13,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class CurrentCondition implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private boolean damage;
 
     @Column(name = "damage_description")
     private String damageDescription;

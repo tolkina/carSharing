@@ -25,7 +25,6 @@ public class DriverLicense implements Serializable {
     @Column(name = "back_side_image")
     private String backSideImageUrl;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;

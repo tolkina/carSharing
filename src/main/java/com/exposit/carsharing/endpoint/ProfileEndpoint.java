@@ -2,7 +2,6 @@ package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.exception.UnauthorizedException;
 import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.ProfileService;
@@ -29,15 +28,15 @@ public class ProfileEndpoint {
         this.securityService = securityService;
     }
 
-    @PUT
-    @Path("{id}")
-    public Response updateProfile(@PathParam("id") Long id, @Valid ProfileRequest profileRequest) throws EntityNotFoundException {
-        return Response.status(200).entity(profileService.updateProfile(id, profileRequest)).build();
-    }
-
     @GET
     public Response getAllProfiles() {
         return Response.status(200).entity(profileService.getAll()).build();
+    }
+
+    @GET
+    @Path("/principal")
+    public Response getPrincipal() throws UnauthorizedException {
+        return Response.status(200).entity(securityService.getPrincipal()).build();
     }
 
     @GET
@@ -46,22 +45,23 @@ public class ProfileEndpoint {
         return Response.status(200).entity(profileService.getProfileResponse(id)).build();
     }
 
+    @PUT
+    public Response updateProfile(@Valid ProfileRequest profileRequest) throws EntityNotFoundException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
+        return Response.status(200).entity(profileService.updateProfile(ownerId, profileRequest)).build();
+    }
+
     @DELETE
-    @Path("{profile_id}")
-    public Response deleteAd(@PathParam("profile_id") Long profileId) throws PrivilegeException, EntityNotFoundException {
-        profileService.delete(profileId);
+    public Response deleteProfile() throws EntityNotFoundException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
+        profileService.delete(ownerId);
         return Response.status(200).build();
     }
 
     @GET
-    @Path("/{owner_id}/car")
-    public Response getAllCarsByOwner(@PathParam("owner_id") Long ownerId) throws EntityNotFoundException {
+    @Path("/car")
+    public Response getAllCarsByOwner() throws EntityNotFoundException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.getAllByOwner(ownerId)).build();
-    }
-
-    @GET
-    @Path("/principal")
-    public Response getPrincipal() throws UnauthorizedException {
-        return Response.status(200).entity(securityService.getPrincipalProfile()).build();
     }
 }

@@ -1,18 +1,18 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.domain.DriverLicense;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.DriverLicenseRequest;
 import com.exposit.carsharing.dto.DriverLicenseResponse;
-import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.domain.DriverLicense;
 import com.exposit.carsharing.repository.DriverLicenseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @Transactional
@@ -21,79 +21,51 @@ public class DriverLicenseServiceImpl implements DriverLicenseService {
     private final ProfileService profileService;
     private final ModelMapper modelMapper;
 
-    public DriverLicenseServiceImpl(DriverLicenseRepository driverLicenseRepository, ProfileService profileService, ModelMapper modelMapper) {
+    public DriverLicenseServiceImpl(DriverLicenseRepository driverLicenseRepository,
+                                    ProfileService profileService,
+                                    ModelMapper modelMapper) {
         this.driverLicenseRepository = driverLicenseRepository;
         this.profileService = profileService;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public boolean isExist(Long driverLicenseId) {
-        return driverLicenseRepository.findOne(driverLicenseId) != null;
+    public DriverLicenseResponse getDriverLicenseResponse(Long ownerId) throws EntityNotFoundException {
+        return mapToResponse(getDriverLicense(ownerId));
     }
 
     @Override
-    public DriverLicense get(Long id) throws EntityNotFoundException {
-        DriverLicense driverLicense = driverLicenseRepository.findOne(id);
-        if (driverLicense == null) {
-            throw new EntityNotFoundException("Driver license", id);
-        }
-        return driverLicense;
+    public Collection<DriverLicenseResponse> getAll() {
+        List<DriverLicenseResponse> driverLicenses = new ArrayList<>();
+        driverLicenseRepository.findAll().forEach(driverLicense -> driverLicenses.add(mapToResponse(driverLicense)));
+        return driverLicenses;
     }
 
     @Override
-    public DriverLicenseResponse getDriverLicenseResponse(Long id) throws EntityNotFoundException {
-        Profile profile = profileService.get(id);
+    public DriverLicenseResponse updateDriverLicense(Long ownerId, DriverLicenseRequest driverLicenseRequest)
+            throws EntityNotFoundException {
+        DriverLicense driverLicenseOld = getDriverLicense(ownerId);
+        DriverLicense driverLicenseNew = mapFromRequest(driverLicenseRequest);
+        driverLicenseNew.setId(driverLicenseOld.getId());
+        driverLicenseNew.setOwner(driverLicenseOld.getOwner());
+        driverLicenseRepository.save(driverLicenseNew);
+        return mapToResponse(driverLicenseNew);
+    }
+
+    private DriverLicense getDriverLicense(Long ownerId) throws EntityNotFoundException {
+        Profile profile = profileService.getProfile(ownerId);
         DriverLicense driverLicense = driverLicenseRepository.findByOwner(profile);
         if (driverLicense == null) {
-            throw new EntityNotFoundException("Driver license", id);
-        }
-        return modelMapper.map(driverLicense, DriverLicenseResponse.class);
-    }
-
-    @Override
-    public DriverLicense getDriverLicense(Long id) throws EntityNotFoundException {
-        DriverLicense driverLicense = driverLicenseRepository.findOne(id);
-        if (driverLicense == null) {
-            throw new EntityNotFoundException("Driver license", id);
+            throw new EntityNotFoundException(String.format("Profile with id %d don't have driver license", ownerId));
         }
         return driverLicense;
     }
 
-    @Override
-    public Collection<DriverLicense> getAll() {
-        return driverLicenseRepository.findAll();
-    }
-
-    /*@Override
-    public void create(DriverLicense driverLicense, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException {
-        if (driverLicense.getId() != null && isExist(driverLicense.getId())) {
-            throw new EntityAlreadyExistException("Driver license", driverLicense.getId());
-        }
-        driverLicense.setOwner(profileService.getAd(ownerId));
-        driverLicenseRepository.save(driverLicense);
-    }*/
-
-    @Override
-    public DriverLicenseResponse createDriverLicense(Long ownerId, DriverLicenseRequest driverLicenseRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        DriverLicense driverLicense = modelMapper.map(driverLicenseRequest, DriverLicense.class);
-        driverLicense.setOwner(profileService.get(ownerId));
-        driverLicenseRepository.save(driverLicense);
+    private DriverLicenseResponse mapToResponse(DriverLicense driverLicense) {
         return modelMapper.map(driverLicense, DriverLicenseResponse.class);
     }
 
-    @Override
-    public DriverLicenseResponse updateDriverLicense (Long id, DriverLicenseResponse driverLicenseResponse) throws EntityNotFoundException {
-
-        DriverLicense driverLicense = getDriverLicense(id);
-        driverLicense.setOwner(profileService.get(id));
-        driverLicense.setSeriesAndNumber(driverLicenseResponse.getSeriesAndNumber());
-        driverLicense.setCategory(driverLicenseResponse.getCategory());
-        return modelMapper.map(driverLicense, DriverLicenseResponse.class);
-    }
-
-    @Override
-    public void delete(Long id) throws PrivilegeException, EntityNotFoundException {
-        driverLicenseRepository.delete(id);
+    private DriverLicense mapFromRequest(DriverLicenseRequest driverLicenseRequest) {
+        return modelMapper.map(driverLicenseRequest, DriverLicense.class);
     }
 }

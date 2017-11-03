@@ -44,7 +44,7 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public List<CreditCard> getAllByOwner(Long ownerId) throws EntityNotFoundException {
-        Profile owner = profileService.get(ownerId);
+        Profile owner = profileService.getProfile(ownerId);
         return creditCardRepository.findAllByOwner(owner);
     }
 
@@ -53,7 +53,7 @@ public class CreditCardServiceImpl implements CreditCardService {
         if (creditCard.getId() != null && isExist(creditCard.getId())) {
             throw new EntityAlreadyExistException("Credit card", creditCard.getId());
         }
-        creditCard.setOwner(profileService.get(ownerId));
+        creditCard.setOwner(profileService.getProfile(ownerId));
         creditCardRepository.save(creditCard);
     }
 

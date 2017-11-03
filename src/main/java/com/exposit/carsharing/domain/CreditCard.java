@@ -26,7 +26,6 @@ public class CreditCard implements Serializable {
     @Column(name = "valid_until")
     private Date validUntil;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;

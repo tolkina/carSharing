@@ -17,7 +17,4 @@ public class ProfileResponse implements Serializable {
     private Date birthday;
     private double drivingExperience;
     private boolean confirmProfile;
-    private DriverLicenseResponse driverLicense;
-    private PassportDataResponse passportData;
-    private Collection<RoleResponse> roles;
 }

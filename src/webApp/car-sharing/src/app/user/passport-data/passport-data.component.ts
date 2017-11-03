@@ -5,6 +5,7 @@ import {clone} from "lodash";
 import {Subscription} from "rxjs/Subscription";
 import {ActivatedRoute} from "@angular/router";
 import {NgbDatepickerConfig} from "@ng-bootstrap/ng-bootstrap";
+import {SecurityModel} from "../../security/security-model";
 
 @Component({
   selector: 'app-passport-data',
@@ -19,7 +20,8 @@ export class PassportDataComponent implements OnInit {
 
   private subscription: Subscription;
 
-  constructor(private passportService: PassportDataService, private activateRoute: ActivatedRoute, config: NgbDatepickerConfig) {
+  constructor(private passportService: PassportDataService, private activateRoute: ActivatedRoute,
+              config: NgbDatepickerConfig, private securityModel: SecurityModel) {
     this.subscription = activateRoute.params.subscribe(params => this.profileId = params['profileId'])
 
     // customize default values of datepickers used by this component tree
