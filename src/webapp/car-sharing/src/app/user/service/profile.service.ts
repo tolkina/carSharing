@@ -6,42 +6,39 @@ import {Http} from "@angular/http";
 @Injectable()
 export class ProfileService {
 
-  private profileUrl = '/api/profile';
+  private profileUrl = '/api/profile/';
 
   constructor(private http: Http) {
   }
 
-  getProfiles(id: number): Promise<Profile> {
-    const url = `${this.profileUrl}/${id}`;
-    return this.http.get(url)
+  getProfile(): Promise<Profile> {
+    return this.http.get(this.profileUrl)
       .toPromise()
       .then(response => response.json() as Profile)
       .catch(this.handleError);
   }
 
-  createProfile(profile:Profile): Promise<Profile> {
+  createProfile(profile: Profile): Promise<Profile> {
     return this.http
       .post("api/registration", profile)
       .toPromise()
-      .then(() => profile)
+      .then(response => response.json() as Profile)
       .catch(this.handleError);
   }
 
-  updateProfiles(profile:Profile, id:number): Promise<Profile> {
-    const url = `${this.profileUrl}/${id}`;
+  updateProfile(profile: Profile): Promise<Profile> {
     return this.http
-      .put(url, profile)
+      .put(this.profileUrl, profile)
       .toPromise()
-      .then(() => profile)
+      .then(response => response.json() as Profile)
       .catch(this.handleError);
   }
 
-  deleteProfile(profile: Profile): Promise<void> {
-    const url = `${this.profileUrl}/${profile.id}`;
+  deleteProfile(): Promise<void> {
     return this.http
-      .delete(url)
+      .delete(this.profileUrl)
       .toPromise()
-      .then(()=>null)
+      .then()
       .catch(this.handleError)
   }
 

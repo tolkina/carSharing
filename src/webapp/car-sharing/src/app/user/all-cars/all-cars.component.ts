@@ -19,11 +19,11 @@ export class AllCarsComponent implements OnInit {
 
   ngOnInit() {
     this.profileId = this.securityModel.principal.id;
-    this.getCarsByOwner(this.profileId);
+    this.getCarsOfPrincipal();
   }
 
-  getCarsByOwner(ownerId: number) {
-    this.carService.getCarsByOwner(ownerId).then()
+  getCarsOfPrincipal() {
+    this.carService.getCarsOfPrincipal().then()
       .then(cars => this.cars = cars)
       .catch();
   }

@@ -2,8 +2,8 @@ import {Component} from "@angular/core";
 import {Profile} from "../domain/profile";
 import {ProfileService} from "../service/profile.service";
 import {clone} from "lodash";
-import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-profile-info',
@@ -14,27 +14,39 @@ export class ProfileInfoComponent {
 
   profileId: number;
   profile: Profile = new Profile();
-  editedProfile: Profile;
+  editedProfile: Profile = new Profile();
 
   private subscription: Subscription;
 
   constructor(private profileService: ProfileService, private activateRoute: ActivatedRoute) {
-    this.subscription = activateRoute.params.subscribe(params => this.profileId = params['profileId']);
   }
-
 
   ngOnInit() {
-    this.profileService.getProfiles(this.profileId).then(profiles => this.profile = profiles);
-    this.editedProfile = clone(this.profile);
+    this.getProfile();
   }
 
+  getProfile() {
+    this.profileService.getProfile()
+      .then(profile => this.profile = profile)
+      .catch();
+  }
 
-  updateProfile(): void {
-    this.profileService.updateProfiles(this.profile, this.profileId).then(profile => this.profile = this.editedProfile).catch();
+  updateProfile() {
+    this.profileService.updateProfile(this.editedProfile)
+      .then(profile => {
+        this.profile = profile;
+        this.editedProfile = new Profile();
+      })
+      .catch();
+  }
+
+  deleteProfile() {
+    this.profileService.deleteProfile()
+      .then()
+      .catch();
   }
 
   showEdit() {
     this.editedProfile = clone(this.profile);
   }
-
 }

@@ -3,6 +3,6 @@ export class Profile {
   email: String;
   birthday: Date;
   drivingExperience: number;
-  password: String;
-  roles: [{ role: String }];
+  avatarUrl: String;
+  confirmProfile: boolean;
 }

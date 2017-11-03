@@ -24,61 +24,55 @@
 
   <div class="col-5"></div>
 
-  <div class="col-1" *ngIf="!profile.id">
-    <button type="button" class="btn-sm btn-success" data-toggle="modal" data-target="#createProfile"
-            data-placement="bottom" title="Создать профиль">＋
-    </button>
-  </div>
   <div class="col-1" *ngIf="profile.id">
-    <button type="button" class="btn-sm btn-primary" (click)="showEdit()" data-toggle="modal" data-target="#updateProfile"
+    <button type="button" class="btn-sm btn-primary" (click)="showEdit()" data-toggle="modal"
+            data-target="#updateProfile"
             data-placement="bottom" title="Редактировать общую информацию">✎
     </button>
   </div>
-
   <!--<div class="col-1" *ngIf="profile.id">
     <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#deleteProfile"
             data-placement="bottom" title="Удалить профиль">␡
     </button>
   </div>-->
-
 </div>
 
-<!--Passport data-->
 <app-passport-data></app-passport-data>
-
-<!--Driver license-->
 <app-driver-license></app-driver-license>
-
 
 <!-- Modal Update Profile -->
 <div class="modal fade" id="updateProfile" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Водительское удостоверение</h5>
+        <h5 class="modal-title">Общая информация</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label>Дата рождения:</label>
-          <form class="form-inline">
-            <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd"
-                       name="dp" [(ngModel)]="editedProfile.birthday" ngbDatepicker #d="ngbDatepicker">
-                <button class="input-group-addon" (click)="d.toggle()" type="button">
-                  <img src="../../assets/images/calendar-icon.svg" style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
-                </button>
+          <label>Дата рождения:
+            <form class="form-inline">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd"
+                         name="dp" [(ngModel)]="editedProfile.birthday" ngbDatepicker #d="ngbDatepicker">
+                  <button class="input-group-addon" (click)="d.toggle()" type="button">
+                    <img src="../../assets/images/calendar-icon.svg"
+                         style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </label>
         </div>
         <div class="form-group">
-          <label>Стаж вождения:</label>
-          <input name="drivingExperience" [(ngModel)]="editedProfile.drivingExperience" type="text" class="form-control"
-                 placeholder="Введите стаж вождения">
+          <label>Стаж вождения:
+            <input name="drivingExperience" [(ngModel)]="editedProfile.drivingExperience" type="text"
+                   class="form-control"
+                   placeholder="Введите стаж вождения">
+          </label>
         </div>
       </div>
       <div class="modal-footer">
@@ -86,44 +80,6 @@
         <button type="button" (click)="updateProfile()" class="btn btn-primary" data-dismiss="modal">Сохранить
           изменения
         </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Modal Create Profile -->
-<div class="modal fade" id="createProfile" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Водительское удостоверение</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>E-mail:</label>
-          <input type="email" [(ngModel)]="profile.email" class="form-control" placeholder="Введите почтовый адрес">
-        </div>
-        <div class="form-group">
-          <label>Пароль:</label>
-          <input type="password" [(ngModel)]="profile.password" class="form-control" placeholder="Введите пароль">
-        </div>
-        <div class="form-group">
-          <label>Дата рождения:</label>
-          <input type="text" [(ngModel)]="profile.birthday" class="form-control" placeholder="Введите дату рождения">
-        </div>
-        <div class="form-group">
-          <label>Стаж вождения:</label>
-          <input name="drivingExperience" [(ngModel)]="profile.drivingExperience" type="text" class="form-control"
-                 placeholder="введите стаж вождения">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-        <button type="button" class="btn btn-primary" (click)="createProfile()" data-dismiss="modal">Добавить</button>
       </div>
     </div>
   </div>
@@ -146,5 +102,3 @@
     </div>
   </div>
 </div>-->
-
-

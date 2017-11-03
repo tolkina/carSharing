@@ -1,6 +1,4 @@
-import {Profile} from "./profile";
-import {DatePipe} from "@angular/common";
-export class PassportData{
+export class PassportData {
   id: number;
   firstName: String;
   lastName: String;
@@ -11,6 +9,6 @@ export class PassportData{
   placeOfIssue: String;
   dateOfIssue: Date;
   validUntil: Date;
-  owner: Profile;
-
+  registrationPhotoUrl: String;
+  photoUrl: String;
 }

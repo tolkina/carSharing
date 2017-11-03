@@ -38,8 +38,8 @@ export class ProfileCarService {
       .catch(this.handleError);
   }
 
-  getCarsByOwner(ownerId: number) {
-    return this.http.get(this.profileUrl + ownerId + "/car")
+  getCarsOfPrincipal() {
+    return this.http.get(this.profileUrl + "/car")
       .toPromise()
       .then(res => res.json() as Car[])
       .catch(this.handleError);

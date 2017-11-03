@@ -12,6 +12,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.securityModel.authenticate().then().catch()
+    this.securityModel.authenticate().then().catch();
   }
 }
