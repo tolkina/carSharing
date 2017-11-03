@@ -4,20 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 public class CreditCardRequest implements Serializable {
-    @Size(max = 20)
+    @Max(20)
     @NotBlank
     private String firstName;
-    @Size(max = 20)
+    @Max(20)
     @NotBlank
     private String lastName;
-    @Size(max = 20)
+    @Max(20)
+    @NotNull
     private Integer number;
+    @NotBlank
     private Date validUntil;
 }

@@ -10,9 +10,16 @@ import javax.ws.rs.ext.Provider;
 public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
     @Override
     public Response toResponse(ConstraintViolationException e) {
-        ConstraintViolation cv = (ConstraintViolation) e.getConstraintViolations().toArray()[0];
         return Response.status(Response.Status.BAD_REQUEST)
-                .entity(new ExceptionResponse(400, cv.getMessage()))
+                .entity(new ExceptionResponse(400, prepareMessage(e)))
                 .build();
+    }
+
+    private String prepareMessage(ConstraintViolationException exception) {
+        StringBuilder msg = new StringBuilder();
+        for (ConstraintViolation<?> cv : exception.getConstraintViolations()) {
+            msg.append(cv.getPropertyPath()).append(" ").append(cv.getMessage()).append("\n");
+        }
+        return msg.toString();
     }
 }
