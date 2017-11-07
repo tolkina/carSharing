@@ -1,6 +1,7 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.ProfileRequest;
+import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.service.CarService;
@@ -28,6 +29,11 @@ public class ProfileEndpoint {
         this.profileService = profileService;
         this.carService = carService;
         this.securityService = securityService;
+    }
+
+    @POST
+    public Response createProfile(@Valid ProfileRequest profileRequest) throws EntityAlreadyExistException {
+        return Response.status(201).entity(profileService.createProfile(profileRequest)).build();
     }
 
     @PUT

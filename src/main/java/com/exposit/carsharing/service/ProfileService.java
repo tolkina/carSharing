@@ -3,6 +3,7 @@ package com.exposit.carsharing.service;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.dto.ProfileResponse;
+import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public interface ProfileService {
 
     ProfileResponse getProfileResponse(Long id) throws EntityNotFoundException;
 
+    ProfileResponse createProfile(ProfileRequest profileRequest) throws EntityAlreadyExistException;
     ProfileResponse updateProfile(Long id, ProfileRequest profileRequest) throws EntityNotFoundException;
 
     List<ProfileResponse> getAll();

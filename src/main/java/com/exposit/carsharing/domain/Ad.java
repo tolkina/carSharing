@@ -32,11 +32,12 @@ public class Ad implements Serializable {
     @Column(name = "cost_per_3_days")
     private double CostPer3Days;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
 
-    @OneToOne(mappedBy = "ad")
+//    @OneToOne(mappedBy = "ad",fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
     private Car car;
 }

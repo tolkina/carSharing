@@ -3,6 +3,7 @@ package com.exposit.carsharing.service;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.dto.ProfileResponse;
+import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.repository.ProfileRepository;
 import org.modelmapper.ModelMapper;
@@ -62,6 +63,16 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.findAll().forEach(
                 profile -> profiles.add(modelMapper.map(profile, ProfileResponse.class)));
         return profiles;
+    }
+
+    @Override
+    public ProfileResponse createProfile(ProfileRequest profileRequest) throws EntityAlreadyExistException {
+        if (profileRequest.getEmail() != null && isEmailUsed(profileRequest.getEmail())) {
+            throw new EntityAlreadyExistException(String.format("Email %s already used", profileRequest.getEmail()));
+        }
+        Profile profile = modelMapper.map(profileRequest, Profile.class);
+        profileRepository.save(profile);
+        return modelMapper.map(profile, ProfileResponse.class);
     }
 
     @Override

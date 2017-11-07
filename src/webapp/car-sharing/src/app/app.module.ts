@@ -92,7 +92,7 @@ import {ProfileAdService} from "./user/service/profile-ad.service";
     NgbModule.forRoot()
 
   ],
-  providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
+  providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService, ProfileCarService,
     CarParameterService, TechnicalParameterService],
   bootstrap: [AppComponent]
 })

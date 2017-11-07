@@ -1,5 +1,6 @@
 package com.exposit.carsharing.dto;
 
+import com.exposit.carsharing.domain.Ad;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,4 +12,5 @@ public class CarResponse implements Serializable {
     private TechnicalParametersResponse technicalParameters;
     private CurrentConditionResponse currentCondition;
     private ProfileResponse owner;
+    private AdResponse ad;
 }

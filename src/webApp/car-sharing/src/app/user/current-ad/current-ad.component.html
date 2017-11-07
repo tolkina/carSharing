@@ -19,6 +19,12 @@
       </div>
       <div class="col-6" style="text-align: left">{{ad.returnPlace}}</div>
     </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Машина:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{car.generalParameters.brand}} {{car.generalParameters.model}}</div>
+    </div>
   </div>
 
   <div class="col-5">
@@ -90,28 +96,57 @@
       <div class="modal-body">
         <div class="form-group">
           <label>Местоположение машины:</label>
-          <input type="text" [(ngModel)]="editedAd.carLocation" class="form-control">
+          <input type="text" [(ngModel)]="editedAd.carLocation" class="form-control" name="carLocation" #carLocation="ngModel" required>
+          <div [hidden]="carLocation.valid || carLocation.untouched" class="alert alert-danger">
+            Не указано местоположение машины
+          </div>
         </div>
         <div class="form-group">
           <label>Место возврата:</label>
-          <input type="text" [(ngModel)]="editedAd.returnPlace" class="form-control">
+          <input type="text" [(ngModel)]="editedAd.returnPlace" class="form-control" name="returnPlace" #returnPlace="ngModel" required>
+          <div [hidden]="returnPlace.valid || returnPlace.untouched" class="alert alert-danger">
+            Не указано место возврата машины
+          </div>
         </div>
+
+        <!--<label class="col-form-label">Машина:</label>
+        <div class="form-group">
+          <select class="form-control" #selectCar [ngModel]="selectedCar"  (ngModelChange)="onChangeCar(selectCar.value)">
+            <ng-container *ngFor="let car of cars">
+              <option  *ngIf="car.ad === null" [value]="car.id">{{car.generalParameters.brand}} {{car.generalParameters.model}}</option>
+            </ng-container>
+          </select>
+        </div>-->
+
         <div class="form-group">
           <label>Стоимость часа аренды:</label>
-          <input type="text" [(ngModel)]="editedAd.costPerHour" class="form-control">
+          <input type="text" [(ngModel)]="editedAd.costPerHour" class="form-control" name="costPerHour" #costPerHour="ngModel" required
+                 pattern="[0-9]">
+          <div [hidden]="costPerHour.valid || costPerHour.untouched" class="alert alert-danger">
+            Некорректная стоимость за час аренды
+          </div>
         </div>
         <div class="form-group">
           <label>Стоимость аренды на день:</label>
-          <input type="text" [(ngModel)]="editedAd.costPerDay" class="form-control">
+          <input type="text" [(ngModel)]="editedAd.costPerDay" class="form-control" name="costPerDay" #costPerDay="ngModel" required
+                 pattern="[0-9]">
+          <div [hidden]="costPerDay.valid || costPerDay.untouched" class="alert alert-danger">
+            Некорректная стоимость за день аренды
+          </div>
         </div>
         <div class="form-group">
           <label>Стоимость аренды на 3 дня:</label>
-          <input type="text" [(ngModel)]="editedAd.costPer3Days" class="form-control">
+          <input type="text" [(ngModel)]="editedAd.costPer3Days" class="form-control" name="costPer3Days" #costPer3Days="ngModel" required
+                 pattern="[0-9]">
+          <div [hidden]="costPer3Days.valid || costPer3Days.untouched" class="alert alert-danger">
+            Некорректная стоимость за три дня аренды
+          </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-        <button type="button" class="btn btn-primary" (click)="updateAd()" data-dismiss="modal">Сохранить
+        <button [disabled]="carLocation.invalid || returnPlace.invalid
+        || costPerHour.invalid || costPerDay.invalid || costPer3Days.invalid" class="btn btn-primary" (click)="updateAd()" data-dismiss="modal">Сохранить
           изменения
         </button>
       </div>

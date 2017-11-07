@@ -33,12 +33,12 @@ export class ProfileAdService {
     return this.http
       .get(url)
       .toPromise()
-      .then(response => response.json() as Ad)
+      .then(response => {return response.json() as Ad})
       .catch(this.handleError)
   }
 
   getAllAdsForProfile(profileId:number) {
-    const url = `${this.adUrl}/${profileId}`
+    const url = `${this.adUrl}/${profileId}`;
     return this.http
       .get(url)
       .toPromise()

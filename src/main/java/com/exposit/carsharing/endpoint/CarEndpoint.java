@@ -34,7 +34,7 @@ public class CarEndpoint {
     @POST
     public Response createCar(CarRequest car) throws EntityNotFoundException, EntityAlreadyExistException,
             PrivilegeException, UnauthorizedException {
-        Long ownerId = securityService.getPrincipalId();
+        Long ownerId = 1L;
         return Response.status(201).entity(carService.create(car, ownerId)).build();
     }
 
@@ -47,6 +47,12 @@ public class CarEndpoint {
     @Path("/{car_id}")
     public Response getCar(@PathParam("car_id") Long carId) throws EntityNotFoundException {
         return Response.status(200).entity(carService.getCarResponse(carId)).build();
+    }
+
+    @GET
+    @Path("ad-{ad_id}")
+    public Response getCarByAd(@PathParam("ad_id") long adId){
+        return Response.status(200).entity(carService.getByAd(adId)).build();
     }
 
     @DELETE
