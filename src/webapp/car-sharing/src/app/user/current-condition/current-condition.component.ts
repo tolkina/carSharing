@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
 import {clone} from "lodash";
-import {ActivatedRoute} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 
 @Component({
   selector: 'app-current-condition',
@@ -13,8 +13,12 @@ export class CurrentConditionComponent implements OnInit {
   currentCondition: any = {};
   editedCurrentCondition: any = {};
 
-  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute) {
-    this.carId = activateRoute.snapshot.parent.params['carId'];
+  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
+              private router: Router) {
+    this.carId = +activateRoute.snapshot.parent.params['carId'];
+    if (isNaN(this.carId)) {
+      this.router.navigateByUrl("profile/car")
+    }
   }
 
   ngOnInit() {
@@ -30,7 +34,7 @@ export class CurrentConditionComponent implements OnInit {
   getCurrentCondition(carId: number) {
     this.carService.getCurrentCondition(carId).then()
       .then(res => this.currentCondition = res)
-      .catch();
+      .catch(res => this.router.navigateByUrl("profile/car"));
   }
 
   editParams() {

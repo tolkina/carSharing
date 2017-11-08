@@ -25,7 +25,10 @@ export class SecurityService {
   logout() {
     return this.http.post('logout', {})
       .toPromise()
-      .then()
+      .then(res => {
+        window.localStorage.removeItem("id");
+        window.localStorage.removeItem("admin")
+      })
       .catch(this.handleError)
   }
 

@@ -41,6 +41,13 @@ export class SecurityModel {
   authenticate() {
     return this.securityService.authenticate().then(res => {
       this.authenticated = true;
+      window.localStorage.setItem("id", res.id);
+      for (let i = 0; i < res.roles.length; i++) {
+        if (res.roles[i].role == "ROLE_ADMIN") {
+          window.localStorage.setItem("admin", "yes");
+          break;
+        }
+      }
       this.principal = res;
     }).catch(err => {
       this.errorMessage = err;

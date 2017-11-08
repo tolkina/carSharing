@@ -1,4 +1,5 @@
 <div class="row">
+
   <div class="col-12 newblock"><h3>Паспортные данные</h3></div>
   <div class="col-4">
     <div class="row">
@@ -99,12 +100,12 @@
             </div>
             <div class="form-group">
               <label>Серия:
-              <input type="text" [(ngModel)]="editedPassport.series" class="form-control">
+                <input type="text" [(ngModel)]="editedPassport.series" class="form-control">
               </label>
             </div>
             <div class="form-group">
               <label>Номер:
-              <input type="text" [(ngModel)]="editedPassport.number" class="form-control">
+                <input type="text" [(ngModel)]="editedPassport.number" class="form-control">
               </label>
             </div>
           </div>
@@ -112,35 +113,35 @@
           <div class="col-6">
             <div class="form-group">
               <label>Личный номер:
-              <input type="text" [(ngModel)]="editedPassport.personalNumber" class="form-control">
+                <input type="text" [(ngModel)]="editedPassport.personalNumber" class="form-control">
               </label>
             </div>
             <label>Дата выдачи:
-            <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd"
-                       name="dp" [(ngModel)]="dateOfIssue" ngbDatepicker #d="ngbDatepicker"
-                       (ngModelChange)="onChangeDateOfIssue(dateOfIssue)">
-                <button class="input-group-addon" (click)="d.toggle()" type="button">
-                  <img src="../../assets/images/calendar-icon.svg"
-                       style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
-                </button>
-              </div>
-            </div>
-            </label>
-            <div class="form-group">
-              <label>Срок действия:
               <div class="form-group">
                 <div class="input-group">
                   <input class="form-control" placeholder="yyyy-mm-dd"
-                         name="dp1" [(ngModel)]="validUntil" ngbDatepicker #ds="ngbDatepicker"
-                         (ngModelChange)="onChangeValidUntil(validUntil)">
-                  <button class="input-group-addon" (click)="ds.toggle()" type="button">
+                         name="dp" [(ngModel)]="dateOfIssue" ngbDatepicker #d="ngbDatepicker"
+                         (ngModelChange)="onChangeDateOfIssue(dateOfIssue)">
+                  <button class="input-group-addon" (click)="d.toggle()" type="button">
                     <img src="../../assets/images/calendar-icon.svg"
                          style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
                   </button>
                 </div>
               </div>
+            </label>
+            <div class="form-group">
+              <label>Срок действия:
+                <div class="form-group" style="margin-bottom: 0px;">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="dp1" [(ngModel)]="validUntil" ngbDatepicker #ds="ngbDatepicker"
+                           (ngModelChange)="onChangeValidUntil(validUntil)">
+                    <button class="input-group-addon" (click)="ds.toggle()" type="button">
+                      <img src="../../assets/images/calendar-icon.svg"
+                           style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
+                    </button>
+                  </div>
+                </div>
               </label>
             </div>
             <div class="form-group">

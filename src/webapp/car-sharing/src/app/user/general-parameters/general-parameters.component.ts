@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
 import {clone} from "lodash";
-import {ActivatedRoute} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 
 @Component({
   selector: 'app-general-parameters',
@@ -12,8 +12,12 @@ export class GeneralParametersComponent implements OnInit {
   carId: number;
   generalParameters: any = {};
 
-  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute) {
-    this.carId = activateRoute.snapshot.parent.params['carId'];
+  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
+              private router: Router) {
+    this.carId = +activateRoute.snapshot.parent.params['carId'];
+    if (isNaN(this.carId)) {
+      this.router.navigateByUrl("profile/car")
+    }
   }
 
   ngOnInit() {
@@ -23,7 +27,7 @@ export class GeneralParametersComponent implements OnInit {
   getGeneralParameters(carId: number) {
     this.carService.getGeneralParameters(carId).then()
       .then(res => this.generalParameters = res)
-      .catch();
+      .catch(res => this.router.navigateByUrl("profile/car"));
   }
 
   /*editedGeneralParameters: any = {};

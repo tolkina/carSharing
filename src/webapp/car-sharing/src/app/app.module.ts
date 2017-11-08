@@ -46,8 +46,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ProfileAdService} from "./user/service/profile-ad.service";
 import {SecurityService} from "./security/security.service";
 import {SecurityModel} from "./security/security-model";
-import {AuthGuard} from "./security/auth-guard.service";
 import {DateFormatter} from "./date-formatter";
+import {AuthGuardService} from "./security/auth-guard.service";
+import {RoleAuthGuardService} from "./security/role-auth-guard.service";
 
 
 @NgModule({
@@ -93,10 +94,10 @@ import {DateFormatter} from "./date-formatter";
     AppRoutingModule,
     ReactiveFormsModule,
     NgbModule.forRoot()
-
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
-    CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuard, DateFormatter],
+    CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuardService, DateFormatter,
+    RoleAuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

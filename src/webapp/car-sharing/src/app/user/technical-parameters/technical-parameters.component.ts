@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
 import {clone} from "lodash";
-import {ActivatedRoute} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 import {CarParameter} from "../domain/car-parameter";
 import {CarParameterService} from "../service/car-parameter.service";
 
@@ -23,8 +23,11 @@ export class TechnicalParametersComponent implements OnInit {
   colors: CarParameter[] = [];
 
   constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
-              private carParameterService: CarParameterService) {
-    this.carId = activateRoute.snapshot.parent.params['carId'];
+              private carParameterService: CarParameterService, private router: Router) {
+    this.carId = +activateRoute.snapshot.parent.params['carId'];
+    if (isNaN(this.carId)) {
+      this.router.navigateByUrl("profile/car")
+    }
   }
 
   ngOnInit() {
@@ -40,7 +43,7 @@ export class TechnicalParametersComponent implements OnInit {
   getTechnicalParameters(carId: number) {
     this.carService.getTechnicalParameters(carId).then()
       .then(res => this.technicalParameters = res)
-      .catch();
+      .catch(res => this.router.navigateByUrl("profile/car"));
   }
 
   editParams() {

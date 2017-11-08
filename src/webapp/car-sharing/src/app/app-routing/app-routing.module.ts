@@ -29,14 +29,15 @@ import {LogoutComponent} from "../logout/logout.component";
 import {CurrentAdComponent} from "../user/current-ad/current-ad.component";
 import {NewAdComponent} from "../user/new-ad/new-ad.component";
 import {AllAdsComponent} from "../user/all-ads/all-ads.component";
-
+import {AuthGuardService} from "../security/auth-guard.service";
+import {RoleAuthGuardService} from "../security/role-auth-guard.service";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent},
   {path: 'registration', component: RegistrationComponent},
   {
-    path: 'admin', component: HomePageAdminComponent,
+    path: 'admin', component: HomePageAdminComponent, canActivate: [RoleAuthGuardService],
     children: [
       {
         path: 'setup', component: SetupAdminComponent,
@@ -58,48 +59,45 @@ const routes: Routes = [
     path: '', component: UserHomePageComponent,
     children: [
       {
-        path: 'profile', component: ProfileComponent,
+        path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService],
         children: [
-          {
-            path: ':profileId',
-            children: [
-              {path: '', redirectTo: '/info', pathMatch: 'full'},
-              {path: 'info', component: ProfileInfoComponent},
+          {path: '', redirectTo: 'info', pathMatch: 'full'},
+          {path: 'info', component: ProfileInfoComponent},
 
+          {
+            path: 'car', component: ProfileCarComponent,
+            children: [
+              {path: '', redirectTo: 'all', pathMatch: 'full'},
+              {path: 'all', component: AllCarsComponent},
+              {path: 'new', component: NewCarComponent},
               {
-                path: 'car', component: ProfileCarComponent,
+                path: ':carId', component: CurrentCarComponent,
                 children: [
-                  {path: '', redirectTo: 'all', pathMatch: 'full'},
-                  {path: 'all', component: AllCarsComponent},
-                  {path: 'new', component: NewCarComponent},
-                  {
-                    path: ':carId', component: CurrentCarComponent,
-                    children: [
-                      {path: '', redirectTo: 'general-parameters', pathMatch: 'full'},
-                      {path: 'general-parameters', component: GeneralParametersComponent},
-                      {path: 'technical-parameters', component: TechnicalParametersComponent},
-                      {path: 'current-condition', component: CurrentConditionComponent}
-                    ]
-                  },
+                  {path: '', redirectTo: 'general-parameters', pathMatch: 'full'},
+                  {path: 'general-parameters', component: GeneralParametersComponent},
+                  {path: 'technical-parameters', component: TechnicalParametersComponent},
+                  {path: 'current-condition', component: CurrentConditionComponent}
                 ]
               },
-              {
-                path: 'ad', component: ProfileAdComponent,
-                children: [
-                  {path: '', redirectTo: 'all', pathMatch: 'full'},
-                  {path: 'all', component: AllAdsComponent},
-                  {path: 'new', component: NewAdComponent},
-                  {
-                    path: ':adId', component: CurrentAdComponent,
-                  }
-                ]
-              }
-
             ]
-          }]
+          },
+          {
+            path: 'ad', component: ProfileAdComponent,
+            children: [
+              {path: '', redirectTo: 'all', pathMatch: 'full'},
+              {path: 'all', component: AllAdsComponent},
+              {path: 'new', component: NewAdComponent},
+              {
+                path: ':adId', component: CurrentAdComponent,
+              }
+            ]
+          }
+        ]
       }
     ]
-  }];
+  },
+  {path: '**', redirectTo: ''}
+];
 
 @NgModule({
   imports: [

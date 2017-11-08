@@ -14,7 +14,7 @@ export class ProfileComponent {
   private subscription: Subscription;
 
   constructor(private activateRoute: ActivatedRoute, private securityModel: SecurityModel) {
-    this.subscription = activateRoute.params.subscribe(params => this.profileId = params['profileId']);
+    // this.subscription = activateRoute.params.subscribe(params => this.profileId = params['profileId']);
   }
 
   ngOnInit() {
