@@ -9,5 +9,5 @@ import java.io.Serializable;
 @Setter
 public class CurrentConditionRequest implements Serializable {
     private String damageDescription;
-    private Double mileage;
+    private double mileage;
 }

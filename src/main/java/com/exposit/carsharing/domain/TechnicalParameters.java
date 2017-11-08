@@ -27,7 +27,7 @@ public class TechnicalParameters extends AbstractEntity {
     private String fuelType;
 
     @Column(name = "fuel_consumption")
-    private Double fuelConsumption;
+    private double fuelConsumption;
 
     @Column(name = "drive_unit")
     private String driveUnit;

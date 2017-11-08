@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -15,16 +15,16 @@ import java.util.Date;
 @Table(name = "deal")
 public class Deal extends AbstractEntity {
     @Column(name = "booking_start_time")
-    private Date bookingStartTime;
+    private LocalDate bookingStartTime;
 
     @Column(name = "rental_start_time")
-    private Date rentalStartTime;
+    private LocalDate rentalStartTime;
 
     @Column(name = "estimated_rental_end_time")
-    private Date estimatedRentalEndTime;
+    private LocalDate estimatedRentalEndTime;
 
     @Column(name = "rental_end_time")
-    private Date rentalEndTime;
+    private LocalDate rentalEndTime;
 
     private BigDecimal deposit;
 

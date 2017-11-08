@@ -15,7 +15,7 @@ public class CurrentCondition extends AbstractEntity {
     @Column(name = "damage_description")
     private String damageDescription;
 
-    private Double mileage;
+    private double mileage;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)

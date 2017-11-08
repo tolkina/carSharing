@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class CurrentConditionResponse extends AbstractResponse {
     private String damageDescription;
-    private Double mileage;
+    private double mileage;
 }

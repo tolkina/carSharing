@@ -1,26 +1,27 @@
 package com.exposit.carsharing.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 public class PassportDataRequest implements Serializable {
-    @Max(20)
+    @Size(max = 20)
     private String firstName;
-    @Max(20)
+    @Size(max = 20)
     private String lastName;
-    @Max(20)
+    @Size(max = 20)
     private String middleName;
-    @Max(2)
+    @Size(max = 2)
     private String series;
-    @Max(10)
     private Integer number;
-    @Max(15)
+    @Size(max = 20)
     private String personalNumber;
     private LocalDate dateOfIssue;
     private String placeOfIssue;

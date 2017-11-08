@@ -11,7 +11,7 @@ public class TechnicalParametersResponse extends AbstractResponse {
     private Integer seatNumber;
     private Integer doorNumber;
     private String fuelType;
-    private Double fuelConsumption;
+    private double fuelConsumption;
     private String driveUnit;
     private String tiresSeason;
     private String interiorMaterial;

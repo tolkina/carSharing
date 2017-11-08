@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,7 +22,7 @@ public class CreditCard extends AbstractEntity {
     private Integer number;
 
     @Column(name = "valid_until")
-    private Date validUntil;
+    private LocalDate validUntil;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)

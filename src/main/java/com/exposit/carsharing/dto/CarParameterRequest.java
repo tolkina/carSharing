@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Getter
 @Setter
 public class CarParameterRequest implements Serializable {
     @NotBlank
-    @Max(20)
+    @Size(max = 20)
     private String name;
 }

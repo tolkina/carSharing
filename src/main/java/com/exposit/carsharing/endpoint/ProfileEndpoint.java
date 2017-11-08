@@ -29,6 +29,7 @@ public class ProfileEndpoint {
     }
 
     @GET
+    @Path("/all")
     public Response getAllProfiles() {
         return Response.status(200).entity(profileService.getAll()).build();
     }
@@ -41,12 +42,19 @@ public class ProfileEndpoint {
 
     @GET
     @Path("{id}")
-    public Response getProfile(@PathParam("id") Long id) throws EntityNotFoundException {
+    public Response getProfileById(@PathParam("id") Long id) throws EntityNotFoundException {
         return Response.status(200).entity(profileService.getProfileResponse(id)).build();
     }
 
+    @GET
+    public Response getProfile() throws EntityNotFoundException, UnauthorizedException {
+        Long ownerId = securityService.getPrincipalId();
+        return Response.status(200).entity(profileService.getProfileResponse(ownerId)).build();
+    }
+
     @PUT
-    public Response updateProfile(@Valid ProfileRequest profileRequest) throws EntityNotFoundException, UnauthorizedException {
+    public Response updateProfile(@Valid ProfileRequest profileRequest)
+            throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(profileService.updateProfile(ownerId, profileRequest)).build();
     }
@@ -60,7 +68,7 @@ public class ProfileEndpoint {
 
     @GET
     @Path("/car")
-    public Response getAllCarsByOwner() throws EntityNotFoundException, UnauthorizedException {
+    public Response getAllCarsByOwner() throws UnauthorizedException, EntityNotFoundException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.getAllByOwner(ownerId)).build();
     }

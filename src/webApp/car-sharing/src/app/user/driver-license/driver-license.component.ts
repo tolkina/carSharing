@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {clone} from "lodash";
 import {DriverLicense} from "../domain/driver-license";
 import {DriverLicenseService} from "../service/driver-license.service";
-import {Subscription} from "rxjs/Subscription";
-import {ActivatedRoute} from "@angular/router";
+import {SecurityModel} from "../../security/security-model";
 
 @Component({
   selector: 'app-driver-license',
@@ -11,36 +10,32 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./driver-license.component.css']
 })
 export class DriverLicenseComponent implements OnInit {
-
-  profileId: number;
   driverLicense: DriverLicense = new DriverLicense();
-  editedDriverLicense: DriverLicense;
+  editedDriverLicense: DriverLicense = new DriverLicense();
 
-  subsription: Subscription;
-
-  constructor(private driverLicenseService: DriverLicenseService, private activateRoute:ActivatedRoute) {
-    this.subsription = activateRoute.params.subscribe(params => this.profileId = params['profileId'])
+  constructor(private driverLicenseService: DriverLicenseService) {
   }
 
   ngOnInit() {
-    this.driverLicenseService.getDriverLicense(this.profileId).then(driverLicense => this.driverLicense = driverLicense);
-    this.editedDriverLicense = clone(this.driverLicense);
-  }
-
-  createDriverLicense(): void {
-    this.driverLicenseService.createDriverLicense(this.driverLicense, this.profileId);
+    this.getDriverLicense()
   }
 
   updateDriverLicense(): void {
-    this.driverLicenseService.updateDriverLicense(this.driverLicense, this.profileId);
+    this.driverLicenseService.updateDriverLicense(this.editedDriverLicense)
+      .then(driverLicense => {
+        this.driverLicense = driverLicense;
+        this.editedDriverLicense = new DriverLicense();
+      })
+      .catch();
   }
-
-  deleteDriverLicense(): void {
-    this.driverLicenseService.deleteDriverLicense(this.driverLicense);
-  }
-
 
   showEdit() {
     this.editedDriverLicense = clone(this.driverLicense);
+  }
+
+  private getDriverLicense() {
+    this.driverLicenseService.getDriverLicense()
+      .then(driverLicense => this.driverLicense = driverLicense)
+      .catch();
   }
 }

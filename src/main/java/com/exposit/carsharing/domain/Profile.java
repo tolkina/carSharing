@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -22,10 +22,10 @@ public class Profile extends AbstractEntity {
     @Column(name = "avatar")
     private String avatarUrl;
 
-    private Date birthday;
+    private LocalDate birthday;
 
     @Column(name = "driving_experience")
-    private Double drivingExperience;
+    private double drivingExperience;
 
     private boolean confirmProfile;
 
