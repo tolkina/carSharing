@@ -1,6 +1,6 @@
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 
 import {AppComponent} from "./app.component";
@@ -42,12 +42,12 @@ import {NewAdComponent} from "./user/new-ad/new-ad.component";
 import {CurrentAdComponent} from "./user/current-ad/current-ad.component";
 import {PassportDataComponent} from "./user/passport-data/passport-data.component";
 import {DriverLicenseComponent} from "./user/driver-license/driver-license.component";
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {ReactiveFormsModule } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ProfileAdService} from "./user/service/profile-ad.service";
 import {SecurityService} from "./security/security.service";
 import {SecurityModel} from "./security/security-model";
 import {AuthGuard} from "./security/auth-guard.service";
+import {DateFormatter} from "./date-formatter";
 
 
 @NgModule({
@@ -96,7 +96,7 @@ import {AuthGuard} from "./security/auth-guard.service";
 
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
-    CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuard],
+    CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuard, DateFormatter],
   bootstrap: [AppComponent]
 })
 export class AppModule {

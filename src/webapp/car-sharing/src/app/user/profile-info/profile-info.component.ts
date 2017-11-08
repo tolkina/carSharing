@@ -4,6 +4,8 @@ import {ProfileService} from "../service/profile.service";
 import {clone} from "lodash";
 import {Subscription} from "rxjs/Subscription";
 import {ActivatedRoute} from "@angular/router";
+import {DateFormatter} from "../../date-formatter";
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap"
 
 @Component({
   selector: 'app-profile-info',
@@ -15,10 +17,12 @@ export class ProfileInfoComponent {
   profileId: number;
   profile: Profile = new Profile();
   editedProfile: Profile = new Profile();
+  birthday: NgbDateStruct;
 
   private subscription: Subscription;
 
-  constructor(private profileService: ProfileService, private activateRoute: ActivatedRoute) {
+  constructor(private profileService: ProfileService, private activateRoute: ActivatedRoute,
+              private dateFormatter: DateFormatter) {
   }
 
   ngOnInit() {
@@ -29,6 +33,10 @@ export class ProfileInfoComponent {
     this.profileService.getProfile()
       .then(profile => this.profile = profile)
       .catch();
+  }
+
+  onChange(date: NgbDateStruct) {
+    this.editedProfile.birthday = this.dateFormatter.toDate(date);
   }
 
   updateProfile() {
@@ -48,5 +56,6 @@ export class ProfileInfoComponent {
 
   showEdit() {
     this.editedProfile = clone(this.profile);
+    this.birthday = this.dateFormatter.fromDate(this.profile.birthday);
   }
 }
