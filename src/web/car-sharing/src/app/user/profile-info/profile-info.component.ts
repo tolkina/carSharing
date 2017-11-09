@@ -2,10 +2,9 @@ import {Component} from "@angular/core";
 import {Profile} from "../domain/profile";
 import {ProfileService} from "../service/profile.service";
 import {clone} from "lodash";
-import {Subscription} from "rxjs/Subscription";
 import {ActivatedRoute} from "@angular/router";
 import {DateFormatter} from "../../date-formatter";
-import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap"
+import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap"
 
 @Component({
   selector: 'app-profile-info',
@@ -13,16 +12,14 @@ import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap"
   styleUrls: ['./profile-info.component.css']
 })
 export class ProfileInfoComponent {
-
-  profileId: number;
+  modalRef: any;
   profile: Profile = new Profile();
   editedProfile: Profile = new Profile();
   birthday: NgbDateStruct;
-
-  private subscription: Subscription;
+  errorUpdate: String;
 
   constructor(private profileService: ProfileService, private activateRoute: ActivatedRoute,
-              private dateFormatter: DateFormatter) {
+              private dateFormatter: DateFormatter, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -42,10 +39,12 @@ export class ProfileInfoComponent {
   updateProfile() {
     this.profileService.updateProfile(this.editedProfile)
       .then(profile => {
+        this.modalRef.close();
         this.profile = profile;
         this.editedProfile = new Profile();
       })
-      .catch();
+      .catch(error => {
+        this.errorUpdate = error._body});
   }
 
   deleteProfile() {
@@ -54,7 +53,9 @@ export class ProfileInfoComponent {
       .catch();
   }
 
-  showEdit() {
+  showEdit(content) {
+    this.errorUpdate = "";
+    this.modalRef = this.modalService.open(content);
     this.editedProfile = clone(this.profile);
     this.birthday = this.dateFormatter.fromDate(this.profile.birthday);
   }
