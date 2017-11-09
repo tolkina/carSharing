@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {clone} from "lodash";
 import {DriverLicense} from "../domain/driver-license";
 import {DriverLicenseService} from "../service/driver-license.service";
-import {SecurityModel} from "../../security/security-model";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-driver-license',
@@ -12,8 +12,10 @@ import {SecurityModel} from "../../security/security-model";
 export class DriverLicenseComponent implements OnInit {
   driverLicense: DriverLicense = new DriverLicense();
   editedDriverLicense: DriverLicense = new DriverLicense();
+  errorUpdate: String;
+  modalRef: any;
 
-  constructor(private driverLicenseService: DriverLicenseService) {
+  constructor(private driverLicenseService: DriverLicenseService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -23,13 +25,16 @@ export class DriverLicenseComponent implements OnInit {
   updateDriverLicense(): void {
     this.driverLicenseService.updateDriverLicense(this.editedDriverLicense)
       .then(driverLicense => {
+        this.modalRef.close();
         this.driverLicense = driverLicense;
         this.editedDriverLicense = new DriverLicense();
       })
-      .catch();
+      .catch(err => this.errorUpdate = err._body);
   }
 
-  showEdit() {
+  showEdit(content) {
+    this.errorUpdate = "";
+    this.modalRef = this.modalService.open(content);
     this.editedDriverLicense = clone(this.driverLicense);
   }
 
