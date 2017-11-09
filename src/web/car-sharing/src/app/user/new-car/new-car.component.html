@@ -80,7 +80,12 @@
 
       <label for="fuelConsumption" class="col-form-label">Расход топлива на 100 км. (смешанный цикл):</label>
       <input type="text" class="form-control" id="fuelConsumption" name="fuelConsumption"
-             [(ngModel)]="car.technicalParameters.fuelConsumption">
+             [(ngModel)]="car.technicalParameters.fuelConsumption"
+             pattern="[0-9]+\.{0,1}[0-9]*" #fuelConsumption="ngModel">
+      <div [hidden]="fuelConsumption.valid || fuelConsumption.pristine"
+           class="alert alert-danger">
+        <div [hidden]="!fuelConsumption.hasError('pattern')">Десятичное число</div>
+      </div>
 
       <div class="form-group">
         <label for="driveUnit" class="col-form-label">Привод:</label>

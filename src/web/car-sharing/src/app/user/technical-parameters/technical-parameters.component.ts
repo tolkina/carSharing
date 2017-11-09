@@ -4,6 +4,7 @@ import {clone} from "lodash";
 import {ActivatedRoute, Router} from '@angular/router'
 import {CarParameter} from "../domain/car-parameter";
 import {CarParameterService} from "../service/car-parameter.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-technical-parameters',
@@ -21,9 +22,12 @@ export class TechnicalParametersComponent implements OnInit {
   tiresSeasons: CarParameter[] = [];
   interiorMaterials: CarParameter[] = [];
   colors: CarParameter[] = [];
+  modalRef: any;
+  errorUpdate: String;
 
   constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
-              private carParameterService: CarParameterService, private router: Router) {
+              private carParameterService: CarParameterService, private router: Router,
+              private modalService: NgbModal) {
     this.carId = +activateRoute.snapshot.parent.params['carId'];
     if (isNaN(this.carId)) {
       this.router.navigateByUrl("profile/car")
@@ -36,8 +40,13 @@ export class TechnicalParametersComponent implements OnInit {
 
   updateTechnicalParameters() {
     this.carService.updateTechnicalParameters(this.editedTechnicalParameters, this.carId).then()
-      .then(res => this.technicalParameters = res)
-      .catch();
+      .then(res => {
+        this.technicalParameters = res;
+        this.modalRef.close()
+      })
+      .catch(err => {
+        this.errorUpdate = err._body;
+      });
   }
 
   getTechnicalParameters(carId: number) {
@@ -46,7 +55,13 @@ export class TechnicalParametersComponent implements OnInit {
       .catch(res => this.router.navigateByUrl("profile/car"));
   }
 
-  editParams() {
+  onSubmit() {
+    this.updateTechnicalParameters()
+  }
+
+  showEdit(content) {
+    this.errorUpdate = "";
+    this.modalRef = this.modalService.open(content, {size: 'lg'});
     this.editedTechnicalParameters = clone(this.technicalParameters);
     this.getCarParams();
   }
