@@ -151,7 +151,12 @@
     </div>
     <div class="col-6">
       <label for="mileage" class="col-form-label">Пробег</label>
-      <input type="text" class="form-control" id="mileage" name="mileage" [(ngModel)]="car.currentCondition.mileage">
+      <input type="text" class="form-control" id="mileage" name="mileage" [(ngModel)]="car.currentCondition.mileage"
+             pattern="[0-9]{0,10}" #mileage="ngModel">
+      <div [hidden]="mileage.valid || mileage.pristine"
+           class="alert alert-danger">
+        <div [hidden]="!mileage.hasError('pattern')">Только цифры. Максимум 10</div>
+      </div>
     </div>
   </div>
   <hr>
