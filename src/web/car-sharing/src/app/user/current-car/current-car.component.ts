@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ProfileCarService} from "../service/profile-car.service";
 import {ActivatedRoute, Router} from '@angular/router'
 import {Subscription} from 'rxjs/Subscription';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-current-car',
@@ -10,10 +11,13 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class CurrentCarComponent {
   carId: number;
+  errorDelete: String;
+  modalRef: any;
 
   private subscription: Subscription;
 
-  constructor(private carService: ProfileCarService, private router: Router, private activateRoute: ActivatedRoute) {
+  constructor(private carService: ProfileCarService, private router: Router, private activateRoute: ActivatedRoute,
+              private modalService: NgbModal) {
     this.subscription = activateRoute.params.subscribe(params => this.carId = params['carId']);
   }
 
@@ -26,9 +30,16 @@ export class CurrentCarComponent {
 
   deleteCar() {
     this.carService.deleteCar(this.carId).then()
-      .then(res =>
-        this.router.navigateByUrl('profile/car/all')
+      .then(res => {
+          this.modalRef.close();
+          this.router.navigateByUrl('profile/car')
+        }
       )
-      .catch();
+      .catch(err => this.errorDelete = err._body);
+  }
+
+  showDelete(content) {
+    this.errorDelete = "";
+    this.modalRef = this.modalService.open(content);
   }
 }
