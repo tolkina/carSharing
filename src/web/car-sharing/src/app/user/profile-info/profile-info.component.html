@@ -1,47 +1,35 @@
-<!--General information-->
 <div class="row">
-  <div class="col-12 newblock" style="margin-top: 0px"><h3>Общая информация</h3></div>
+  <div class="col-12 newblock" style="margin-top: 0"><h3>Общая информация</h3></div>
   <div class="col-4">
     <div class="row">
       <div class="col-6">
         <h6>E-mail:</h6>
       </div>
-      <div class="col-6" style="text-align: left">{{profile.email}}</div>
+      <div class="col-6">{{profile.email}}</div>
     </div>
     <div class="row">
       <div class="col-6">
         <h6>Дата рождения:</h6>
       </div>
-      <div class="col-6" style="text-align: left">{{profile.birthday | date: 'yyyy-MM-dd'}}</div>
+      <div class="col-6">{{profile.birthday | date: 'yyyy-MM-dd'}}</div>
     </div>
     <div class="row">
       <div class="col-6">
         <h6>Стаж вождения:</h6>
       </div>
-      <div class="col-6" style="text-align: left">{{profile.drivingExperience}}</div>
+      <div class="col-6">{{profile.drivingExperience}}</div>
     </div>
   </div>
-
   <div class="col-5"></div>
-
   <div class="col-1" *ngIf="profile.id">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit(content)"
             data-placement="bottom" title="Редактировать общую информацию">✎
     </button>
-
-
   </div>
-  <!--<div class="col-1" *ngIf="profile.id">
-    <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#deleteProfile"
-            data-placement="bottom" title="Удалить профиль">␡
-    </button>
-  </div>-->
 </div>
 
 <app-passport-data></app-passport-data>
 <app-driver-license></app-driver-license>
-
-
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -50,56 +38,47 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">
-      {{errorUpdate}}
-    </div>
+  <form (ngSubmit)="updateProfile()" #updateProfileInfo="ngForm">
+    <div class="modal-body">
 
-    <div class="form-group">
-      <label>Дата рождения:
-        <form class="form-inline">
-          <div class="form-group">
-            <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd"
-                     name="dp" [(ngModel)]="birthday" ngbDatepicker #d="ngbDatepicker"
-                     (ngModelChange)="onChange(birthday)">
-              <button class="input-group-addon" (click)="d.toggle()" type="button">
-                <img src="../../assets/images/calendar-icon.svg"
-                     style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
-              </button>
+      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+
+      <div class="form-group">
+        <label>Дата рождения:
+          <form class="form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd"
+                       name="dp" [(ngModel)]="birthday" ngbDatepicker #d="ngbDatepicker"
+                       (ngModelChange)="onChange(birthday)">
+                <button class="input-group-addon" (click)="d.toggle()" type="button">
+                  <img src="../../assets/images/calendar-icon.svg"
+                       style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-      </label>
-    </div>
-    <div class="form-group">
-      <label>Стаж вождения:
-        <input name="drivingExperience" [(ngModel)]="editedProfile.drivingExperience" type="text"
-               class="form-control"
-               placeholder="Введите стаж вождения">
-      </label>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
-    <button type="button" (click)="updateProfile()" class="btn btn-primary">Сохранить</button>
-  </div>
-</ng-template>
+          </form>
+        </label>
+      </div>
 
-<!-- Modal Delete Profile -->
-<!--<div class="modal fade" id="deleteProfile" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Вы действительно хотите удалить Ваш профиль?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="form-group">
+        <label>Стаж вождения:
+          <input name="drivingExperience" [(ngModel)]="editedProfile.drivingExperience" type="text"
+                 class="form-control"
+                 pattern="[0-9]{1,3}"
+                 #drivingExperience="ngModel"
+                 placeholder="Введите стаж вождения">
+          <div [hidden]="drivingExperience.valid || drivingExperience.pristine"
+               class="alert alert-danger">
+            <div [hidden]="!drivingExperience.hasError('pattern')">Стаж вождения должен состоять из цифр (максимум 3)</div>
+          </div>
+        </label>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="deleteProfile()" data-dismiss="modal">Да</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-      </div>
+
     </div>
-  </div>
-</div>-->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
