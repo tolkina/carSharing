@@ -94,6 +94,15 @@ export class ProfileCarService {
       .catch(this.handleError);
   }
 
+  getCarByAd(adId: number) {
+    const url = `${this.carUrl}ad-${adId}`;
+    return this.http
+      .get(url)
+      .toPromise()
+      .then(res => res.json() as Car)
+      .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);
     return Promise.reject(error.json().message || error)

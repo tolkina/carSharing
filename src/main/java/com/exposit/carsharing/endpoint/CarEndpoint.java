@@ -50,6 +50,12 @@ public class CarEndpoint {
         return Response.status(200).entity(carService.getCarResponse(carId)).build();
     }
 
+    @GET
+    @Path("ad-{ad_id}")
+    public Response getCarByAd(@PathParam("ad_id") long adId){
+        return Response.status(200).entity(carService.getByAd(adId)).build();
+    }
+
     @DELETE
     @Path("/{car_id}")
     public Response deleteCar(@PathParam("car_id") Long carId) throws PrivilegeException, EntityNotFoundException, UnauthorizedException {

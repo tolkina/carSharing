@@ -10,4 +10,5 @@ public class CarResponse extends AbstractResponse {
     private TechnicalParametersResponse technicalParameters;
     private CurrentConditionResponse currentCondition;
     private ProfileResponse owner;
+    private AdResponse ad;
 }

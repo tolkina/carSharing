@@ -1,6 +1,7 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.Ad;
+import com.exposit.carsharing.domain.Car;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.AdRequest;
 import com.exposit.carsharing.dto.AdResponse;
@@ -8,6 +9,7 @@ import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.AdRepository;
+import com.exposit.carsharing.repository.CarRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +24,14 @@ public class AdServiceImpl implements AdService {
     private final AdRepository adRepository;
     private final CarService carService;
     private final ModelMapper modelMapper;
+    private final CarRepository carRepository;
 
-    public AdServiceImpl(ProfileService profileService, AdRepository adRepository, CarService carService, ModelMapper modelMapper) {
+    public AdServiceImpl(ProfileService profileService, AdRepository adRepository, CarService carService, ModelMapper modelMapper, CarRepository carRepository) {
         this.profileService = profileService;
         this.adRepository = adRepository;
         this.carService = carService;
         this.modelMapper = modelMapper;
+        this.carRepository = carRepository;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class AdServiceImpl implements AdService {
     public List<AdResponse> getAllAdByOwner(Long ownerId) throws EntityNotFoundException {
         Profile owner = profileService.getProfile(ownerId);
         List<AdResponse> ads = new ArrayList<>();
-        adRepository.findAllByOwner(owner).forEach(ad -> ads.add(modelMapper.map(ad,AdResponse.class)));
+        adRepository.findAllByOwner(owner).forEach(ad -> ads.add(modelMapper.map(ad, AdResponse.class)));
         return ads;
     }
 
@@ -66,9 +70,25 @@ public class AdServiceImpl implements AdService {
     public AdResponse createAd(AdRequest adRequest, Long ownerId, Long carId) throws EntityNotFoundException, EntityAlreadyExistException {
         Ad ad = modelMapper.map(adRequest, Ad.class);
         ad.setOwner(profileService.getProfile(ownerId));
+        Car car = carService.getCar(carId);
         ad.setCar(carService.getCar(carId));
         adRepository.save(ad);
+        car.setAd(ad);
+        carRepository.save(car);
         return modelMapper.map(ad, AdResponse.class);
+    }
+
+    @Override
+    public AdResponse updateAd(Long adId, AdRequest adRequest) throws EntityNotFoundException {
+        Ad ad = getAd(adId);
+        ad.setCarLocation(adRequest.getCarLocation());
+        ad.setReturnPlace(adRequest.getReturnPlace());
+        ad.setCostPerHour(adRequest.getCostPerHour());
+        ad.setCostPerDay(adRequest.getCostPerDay());
+        ad.setCostPer3Days(adRequest.getCostPer3Days());
+        adRepository.save(ad);
+        return modelMapper.map(ad, AdResponse.class);
+
     }
 
     @Override

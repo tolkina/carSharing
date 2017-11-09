@@ -72,6 +72,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public CarResponse getByAd(Long adId){
+        return modelMapper.map(carRepository.findByAd_Id(adId), CarResponse.class);
+    }
+
+    @Override
     public List<CarResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException {
         Profile owner = profileService.getProfile(ownerId);
         List<CarResponse> cars = new ArrayList<>();
@@ -84,6 +89,7 @@ public class CarServiceImpl implements CarService {
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         Car car = new Car();
         car.setOwner(profileService.getProfile(ownerId));
+        car.setAd(null);
         carRepository.save(car);
         CurrentCondition currentCondition = new CurrentCondition();
         if (carRequest.getCurrentCondition() != null) {

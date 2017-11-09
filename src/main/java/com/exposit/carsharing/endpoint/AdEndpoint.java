@@ -1,6 +1,5 @@
 package com.exposit.carsharing.endpoint;
 
-import com.exposit.carsharing.domain.Ad;
 import com.exposit.carsharing.dto.AdRequest;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
@@ -28,6 +27,12 @@ public class AdEndpoint {
     @Path("/{ownerId}/{carId}")
     public Response createAd(@PathParam("ownerId") Long ownerId, @PathParam("carId") Long carId, @Valid AdRequest adRequest) throws EntityNotFoundException, EntityAlreadyExistException {
         return Response.status(201).entity(adService.createAd(adRequest, ownerId, carId)).build();
+    }
+
+    @PUT
+    @Path("{adId}")
+    public Response updateAd(@PathParam("adId") Long adId, @Valid AdRequest adRequest) throws EntityNotFoundException {
+        return Response.status(200).entity(adService.updateAd(adId, adRequest)).build();
     }
 
     @GET

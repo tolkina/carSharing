@@ -1,0 +1,155 @@
+<!--Passport data-->
+<div class="row">
+  <div class="col-12 newblock" style="text-align: center"><h3>Подробная информация об объявлении:</h3></div>
+  <div class="col-5">
+    <div class="row">
+      <div class="col-12" style="text-align: center">
+        <h5>Информация о локации:</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Местоположение машины:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{ad.carLocation}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Место возврата машины:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{ad.returnPlace}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Машина:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{car.generalParameters.brand}} {{car.generalParameters.model}}</div>
+    </div>
+  </div>
+
+  <div class="col-5">
+    <div class="col-12" style="text-align: center">
+      <h5>Информация о стоимости:</h5>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Стоимость часа аренды:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{ad.costPerHour}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Стоимость дня аренды:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{ad.costPerDay}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h6>Стоимость трёх дней аренды:</h6>
+      </div>
+      <div class="col-6" style="text-align: left">{{ad.costPer3Days}}</div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="card footer">
+  <div align="center">
+    <button type="button" class="btn btn-primary" (click)="showEdit()" style="width:40%" data-toggle="modal" data-target="#updateAd">
+      Редактировать
+    </button>
+    <button type="button" class="btn btn-danger" style="width: 40%" data-toggle="modal" data-target="#deleteAd">
+      Удалить
+    </button>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteAd" tabindex="-1" role="dialog" aria-labelledby="deleteAd" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAdLabel">Подтвердите удаление</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+        <button type="button" class="btn btn-primary" (click)="deleteAd()" data-dismiss="modal">Удалить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Update Ad -->
+<div class="modal fade" id="updateAd" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Редактировать объявление</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Местоположение машины:</label>
+          <input type="text" [(ngModel)]="editedAd.carLocation" class="form-control" name="carLocation" #carLocation="ngModel" required>
+          <div [hidden]="carLocation.valid || carLocation.untouched" class="alert alert-danger">
+            Не указано местоположение машины
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Место возврата:</label>
+          <input type="text" [(ngModel)]="editedAd.returnPlace" class="form-control" name="returnPlace" #returnPlace="ngModel" required>
+          <div [hidden]="returnPlace.valid || returnPlace.untouched" class="alert alert-danger">
+            Не указано место возврата машины
+          </div>
+        </div>
+
+        <!--<label class="col-form-label">Машина:</label>
+        <div class="form-group">
+          <select class="form-control" #selectCar [ngModel]="selectedCar"  (ngModelChange)="onChangeCar(selectCar.value)">
+            <ng-container *ngFor="let car of cars">
+              <option  *ngIf="car.ad === null" [value]="car.id">{{car.generalParameters.brand}} {{car.generalParameters.model}}</option>
+            </ng-container>
+          </select>
+        </div>-->
+
+        <div class="form-group">
+          <label>Стоимость часа аренды:</label>
+          <input type="text" [(ngModel)]="editedAd.costPerHour" class="form-control" name="costPerHour" #costPerHour="ngModel" required
+                 pattern="[0-9]">
+          <div [hidden]="costPerHour.valid || costPerHour.untouched" class="alert alert-danger">
+            Некорректная стоимость за час аренды
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Стоимость аренды на день:</label>
+          <input type="text" [(ngModel)]="editedAd.costPerDay" class="form-control" name="costPerDay" #costPerDay="ngModel" required
+                 pattern="[0-9]">
+          <div [hidden]="costPerDay.valid || costPerDay.untouched" class="alert alert-danger">
+            Некорректная стоимость за день аренды
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Стоимость аренды на 3 дня:</label>
+          <input type="text" [(ngModel)]="editedAd.costPer3Days" class="form-control" name="costPer3Days" #costPer3Days="ngModel" required
+                 pattern="[0-9]">
+          <div [hidden]="costPer3Days.valid || costPer3Days.untouched" class="alert alert-danger">
+            Некорректная стоимость за три дня аренды
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button [disabled]="carLocation.invalid || returnPlace.invalid
+        || costPerHour.invalid || costPerDay.invalid || costPer3Days.invalid" class="btn btn-primary" (click)="updateAd()" data-dismiss="modal">Сохранить
+          изменения
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

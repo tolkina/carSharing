@@ -35,6 +35,8 @@ public class Ad extends AbstractEntity {
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
 
-    @OneToOne(mappedBy = "ad")
+//    @OneToOne(mappedBy = "ad",fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
     private Car car;
 }

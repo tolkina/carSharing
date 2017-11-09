@@ -19,17 +19,26 @@ export class ProfileAdService {
       .catch(this.handleError);
   }
 
+  updateAd(ad:Ad, id:number): Promise<Ad>{
+    const url = `${this.adUrl}${id}`;
+    return this.http
+      .put(url, ad)
+      .toPromise()
+      .then(() => ad)
+      .catch(this.handleError)
+  }
+
   getAd(id:number): Promise<Ad> {
     const url = `${this.adUrl}ad-${id}`;
     return this.http
       .get(url)
       .toPromise()
-      .then(response => response.json() as Ad)
+      .then(response => {return response.json() as Ad})
       .catch(this.handleError)
   }
 
   getAllAdsForProfile(profileId:number) {
-    const url = `${this.adUrl}/${profileId}`
+    const url = `${this.adUrl}/${profileId}`;
     return this.http
       .get(url)
       .toPromise()
