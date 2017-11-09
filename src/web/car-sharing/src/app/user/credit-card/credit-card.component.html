@@ -1,7 +1,7 @@
 <h4 class="text-center">
   Мои кредитные карты
   <button data-toggle="modal" data-target="#add" data-placement="bottom" class="btn btn-success"
-          title="Добавить кредитную карту" (click)="showNew()">Добавить
+          title="Добавить кредитную карту" (click)="showNew(contentCreate)">Добавить
   </button>
 </h4>
 <div class="card" *ngFor="let card of creditCards">
@@ -14,116 +14,111 @@
       </div>
       <div class="col-1">
         <button type="button" class="btn-sm btn-danger" data-toggle="modal" data-target="#delete"
-                data-placement="bottom" title="Удалить кредитную карту" (click)="showDelete(card)">␡
+                data-placement="bottom" title="Удалить кредитную карту" (click)="showDelete(card, contentDelete)">␡
         </button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteCard">Подтвердите удаление</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-        <button type="button" class="btn btn-primary" (click)="deleteCreditCard()">Удалить</button>
-      </div>
-    </div>
+<ng-template #contentDelete let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите удаление</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="deleteCreditCard()">Удалить</button>
+  </div>
+</ng-template>
 
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="creditCardLabel">Новая кредитная карта</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<ng-template #contentCreate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Новая кредитная карта</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="createCreditCard()" #createCard="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{errorMessage}}
       </div>
-      <form (ngSubmit)="createCreditCard()" #createCard="ngForm">
-        <div class="modal-body">
-          <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
-            {{errorMessage}}
-          </div>
 
-          <div class="form-group">
-            <label for="lastName">Фамилия:</label>
-            <input type="text" class="form-control" id="lastName"
-                   required
-                   [(ngModel)]="newCreditCard.lastName" name="lastName"
-                   pattern="[A-ZА-Я][A-zА-я]+"
-                   #lastName="ngModel">
-            <div [hidden]="lastName.valid || lastName.pristine"
-                 class="alert alert-danger">
-              <div [hidden]="!lastName.hasError('required')">Фамилия обязательна</div>
-              <div [hidden]="!lastName.hasError('pattern')">Фамилия может состоять только из букв начиная с заглавной</div>
-            </div>
-          </div>
-
-
-          <div class="form-group">
-            <label for="firstName">Имя:</label>
-            <input type="text" class="form-control" id="firstName"
-                   required
-                   [(ngModel)]="newCreditCard.firstName" name="firstName"
-                   pattern="[A-ZА-Я][A-zА-я]+"
-                   #firstName="ngModel">
-            <div [hidden]="firstName.valid || firstName.pristine"
-                 class="alert alert-danger">
-              <div [hidden]="!firstName.hasError('required')">Имя обязательно</div>
-              <div [hidden]="!firstName.hasError('pattern')">Имя может состоять только из букв начиная с заглавной</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="numberCard">Номер карты:</label>
-            <input type="text" class="form-control" id="numberCard"
-                   required
-                   [(ngModel)]="newCreditCard.number" name="numberCard"
-                   pattern="[0-9]*"
-                   #numberCard="ngModel">
-            <div [hidden]="numberCard.valid || numberCard.pristine"
-                 class="alert alert-danger">
-              <div [hidden]="!numberCard.hasError('required')">Номер карты обязателен</div>
-              <div [hidden]="!numberCard.hasError('pattern')">Номер карты может состоять только из цифр</div>
-            </div>
-          </div>
-
-
-          <div class="form-group">
-            <label for="validUntil" class="col-form-label">Действительна до:</label>
-            <div class="input-group">
-              <input class="form-control" id="validUntil"
-                     placeholder="yyyy-mm-dd"
-                     required
-                     [(ngModel)]="date" name="date"
-                     ngbDatepicker
-                     #d="ngbDatepicker"
-                     (ngModelChange)="onChange(date)">
-              <button class="input-group-addon" (click)="d.toggle()" type="button">
-                <img src="../../assets/images/calendar-icon.svg"
-                     style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
-              </button>
-
-            </div>
-          </div>
-
+      <div class="form-group">
+        <label for="lastName">Фамилия:</label>
+        <input type="text" class="form-control" id="lastName"
+               required
+               [(ngModel)]="newCreditCard.lastName" name="lastName"
+               pattern="[A-ZА-Я][A-zА-я]+"
+               #lastName="ngModel">
+        <div [hidden]="lastName.valid || lastName.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!lastName.hasError('required')">Фамилия обязательна</div>
+          <div [hidden]="!lastName.hasError('pattern')">Фамилия может состоять только из букв начиная с заглавной</div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-          <button type="submit" class="btn btn-primary"
-                  [disabled]="!createCard.form.valid">
-            Создать
+      </div>
+
+
+      <div class="form-group">
+        <label for="firstName">Имя:</label>
+        <input type="text" class="form-control" id="firstName"
+               required
+               [(ngModel)]="newCreditCard.firstName" name="firstName"
+               pattern="[A-ZА-Я][A-zА-я]+"
+               #firstName="ngModel">
+        <div [hidden]="firstName.valid || firstName.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!firstName.hasError('required')">Имя обязательно</div>
+          <div [hidden]="!firstName.hasError('pattern')">Имя может состоять только из букв начиная с заглавной</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="numberCard">Номер карты:</label>
+        <input type="text" class="form-control" id="numberCard"
+               required
+               [(ngModel)]="newCreditCard.number" name="numberCard"
+               pattern="[0-9]*"
+               #numberCard="ngModel">
+        <div [hidden]="numberCard.valid || numberCard.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!numberCard.hasError('required')">Номер карты обязателен</div>
+          <div [hidden]="!numberCard.hasError('pattern')">Номер карты может состоять только из цифр</div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="validUntil" class="col-form-label">Действительна до:</label>
+        <div class="input-group">
+          <input class="form-control" id="validUntil"
+                 placeholder="yyyy-mm-dd"
+                 required
+                 [(ngModel)]="date" name="date"
+                 ngbDatepicker
+                 #d="ngbDatepicker"
+                 (ngModelChange)="onChange(date)">
+          <button class="input-group-addon" (click)="d.toggle()" type="button">
+            <img src="../../assets/images/calendar-icon.svg"
+                 style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
           </button>
+
         </div>
-      </form>
+      </div>
+
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+      <button type="submit" class="btn btn-primary"
+              [disabled]="!createCard.form.valid">
+        Создать
+      </button>
+    </div>
+  </form>
+</ng-template>

@@ -32,6 +32,10 @@ export class DriverLicenseComponent implements OnInit {
       .catch(err => this.errorUpdate = err._body);
   }
 
+  onSubmit() {
+    this.updateDriverLicense()
+  }
+
   showEdit(content) {
     this.errorUpdate = "";
     this.modalRef = this.modalService.open(content);

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CreditCardService} from "../service/credit-card.service";
 import {CreditCard} from "../domain/credit-card";
-import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DateFormatter} from "../../date-formatter";
 
 @Component({
@@ -16,8 +16,11 @@ export class CreditCardComponent implements OnInit {
   cloneCreditCard: CreditCard = new CreditCard();
   date: NgbDateStruct;
   errorMessage: String;
+  errorDelete: String;
+  modalRef: any;
 
-  constructor(private creditCardService: CreditCardService, private dateFormatter: DateFormatter) {
+  constructor(private creditCardService: CreditCardService, private dateFormatter: DateFormatter,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -29,21 +32,31 @@ export class CreditCardComponent implements OnInit {
   }
 
   createCreditCard() {
-    this.creditCardService.createCreditCard(this.newCreditCard).then(card => this.creditCards.push(card))
+    this.creditCardService.createCreditCard(this.newCreditCard).then(card => {
+      this.creditCards.push(card);
+      this.modalRef.close()
+    })
       .catch(err => this.errorMessage = err)
   }
 
   deleteCreditCard() {
     this.creditCardService.deleteCreditCard(this.cloneCreditCard.id)
-      .then(res => this.creditCards.splice(this.creditCards.indexOf(this.cloneCreditCard), 1))
-      .catch()
+      .then(res => {
+        this.creditCards.splice(this.creditCards.indexOf(this.cloneCreditCard), 1);
+        this.modalRef.close()
+      })
+      .catch(err => this.errorDelete = err)
   }
 
-  showDelete(creditCard: CreditCard) {
+  showDelete(creditCard: CreditCard, contentDelete) {
+    this.errorDelete = "";
+    this.modalRef = this.modalService.open(contentDelete);
     this.cloneCreditCard = creditCard;
   }
 
-  showNew() {
+  showNew(contentCreate) {
+    this.errorMessage = "";
+    this.modalRef = this.modalService.open(contentCreate);
     this.newCreditCard = new CreditCard();
   }
 
