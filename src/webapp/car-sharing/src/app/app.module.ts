@@ -49,6 +49,8 @@ import {SecurityModel} from "./security/security-model";
 import {DateFormatter} from "./date-formatter";
 import {AuthGuardService} from "./security/auth-guard.service";
 import {RoleAuthGuardService} from "./security/role-auth-guard.service";
+import {CreditCardComponent} from './user/credit-card/credit-card.component';
+import {CreditCardService} from "./user/service/credit-card.service";
 
 
 @NgModule({
@@ -85,7 +87,8 @@ import {RoleAuthGuardService} from "./security/role-auth-guard.service";
     CurrentAdComponent,
     PassportDataComponent,
     DriverLicenseComponent,
-    ProfileAdComponent
+    ProfileAdComponent,
+    CreditCardComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +100,7 @@ import {RoleAuthGuardService} from "./security/role-auth-guard.service";
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
     CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuardService, DateFormatter,
-    RoleAuthGuardService],
+    RoleAuthGuardService, CreditCardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

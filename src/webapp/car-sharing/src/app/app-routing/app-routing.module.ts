@@ -31,6 +31,7 @@ import {NewAdComponent} from "../user/new-ad/new-ad.component";
 import {AllAdsComponent} from "../user/all-ads/all-ads.component";
 import {AuthGuardService} from "../security/auth-guard.service";
 import {RoleAuthGuardService} from "../security/role-auth-guard.service";
+import {CreditCardComponent} from "../user/credit-card/credit-card.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -63,7 +64,6 @@ const routes: Routes = [
         children: [
           {path: '', redirectTo: 'info', pathMatch: 'full'},
           {path: 'info', component: ProfileInfoComponent},
-
           {
             path: 'car', component: ProfileCarComponent,
             children: [
@@ -91,7 +91,8 @@ const routes: Routes = [
                 path: ':adId', component: CurrentAdComponent,
               }
             ]
-          }
+          },
+          {path: 'credit-card', component: CreditCardComponent}
         ]
       }
     ]

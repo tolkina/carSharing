@@ -20,6 +20,6 @@ public class CreditCardRequest implements Serializable {
     private String lastName;
     @NotNull
     private Integer number;
-    @NotBlank
+    @NotNull
     private LocalDate validUntil;
 }
