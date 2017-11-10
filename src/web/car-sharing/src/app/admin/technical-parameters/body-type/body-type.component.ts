@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TechnicalParameterService} from "../../service/technical-parameter.service";
 import {TechnicalParameter} from "../../domain/technical-parameter";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-body-type',
@@ -10,13 +11,17 @@ import {TechnicalParameter} from "../../domain/technical-parameter";
 export class BodyTypeComponent implements OnInit {
   name = "bodyType";
   parameters: TechnicalParameter[];
-  newParameter: any = {};
-  editedParameter: any = {};
-  error: String = "";
-  cloneParameter: any = {};
-  flag: boolean = false;
+  newParameter = new TechnicalParameter();
+  editedParameter = new TechnicalParameter();
+  cloneParameter = new TechnicalParameter();
+  errorDelete: String;
+  errorCreate: String;
+  errorUpdate: String;
+  createModalRef: any;
+  updateModalRef: any;
+  deleteModalRef: any;
 
-  constructor(private technicalParameterService: TechnicalParameterService) {
+  constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -25,62 +30,54 @@ export class BodyTypeComponent implements OnInit {
 
   getTechnicalParameters() {
     this.technicalParameterService.getParameters(this.name)
-      .then(parameters => {
-          this.parameters = parameters;
-          this.clearError();
-        }
-      )
+      .then(parameters => this.parameters = parameters)
       .catch();
   }
 
-  showEditParameterModal(parameter: TechnicalParameter) {
-    this.cloneParameter = parameter;
-    this.editedParameter.id = parameter.id;
-    this.flag = true;
-  }
-
-  showDeleteParameterModal(parameter: TechnicalParameter) {
-    this.cloneParameter = parameter;
-  }
-
-  saveParameter(parameter: TechnicalParameter) {
-    this.technicalParameterService.addParameter(this.name, parameter)
+  saveParameter() {
+    this.technicalParameterService.addParameter(this.name, this.newParameter)
       .then(result => {
         this.parameters.push(result);
-        this.cancelNewParameter();
-        this.clearError();
+        this.createModalRef.close();
       })
-      .catch();
+      .catch(err => this.errorCreate = err);
   }
 
-  removeParameter(parameter: TechnicalParameter) {
-    this.technicalParameterService.deleteParameter(this.name, parameter)
+  removeParameter() {
+    this.technicalParameterService.deleteParameter(this.name, this.cloneParameter)
       .then(result => {
-        this.parameters.splice(this.parameters.indexOf(parameter), 1);
-        this.clearError();
-      }).catch();
+        this.parameters.splice(this.parameters.indexOf(this.cloneParameter), 1);
+        this.deleteModalRef.close();
+      })
+      .catch(err => this.errorDelete = err);
   }
 
   updateParameter() {
     this.technicalParameterService.updateParameter(this.name, this.editedParameter)
       .then(result => {
         this.parameters[this.parameters.indexOf(this.cloneParameter)].name = result.name;
-        this.cancelEdits();
-        this.clearError();
-      }).catch();
+        this.updateModalRef.close();
+      })
+      .catch(err => this.errorUpdate = err);
   }
 
-  cancelNewParameter() {
-    this.newParameter = {};
+  showCreate(content) {
+    this.errorCreate = "";
+    this.createModalRef = this.modalService.open(content);
+    this.newParameter = new TechnicalParameter();
   }
 
-  cancelEdits() {
-    this.editedParameter = {};
-    this.cloneParameter = {};
+  showDelete(parameter: TechnicalParameter, content) {
+    this.errorDelete = "";
+    this.deleteModalRef = this.modalService.open(content);
+    this.cloneParameter = parameter;
   }
 
-  clearError() {
-    this.error = "";
+  showUpdate(parameter: TechnicalParameter, content) {
+    this.errorUpdate = "";
+    this.updateModalRef = this.modalService.open(content);
+    this.cloneParameter = parameter;
+    this.editedParameter = new TechnicalParameter();
+    this.editedParameter.id = parameter.id;
   }
-
 }
