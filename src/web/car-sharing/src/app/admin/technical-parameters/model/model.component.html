@@ -37,12 +37,12 @@
         <input class="form-control" id="newName" name="newName" [(ngModel)]="editedParameter.name"
                required #newName="ngModel"/>
         <div [hidden]="newName.valid || newName.pristine" class="alert alert-danger">
-          <div [hidden]="!newName.hasError('required')">Фамилия обязательна</div>
+          <div [hidden]="!newName.hasError('required')">Обязательное поле</div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
       <button type="submit" class="btn btn-primary" [disabled]="!update.form.valid">Изменить</button>
     </div>
   </form>
@@ -61,7 +61,7 @@
     <p>Название: <b>{{cloneParameter.name}}</b></p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
     <button type="submit" class="btn btn-primary" (click)="removeParameter(cloneParameter)">Удалить</button>
   </div>
 </ng-template>

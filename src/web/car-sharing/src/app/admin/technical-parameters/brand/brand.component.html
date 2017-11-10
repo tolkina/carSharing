@@ -1,5 +1,5 @@
 <p align="center">
-  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newBrand">Добавить</button>
+  <button type="button" class="btn btn-success" (click)="showCreateBrand(contentCreateBrand)">Добавить</button>
 </p>
 <table class="table table-bordered table-striped table-hover">
   <thead>
@@ -19,8 +19,9 @@
       <div *ngIf="flag_model == parameter.id">
         <hr>
         <p align="center">
-          <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newModelInBrand"
-                  (click)="showNewModelModal(parameter)">Добавить модель
+          <button type="button" class="btn btn-outline-success"
+                  (click)="showCreateModel(parameter, contentCreateModel)">
+            Добавить модель
           </button>
         </p>
         <table class="table table-bordered table-striped table-hover">
@@ -30,13 +31,13 @@
               {{ model.name }}
             </td>
             <td align="center">
-              <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                      data-target="#changeModelInBrand"
-                      (click)="showEditModelModal(parameter, model)">Изменить модель
+              <button type="button" class="btn btn-outline-primary"
+                      (click)="showUpdateModel(parameter, model, contentUpdateModel)">
+                Изменить модель
               </button>
-              <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                      data-target="#deleteModelInBrand"
-                      (click)="showDeleteModelModal(parameter, model)">Удалить модель
+              <button type="button" class="btn btn-outline-danger"
+                      (click)="showDeleteModel(parameter, model, contentDeleteModel)">
+                Удалить модель
               </button>
             </td>
           </tr>
@@ -45,184 +46,162 @@
       <!--end models-->
     </td>
     <td align="center" width="20%">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeBrand"
-              (click)="showEditParameterModal(parameter)">Изменить
+      <button type="button" class="btn btn-primary" (click)="showUpdateBrand(parameter, contentUpdateBrand)">Изменить
       </button>
-      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteBrand"
-              (click)="showDeleteParameterModal(parameter)">Удалить
+      <button type="button" class="btn btn-danger" (click)="showDeleteBrand(parameter, contentDeleteBrand)">Удалить
       </button>
     </td>
   </tr>
   </tbody>
 </table>
 
-<div class="modal fade" id="newBrand" tabindex="-1" role="dialog" aria-labelledby="modalNewBrand" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalNewBrand">Новый параметр</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!--<div class="alert alert-danger" role="alert">
-          <strong>Ошибка!</strong> {{error}}
-        </div>-->
-        <form name="myForm">
-          <div class="form-group">
-            <label for="nameParamBrand" class="col-form-label">Название:</label>
-            <input class="form-control" id="nameParamBrand" name="name" [(ngModel)]="newParameter.name"/>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelNewParameter()">Отмена
-        </button>
-        <button type="button" class="btn btn-primary" (click)="saveParameter(newParameter)" data-dismiss="modal">
-          Сохранить
-        </button>
+<ng-template #contentCreateBrand let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Создание параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="saveBrand()" #createBrand="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorCreate">{{errorCreate}}</div>
+      <div class="form-group">
+        <label for="newParam" class="col-form-label">Название:</label>
+        <input class="form-control" id="newParam" name="newParam" [(ngModel)]="newBrand.name" required
+               #newParam="ngModel"/>
+        <div [hidden]="newParam.valid || newParam.pristine" class="alert alert-danger">
+          <div [hidden]="!newParam.hasError('required')">Обязательное поле</div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!createBrand.form.valid">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
 
-<div class="modal fade" id="changeBrand" tabindex="-1" role="dialog" aria-labelledby="modalChangeBrand"
-     aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalChangeBrand">Введите новое название</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<ng-template #contentUpdateBrand let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Изменение параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="updateBrand()" #update="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="form-group">
+        <label for="oldName" class="col-form-label">Старое название:</label>
+        <input disabled type="text" class="form-control" id="oldName" name="oldName"
+               placeholder="{{cloneBrand.name}}">
       </div>
-      <div class="modal-body">
-        <form name="myForm">
-          <div class="form-group">
-            <label for="oldNameBrand" class="col-form-label">Старое название:</label>
-            <input disabled type="text" class="form-control" id="oldNameBrand" placeholder="{{cloneParameter.name}}">
-          </div>
-          <div class="form-group">
-            <label for="newNameBrand" class="col-form-label">Новое название:</label>
-            <input class="form-control" id="newNameBrand" name="name" [(ngModel)]="editedParameter.name"/>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelEdits()">Отмена</button>
-        <button type="button" class="btn btn-primary" (click)="updateParameter()" data-dismiss="modal">Сохранить
-        </button>
+      <div class="form-group">
+        <label for="newName" class="col-form-label">Новое название:</label>
+        <input class="form-control" id="newName" name="newName" [(ngModel)]="editedBrand.name"
+               required #newName="ngModel"/>
+        <div [hidden]="newName.valid || newName.pristine" class="alert alert-danger">
+          <div [hidden]="!newName.hasError('required')">Обязательное поле</div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!update.form.valid">Изменить</button>
+    </div>
+  </form>
+</ng-template>
 
-<div class="modal fade" id="deleteBrand" tabindex="-1" role="dialog" aria-labelledby="modalDeleteBrand"
-     aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalDeleteBrand">Точно удалить?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Id: <b>{{cloneParameter.id}}</b></p>
-        <p>Название: <b>{{cloneParameter.name}}</b></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelEdits()">Отмена</button>
-        <button type="button" class="btn btn-primary" (click)="removeParameter(cloneParameter)" data-dismiss="modal">
-          Удалить
-        </button>
-      </div>
-    </div>
+<ng-template #contentDeleteBrand let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удаление параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+    <p>Id: <b>{{cloneBrand.id}}</b></p>
+    <p>Название: <b>{{cloneBrand.name}}</b></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="removeBrand()">Удалить</button>
+  </div>
+</ng-template>
 
 <!--Модальные окошки для моделей-->
-<div class="modal fade" id="newModelInBrand" tabindex="-1" role="dialog" aria-labelledby="modalNewModelInBrand"
-     aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalNewModelInBrand">Новая модель</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form name="myForm">
-          <div class="form-group">
-            <label for="nameParamModelInBrand" class="col-form-label">Название:</label>
-            <input class="form-control" id="nameParamModelInBrand" name="name" [(ngModel)]="newModel.name"/>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена
-        </button>
-        <button type="button" class="btn btn-primary" (click)="saveModel()" data-dismiss="modal">
-          Сохранить
-        </button>
+<ng-template #contentCreateModel let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Создание параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="saveModel()" #createModel="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorCreate">{{errorCreate}}</div>
+      <div class="form-group">
+        <label for="newModel1" class="col-form-label">Название:</label>
+        <input class="form-control" id="newModel1" name="newModel1" [(ngModel)]="newModel.name" required
+               #newModel1="ngModel"/>
+        <div [hidden]="newModel1.valid || newModel1.pristine" class="alert alert-danger">
+          <div [hidden]="!newModel1.hasError('required')">Обязательное поле</div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!createModel.form.valid">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
 
-<div class="modal fade" id="changeModelInBrand" tabindex="-1" role="dialog" aria-labelledby="modalChangeModelInBrand"
-     aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalChangeModelInBrand">Введите новое название модели</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<ng-template #contentUpdateModel let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Изменение параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="updateModel()" #updateModel1="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="form-group">
+        <label for="oldName" class="col-form-label">Старое название:</label>
+        <input disabled type="text" class="form-control" id="oldNameModel" name="oldNameModel"
+               placeholder="{{cloneModel.name}}">
       </div>
-      <div class="modal-body">
-        <form name="myForm">
-          <div class="form-group">
-            <label for="oldNameModelInBrand" class="col-form-label">Старое название:</label>
-            <input disabled type="text" class="form-control" id="oldNameModelInBrand" placeholder="{{cloneModel.name}}">
-          </div>
-          <div class="form-group">
-            <label for="newNameModelInBrand" class="col-form-label">Новое название:</label>
-            <input class="form-control" id="newNameModelInBrand" name="name" [(ngModel)]="editedModel.name"/>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-        <button type="button" class="btn btn-primary" (click)="updateModel()" data-dismiss="modal">Сохранить
-        </button>
+      <div class="form-group">
+        <label for="newNameModel" class="col-form-label">Новое название:</label>
+        <input class="form-control" id="newNameModel" name="newNameModel" [(ngModel)]="editedModel.name"
+               required #newNameModel="ngModel"/>
+        <div [hidden]="newNameModel.valid || newNameModel.pristine" class="alert alert-danger">
+          <div [hidden]="!newNameModel.hasError('required')">Обязательное поле</div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!updateModel1.form.valid">Изменить</button>
+    </div>
+  </form>
+</ng-template>
 
-<div class="modal fade" id="deleteModelInBrand" tabindex="-1" role="dialog" aria-labelledby="modalDeleteModelBrand"
-     aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalDeleteModelInBrand">Точно удалить модель?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Id: <b>{{cloneModel.id}}</b></p>
-        <p>Название: <b>{{cloneModel.name}}</b></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-        <button type="button" class="btn btn-primary" (click)="removeModel()" data-dismiss="modal">
-          Удалить
-        </button>
-      </div>
-    </div>
+<ng-template #contentDeleteModel let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удаление параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+    <p>Id: <b>{{cloneModel.id}}</b></p>
+    <p>Название: <b>{{cloneModel.name}}</b></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="removeModel()">Удалить</button>
+  </div>
+</ng-template>
