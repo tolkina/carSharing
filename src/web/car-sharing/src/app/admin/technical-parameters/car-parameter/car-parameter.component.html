@@ -1,0 +1,96 @@
+<p align="center">
+  <button type="button" class="btn btn-success" (click)="showCreate(contentCreate)">Добавить</button>
+</p>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th class="text-center" width="5%">Id</th>
+    <th class="text-center" colspan="2">Название</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let parameter of parameters">
+    <td>{{ parameter.id }}</td>
+    <td>{{ parameter.name }}</td>
+    <td align="center" width="20%">
+      <button type="button" class="btn btn-primary" (click)="showUpdate(parameter, contentUpdate)">Изменить</button>
+      <button type="button" class="btn btn-danger" (click)="showDelete(parameter, contentDelete)">Удалить</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #contentCreate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Создание параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="saveParameter()" #create="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorCreate">{{errorCreate}}</div>
+      <div class="form-group">
+        <label for="newParam" class="col-form-label">Название:</label>
+        <input class="form-control" id="newParam" name="newParam" [(ngModel)]="newParameter.name" required
+               #newParam="ngModel"/>
+        <div [hidden]="newParam.valid || newParam.pristine" class="alert alert-danger">
+          <div [hidden]="!newParam.hasError('required')">Обязательное поле</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!create.form.valid">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Изменение параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="updateParameter()" #update="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="form-group">
+        <label for="oldName" class="col-form-label">Старое название:</label>
+        <input disabled type="text" class="form-control" id="oldName" name="oldName"
+               placeholder="{{cloneParameter.name}}">
+      </div>
+      <div class="form-group">
+        <label for="newName" class="col-form-label">Новое название:</label>
+        <input class="form-control" id="newName" name="newName" [(ngModel)]="editedParameter.name"
+               required #newName="ngModel"/>
+        <div [hidden]="newName.valid || newName.pristine" class="alert alert-danger">
+          <div [hidden]="!newName.hasError('required')">Фамилия обязательна</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!update.form.valid">Изменить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentDelete let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удаление параметра</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+    <p>Id: <b>{{cloneParameter.id}}</b></p>
+    <p>Название: <b>{{cloneParameter.name}}</b></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="removeParameter(cloneParameter)">Удалить</button>
+  </div>
+</ng-template>

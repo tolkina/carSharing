@@ -51,6 +51,7 @@ import {AuthGuardService} from "./security/auth-guard.service";
 import {RoleAuthGuardService} from "./security/role-auth-guard.service";
 import {CreditCardComponent} from './user/credit-card/credit-card.component';
 import {CreditCardService} from "./user/service/credit-card.service";
+import {CarParameterComponent} from "./admin/technical-parameters/car-parameter/car-parameter.component";
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import {CreditCardService} from "./user/service/credit-card.service";
     PassportDataComponent,
     DriverLicenseComponent,
     ProfileAdComponent,
-    CreditCardComponent
+    CreditCardComponent,
+    CarParameterComponent
   ],
   imports: [
     BrowserModule,
