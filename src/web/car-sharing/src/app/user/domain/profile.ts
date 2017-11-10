@@ -4,5 +4,5 @@ export class Profile {
   birthday: Date;
   drivingExperience: number;
   avatarUrl: String;
-  confirmProfile: boolean;
+  confirmProfile: String;
 }

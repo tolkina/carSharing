@@ -42,6 +42,14 @@ export class ProfileService {
       .catch(this.handleError)
   }
 
+  confirmProfile() {
+    return this.http
+      .put(this.profileUrl + "/check-to-confirm", {})
+      .toPromise()
+      .then()
+      .catch(this.handleError)
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);
     return Promise.reject(error)

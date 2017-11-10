@@ -4,6 +4,7 @@ import {PassportDataService} from "../service/passport-data.service";
 import {clone} from "lodash";
 import {NgbDatepickerConfig, NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DateFormatter} from "../../date-formatter";
+import {ProfileInfoComponent} from "../profile-info/profile-info.component";
 
 @Component({
   selector: 'app-passport-data',
@@ -20,7 +21,8 @@ export class PassportDataComponent implements OnInit {
   validUntil: NgbDateStruct;
 
   constructor(private passportService: PassportDataService, config: NgbDatepickerConfig,
-              private dateFormatter: DateFormatter, private modalService: NgbModal) {
+              private dateFormatter: DateFormatter, private modalService: NgbModal,
+              private profileInfoComponent: ProfileInfoComponent) {
     config.minDate = {year: 1980, month: 1, day: 1};
     config.maxDate = {year: 2099, month: 12, day: 31};
   }
@@ -42,7 +44,8 @@ export class PassportDataComponent implements OnInit {
       .then(passport => {
         this.modalRef.close();
         this.passport = passport;
-        this.editedPassport = new PassportData()
+        this.editedPassport = new PassportData();
+        this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.noConfirm;
       })
       .catch(err => this.errorUpdate = err._body);
   }

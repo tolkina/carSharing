@@ -8,7 +8,6 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.*;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -572,8 +571,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ConfirmProfileResponse> getProfilesToConfirm() {
         List<ConfirmProfileResponse> profiles = new ArrayList<>();
-        profileRepository.findByConfirmProfile(ConfirmProfile.CHECK)
-                .forEach(profile -> profiles.add(modelMapper.map(profile, ConfirmProfileResponse.class)));
+        profileRepository.findByConfirmProfile(ConfirmProfile.CHECK).forEach(profile -> {
+            ConfirmProfileResponse confirmProfileResponse = modelMapper.map(profile, ConfirmProfileResponse.class);
+            confirmProfileResponse.setPassportDataResponse(
+                    modelMapper.map(profile.getPassportData(), PassportDataResponse.class));
+            confirmProfileResponse.setDriverLicenseResponse(
+                    modelMapper.map(profile.getDriverLicense(), DriverLicenseResponse.class));
+            profiles.add(confirmProfileResponse);
+        });
         return profiles;
     }
 
@@ -586,7 +591,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void setConfirmProfileNo(Long profileId) throws EntityNotFoundException,
             PrivilegeException, ConfirmProfileException {
-        confirmProfile(profileId, ConfirmProfile.YES);
+        confirmProfile(profileId, ConfirmProfile.NO);
     }
 
     private void confirmProfile(Long profileId, ConfirmProfile confirmProfile)

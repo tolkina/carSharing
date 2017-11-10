@@ -3,6 +3,7 @@ import {clone} from "lodash";
 import {DriverLicense} from "../domain/driver-license";
 import {DriverLicenseService} from "../service/driver-license.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ProfileInfoComponent} from "../profile-info/profile-info.component";
 
 @Component({
   selector: 'app-driver-license',
@@ -15,7 +16,8 @@ export class DriverLicenseComponent implements OnInit {
   errorUpdate: String;
   modalRef: any;
 
-  constructor(private driverLicenseService: DriverLicenseService, private modalService: NgbModal) {
+  constructor(private driverLicenseService: DriverLicenseService, private modalService: NgbModal,
+              private profileInfoComponent: ProfileInfoComponent) {
   }
 
   ngOnInit() {
@@ -28,6 +30,7 @@ export class DriverLicenseComponent implements OnInit {
         this.modalRef.close();
         this.driverLicense = driverLicense;
         this.editedDriverLicense = new DriverLicense();
+        this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.noConfirm;
       })
       .catch(err => this.errorUpdate = err._body);
   }

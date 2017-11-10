@@ -17,6 +17,9 @@ export class ProfileInfoComponent {
   editedProfile: Profile = new Profile();
   birthday: NgbDateStruct;
   errorUpdate: String;
+  noConfirm = "NO";
+  yesConfirm = "YES";
+  checkConfirm = "CHECK";
 
   constructor(private profileService: ProfileService, private activateRoute: ActivatedRoute,
               private dateFormatter: DateFormatter, private modalService: NgbModal) {
@@ -44,7 +47,8 @@ export class ProfileInfoComponent {
         this.editedProfile = new Profile();
       })
       .catch(error => {
-        this.errorUpdate = error._body});
+        this.errorUpdate = error._body
+      });
   }
 
   deleteProfile() {
@@ -58,5 +62,11 @@ export class ProfileInfoComponent {
     this.modalRef = this.modalService.open(content);
     this.editedProfile = clone(this.profile);
     this.birthday = this.dateFormatter.fromDate(this.profile.birthday);
+  }
+
+  confirmProfile() {
+    this.profileService.confirmProfile()
+      .then(res => this.profile.confirmProfile = this.checkConfirm)
+      .catch()
   }
 }

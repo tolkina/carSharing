@@ -1,3 +1,11 @@
+<div align="right">
+  <button type="button" class="btn-sm btn-primary" (click)="confirmProfile()"
+          *ngIf="profile.confirmProfile ==  noConfirm">Подтвердить профиль
+  </button>
+  <p *ngIf="profile.confirmProfile == yesConfirm">Профиль подтвержден</p>
+  <p *ngIf="profile.confirmProfile == checkConfirm">Профиль отправлен на подтверждение</p>
+</div>
+
 <div class="row">
   <div class="col-12 newblock" style="margin-top: 0"><h3>Общая информация</h3></div>
   <div class="col-4">
@@ -70,7 +78,8 @@
                  placeholder="Введите стаж вождения">
           <div [hidden]="drivingExperience.valid || drivingExperience.pristine"
                class="alert alert-danger">
-            <div [hidden]="!drivingExperience.hasError('pattern')">Стаж вождения должен состоять из цифр (максимум 3)</div>
+            <div [hidden]="!drivingExperience.hasError('pattern')">Стаж вождения должен состоять из цифр (максимум 3)
+            </div>
           </div>
         </label>
       </div>

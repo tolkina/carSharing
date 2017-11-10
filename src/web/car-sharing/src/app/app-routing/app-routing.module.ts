@@ -32,6 +32,7 @@ import {AllAdsComponent} from "../user/all-ads/all-ads.component";
 import {AuthGuardService} from "../security/auth-guard.service";
 import {RoleAuthGuardService} from "../security/role-auth-guard.service";
 import {CreditCardComponent} from "../user/credit-card/credit-card.component";
+import {ConfirmProfileComponent} from "../admin/confirm-profile/confirm-profile.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -54,7 +55,8 @@ const routes: Routes = [
           {path: 'interior-material', component: InteriorMaterialComponent},
           {path: 'color', component: ColorComponent},
         ]
-      }]
+      },
+      {path: 'profile', component: ConfirmProfileComponent}]
   },
   {
     path: '', component: UserHomePageComponent,
