@@ -1,7 +1,6 @@
 package com.exposit.carsharing.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,7 +10,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "profile")
 public class Profile extends AbstractEntity {
@@ -27,7 +25,8 @@ public class Profile extends AbstractEntity {
     @Column(name = "driving_experience")
     private double drivingExperience;
 
-    private boolean confirmProfile;
+    @Enumerated(value = EnumType.STRING)
+    private ConfirmProfile confirmProfile;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<CreditCard> creditCards;
@@ -58,4 +57,8 @@ public class Profile extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+
+    public Profile() {
+        this.confirmProfile = ConfirmProfile.NO;
+    }
 }

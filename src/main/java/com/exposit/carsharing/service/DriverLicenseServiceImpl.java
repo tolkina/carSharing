@@ -49,6 +49,7 @@ public class DriverLicenseServiceImpl implements DriverLicenseService {
         driverLicenseNew.setId(driverLicenseOld.getId());
         driverLicenseNew.setOwner(driverLicenseOld.getOwner());
         driverLicenseRepository.save(driverLicenseNew);
+        profileService.setConfirmProfileNo(ownerId);
         return mapToResponse(driverLicenseNew);
     }
 

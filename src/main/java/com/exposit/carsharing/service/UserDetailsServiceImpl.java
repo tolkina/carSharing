@@ -25,6 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Profile user = profileRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));

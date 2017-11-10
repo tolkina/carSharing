@@ -4,7 +4,9 @@ import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.dto.UserResponse;
+import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 
 import java.util.List;
 
@@ -20,4 +22,8 @@ public interface ProfileService {
     void delete(Long profileId) throws EntityNotFoundException;
 
     UserResponse findByEmail(String email) throws EntityNotFoundException;
+
+    void setConfirmProfileCheck(Long profileId) throws EntityNotFoundException, ConfirmProfileException;
+
+    void setConfirmProfileNo(Long profileId) throws EntityNotFoundException;
 }

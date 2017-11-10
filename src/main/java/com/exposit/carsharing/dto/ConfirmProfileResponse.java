@@ -9,11 +9,12 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class ProfileResponse extends AbstractResponse {
-    private String avatarUrl;
+public class ConfirmProfileResponse extends AbstractResponse {
     private String email;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private double drivingExperience;
     private ConfirmProfile confirmProfile;
+    private PassportDataResponse passportDataResponse;
+    private DriverLicenseResponse driverLicenseResponse;
 }

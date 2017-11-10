@@ -1,10 +1,7 @@
 package com.exposit.carsharing.service;
 
-import com.exposit.carsharing.domain.*;
-import com.exposit.carsharing.dto.BrandResponse;
-import com.exposit.carsharing.dto.CarParameterRequest;
-import com.exposit.carsharing.dto.CarParameterResponse;
-import com.exposit.carsharing.dto.ModelResponse;
+import com.exposit.carsharing.dto.*;
+import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -141,6 +138,7 @@ public interface AdminService {
     ModelResponse getModel(Long id) throws EntityNotFoundException;
 
     // ---------------------- Tires season --------------------
+
     void checkTiresSeasonExist(String name) throws EntityNotFoundException;
 
     void checkTiresSeasonNameUsed(String name) throws EntityAlreadyExistException;
@@ -154,4 +152,14 @@ public interface AdminService {
     List<CarParameterResponse> getAllTiresSeasons();
 
     CarParameterResponse getTiresSeason(Long id) throws EntityNotFoundException;
+
+    // ------------------------- Confirm Profile --------------------
+
+    List<ConfirmProfileResponse> getProfilesToConfirm();
+
+    void setConfirmProfileYes(Long profileId)
+            throws EntityNotFoundException, PrivilegeException, ConfirmProfileException;
+
+    void setConfirmProfileNo(Long profileId)
+            throws EntityNotFoundException, PrivilegeException, ConfirmProfileException;
 }

@@ -1,9 +1,11 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.domain.ConfirmProfile;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.dto.UserResponse;
+import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.repository.ProfileRepository;
 import org.modelmapper.ModelMapper;
@@ -65,6 +67,22 @@ public class ProfileServiceImpl implements ProfileService {
             throw new EntityNotFoundException("Profile not found.");
         }
         return modelMapper.map(profile, UserResponse.class);
+    }
+
+    @Override
+    public void setConfirmProfileCheck(Long profileId) throws EntityNotFoundException, ConfirmProfileException {
+        Profile profile = getProfile(profileId);
+        if (profile.getConfirmProfile().equals(ConfirmProfile.YES)) {
+            throw new ConfirmProfileException("This profile has been already confirmed.");
+        }
+        profile.setConfirmProfile(ConfirmProfile.CHECK);
+        mapToResponse(profile);
+    }
+
+    @Override
+    public void setConfirmProfileNo(Long profileId) throws EntityNotFoundException {
+        Profile profile = getProfile(profileId);
+        profile.setConfirmProfile(ConfirmProfile.NO);
     }
 
     private ProfileResponse mapToResponse(Profile profile) {

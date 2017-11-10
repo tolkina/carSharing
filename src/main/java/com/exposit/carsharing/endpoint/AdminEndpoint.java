@@ -1,10 +1,7 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.CarParameterRequest;
-import com.exposit.carsharing.exception.EntityAlreadyExistException;
-import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.exception.UnauthorizedException;
+import com.exposit.carsharing.exception.*;
 import com.exposit.carsharing.service.AdminService;
 import com.exposit.carsharing.service.SecurityService;
 import org.springframework.stereotype.Component;
@@ -361,5 +358,32 @@ public class AdminEndpoint {
     @Path("/tires-season/{id}")
     public Response getTiresSeason(@PathParam("id") Long id) throws EntityNotFoundException {
         return Response.status(200).entity(adminService.getTiresSeason(id)).build();
+    }
+
+    // ------------------------- Confirm Profile --------------------
+
+    @GET
+    @Path("/confirm-profile")
+    public Response getProfilesToConfirm() throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
+        checkAdmin();
+        return Response.status(200).entity(adminService.getProfilesToConfirm()).build();
+    }
+
+    @PUT
+    @Path("/profile/{id}/confirm")
+    public Response setConfirmProfileYes(@PathParam("id") Long id)
+            throws EntityNotFoundException, UnauthorizedException, PrivilegeException, ConfirmProfileException {
+        checkAdmin();
+        adminService.setConfirmProfileYes(id);
+        return Response.status(200).build();
+    }
+
+    @PUT
+    @Path("/profile/{id}/not-confirm")
+    public Response setConfirmProfileNo(@PathParam("id") Long id)
+            throws EntityNotFoundException, UnauthorizedException, PrivilegeException, ConfirmProfileException {
+        checkAdmin();
+        adminService.setConfirmProfileNo(id);
+        return Response.status(200).build();
     }
 }

@@ -1,10 +1,8 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.*;
-import com.exposit.carsharing.dto.BrandResponse;
-import com.exposit.carsharing.dto.CarParameterRequest;
-import com.exposit.carsharing.dto.CarParameterResponse;
-import com.exposit.carsharing.dto.ModelResponse;
+import com.exposit.carsharing.dto.*;
+import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -33,8 +31,8 @@ public class AdminServiceImpl implements AdminService {
     private final ModelMapper modelMapper;
     private final ProfileService profileService;
     private final RoleRepository roleRepository;
+    private final ProfileRepository profileRepository;
 
-    @Autowired
     public AdminServiceImpl(BodyTypeRepository bodyTypeRepository,
                             BrandRepository brandRepository,
                             ColorRepository colorRepository,
@@ -44,7 +42,8 @@ public class AdminServiceImpl implements AdminService {
                             InteriorMaterialRepository interiorMaterialRepository,
                             ModelRepository modelRepository,
                             TiresSeasonRepository tiresSeasonRepository,
-                            ModelMapper modelMapper, ProfileService profileService, RoleRepository roleRepository) {
+                            ModelMapper modelMapper, ProfileService profileService, RoleRepository roleRepository,
+                            ProfileRepository profileRepository) {
         this.bodyTypeRepository = bodyTypeRepository;
         this.brandRepository = brandRepository;
         this.colorRepository = colorRepository;
@@ -57,6 +56,7 @@ public class AdminServiceImpl implements AdminService {
         this.modelMapper = modelMapper;
         this.profileService = profileService;
         this.roleRepository = roleRepository;
+        this.profileRepository = profileRepository;
     }
 
     @Override
@@ -565,5 +565,36 @@ public class AdminServiceImpl implements AdminService {
             throw new EntityNotFoundException("Tires season", id);
         }
         return modelMapper.map(tiresSeason, CarParameterResponse.class);
+    }
+
+    // ------------------------- Confirm Profile --------------------
+
+    @Override
+    public List<ConfirmProfileResponse> getProfilesToConfirm() {
+        List<ConfirmProfileResponse> profiles = new ArrayList<>();
+        profileRepository.findByConfirmProfile(ConfirmProfile.CHECK)
+                .forEach(profile -> profiles.add(modelMapper.map(profile, ConfirmProfileResponse.class)));
+        return profiles;
+    }
+
+    @Override
+    public void setConfirmProfileYes(Long profileId) throws EntityNotFoundException,
+            PrivilegeException, ConfirmProfileException {
+        confirmProfile(profileId, ConfirmProfile.YES);
+    }
+
+    @Override
+    public void setConfirmProfileNo(Long profileId) throws EntityNotFoundException,
+            PrivilegeException, ConfirmProfileException {
+        confirmProfile(profileId, ConfirmProfile.YES);
+    }
+
+    private void confirmProfile(Long profileId, ConfirmProfile confirmProfile)
+            throws EntityNotFoundException, ConfirmProfileException {
+        Profile profile = profileService.getProfile(profileId);
+        if (!profile.getConfirmProfile().equals(ConfirmProfile.CHECK)) {
+            throw new ConfirmProfileException("This profile has not been submitted for confirm");
+        }
+        profile.setConfirmProfile(confirmProfile);
     }
 }

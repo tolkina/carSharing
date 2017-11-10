@@ -1,6 +1,7 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.ProfileRequest;
+import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.UnauthorizedException;
 import com.exposit.carsharing.service.CarService;
@@ -57,6 +58,14 @@ public class ProfileEndpoint {
             throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(profileService.updateProfile(ownerId, profileRequest)).build();
+    }
+
+    @PUT
+    @Path("/check-to-confirm")
+    public Response checkToConfirmProfile() throws EntityNotFoundException, UnauthorizedException, ConfirmProfileException {
+        Long profileId = securityService.getPrincipalId();
+        profileService.setConfirmProfileCheck(profileId);
+        return Response.status(200).build();
     }
 
     @DELETE

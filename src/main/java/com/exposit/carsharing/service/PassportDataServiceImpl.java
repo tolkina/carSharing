@@ -49,6 +49,7 @@ public class PassportDataServiceImpl implements PassportDataService {
         passportDataNew.setOwner(passportDataOld.getOwner());
         passportDataNew.setId(passportDataOld.getId());
         passportDataRepository.save(passportDataNew);
+        profileService.setConfirmProfileNo(ownerId);
         return mapToResponse(passportDataNew);
     }
 
