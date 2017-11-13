@@ -5,7 +5,7 @@ import {Ad} from "../domain/ad";
 import {ActivatedRoute, Router} from "@angular/router";
 import {clone} from "lodash";
 import {Car} from "../domain/car";
-import {ProfileCarService} from "../service/profile-car.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-current-ad',
@@ -16,15 +16,22 @@ export class CurrentAdComponent implements OnInit {
 
   adId: number;
   ad = new Ad;
-  editedAd = new Ad();
-  car = new Car();
-  cars: Car[] = [];
-  selectedCar: number;
+  editedAd = new Ad;
+  car = new Car;
+  errorUpdate = "";
+  errorDelete = "";
+  flagCar = false;
 
   private subscription: Subscription;
+  private modalRef: any;
 
-  constructor(private adService: ProfileAdService, private carService: ProfileCarService, private router: Router, private activateRoute: ActivatedRoute) {
+  constructor(private adService: ProfileAdService, private router: Router, private activateRoute: ActivatedRoute,
+              private modalService: NgbModal) {
     this.subscription = activateRoute.params.subscribe(params => this.adId = params['adId']);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -33,34 +40,40 @@ export class CurrentAdComponent implements OnInit {
 
   getAd() {
     this.adService.getAd(this.adId)
-      .then(ad => {
-        this.ad = ad;
-      })
-      .catch();
-  }
-
-  getCarsOfOwner() {
-    this.carService.getCarsOfPrincipal()
-      .then(cars => this.cars = cars)
+      .then(ad => this.ad = ad)
       .catch();
   }
 
   updateAd() {
     this.adService.updateAd(this.editedAd, this.adId)
-      .then(ad => this.ad = this.editedAd)
-      .catch();
+      .then(ad => {
+        this.ad = ad;
+        this.modalRef.close()
+      })
+      .catch(err => this.errorUpdate = err);
   }
 
   deleteAd() {
-    this.adService.deleteAd(this.adId).then(res =>
+    this.adService.deleteAd(this.adId).then(res => {
+      this.modalRef.close();
       this.router.navigateByUrl('profile/ad')
-    )
-      .catch();
+    })
+      .catch(err => this.errorDelete = err);
   }
 
-  showEdit() {
+  showUpdate(content) {
+    this.errorUpdate = "";
+    this.modalRef = this.modalService.open(content);
     this.editedAd = clone(this.ad);
-    this.getCarsOfOwner();
+  }
+
+  showDelete(content) {
+    this.errorDelete = "";
+    this.modalRef = this.modalService.open(content);
+  }
+
+  showCar() {
+    this.flagCar = this.flagCar == false;
   }
 
 }

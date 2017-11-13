@@ -5,32 +5,15 @@
 <div class="row">
   <div class="col-md-4 col-sm-6" *ngFor="let ad of ads">
     <div class="card">
-      <img class="card-img-top" src="../../assets/images/placeholder-ad.jpg" alt="Car image">
-      <div class="card-body" align="center">
-        <div class="row">
-          <div class="col-6">
-            <h6>Местопложение машины:</h6>
-          </div>
-          <div class="col-6">
-            <p>{{ad.carLocation}}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <h6>Место возврата:</h6>
-          </div>
-          <div class="col-6">
-            <p>{{ad.returnPlace}}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <h6>Стоимость часа аренды:</h6>
-          </div>
-          <div class="col-6">
-            <p>{{ad.costPerHour}}</p>
-          </div>
-        </div>
+      <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image">
+      <div class="card-body">
+        <div class="card-text"><b>Машина: </b>{{ad.car.generalParameters.brand}}
+          {{ad.car.generalParameters.model}} {{ad.car.generalParameters.yearOfIssue}}</div>
+        <div class="card-text"><b>Местоположение: </b>{{ad.carLocation}}</div>
+        <div class="card-text"><b>Место возврата: </b>{{ad.returnPlace}}</div>
+        <div class="card-text"><b>За час: </b>{{ad.costPerHour}}</div>
+        <div class="card-text"><b>За день: </b>{{ad.costPerDay}}</div>
+        <div class="card-text"><b>За 3 дня: </b>{{ad.costPer3Days}}</div>
       </div>
       <div class="card-footer" align="center">
         <button [routerLink]="['/profile/ad', ad.id]" class="btn btn-primary" style="width: 100%">Посмотреть

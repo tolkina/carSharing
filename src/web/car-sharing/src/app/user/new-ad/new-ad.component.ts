@@ -15,6 +15,7 @@ export class NewAdComponent implements OnInit {
   ad: Ad = new Ad();
   cars: Car[] = [];
   selectedCar: number;
+  error = "";
 
   constructor(private adService: ProfileAdService, private router: Router, private carService: ProfileCarService) {
   }
@@ -25,14 +26,20 @@ export class NewAdComponent implements OnInit {
 
   getCarsOfOwner() {
     this.carService.getCarsOfPrincipal()
-      .then(cars => this.cars = cars)
+      .then(cars => {
+        this.cars = cars;
+        if (cars[0]) {
+          this.selectedCar = cars[0].id;
+        }
+      })
       .catch();
   }
 
-  addAd() {
+  createAd() {
+    this.error = "";
     this.adService.addAd(this.ad, this.selectedCar)
       .then(res => this.router.navigateByUrl('profile/ad'))
-      .catch();
+      .catch(err => this.error = err);
   }
 
 }

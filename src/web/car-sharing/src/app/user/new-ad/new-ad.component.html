@@ -1,62 +1,60 @@
-<h4 align="center">Создание объявления:</h4>
-<div class="row">
-  <div class="col-6">
-    <label class="col-form-label">Местоположение машины:</label>
-    <input class="form-control" [(ngModel)]="ad.carLocation" name="carLocation" #carLocation="ngModel" required/>
-    <div [hidden]="carLocation.valid || carLocation.untouched" class="alert alert-danger">
-      Не указано местоположение машины
-    </div>
-    <label class="col-form-label">Место возврата:</label>
-    <input class="form-control" [(ngModel)]="ad.returnPlace" name="returnPlace" #returnPlace="ngModel" required>
-    <div [hidden]="returnPlace.valid || returnPlace.untouched" class="alert alert-danger">
-      Не указано место возврата машины
-    </div>
+<form (ngSubmit)="createAd()" #create="ngForm">
+  <h4 align="center">Создание объявления:</h4>
+  <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
 
-
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <label for="car" class="col-form-label">Машина:</label>
-          <select class="form-control" id="car" name="car" [(ngModel)]="selectedCar" #car="ngModel" required>
-            <option *ngFor="let car of cars" [ngValue]="car.id">{{car.generalParameters.brand}}
-              {{car.generalParameters.model}} {{car.generalParameters.yearOfIssue}}
-            </option>
-          </select>
-        </div>
-        <div [hidden]="car.valid || car.untouched" class="alert alert-danger">
-          Не выбрана машина
-        </div>
-      </div>
-
-    </div>
+  <label for="carLocation" class="col-form-label">Местоположение машины:</label>
+  <input class="form-control" [(ngModel)]="ad.carLocation" id="carLocation" name="carLocation"
+         #carLocation="ngModel" required>
+  <div [hidden]="carLocation.valid || carLocation.pristine" class="alert alert-danger">
+    <div [hidden]="!carLocation.hasError('required')">Обязательное поле</div>
   </div>
-  <div class="col-6">
-    <label class="col-form-label">Стоимость часа аренды:</label>
-    <input type="text" class="form-control" [(ngModel)]="ad.costPerHour" name="costPerHour" #costPerHour="ngModel"
-           required
-           pattern="[0-9]">
-    <div [hidden]="costPerHour.valid || costPerHour.untouched" class="alert alert-danger">
-      Некорректная стоимость за час аренды
-    </div>
-    <label class="col-form-label">Стоимость аренды на день:</label>
-    <input type="text" class="form-control" [(ngModel)]="ad.costPerDay" name="costPerDay" #costPerDay="ngModel" required
-           pattern="[0-9]">
-    <div [hidden]="costPerDay.valid || costPerDay.untouched" class="alert alert-danger">
-      Некорректная стоимость за день аренды
-    </div>
-    <label class="col-form-label">Стоимость аренды на 3 дня:</label>
-    <input type="text" class="form-control" [(ngModel)]="ad.costPer3Days" name="costPer3Days" #costPer3Days="ngModel"
-           required
-           pattern="[0-9]">
-    <div [hidden]="costPer3Days.valid || costPer3Days.untouched" class="alert alert-danger">
-      Некорректная стоимость за три дня аренды
-    </div>
+
+  <label for="returnPlace" class="col-form-label">Место возврата:</label>
+  <input class="form-control" [(ngModel)]="ad.returnPlace" name="returnPlace" id="returnPlace"
+         #returnPlace="ngModel"
+         required>
+  <div [hidden]="returnPlace.valid || returnPlace.pristine" class="alert alert-danger">
+    <div [hidden]="!returnPlace.hasError('required')">Обязательное поле</div>
   </div>
-</div>
-<hr>
-<div align="center">
-  <button [disabled]="carLocation.invalid || returnPlace.invalid
-  || car.invalid || costPerHour.invalid || costPerDay.invalid || costPer3Days.invalid" class="btn btn-success"
-          (click)="addAd()">Добавить
-  </button>
-</div>
+
+  <div class="form-group">
+    <label for="car" class="col-form-label">Машина:</label>
+    <select class="form-control" id="car" name="car" [(ngModel)]="selectedCar" #car="ngModel" required>
+      <option *ngFor="let car of cars" [ngValue]="car.id">{{car.generalParameters.brand}}
+        {{car.generalParameters.model}} {{car.generalParameters.yearOfIssue}}
+      </option>
+    </select>
+  </div>
+  <div [hidden]="car.valid || car.pristine" class="alert alert-danger">
+    <div [hidden]="!car.hasError('required')">Обязательное поле</div>
+  </div>
+
+  <label for="costPerHour" class="col-form-label">Стоимость аренды за час:</label>
+  <input type="text" class="form-control" [(ngModel)]="ad.costPerHour" id="costPerHour" name="costPerHour"
+         #costPerHour="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
+  <div [hidden]="costPerHour.valid || costPerHour.pristine" class="alert alert-danger">
+    <div [hidden]="!costPerHour.hasError('pattern')">Десятичное число</div>
+    <div [hidden]="!costPerHour.hasError('required')">Обязательное поле</div>
+  </div>
+
+  <label for="costPerDay" class="col-form-label">Стоимость аренды за день:</label>
+  <input type="text" class="form-control" [(ngModel)]="ad.costPerDay" id="costPerDay" name="costPerDay"
+         #costPerDay="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
+  <div [hidden]="costPerDay.valid || costPerDay.pristine" class="alert alert-danger">
+    <div [hidden]="!costPerDay.hasError('pattern')">Десятичное число</div>
+    <div [hidden]="!costPerDay.hasError('required')">Обязательное поле</div>
+  </div>
+
+  <label for="costPer3Days" class="col-form-label">Стоимость аренды за 3 дня:</label>
+  <input type="text" class="form-control" [(ngModel)]="ad.costPer3Days" id="costPer3Days" name="costPer3Days"
+         #costPer3Days="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
+  <div [hidden]="costPer3Days.valid || costPer3Days.pristine" class="alert alert-danger">
+    <div [hidden]="!costPer3Days.hasError('pattern')">Десятичное число</div>
+    <div [hidden]="!costPer3Days.hasError('required')">Обязательное поле</div>
+  </div>
+
+  <hr>
+  <div align="center">
+    <button type="submit" [disabled]="!create.form.valid" class="btn btn-success">Добавить</button>
+  </div>
+</form>
