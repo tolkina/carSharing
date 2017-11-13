@@ -1,5 +1,6 @@
 import {Profile} from "./profile";
 import {Car} from "./car";
+
 export class Ad {
   id: number;
   carLocation: String;
@@ -7,6 +8,6 @@ export class Ad {
   costPerHour: number;
   costPerDay: number;
   costPer3Days: number;
-  owner: Profile;
-  car: Car;
+  owner = new Profile;
+  car = new Car;
 }

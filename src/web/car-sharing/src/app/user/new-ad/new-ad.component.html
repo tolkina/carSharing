@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-6">
     <label class="col-form-label">Местоположение машины:</label>
-    <input class="form-control" [(ngModel)]="ad.carLocation" name="carLocation" #carLocation="ngModel" required />
+    <input class="form-control" [(ngModel)]="ad.carLocation" name="carLocation" #carLocation="ngModel" required/>
     <div [hidden]="carLocation.valid || carLocation.untouched" class="alert alert-danger">
       Не указано местоположение машины
     </div>
@@ -15,12 +15,12 @@
 
     <div class="row">
       <div class="col">
-        <label class="col-form-label">Машина:</label>
         <div class="form-group">
-          <select class="form-control" #selectCar [ngModel]="selectedCar"  (ngModelChange)="onChangeCar(selectCar.value)" name="car" #car="ngModel" required>
-            <ng-container *ngFor="let car of cars">
-            <option  *ngIf="car.ad === null" [value]="car.id">{{car.generalParameters.brand}} {{car.generalParameters.model}}</option>
-            </ng-container>
+          <label for="car" class="col-form-label">Машина:</label>
+          <select class="form-control" id="car" name="car" [(ngModel)]="selectedCar" #car="ngModel" required>
+            <option *ngFor="let car of cars" [ngValue]="car.id">{{car.generalParameters.brand}}
+              {{car.generalParameters.model}} {{car.generalParameters.yearOfIssue}}
+            </option>
           </select>
         </div>
         <div [hidden]="car.valid || car.untouched" class="alert alert-danger">
@@ -28,25 +28,25 @@
         </div>
       </div>
 
-
-
-  </div>
+    </div>
   </div>
   <div class="col-6">
     <label class="col-form-label">Стоимость часа аренды:</label>
-    <input type="text" class="form-control" [(ngModel)]="ad.costPerHour" name="costPerHour" #costPerHour="ngModel" required
-    pattern="[0-9]">
+    <input type="text" class="form-control" [(ngModel)]="ad.costPerHour" name="costPerHour" #costPerHour="ngModel"
+           required
+           pattern="[0-9]">
     <div [hidden]="costPerHour.valid || costPerHour.untouched" class="alert alert-danger">
       Некорректная стоимость за час аренды
     </div>
     <label class="col-form-label">Стоимость аренды на день:</label>
-    <input type="text" class="form-control" [(ngModel)]="ad.costPerDay"  name="costPerDay" #costPerDay="ngModel" required
+    <input type="text" class="form-control" [(ngModel)]="ad.costPerDay" name="costPerDay" #costPerDay="ngModel" required
            pattern="[0-9]">
     <div [hidden]="costPerDay.valid || costPerDay.untouched" class="alert alert-danger">
       Некорректная стоимость за день аренды
     </div>
     <label class="col-form-label">Стоимость аренды на 3 дня:</label>
-    <input type="text" class="form-control" [(ngModel)]="ad.costPer3Days"  name="costPer3Days" #costPer3Days="ngModel" required
+    <input type="text" class="form-control" [(ngModel)]="ad.costPer3Days" name="costPer3Days" #costPer3Days="ngModel"
+           required
            pattern="[0-9]">
     <div [hidden]="costPer3Days.valid || costPer3Days.untouched" class="alert alert-danger">
       Некорректная стоимость за три дня аренды
@@ -56,5 +56,7 @@
 <hr>
 <div align="center">
   <button [disabled]="carLocation.invalid || returnPlace.invalid
-  || car.invalid || costPerHour.invalid || costPerDay.invalid || costPer3Days.invalid" class="btn btn-success" (click)="addAd()">Добавить</button>
+  || car.invalid || costPerHour.invalid || costPerDay.invalid || costPer3Days.invalid" class="btn btn-success"
+          (click)="addAd()">Добавить
+  </button>
 </div>

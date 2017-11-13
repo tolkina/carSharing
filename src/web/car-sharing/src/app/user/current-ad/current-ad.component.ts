@@ -15,9 +15,9 @@ import {ProfileCarService} from "../service/profile-car.service";
 export class CurrentAdComponent implements OnInit {
 
   adId: number;
-  ad: Ad = new Ad();
-  editedAd: Ad = new Ad();
-  car: Car = new Car();
+  ad = new Ad;
+  editedAd = new Ad();
+  car = new Car();
   cars: Car[] = [];
   selectedCar: number;
 
@@ -28,12 +28,14 @@ export class CurrentAdComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.adService.getAd(this.adId)
-      .then(ad => this.ad = ad)
-      .catch();
+    this.getAd();
+  }
 
-    this.carService.getCarByAd(this.adId)
-      .then(car => this.car = car)
+  getAd() {
+    this.adService.getAd(this.adId)
+      .then(ad => {
+        this.ad = ad;
+      })
       .catch();
   }
 
@@ -43,12 +45,6 @@ export class CurrentAdComponent implements OnInit {
       .catch();
   }
 
-  onChangeCar(newCar) {
-    console.log(newCar);
-    this.selectedCar = newCar;
-  }
-
-
   updateAd() {
     this.adService.updateAd(this.editedAd, this.adId)
       .then(ad => this.ad = this.editedAd)
@@ -57,7 +53,7 @@ export class CurrentAdComponent implements OnInit {
 
   deleteAd() {
     this.adService.deleteAd(this.adId).then(res =>
-      this.router.navigateByUrl('profile/ad/all')
+      this.router.navigateByUrl('profile/ad')
     )
       .catch();
   }

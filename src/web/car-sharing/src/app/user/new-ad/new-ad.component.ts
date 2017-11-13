@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Ad} from "../domain/ad";
 import {ProfileAdService} from "../service/profile-ad.service";
 import {Router} from "@angular/router";
-import {SecurityModel} from "../../security/security-model";
 import {Car} from "../domain/car";
 import {ProfileCarService} from "../service/profile-car.service";
 
@@ -17,8 +16,7 @@ export class NewAdComponent implements OnInit {
   cars: Car[] = [];
   selectedCar: number;
 
-  constructor(private adService: ProfileAdService, private router: Router, private securityModel: SecurityModel,
-              private carService: ProfileCarService) {
+  constructor(private adService: ProfileAdService, private router: Router, private carService: ProfileCarService) {
   }
 
   ngOnInit() {
@@ -31,14 +29,9 @@ export class NewAdComponent implements OnInit {
       .catch();
   }
 
-  onChangeCar(newCar) {
-    console.log(newCar);
-    this.selectedCar = newCar;
-  }
-
   addAd() {
-    this.adService.addAd(this.ad, 1, this.selectedCar)
-      .then(res => this.router.navigateByUrl('profile/ad/all'))
+    this.adService.addAd(this.ad, this.selectedCar)
+      .then(res => this.router.navigateByUrl('profile/ad'))
       .catch();
   }
 

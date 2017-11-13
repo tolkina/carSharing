@@ -1,55 +1,51 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {Ad} from "../domain/ad";
 
 @Injectable()
 export class ProfileAdService {
 
-  private profileUrl = '/api/profile/';
   private adUrl = '/api/ad/';
-  private carUrl = '/api/car';
-  constructor(private http:Http) { }
+  private adsOfPrincipalUrl = '/api/profile/ad';
 
-  addAd(ad: Ad, ownerId: number, carId: number) {
-    const url = `${this.adUrl}/${ownerId}/${carId}`;
+  constructor(private http: Http) {
+  }
+
+  addAd(ad: Ad, carId: number) {
     return this.http
-      .post(url, ad)
+      .post(this.adUrl + carId, ad)
       .toPromise()
       .then(res => res.json() as Ad)
       .catch(this.handleError);
   }
 
-  updateAd(ad:Ad, id:number): Promise<Ad>{
-    const url = `${this.adUrl}${id}`;
+  updateAd(ad: Ad, adId: number): Promise<Ad> {
     return this.http
-      .put(url, ad)
+      .put(this.adUrl + adId, ad)
       .toPromise()
-      .then(() => ad)
+      .then(res => res.json() as Ad)
       .catch(this.handleError)
   }
 
-  getAd(id:number): Promise<Ad> {
-    const url = `${this.adUrl}ad-${id}`;
+  getAd(adId: number): Promise<Ad> {
     return this.http
-      .get(url)
+      .get(this.adUrl + adId)
       .toPromise()
-      .then(response => {return response.json() as Ad})
+      .then(res => res.json() as Ad)
       .catch(this.handleError)
   }
 
-  getAllAdsForProfile(profileId:number) {
-    const url = `${this.adUrl}/${profileId}`;
+  getAllAdsForPrincipal() {
     return this.http
-      .get(url)
+      .get(this.adsOfPrincipalUrl)
       .toPromise()
       .then(res => res.json() as Ad[])
       .catch(this.handleError)
   }
 
-  deleteAd(id:number) {
-    const url = `${this.adUrl}/${id}`;
+  deleteAd(adId: number) {
     return this.http
-      .delete(url)
+      .delete(this.adUrl + adId)
       .toPromise()
       .then()
       .catch(this.handleError)

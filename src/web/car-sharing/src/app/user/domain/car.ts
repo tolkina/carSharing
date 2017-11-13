@@ -5,8 +5,8 @@ import {CurrentCondition} from "./currentCondition";
 
 export class Car {
   id: number;
-  generalParameters: GeneralParameters;
-  technicalParameters: TechnicalParameters;
-  currentCondition: CurrentCondition;
-  owner: Profile;
+  generalParameters = new GeneralParameters;
+  technicalParameters = new TechnicalParameters;
+  currentCondition = new CurrentCondition;
+  owner = new Profile;
 }

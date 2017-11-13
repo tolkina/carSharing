@@ -10,7 +10,7 @@ import {SecurityModel} from "../../security/security-model";
   styleUrls: ['./all-cars.component.css']
 })
 export class AllCarsComponent implements OnInit {
-  cars: Car[];
+  cars: Car[] = [];
   profileId: number;
   generalParameters: GeneralParameters;
 
