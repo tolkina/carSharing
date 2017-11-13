@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -38,7 +39,7 @@ public class Profile extends AbstractEntity {
     private PassportData passportData;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<Ad> ads;
+    private List<Ad> ads;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Deal> dealsWithMe;

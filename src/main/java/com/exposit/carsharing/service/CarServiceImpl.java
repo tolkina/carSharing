@@ -72,11 +72,6 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarResponse getByAd(Long adId){
-        return modelMapper.map(carRepository.findByAd_Id(adId), CarResponse.class);
-    }
-
-    @Override
     public List<CarResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException {
         Profile owner = profileService.getProfile(ownerId);
         List<CarResponse> cars = new ArrayList<>();

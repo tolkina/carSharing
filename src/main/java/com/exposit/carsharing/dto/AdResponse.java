@@ -15,4 +15,6 @@ public class AdResponse extends AbstractResponse {
     private BigDecimal costPerHour;
     private BigDecimal CostPerDay;
     private BigDecimal CostPer3Days;
+    private ProfileResponse owner;
+    private CarResponse car;
 }

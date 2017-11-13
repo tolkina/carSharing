@@ -4,6 +4,7 @@ import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.UnauthorizedException;
+import com.exposit.carsharing.service.AdService;
 import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.ProfileService;
 import com.exposit.carsharing.service.SecurityService;
@@ -17,26 +18,29 @@ import javax.ws.rs.core.Response;
 @Component
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
-@Path("/profile")
+@Path("/profile/")
 public class ProfileEndpoint {
     private final ProfileService profileService;
     private final CarService carService;
     private final SecurityService securityService;
+    private final AdService adService;
 
-    public ProfileEndpoint(ProfileService profileService, CarService carService, SecurityService securityService) {
+    public ProfileEndpoint(ProfileService profileService, CarService carService, SecurityService securityService,
+                           AdService adService) {
         this.profileService = profileService;
         this.carService = carService;
         this.securityService = securityService;
+        this.adService = adService;
     }
 
     @GET
-    @Path("/all")
+    @Path("all")
     public Response getAllProfiles() {
         return Response.status(200).entity(profileService.getAll()).build();
     }
 
     @GET
-    @Path("/principal")
+    @Path("principal")
     public Response getPrincipal() throws UnauthorizedException {
         return Response.status(200).entity(securityService.getPrincipal()).build();
     }
@@ -61,7 +65,7 @@ public class ProfileEndpoint {
     }
 
     @PUT
-    @Path("/check-to-confirm")
+    @Path("check-to-confirm")
     public Response checkToConfirmProfile() throws EntityNotFoundException, UnauthorizedException, ConfirmProfileException {
         Long profileId = securityService.getPrincipalId();
         profileService.setConfirmProfileCheck(profileId);
@@ -76,9 +80,15 @@ public class ProfileEndpoint {
     }
 
     @GET
-    @Path("/car")
+    @Path("car")
     public Response getAllCarsByOwner() throws UnauthorizedException, EntityNotFoundException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.getAllByOwner(ownerId)).build();
+    }
+
+    @GET
+    @Path("{profileId}/ad")
+    public Response getAllAdsByOwner(@PathParam("profileId") Long profileId) throws EntityNotFoundException {
+        return Response.status(200).entity(adService.getAllByOwner(profileId)).build();
     }
 }

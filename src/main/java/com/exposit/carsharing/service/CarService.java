@@ -1,6 +1,5 @@
 package com.exposit.carsharing.service;
 
-import com.exposit.carsharing.domain.Ad;
 import com.exposit.carsharing.domain.Car;
 import com.exposit.carsharing.domain.GeneralParameters;
 import com.exposit.carsharing.domain.TechnicalParameters;
@@ -16,8 +15,6 @@ public interface CarService {
     boolean isExist(Long id);
 
     Car getCar(Long id) throws EntityNotFoundException;
-
-    CarResponse getByAd(Long adId);
 
     CarResponse getCarResponse(Long id) throws EntityNotFoundException;
 
