@@ -59,6 +59,9 @@ public class Profile extends AbstractEntity {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
+    @Column(name = "count_of_overdue_booking")
+    private long countOfOverdueBooking;
+
     public Profile() {
         this.confirmProfile = ConfirmProfile.NO;
     }

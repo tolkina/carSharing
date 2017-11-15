@@ -16,4 +16,5 @@ public class ProfileResponse extends AbstractResponse {
     private LocalDate birthday;
     private double drivingExperience;
     private ConfirmProfile confirmProfile;
+    private long countOfOverdueBooking;
 }
