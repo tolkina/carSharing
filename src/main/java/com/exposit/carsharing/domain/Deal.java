@@ -1,7 +1,6 @@
 package com.exposit.carsharing.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,10 +8,13 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "deal")
 public class Deal extends AbstractEntity {
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DealStatus status;
+
     @Column(name = "booking_start_time")
     private Long bookingStartTime;
 
@@ -47,4 +49,8 @@ public class Deal extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "ad_id", nullable = false)
     private Ad ad;
+
+    public Deal() {
+        this.status = DealStatus.BOOKING;
+    }
 }

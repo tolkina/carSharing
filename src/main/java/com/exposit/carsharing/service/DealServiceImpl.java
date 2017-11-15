@@ -3,8 +3,10 @@ package com.exposit.carsharing.service;
 import com.exposit.carsharing.domain.Ad;
 import com.exposit.carsharing.domain.AdStatus;
 import com.exposit.carsharing.domain.Deal;
+import com.exposit.carsharing.domain.DealStatus;
 import com.exposit.carsharing.dto.DealRequest;
 import com.exposit.carsharing.dto.DealResponse;
+import com.exposit.carsharing.exception.DealException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.DealRepository;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -57,13 +60,48 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public DealResponse create(DealRequest dealRequest, Long customerId) throws EntityNotFoundException, PrivilegeException {
+    public DealResponse startRental(Long dealId, Long principalId)
+            throws EntityNotFoundException, PrivilegeException, DealException {
+        Deal deal = getDeal(dealId);
+        checkOwner(deal, principalId);
+        checkStatus(deal, DealStatus.BOOKING);
+        deal.setRentalStartTime(System.currentTimeMillis());
+        deal.setEstimatedRentalEndTime(calculateEstimatedRentalTime(deal));
+        deal.setStatus(DealStatus.RENTAL_START);
+        return mapToResponse(deal);
+    }
+
+    @Override
+    public DealResponse stopRental(Long dealId, Long principalId)
+            throws EntityNotFoundException, PrivilegeException, DealException {
+        Deal deal = getDeal(dealId);
+        checkOwner(deal, principalId);
+        checkStatus(deal, DealStatus.RENTAL_START);
+        deal.setRentalEndTime(System.currentTimeMillis());
+        recountPrice(deal);
+        deal.setStatus(DealStatus.RENTAL_END);
+        deal.getAd().setStatus(AdStatus.ACTUAL);
+        return mapToResponse(deal);
+    }
+
+    @Override
+    public DealResponse cancelBooking(Long dealId, Long principalId) throws EntityNotFoundException, PrivilegeException, DealException {
+        Deal deal = getDeal(dealId);
+        checkCustomer(deal, principalId);
+        checkStatus(deal, DealStatus.BOOKING);
+        deal.setStatus(DealStatus.CANCEL_BOOKING);
+        deal.getAd().setStatus(AdStatus.ACTUAL);
+        return mapToResponse(deal);
+    }
+
+    @Override
+    public DealResponse create(DealRequest dealRequest, Long customerId) throws EntityNotFoundException, DealException {
         Ad ad = adService.getAd(dealRequest.getAdId());
-        if (ad.getStatus() != AdStatus.ACTUAL) {
+        if (!ad.getStatus().equals(AdStatus.ACTUAL)) {
             throw new EntityNotFoundException("Ad", ad.getId());
         }
         if (ad.getOwner().getId().equals(customerId)) {
-            throw new PrivilegeException("This is your car.");
+            throw new DealException("This is your ad.");
         }
         Deal deal = new Deal();
         deal.setOwner(ad.getOwner());
@@ -76,10 +114,6 @@ public class DealServiceImpl implements DealService {
         dealRepository.save(deal);
         ad.setStatus(AdStatus.TAKEN);
         return mapToResponse(deal);
-    }
-
-    private Deal mapFromRequest(DealRequest dealRequest) {
-        return modelMapper.map(dealRequest, Deal.class);
     }
 
     private DealResponse mapToResponse(Deal deal) {
@@ -106,16 +140,46 @@ public class DealServiceImpl implements DealService {
         return deal;
     }
 
-    private BigDecimal multiple(int itemQuantity, BigDecimal itemPrice) {
+    private BigDecimal multiple(Long itemQuantity, BigDecimal itemPrice) {
         return itemPrice.multiply(new BigDecimal(itemQuantity));
     }
 
-    private BigDecimal calculateCost(Ad ad, int time) {
+    private BigDecimal calculateCost(Ad ad, Long time) {
         if (time < 24) {
             return multiple(time, ad.getCostPerHour());
         } else if (time < 72) {
             return multiple(time, ad.getCostPerDay());
         }
         return multiple(time, ad.getCostPer3Days());
+    }
+
+    private void checkOwner(Deal deal, Long principalId) throws PrivilegeException {
+        if (!deal.getOwner().getId().equals(principalId)) {
+            throw new PrivilegeException();
+        }
+    }
+
+    private void checkCustomer(Deal deal, Long principalId) throws PrivilegeException {
+        if (!deal.getCustomer().getId().equals(principalId)) {
+            throw new PrivilegeException();
+        }
+    }
+
+    private void checkStatus(Deal deal, DealStatus dealStatus) throws DealException {
+        if (!deal.getStatus().equals(dealStatus)) {
+            throw new DealException(String.format("Can't perform the action. The deal has status %s", deal.getStatus()));
+        }
+    }
+
+    private Long calculateEstimatedRentalTime(Deal deal) throws DealException {
+        Long millisForRent = TimeUnit.HOURS.toMillis(deal.getHoursForRent());
+        return deal.getRentalStartTime() + millisForRent;
+    }
+
+    private void recountPrice(Deal deal) {
+        long diff = deal.getRentalEndTime() - deal.getEstimatedRentalEndTime();
+        if (diff > 0) {
+            deal.setPrice(deal.getPrice().add(calculateCost(deal.getAd(), TimeUnit.MILLISECONDS.toHours(diff))));
+        }
     }
 }

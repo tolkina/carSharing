@@ -16,7 +16,7 @@ public class DealRequest implements Serializable {
     @NotNull
     @Min(1)
     @Max(72)
-    private int hoursOfRent;
+    private Long hoursOfRent;
     @NotNull
     private Long creditCardId;
 }

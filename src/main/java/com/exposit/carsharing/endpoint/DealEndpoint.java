@@ -1,6 +1,7 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.DealRequest;
+import com.exposit.carsharing.exception.DealException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.exception.UnauthorizedException;
@@ -28,7 +29,7 @@ public class DealEndpoint {
 
     @POST
     public Response createDeal(@Valid DealRequest dealRequest)
-            throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
+            throws EntityNotFoundException, UnauthorizedException, DealException {
         Long customerId = securityService.getPrincipalId();
         return Response.status(201).entity(dealService.create(dealRequest, customerId)).build();
     }
@@ -60,15 +61,27 @@ public class DealEndpoint {
         return Response.status(200).entity(dealService.get(dealId, principalId)).build();
     }
 
-    public Response startRental() {
-        return Response.status(200).entity(null).build();
+    @PUT
+    @Path("{id}/start-rental")
+    public Response startRental(@PathParam("id") Long dealId)
+            throws UnauthorizedException, EntityNotFoundException, PrivilegeException, DealException {
+        Long principalId = securityService.getPrincipalId();
+        return Response.status(200).entity(dealService.startRental(dealId, principalId)).build();
     }
 
-    public Response stopRental() {
-        return Response.status(200).entity(null).build();
+    @PUT
+    @Path("/{id}/stop-rental")
+    public Response stopRental(@PathParam("id") Long dealId)
+            throws UnauthorizedException, EntityNotFoundException, PrivilegeException, DealException {
+        Long principalId = securityService.getPrincipalId();
+        return Response.status(200).entity(dealService.stopRental(dealId, principalId)).build();
     }
 
-    public Response cancelBooking() {
-        return Response.status(200).entity(null).build();
+    @PUT
+    @Path("{id}/cancel-booking")
+    public Response cancelBooking(@PathParam("id") Long dealId)
+            throws UnauthorizedException, EntityNotFoundException, PrivilegeException, DealException {
+        Long principalId = securityService.getPrincipalId();
+        return Response.status(200).entity(dealService.cancelBooking(dealId, principalId)).build();
     }
 }

@@ -2,6 +2,7 @@ package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.dto.DealRequest;
 import com.exposit.carsharing.dto.DealResponse;
+import com.exposit.carsharing.exception.DealException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 
@@ -16,5 +17,11 @@ public interface DealService {
 
     List<DealResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException;
 
-    DealResponse create(DealRequest dealRequest, Long customerId) throws EntityNotFoundException, PrivilegeException;
+    DealResponse startRental(Long dealId, Long principalId) throws EntityNotFoundException, PrivilegeException, DealException;
+
+    DealResponse stopRental(Long dealId, Long principalId) throws EntityNotFoundException, PrivilegeException, DealException;
+
+    DealResponse cancelBooking(Long dealId, Long principalId) throws EntityNotFoundException, PrivilegeException, DealException;
+
+    DealResponse create(DealRequest dealRequest, Long customerId) throws EntityNotFoundException, DealException;
 }
