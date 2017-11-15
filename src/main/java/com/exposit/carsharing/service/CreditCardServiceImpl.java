@@ -55,7 +55,8 @@ public class CreditCardServiceImpl implements CreditCardService {
         creditCardRepository.delete(getCreditCard(creditCarId, ownerId));
     }
 
-    private CreditCard getCreditCard(Long creditCardId, Long ownerId) throws EntityNotFoundException {
+    @Override
+    public CreditCard getCreditCard(Long creditCardId, Long ownerId) throws EntityNotFoundException {
         Profile owner = profileService.getProfile(ownerId);
         CreditCard creditCard = creditCardRepository.findByIdAndOwner(creditCardId, owner);
         if (creditCard == null) {

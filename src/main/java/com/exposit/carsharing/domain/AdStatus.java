@@ -1,5 +1,5 @@
 package com.exposit.carsharing.domain;
 
 public enum AdStatus {
-    ACTUAl, NOT_RELEVANT, TAKEN
+    ACTUAL, NOT_RELEVANT, TAKEN
 }

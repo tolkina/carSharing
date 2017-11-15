@@ -41,10 +41,10 @@ public class Profile extends AbstractEntity {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Ad> ads;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Deal> dealsWithMe;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Deal> myDeals;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)

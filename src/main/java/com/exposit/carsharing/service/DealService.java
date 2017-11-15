@@ -16,5 +16,5 @@ public interface DealService {
 
     List<DealResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException;
 
-    DealResponse create(DealRequest dealRequest, Long adId, Long ownerId, Long customerId) throws EntityNotFoundException;
+    DealResponse create(DealRequest dealRequest, Long customerId) throws EntityNotFoundException, PrivilegeException;
 }

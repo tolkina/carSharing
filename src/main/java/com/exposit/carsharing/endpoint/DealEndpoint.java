@@ -27,12 +27,10 @@ public class DealEndpoint {
     }
 
     @POST
-    @Path("/{ad_id}/{owner_id}")
-    public Response createDeal(@PathParam("ad_id") Long adId, @PathParam("owner_id") Long ownerId,
-                               @Valid DealRequest dealRequest) throws EntityNotFoundException, UnauthorizedException {
+    public Response createDeal(@Valid DealRequest dealRequest)
+            throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
         Long customerId = securityService.getPrincipalId();
-        dealService.create(dealRequest, adId, ownerId, customerId);
-        return Response.status(201).entity(dealRequest).build();
+        return Response.status(201).entity(dealService.create(dealRequest, customerId)).build();
     }
 
     @GET
@@ -60,5 +58,17 @@ public class DealEndpoint {
             throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
         Long principalId = securityService.getPrincipalId();
         return Response.status(200).entity(dealService.get(dealId, principalId)).build();
+    }
+
+    public Response startRental() {
+        return Response.status(200).entity(null).build();
+    }
+
+    public Response stopRental() {
+        return Response.status(200).entity(null).build();
+    }
+
+    public Response cancelBooking() {
+        return Response.status(200).entity(null).build();
     }
 }

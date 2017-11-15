@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.domain.CreditCard;
 import com.exposit.carsharing.dto.CreditCardRequest;
 import com.exposit.carsharing.dto.CreditCardResponse;
 import com.exposit.carsharing.exception.EntityNotFoundException;
@@ -14,4 +15,6 @@ public interface CreditCardService {
     CreditCardResponse create(CreditCardRequest creditCardRequest, Long ownerId) throws EntityNotFoundException;
 
     void delete(Long creditCarId, Long ownerId) throws EntityNotFoundException;
+
+    CreditCard getCreditCard(Long creditCardId, Long ownerId) throws EntityNotFoundException;
 }

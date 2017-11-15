@@ -1,5 +1,7 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.domain.Ad;
+import com.exposit.carsharing.domain.AdStatus;
 import com.exposit.carsharing.domain.Deal;
 import com.exposit.carsharing.dto.DealRequest;
 import com.exposit.carsharing.dto.DealResponse;
@@ -10,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +23,15 @@ public class DealServiceImpl implements DealService {
     private final ProfileService profileService;
     private final AdService adService;
     private final ModelMapper modelMapper;
+    private final CreditCardService creditCardService;
 
-    public DealServiceImpl(DealRepository DealRepository, ProfileService profileService, AdService adService, ModelMapper modelMapper) {
+    public DealServiceImpl(DealRepository DealRepository, ProfileService profileService, AdService adService,
+                           ModelMapper modelMapper, CreditCardService creditCardService) {
         this.dealRepository = DealRepository;
         this.profileService = profileService;
         this.adService = adService;
         this.modelMapper = modelMapper;
+        this.creditCardService = creditCardService;
     }
 
     @Override
@@ -51,13 +57,24 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public DealResponse create(DealRequest dealRequest, Long adId, Long ownerId, Long customerId)
-            throws EntityNotFoundException {
-        Deal deal = mapFromRequest(dealRequest);
-        adService.getAd(adId);
-        deal.setOwner(profileService.getProfile(ownerId));
+    public DealResponse create(DealRequest dealRequest, Long customerId) throws EntityNotFoundException, PrivilegeException {
+        Ad ad = adService.getAd(dealRequest.getAdId());
+        if (ad.getStatus() != AdStatus.ACTUAL) {
+            throw new EntityNotFoundException("Ad", ad.getId());
+        }
+        if (ad.getOwner().getId().equals(customerId)) {
+            throw new PrivilegeException("This is your car.");
+        }
+        Deal deal = new Deal();
+        deal.setOwner(ad.getOwner());
         deal.setCustomer(profileService.getProfile(customerId));
+        deal.setCreditCard(creditCardService.getCreditCard(dealRequest.getCreditCardId(), customerId));
+        deal.setBookingStartTime(System.currentTimeMillis());
+        deal.setPrice(calculateCost(ad, dealRequest.getHoursOfRent()));
+        deal.setAd(ad);
+        deal.setHoursForRent(deal.getHoursForRent());
         dealRepository.save(deal);
+        ad.setStatus(AdStatus.TAKEN);
         return mapToResponse(deal);
     }
 
@@ -87,5 +104,18 @@ public class DealServiceImpl implements DealService {
             throw new EntityNotFoundException("Deal", dealId);
         }
         return deal;
+    }
+
+    private BigDecimal multiple(int itemQuantity, BigDecimal itemPrice) {
+        return itemPrice.multiply(new BigDecimal(itemQuantity));
+    }
+
+    private BigDecimal calculateCost(Ad ad, int time) {
+        if (time < 24) {
+            return multiple(time, ad.getCostPerHour());
+        } else if (time < 72) {
+            return multiple(time, ad.getCostPerDay());
+        }
+        return multiple(time, ad.getCostPer3Days());
     }
 }

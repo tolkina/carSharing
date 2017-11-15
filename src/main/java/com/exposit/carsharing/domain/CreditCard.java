@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,4 +28,7 @@ public class CreditCard extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
+
+    @OneToMany(mappedBy = "creditCard", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Deal> deals;
 }

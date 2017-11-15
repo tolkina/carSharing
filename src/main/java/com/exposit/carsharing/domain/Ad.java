@@ -1,19 +1,19 @@
 package com.exposit.carsharing.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "ad")
 public class Ad extends AbstractEntity {
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AdStatus status;
 
     @Column(name = "car_location")
@@ -35,8 +35,14 @@ public class Ad extends AbstractEntity {
     @JoinColumn(name = "owner_id", nullable = false)
     private Profile owner;
 
-//    @OneToOne(mappedBy = "ad",fetch = FetchType.LAZY, orphanRemoval = true)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     private Car car;
+
+    @OneToMany(mappedBy = "ad", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Deal> deals;
+
+    public Ad() {
+        this.status = AdStatus.ACTUAL;
+    }
 }
