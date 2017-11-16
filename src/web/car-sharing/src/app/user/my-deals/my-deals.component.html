@@ -6,7 +6,8 @@
         <div class="card-text"><b>Статус: </b>{{deal.status}}</div>
         <div class="card-text"><b>Начало бронирования: </b>{{deal.bookingStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
         <div class="card-text"><b>Начало аренды: </b>{{deal.rentalStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
-        <div class="card-text"><b>Предполагаемое окончание аренды: </b>{{deal.estimatedRentalEndTime | date: 'hh:mm:ss dd-MM-yyyy'}}
+        <div class="card-text"><b>Предполагаемое окончание аренды: </b>{{deal.estimatedRentalEndTime |
+          date: 'hh:mm:ss dd-MM-yyyy'}}
         </div>
         <div class="card-text"><b>Окончание аренды: </b>{{deal.rentalEndTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
         <div class="card-text"><b>Депозит: </b>{{deal.deposit}}</div>
@@ -21,6 +22,28 @@
           {{deal.creditCard.number}} {{deal.creditCard.validUntil}}
         </div>
       </div>
+      <div class="card-footer" align="center">
+        <button class="btn btn-primary" style="width: 100%" *ngIf="deal.status==dealStatus.booking"
+                (click)="showCancelBooking(deal, contentCancelBooking)">
+          Отменить бронирование
+        </button>
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #contentCancelBooking let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите отмену бронирования</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="dealError">{{dealError}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="cancelBooking()">Подтвердить</button>
+  </div>
+</ng-template>

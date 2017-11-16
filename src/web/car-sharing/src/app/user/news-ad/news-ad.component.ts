@@ -16,7 +16,6 @@ import {Router} from "@angular/router";
 export class NewsAdComponent implements OnInit {
   confirm = "YES";
   ads: Ad[] = [];
-  cloneAd: Ad = new Ad;
   dealError = "";
   creditCards: CreditCard[] = [];
   newDeal: any = {};
@@ -40,7 +39,6 @@ export class NewsAdComponent implements OnInit {
 
   showCreateDeal(ad: Ad, content) {
     this.dealError = "";
-    this.cloneAd = ad;
     this.modalRef = this.modalService.open(content);
     this.newDeal.adId = ad.id;
     this.newDeal.hoursOfRent = 1;
