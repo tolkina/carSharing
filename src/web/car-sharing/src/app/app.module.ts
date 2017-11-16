@@ -54,6 +54,8 @@ import {CreditCardService} from "./user/service/credit-card.service";
 import {CarParameterComponent} from "./admin/technical-parameters/car-parameter/car-parameter.component";
 import {ConfirmProfileComponent} from './admin/confirm-profile/confirm-profile.component';
 import {ConfirmProfileService} from "./admin/service/confirm-profile.service";
+import {NewsAdComponent} from './user/news-ad/news-ad.component';
+import {DealService} from "./user/service/deal.service";
 
 @NgModule({
   declarations: [
@@ -63,14 +65,14 @@ import {ConfirmProfileService} from "./admin/service/confirm-profile.service";
     BrandComponent, ModelComponent, ColorComponent, DriveUnitComponent, FuelTypeComponent, InteriorMaterialComponent,
     TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, LogoutComponent, EqualValidator,
     AllAdsComponent, NewAdComponent, CurrentAdComponent, PassportDataComponent, DriverLicenseComponent,
-    ProfileAdComponent, CreditCardComponent, CarParameterComponent, ConfirmProfileComponent
+    ProfileAdComponent, CreditCardComponent, CarParameterComponent, ConfirmProfileComponent, NewsAdComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, ReactiveFormsModule, NgbModule.forRoot()
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
     CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuardService, DateFormatter,
-    RoleAuthGuardService, CreditCardService, ConfirmProfileService],
+    RoleAuthGuardService, CreditCardService, ConfirmProfileService, DealService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

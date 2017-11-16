@@ -1,6 +1,7 @@
 package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.Ad;
+import com.exposit.carsharing.domain.AdStatus;
 import com.exposit.carsharing.domain.Car;
 import com.exposit.carsharing.dto.AdRequest;
 import com.exposit.carsharing.dto.AdResponse;
@@ -48,6 +49,12 @@ public class AdServiceImpl implements AdService {
     @Override
     public List<AdResponse> getAll() {
         return mapAllToResponse(adRepository.findAll());
+    }
+
+    @Override
+    public List<AdResponse> getAllNotMyActual(Long principalId) throws EntityNotFoundException {
+        return mapAllToResponse(adRepository.findAllByOwnerIsNotAndStatus(
+                profileService.getProfile(principalId), AdStatus.ACTUAL));
     }
 
     @Override

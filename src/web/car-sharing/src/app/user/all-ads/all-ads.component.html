@@ -7,8 +7,10 @@
     <div class="card">
       <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image">
       <div class="card-body">
+        <div class="card-text"><b>Статус: </b>{{ad.status}}</div>
         <div class="card-text"><b>Машина: </b>{{ad.car.generalParameters.brand}}
-          {{ad.car.generalParameters.model}} {{ad.car.generalParameters.yearOfIssue}}</div>
+          {{ad.car.generalParameters.model}} {{ad.car.generalParameters.yearOfIssue}}
+        </div>
         <div class="card-text"><b>Местоположение: </b>{{ad.carLocation}}</div>
         <div class="card-text"><b>Место возврата: </b>{{ad.returnPlace}}</div>
         <div class="card-text"><b>За час: </b>{{ad.costPerHour}}</div>

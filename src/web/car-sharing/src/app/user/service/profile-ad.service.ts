@@ -43,6 +43,14 @@ export class ProfileAdService {
       .catch(this.handleError)
   }
 
+  getAllNotMyActualAds() {
+    return this.http
+      .get(this.adUrl+"all-not-my")
+      .toPromise()
+      .then(res => res.json() as Ad[])
+      .catch(this.handleError)
+  }
+
   deleteAd(adId: number) {
     return this.http
       .delete(this.adUrl + adId)

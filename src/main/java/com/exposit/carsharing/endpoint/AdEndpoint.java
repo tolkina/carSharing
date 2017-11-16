@@ -49,6 +49,13 @@ public class AdEndpoint {
     }
 
     @GET
+    @Path("all-not-my")
+    public Response getAllNotMyActualAds() throws UnauthorizedException, EntityNotFoundException {
+        Long principalId = securityService.getPrincipalId();
+        return Response.status(200).entity(adService.getAllNotMyActual(principalId)).build();
+    }
+
+    @GET
     @Path("{adId}")
     public Response getAd(@PathParam("adId") Long id) throws EntityNotFoundException {
         return Response.status(200).entity(adService.getAdResponse(id)).build();

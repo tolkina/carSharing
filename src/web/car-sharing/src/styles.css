@@ -1,3 +1,7 @@
 input.ng-invalid {
   border: solid #ffc36f 2px;
 }
+
+select.ng-invalid {
+  border: solid #ffc36f 2px;
+}

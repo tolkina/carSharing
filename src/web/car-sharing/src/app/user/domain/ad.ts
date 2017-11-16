@@ -3,6 +3,7 @@ import {Car} from "./car";
 
 export class Ad {
   id: number;
+  status: string;
   carLocation: String;
   returnPlace: String;
   costPerHour: number;

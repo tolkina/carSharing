@@ -17,6 +17,8 @@ public interface AdService {
 
     List<AdResponse> getAll();
 
+    List<AdResponse> getAllNotMyActual(Long principalId) throws EntityNotFoundException;
+
     Collection<AdResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException;
 
     AdResponse create(AdRequest adRequest, Long ownerId, Long carId) throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException;

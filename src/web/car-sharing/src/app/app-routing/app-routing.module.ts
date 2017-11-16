@@ -33,6 +33,7 @@ import {AuthGuardService} from "../security/auth-guard.service";
 import {RoleAuthGuardService} from "../security/role-auth-guard.service";
 import {CreditCardComponent} from "../user/credit-card/credit-card.component";
 import {ConfirmProfileComponent} from "../admin/confirm-profile/confirm-profile.component";
+import {NewsAdComponent} from "../user/news-ad/news-ad.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -96,7 +97,8 @@ const routes: Routes = [
           },
           {path: 'credit-card', component: CreditCardComponent}
         ]
-      }
+      },
+      {path: 'ads', component: NewsAdComponent}
     ]
   },
   {path: '**', redirectTo: ''}
