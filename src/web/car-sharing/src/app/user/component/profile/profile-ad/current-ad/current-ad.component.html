@@ -1,0 +1,155 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-10" align="center">
+        <h4><b>Подробная информация об объявлении:</b></h4>
+      </div>
+      <div class="col-2" align="right">
+        <button class="btn-sm btn-primary" data-placement="bottom" title="Редактировать"
+                (click)="showUpdate(contentUpdate)">✎
+        </button>
+        <button class="btn-sm btn-danger" data-placement="bottom" title="Удалить" (click)="showDelete(contentDelete)">␡
+        </button>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-6">
+        <p><b>Местоположение машины: </b>{{ad.carLocation}}</p>
+        <p><b>Место возврата машины: </b>{{ad.returnPlace}}</p>
+        <p><b>Машина: </b>
+          <button class="btn btn-outline-primary" (click)="showCar()">{{ad.car.generalParameters.brand}}
+            {{ad.car.generalParameters.model}} {{ad.car.generalParameters.yearOfIssue}}
+          </button>
+        </p>
+      </div>
+      <div class="col-6">
+        <p><b>Стоимость аренды за час: </b>{{ad.costPerHour}}</p>
+        <p><b>Стоимость аренды за день: </b>{{ad.costPerDay}}</p>
+        <p><b>Стоимость аренды за 3 дня: </b>{{ad.costPer3Days}}</p>
+      </div>
+    </div>
+    <div *ngIf="flagCar">
+      <hr>
+      <div>
+        <h4 align="center">Общие параметры</h4>
+        <div class="row">
+          <div class="col-6">
+            <p><b>Марка:</b> {{ad.car.generalParameters.brand}}</p>
+            <p><b>Модель:</b> {{ad.car.generalParameters.model}}</p>
+            <p><b>Год выпуска:</b> {{ad.car.generalParameters.yearOfIssue}}</p>
+          </div>
+          <div class="col-6">
+            <img src="../../../../../../assets/images/placeholder-car.png" alt="Car image" width="100%">
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div>
+        <h4 align="center">Технические параметры</h4>
+        <div class="row">
+          <div class="col-6">
+            <p><b>Коробка передач:</b> {{ad.car.technicalParameters.gearbox}}</p>
+            <p><b>Тип кузова:</b> {{ad.car.technicalParameters.bodyType}}</p>
+            <p><b>Кол-во мест:</b> {{ad.car.technicalParameters.seatNumber}}</p>
+            <p><b>Кол-во дверей:</b> {{ad.car.technicalParameters.doorNumber}}</p>
+            <p><b>Тип топлива:</b> {{ad.car.technicalParameters.fuelType}}</p>
+            <p><b>Расход топлива на 100 км. (смешанный цикл):</b> {{ad.car.technicalParameters.fuelConsumption}} л. /
+              100
+              км.</p>
+            <p><b>Привод:</b> {{ad.car.technicalParameters.driveUnit}}</p>
+          </div>
+          <div class="col-6">
+            <p><b>Сезон шин:</b> {{ad.car.technicalParameters.tiresSeason}}</p>
+            <p><b>Материал салона:</b> {{ad.car.technicalParameters.interiorMaterial}}</p>
+            <p><b>Цвет:</b> {{ad.car.technicalParameters.color}}</p>
+            <p><b>VIN:</b> {{ad.car.technicalParameters.vin}}</p>
+            <p><b>Гос. номер:</b> {{ad.car.technicalParameters.govNumber}}</p>
+            <p><b>Номер бланка СТС:</b> {{ad.car.technicalParameters.stsFormNumber}}</p>
+            <p><b>Фото СТС:</b> {{ad.car.technicalParameters.stsImageLink}}</p>
+            <p><b>Фото ПТС:</b> {{ad.car.technicalParameters.ptsImageLink}}</p>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div>
+        <h4 align="center">Текущее состояние</h4>
+        <p><b>Повреждения:</b> {{ad.car.currentCondition.damageDescription}}</p>
+        <p><b>Пробег:</b> {{ad.car.currentCondition.mileage}} км</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #contentUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Редактирование объявления</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="updateAd()" #update="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+
+      <label for="carLocation" class="col-form-label">Местоположение машины:</label>
+      <input class="form-control" [(ngModel)]="editedAd.carLocation" id="carLocation" name="carLocation"
+             #carLocation="ngModel" required>
+      <div [hidden]="carLocation.valid || carLocation.pristine" class="alert alert-danger">
+        <div [hidden]="!carLocation.hasError('required')">Обязательное поле</div>
+      </div>
+
+      <label for="returnPlace" class="col-form-label">Место возврата:</label>
+      <input class="form-control" [(ngModel)]="editedAd.returnPlace" name="returnPlace" id="returnPlace"
+             #returnPlace="ngModel"
+             required>
+      <div [hidden]="returnPlace.valid || returnPlace.pristine" class="alert alert-danger">
+        <div [hidden]="!returnPlace.hasError('required')">Обязательное поле</div>
+      </div>
+
+      <label for="costPerHour" class="col-form-label">Стоимость аренды за час:</label>
+      <input type="text" class="form-control" [(ngModel)]="editedAd.costPerHour" id="costPerHour" name="costPerHour"
+             #costPerHour="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
+      <div [hidden]="costPerHour.valid || costPerHour.pristine" class="alert alert-danger">
+        <div [hidden]="!costPerHour.hasError('pattern')">Десятичное число</div>
+        <div [hidden]="!costPerHour.hasError('required')">Обязательное поле</div>
+      </div>
+
+      <label for="costPerDay" class="col-form-label">Стоимость аренды за день:</label>
+      <input type="text" class="form-control" [(ngModel)]="editedAd.costPerDay" id="costPerDay" name="costPerDay"
+             #costPerDay="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
+      <div [hidden]="costPerDay.valid || costPerDay.pristine" class="alert alert-danger">
+        <div [hidden]="!costPerDay.hasError('pattern')">Десятичное число</div>
+        <div [hidden]="!costPerDay.hasError('required')">Обязательное поле</div>
+      </div>
+
+      <label for="costPer3Days" class="col-form-label">Стоимость аренды за 3 дня:</label>
+      <input type="text" class="form-control" [(ngModel)]="editedAd.costPer3Days" id="costPer3Days" name="costPer3Days"
+             #costPer3Days="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
+      <div [hidden]="costPer3Days.valid || costPer3Days.pristine" class="alert alert-danger">
+        <div [hidden]="!costPer3Days.hasError('pattern')">Десятичное число</div>
+        <div [hidden]="!costPer3Days.hasError('required')">Обязательное поле</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!update.form.valid">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentDelete let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите удаление</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="deleteAd()">Удалить</button>
+  </div>
+</ng-template>

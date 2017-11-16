@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {Car} from "../domain/car";
-import {GeneralParameters} from "../domain/generalParameters";
-import {TechnicalParameters} from "../domain/technicalParameters";
-import {CurrentCondition} from "../domain/currentCondition";
+import {GeneralParameters} from "../domain/general-parameters";
+import {TechnicalParameters} from "../domain/technical-parameters";
+import {CurrentCondition} from "../domain/current-condition";
 
 @Injectable()
 export class ProfileCarService {
