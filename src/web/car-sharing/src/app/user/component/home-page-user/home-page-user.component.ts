@@ -3,10 +3,10 @@ import {SecurityModel} from "../../../security/security-model";
 
 @Component({
   selector: 'app-user-home-page',
-  templateUrl: './user-home-page.component.html',
-  styleUrls: ['./user-home-page.component.css']
+  templateUrl: './home-page-user.component.html',
+  styleUrls: ['./home-page-user.component.css']
 })
-export class UserHomePageComponent implements OnInit {
+export class HomePageUserComponent implements OnInit {
 
   constructor(private securityModel: SecurityModel) {
   }

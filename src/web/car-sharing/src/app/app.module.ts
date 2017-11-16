@@ -20,7 +20,7 @@ import {TechnicalParametersComponent} from "./user/component/profile/profile-car
 import {GeneralParametersComponent} from "./user/component/profile/profile-car/current-car/general-parameters/general-parameters.component";
 import {CurrentConditionComponent} from "./user/component/profile/profile-car/current-car/current-condition/current-condition.component";
 import {CarParameterService} from "./user/service/car-parameter.service";
-import {UserHomePageComponent} from "./user/component/user-home-page/user-home-page.component";
+import {HomePageUserComponent} from "./user/component/home-page-user/home-page-user.component";
 import {TechnicalParameterService} from "./admin/service/technical-parameter.service";
 import {GearboxComponent} from "./admin/component/setup-admin/gearbox/gearbox.component";
 import {BrandComponent} from "./admin/component/setup-admin/brand/brand.component";
@@ -63,7 +63,7 @@ import {ConfirmProfileComponent} from "./admin/component/confirm-profile/confirm
   declarations: [
     AppComponent, ProfileComponent, ProfileInfoComponent, ProfileCarComponent, ProfileAdComponent, AllCarsComponent,
     NewCarComponent, CurrentCarComponent, TechnicalParametersComponent, GeneralParametersComponent,
-    CurrentConditionComponent, UserHomePageComponent, HomePageAdminComponent, SetupAdminComponent, GearboxComponent,
+    CurrentConditionComponent, HomePageUserComponent, HomePageAdminComponent, SetupAdminComponent, GearboxComponent,
     BrandComponent, ModelComponent, ColorComponent, DriveUnitComponent, FuelTypeComponent, InteriorMaterialComponent,
     TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, LogoutComponent, EqualValidator,
     AllAdsComponent, NewAdComponent, CurrentAdComponent, PassportDataComponent, DriverLicenseComponent,

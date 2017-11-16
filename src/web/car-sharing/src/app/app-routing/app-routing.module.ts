@@ -11,7 +11,7 @@ import {CurrentCarComponent} from "../user/component/profile/profile-car/current
 import {GeneralParametersComponent} from "../user/component/profile/profile-car/current-car/general-parameters/general-parameters.component";
 import {TechnicalParametersComponent} from "../user/component/profile/profile-car/current-car/technical-parameters/technical-parameters.component";
 import {CurrentConditionComponent} from "../user/component/profile/profile-car/current-car/current-condition/current-condition.component";
-import {UserHomePageComponent} from "../user/component/user-home-page/user-home-page.component";
+import {HomePageUserComponent} from "../user/component/home-page-user/home-page-user.component";
 import {BrandComponent} from "../admin/component/setup-admin/brand/brand.component";
 import {ColorComponent} from "../admin/component/setup-admin/color/color.component";
 import {InteriorMaterialComponent} from "../admin/component/setup-admin/interior-material/interior-material.component";
@@ -62,7 +62,7 @@ const routes: Routes = [
       {path: 'profile', component: ConfirmProfileComponent}]
   },
   {
-    path: '', component: UserHomePageComponent,
+    path: '', component: HomePageUserComponent,
     children: [
       {
         path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService],

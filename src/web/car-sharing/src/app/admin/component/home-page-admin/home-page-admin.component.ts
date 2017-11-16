@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {SecurityModel} from "../../../security/security-model";
 
 @Component({
   selector: 'app-home-page',
@@ -7,7 +8,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HomePageAdminComponent implements OnInit {
 
-  constructor() {
+  constructor(private securityModel: SecurityModel) {
   }
 
   ngOnInit() {
