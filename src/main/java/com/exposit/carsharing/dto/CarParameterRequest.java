@@ -1,5 +1,6 @@
 package com.exposit.carsharing.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class CarParameterRequest implements Serializable {
     @NotBlank
     @Size(max = 20)
