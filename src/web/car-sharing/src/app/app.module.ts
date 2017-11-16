@@ -56,6 +56,8 @@ import {ConfirmProfileComponent} from './admin/confirm-profile/confirm-profile.c
 import {ConfirmProfileService} from "./admin/service/confirm-profile.service";
 import {NewsAdComponent} from './user/news-ad/news-ad.component';
 import {DealService} from "./user/service/deal.service";
+import {MyDealsComponent} from './user/my-deals/my-deals.component';
+import {DealsWithMeComponent} from './user/deals-with-me/deals-with-me.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,8 @@ import {DealService} from "./user/service/deal.service";
     BrandComponent, ModelComponent, ColorComponent, DriveUnitComponent, FuelTypeComponent, InteriorMaterialComponent,
     TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, LogoutComponent, EqualValidator,
     AllAdsComponent, NewAdComponent, CurrentAdComponent, PassportDataComponent, DriverLicenseComponent,
-    ProfileAdComponent, CreditCardComponent, CarParameterComponent, ConfirmProfileComponent, NewsAdComponent
+    ProfileAdComponent, CreditCardComponent, CarParameterComponent, ConfirmProfileComponent, NewsAdComponent,
+    MyDealsComponent, DealsWithMeComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, ReactiveFormsModule, NgbModule.forRoot()

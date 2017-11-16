@@ -110,7 +110,7 @@ public class DealServiceImpl implements DealService {
         deal.setBookingStartTime(System.currentTimeMillis());
         deal.setPrice(calculateCost(ad, dealRequest.getHoursOfRent()));
         deal.setAd(ad);
-        deal.setHoursForRent(deal.getHoursForRent());
+        deal.setHoursForRent(dealRequest.getHoursOfRent());
         dealRepository.save(deal);
         ad.setStatus(AdStatus.TAKEN);
         return mapToResponse(deal);

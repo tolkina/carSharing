@@ -19,4 +19,6 @@ public class DealResponse extends AbstractResponse {
     private ProfileResponse owner;
     private ProfileResponse customer;
     private AdResponse ad;
+    private CreditCardResponse creditCard;
+    private Long hoursForRent;
 }

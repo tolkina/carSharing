@@ -28,7 +28,7 @@ public class Deal extends AbstractEntity {
     private Long rentalEndTime;
 
     @Column(name = "hours_for_rent")
-    private int hoursForRent;
+    private Long hoursForRent;
 
     private BigDecimal deposit;
 

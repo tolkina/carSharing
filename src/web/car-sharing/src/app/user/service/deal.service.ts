@@ -6,7 +6,7 @@ import {Deal} from "../domain/deal";
 @Injectable()
 export class DealService {
 
-  private dealUrl = '/api/deal';
+  private dealUrl = '/api/deal/';
 
   constructor(private http: Http) {
   }

@@ -34,6 +34,8 @@ import {RoleAuthGuardService} from "../security/role-auth-guard.service";
 import {CreditCardComponent} from "../user/credit-card/credit-card.component";
 import {ConfirmProfileComponent} from "../admin/confirm-profile/confirm-profile.component";
 import {NewsAdComponent} from "../user/news-ad/news-ad.component";
+import {MyDealsComponent} from "../user/my-deals/my-deals.component";
+import {DealsWithMeComponent} from "../user/deals-with-me/deals-with-me.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -95,7 +97,9 @@ const routes: Routes = [
               }
             ]
           },
-          {path: 'credit-card', component: CreditCardComponent}
+          {path: 'credit-card', component: CreditCardComponent},
+          {path: 'deal/my', component: MyDealsComponent},
+          {path: 'deal/by-me', component: DealsWithMeComponent}
         ]
       },
       {path: 'ads', component: NewsAdComponent}

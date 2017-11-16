@@ -6,6 +6,7 @@ import {CreditCard} from "../domain/credit-card";
 import {CreditCardService} from "../service/credit-card.service";
 import {DealService} from "../service/deal.service";
 import {Deal} from "../domain/deal";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-news-ad',
@@ -23,7 +24,7 @@ export class NewsAdComponent implements OnInit {
   private modalRef: any;
 
   constructor(private adService: ProfileAdService, private modalService: NgbModal,
-              private creditCardService: CreditCardService, private dealService: DealService) {
+              private creditCardService: CreditCardService, private dealService: DealService, private router: Router) {
   }
 
   ngOnInit() {
@@ -49,8 +50,8 @@ export class NewsAdComponent implements OnInit {
     this.dealService.createDeal(this.newDeal)
       .then(res => {
         this.currentDeal = res;
-        this.ads.splice(this.ads.indexOf(this.cloneAd));
-        this.modalRef.close()
+        this.modalRef.close();
+        this.router.navigateByUrl("/profile/deal/my")
       })
       .catch(err => this.dealError = err)
   }
