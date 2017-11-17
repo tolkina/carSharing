@@ -105,6 +105,6 @@ export class ProfileCarService {
 
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);
-    return Promise.reject(error)
+    return Promise.reject(error.json().message || error)
   }
 }

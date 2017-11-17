@@ -28,6 +28,6 @@ export class PassportDataService {
 
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);
-    return Promise.reject(error._body || error)
+    return Promise.reject(error.json().message || error)
   }
 }
