@@ -44,7 +44,7 @@ export class CurrentConditionComponent implements OnInit {
         this.currentCondition = res;
         this.modalRef.close()
       })
-      .catch(err => this.errorUpdate = err._body);
+      .catch(err => this.errorUpdate = err);
   }
 
   getCurrentCondition(carId: number) {

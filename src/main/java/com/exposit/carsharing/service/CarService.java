@@ -4,6 +4,7 @@ import com.exposit.carsharing.domain.Car;
 import com.exposit.carsharing.domain.GeneralParameters;
 import com.exposit.carsharing.domain.TechnicalParameters;
 import com.exposit.carsharing.dto.*;
+import com.exposit.carsharing.exception.AdException;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -26,7 +27,7 @@ public interface CarService {
 
     CarResponse create(CarRequest car, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException;
 
-    void delete(Long carId, Long ownerId) throws PrivilegeException, EntityNotFoundException;
+    void delete(Long carId, Long ownerId) throws PrivilegeException, EntityNotFoundException, AdException;
 
     void checkCarOwner(Car car, Long ownerId) throws PrivilegeException;
 
@@ -37,7 +38,7 @@ public interface CarService {
     List<TechnicalParametersResponse> getAllTechnicalParameters();
 
     TechnicalParametersResponse updateTechnicalParameters(TechnicalParametersRequest technicalParametersRequest, Long carId, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException;
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, AdException;
 
     void checkTechnicalParameters(TechnicalParameters technicalParameters) throws EntityAlreadyExistException, EntityNotFoundException;
 
@@ -48,7 +49,7 @@ public interface CarService {
     List<GeneralParametersResponse> getAllGeneralParameters();
 
     GeneralParametersResponse updateGeneralParameters(GeneralParametersRequest generalParametersRequest, Long carId, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException;
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, AdException;
 
     void checkGeneralParameters(GeneralParameters generalParameters) throws EntityNotFoundException, PrivilegeException;
 
@@ -60,7 +61,7 @@ public interface CarService {
     List<CurrentConditionResponse> getAllCurrentCondition();
 
     CurrentConditionResponse updateCurrentCondition(CurrentConditionRequest currentConditionRequest, Long carId, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException;
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, AdException;
 
 
 }

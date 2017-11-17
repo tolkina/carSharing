@@ -45,7 +45,7 @@ export class TechnicalParametersComponent implements OnInit {
         this.modalRef.close()
       })
       .catch(err => {
-        this.errorUpdate = err._body;
+        this.errorUpdate = err;
       });
   }
 

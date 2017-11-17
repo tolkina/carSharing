@@ -6,27 +6,34 @@
       <div class="form-group">
         <label for="brand" class="col-form-label">Марка</label>
         <select class="form-control" id="brand" name="brand" [(ngModel)]="car.generalParameters.brand"
-                (ngModelChange)="changeModel(car.generalParameters.brand)">
+                (ngModelChange)="changeModel(car.generalParameters.brand)" required #brand="ngModel">
           <option *ngFor="let brand of brands" [ngValue]="brand.name">{{brand.name}}</option>
         </select>
+        <div [hidden]="brand.valid || brand.pristine" class="alert alert-danger">
+          <div [hidden]="!brand.hasError('required')">Обязательное поле</div>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="model" class="col-form-label">Модель</label>
-        <select class="form-control" id="model" name="model" [(ngModel)]="car.generalParameters.model">
+        <select class="form-control" id="model" name="model" [(ngModel)]="car.generalParameters.model" required
+                #model="ngModel">
           <option *ngFor="let model of models" [ngValue]="model.name">{{model.name}}</option>
         </select>
+        <div [hidden]="model.valid || model.pristine" class="alert alert-danger">
+          <div [hidden]="!model.hasError('required')">Обязательное поле</div>
+        </div>
       </div>
 
-      <label for="yearOfIssue" class="col-form-label">Год выпуска</label>
-      <input type="text" class="form-control" id="yearOfIssue" name="yearOfIssue" required
-             #yearOfIssue="ngModel"
-             pattern="[0-9]{4}"
-             [(ngModel)]="car.generalParameters.yearOfIssue">
-      <div [hidden]="yearOfIssue.valid || yearOfIssue.pristine"
-           class="alert alert-danger">
-        <div [hidden]="!yearOfIssue.hasError('required')">Обязательное поле</div>
-        <div [hidden]="!yearOfIssue.hasError('pattern')">4 цифры</div>
+      <div class="form-group">
+        <label for="yearOfIssue" class="col-form-label">Год выпуска</label>
+        <select class="form-control" id="yearOfIssue" name="yearOfIssue" [(ngModel)]="car.generalParameters.yearOfIssue"
+                required #yearOfIssue="ngModel">
+          <option *ngFor="let year of years">{{year}}</option>
+        </select>
+        <div [hidden]="yearOfIssue.valid || yearOfIssue.pristine" class="alert alert-danger">
+          <div [hidden]="!yearOfIssue.hasError('required')">Обязательное поле</div>
+        </div>
       </div>
 
     </div>

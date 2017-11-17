@@ -2,6 +2,7 @@ package com.exposit.carsharing.service;
 
 import com.exposit.carsharing.domain.*;
 import com.exposit.carsharing.dto.*;
+import com.exposit.carsharing.exception.AdException;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -121,8 +122,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void delete(Long carId, Long ownerId) throws PrivilegeException, EntityNotFoundException {
-        checkCarOwner(getCar(carId), ownerId);
+    public void delete(Long carId, Long ownerId) throws PrivilegeException, EntityNotFoundException, AdException {
+        Car car = getCar(carId);
+        checkCarOwner(car, ownerId);
+        checkCarTaken(car);
         carRepository.delete(carId);
     }
 
@@ -163,10 +166,12 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public TechnicalParametersResponse updateTechnicalParameters(TechnicalParametersRequest technicalParametersRequest, Long carId, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
+    public TechnicalParametersResponse updateTechnicalParameters(
+            TechnicalParametersRequest technicalParametersRequest, Long carId, Long ownerId)
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, AdException {
         Car car = getCar(carId);
         checkCarOwner(car, ownerId);
+        checkCarTaken(car);
         TechnicalParameters technicalParameters = modelMapper.map(technicalParametersRequest, TechnicalParameters.class);
         checkTechnicalParameters(technicalParameters);
         technicalParameters.setId(car.getTechnicalParameters().getId());
@@ -210,9 +215,10 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public GeneralParametersResponse updateGeneralParameters(GeneralParametersRequest generalParametersRequest, Long carId, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, AdException {
         Car car = getCar(carId);
         checkCarOwner(car, ownerId);
+        checkCarTaken(car);
         GeneralParameters generalParameters = modelMapper.map(generalParametersRequest, GeneralParameters.class);
         checkGeneralParameters(generalParameters);
         generalParameters.setId(car.getTechnicalParameters().getId());
@@ -252,9 +258,10 @@ public class CarServiceImpl implements CarService {
     @Override
     public CurrentConditionResponse updateCurrentCondition(
             CurrentConditionRequest currentConditionRequest, Long carId, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
+            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, AdException {
         Car car = getCar(carId);
         checkCarOwner(car, ownerId);
+        checkCarTaken(car);
         CurrentCondition currentCondition = modelMapper.map(currentConditionRequest, CurrentCondition.class);
         currentCondition.setId(car.getCurrentCondition().getId());
         currentCondition.setCar(car);
@@ -267,5 +274,12 @@ public class CarServiceImpl implements CarService {
             return null;
         }
         return modelMapper.map(currentCondition, CurrentConditionResponse.class);
+    }
+
+    private void checkCarTaken(Car car) throws AdException {
+        if (car.getAd() != null && car.getAd().getStatus() == AdStatus.TAKEN) {
+            throw new AdException(String.format(
+                    "Can't perform the action. The ad for this car has status %s", AdStatus.TAKEN));
+        }
     }
 }

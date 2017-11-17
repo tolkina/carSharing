@@ -3,6 +3,8 @@ package com.exposit.carsharing.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 @Getter
@@ -10,5 +12,7 @@ import java.io.Serializable;
 public class GeneralParametersRequest implements Serializable {
     private String brand;
     private String model;
+    @Min(1900)
+    @Max(2018)
     private Integer yearOfIssue;
 }

@@ -5,9 +5,6 @@ import {CarParameterService} from "../../../../service/car-parameter.service";
 import {Brand_} from "../../../../domain/brand_";
 import {CarParameter} from "../../../../domain/car-parameter";
 import {Car} from "../../../../domain/car";
-import {GeneralParameters} from "../../../../domain/general-parameters";
-import {TechnicalParameters} from "../../../../domain/technical-parameters";
-import {CurrentCondition} from "../../../../domain/current-condition";
 import {Model} from "../../../../domain/model";
 
 @Component({
@@ -16,13 +13,7 @@ import {Model} from "../../../../domain/model";
   styleUrls: ['./new-car.component.css']
 })
 export class NewCarComponent implements OnInit {
-  car: Car = {
-    id: null,
-    currentCondition: new CurrentCondition(),
-    generalParameters: new GeneralParameters(),
-    technicalParameters: new TechnicalParameters(),
-    owner: null
-  };
+  car: Car = new Car;
   models: Model[] = [];
   error = "";
   brands: Brand_[] = [];
@@ -34,6 +25,7 @@ export class NewCarComponent implements OnInit {
   tiresSeasons: CarParameter[] = [];
   interiorMaterials: CarParameter[] = [];
   colors: CarParameter[] = [];
+  years: number[] = [];
 
   constructor(private carService: ProfileCarService, private router: Router,
               private carParameterService: CarParameterService) {
@@ -41,6 +33,7 @@ export class NewCarComponent implements OnInit {
 
   ngOnInit() {
     this.getCarParams();
+    this.setYears();
   }
 
   onSubmit() {
@@ -55,10 +48,14 @@ export class NewCarComponent implements OnInit {
 
   changeModel(brand) {
     this.models = [];
-    for (let i = 0; i < this.allModels.length; i++)
-      if (this.allModels[i].brand.name == brand)
+    for (let i = 0; i < this.allModels.length; i++) {
+      if (this.allModels[i].brand.name == brand) {
         this.models.push(this.allModels[i]);
-    this.car.generalParameters.model = this.models[0].name;
+      }
+    }
+    if (this.models.length > 0) {
+      this.car.generalParameters.model = this.models[0].name;
+    }
   }
 
   private getCarParams() {
@@ -117,5 +114,12 @@ export class NewCarComponent implements OnInit {
         this.car.technicalParameters.tiresSeason = param[0].name
       }
     });
+  }
+
+  private setYears() {
+    for (let i = 2018; i >= 1900; i--) {
+      this.years.push(i)
+    }
+    this.car.generalParameters.yearOfIssue = this.years[0];
   }
 }

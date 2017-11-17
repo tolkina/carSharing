@@ -152,13 +152,13 @@ public class AdServiceImpl implements AdService {
 
     private void checkAdStatus(Ad ad, AdStatus status) throws AdException {
         if (!ad.getStatus().equals(status)) {
-            throw new AdException(String.format("Can't perform the action. The deal has status %s", ad.getStatus()));
+            throw new AdException(String.format("Can't perform the action. The ad has status %s", ad.getStatus()));
         }
     }
 
     private void checkTaken(Ad ad) throws AdException {
         if (ad.getStatus().equals(AdStatus.TAKEN)) {
-            throw new AdException(String.format("Can't perform the action. The deal has status %s", ad.getStatus()));
+            throw new AdException(String.format("Can't perform the action. The ad has status %s", ad.getStatus()));
         }
     }
 }

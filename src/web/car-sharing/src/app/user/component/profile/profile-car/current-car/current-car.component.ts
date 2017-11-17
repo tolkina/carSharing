@@ -35,7 +35,7 @@ export class CurrentCarComponent {
           this.router.navigateByUrl('profile/car')
         }
       )
-      .catch(err => this.errorDelete = err._body);
+      .catch(err => this.errorDelete = err);
   }
 
   showDelete(content) {
