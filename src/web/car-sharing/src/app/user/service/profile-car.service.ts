@@ -39,7 +39,14 @@ export class ProfileCarService {
   }
 
   getCarsOfPrincipal() {
-    return this.http.get(this.profileUrl + "/car")
+    return this.http.get(this.profileUrl + "car")
+      .toPromise()
+      .then(res => res.json() as Car[])
+      .catch(this.handleError);
+  }
+
+  getCarsWithoutAdOfPrincipal() {
+    return this.http.get(this.profileUrl + "car-without-ad")
       .toPromise()
       .then(res => res.json() as Car[])
       .catch(this.handleError);
@@ -91,15 +98,6 @@ export class ProfileCarService {
     return this.http.get(this.carUrl + carId + this.currentConditionUrl)
       .toPromise()
       .then(res => res.json() as CurrentCondition)
-      .catch(this.handleError);
-  }
-
-  getCarByAd(adId: number) {
-    const url = `${this.carUrl}ad-${adId}`;
-    return this.http
-      .get(url)
-      .toPromise()
-      .then(res => res.json() as Car)
       .catch(this.handleError);
   }
 

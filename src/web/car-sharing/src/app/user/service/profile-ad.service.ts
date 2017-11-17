@@ -45,7 +45,7 @@ export class ProfileAdService {
 
   getAllNotMyActualAds() {
     return this.http
-      .get(this.adUrl+"all-not-my")
+      .get(this.adUrl + "all-not-my")
       .toPromise()
       .then(res => res.json() as Ad[])
       .catch(this.handleError)
@@ -56,6 +56,22 @@ export class ProfileAdService {
       .delete(this.adUrl + adId)
       .toPromise()
       .then()
+      .catch(this.handleError)
+  }
+
+  setActual(adId: number) {
+    return this.http
+      .put(this.adUrl + adId + "/actual", {})
+      .toPromise()
+      .then(ad => ad.json() as Ad)
+      .catch(this.handleError)
+  }
+
+  setNotActual(adId: number) {
+    return this.http
+      .put(this.adUrl + adId + "/not-actual", {})
+      .toPromise()
+      .then(ad => ad.json() as Ad)
       .catch(this.handleError)
   }
 

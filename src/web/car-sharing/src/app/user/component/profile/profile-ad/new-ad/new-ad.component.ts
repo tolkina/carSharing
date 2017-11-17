@@ -21,11 +21,11 @@ export class NewAdComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCarsOfOwner();
+    this.getCarsWithoutAdOfPrincipal();
   }
 
-  getCarsOfOwner() {
-    this.carService.getCarsOfPrincipal()
+  getCarsWithoutAdOfPrincipal() {
+    this.carService.getCarsWithoutAdOfPrincipal()
       .then(cars => {
         this.cars = cars;
         if (cars[0]) {

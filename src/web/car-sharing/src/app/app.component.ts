@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SecurityModel} from "./security/security-model";
+import {SecurityService} from "./security/security.service";
 
 @Component({
   selector: 'app-root',
@@ -8,10 +8,10 @@ import {SecurityModel} from "./security/security-model";
   providers: []
 })
 export class AppComponent implements OnInit {
-  constructor(private securityModel: SecurityModel) {
+  constructor(private securityService: SecurityService) {
   }
 
   ngOnInit() {
-    this.securityModel.setLogged();
+    this.securityService.authenticate();
   }
 }

@@ -1,20 +1,30 @@
 <div class="card">
   <div class="card-body">
     <div class="row">
-      <div class="col-10" align="center">
+      <div class="col-8">
         <h4><b>Подробная информация об объявлении:</b></h4>
       </div>
-      <div class="col-2" align="right">
+      <div class="col-4" align="right">
         <button class="btn-sm btn-primary" data-placement="bottom" title="Редактировать"
-                (click)="showUpdate(contentUpdate)">✎
+                (click)="showUpdate(contentUpdate)" *ngIf="ad.status != adStatus.taken[0]">✎
         </button>
-        <button class="btn-sm btn-danger" data-placement="bottom" title="Удалить" (click)="showDelete(contentDelete)">␡
+        <button class="btn-sm btn-danger" data-placement="bottom" title="Удалить" (click)="showDelete(contentDelete)"
+                *ngIf="ad.status != adStatus.taken[0]">␡
+        </button>
+        <button class="btn-sm btn-success" data-placement="bottom" title="Установить статус: актуально"
+                (click)="showSetActual(contentActual)" *ngIf="ad.status == adStatus.notRelevant[0]">Актуально
+        </button>
+        <button class="btn-sm btn-success" data-placement="bottom" title="Установить статус: не акутально"
+                (click)="showSetNotActual(contentNotActual)" *ngIf="ad.status == adStatus.actual[0]">Не актуально
         </button>
       </div>
     </div>
     <hr>
     <div class="row">
       <div class="col-6">
+        <p *ngIf="ad.status == adStatus.actual[0]"><b>Статус: </b>{{adStatus.actual[1]}}</p>
+        <p *ngIf="ad.status == adStatus.notRelevant[0]"><b>Статус: </b>{{adStatus.notRelevant[1]}}</p>
+        <p *ngIf="ad.status == adStatus.taken[0]"><b>Статус: </b>{{adStatus.taken[1]}}</p>
         <p><b>Местоположение машины: </b>{{ad.carLocation}}</p>
         <p><b>Место возврата машины: </b>{{ad.returnPlace}}</p>
         <p><b>Машина: </b>
@@ -151,5 +161,37 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
     <button type="submit" class="btn btn-primary" (click)="deleteAd()">Удалить</button>
+  </div>
+</ng-template>
+
+<ng-template #contentActual let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите статус "Актуально"</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorStatus">{{errorStatus}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="setActual()">Подтвердить</button>
+  </div>
+</ng-template>
+
+<ng-template #contentNotActual let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите статус "Не актуально"</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorStatus">{{errorStatus}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="setNotActual()">Подтвердить</button>
   </div>
 </ng-template>

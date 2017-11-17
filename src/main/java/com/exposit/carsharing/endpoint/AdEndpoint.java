@@ -1,10 +1,7 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.AdRequest;
-import com.exposit.carsharing.exception.EntityAlreadyExistException;
-import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.exception.UnauthorizedException;
+import com.exposit.carsharing.exception.*;
 import com.exposit.carsharing.service.AdService;
 import com.exposit.carsharing.service.SecurityService;
 import org.springframework.stereotype.Component;
@@ -38,7 +35,7 @@ public class AdEndpoint {
     @PUT
     @Path("{adId}")
     public Response updateAd(@PathParam("adId") Long adId, @Valid AdRequest adRequest)
-            throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
+            throws EntityNotFoundException, UnauthorizedException, PrivilegeException, AdException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(adService.update(ownerId, adId, adRequest)).build();
     }
@@ -64,9 +61,25 @@ public class AdEndpoint {
     @DELETE
     @Path("{adId}")
     public Response deleteAd(@PathParam("adId") Long adId)
-            throws PrivilegeException, EntityNotFoundException, UnauthorizedException {
+            throws PrivilegeException, EntityNotFoundException, UnauthorizedException, AdException {
         Long ownerId = securityService.getPrincipalId();
         adService.delete(ownerId, adId);
         return Response.status(200).build();
+    }
+
+    @PUT
+    @Path("{adId}/actual")
+    public Response setActual(@PathParam("adId") Long adId)
+            throws UnauthorizedException, EntityNotFoundException, PrivilegeException, AdException {
+        Long ownerId = securityService.getPrincipalId();
+        return Response.status(200).entity(adService.setActual(ownerId, adId)).build();
+    }
+
+    @PUT
+    @Path("{adId}/not-actual")
+    public Response setNotActual(@PathParam("adId") Long adId)
+            throws UnauthorizedException, EntityNotFoundException, PrivilegeException, AdException {
+        Long ownerId = securityService.getPrincipalId();
+        return Response.status(200).entity(adService.setNotActual(ownerId, adId)).build();
     }
 }

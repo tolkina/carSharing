@@ -80,6 +80,14 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<CarResponse> getAllWithoutAdByOwner(Long ownerId) throws EntityNotFoundException {
+        Profile owner = profileService.getProfile(ownerId);
+        List<CarResponse> cars = new ArrayList<>();
+        carRepository.findAllByOwnerAndAd(owner, null).forEach(car -> cars.add(mapToResponse(car)));
+        return cars;
+    }
+
+    @Override
     public CarResponse create(CarRequest carRequest, Long ownerId)
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException {
         Car car = new Car();

@@ -5,6 +5,7 @@ import com.exposit.carsharing.domain.AdStatus;
 import com.exposit.carsharing.domain.Car;
 import com.exposit.carsharing.dto.AdRequest;
 import com.exposit.carsharing.dto.AdResponse;
+import com.exposit.carsharing.exception.AdException;
 import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
@@ -77,9 +78,10 @@ public class AdServiceImpl implements AdService {
 
     @Override
     public AdResponse update(Long ownerId, Long adId, AdRequest adRequest)
-            throws EntityNotFoundException, PrivilegeException {
+            throws EntityNotFoundException, PrivilegeException, AdException {
         Ad ad = getAd(adId);
         checkAdOwner(ownerId, ad);
+        checkTaken(ad);
         ad.setCarLocation(adRequest.getCarLocation());
         ad.setReturnPlace(adRequest.getReturnPlace());
         ad.setCostPerHour(adRequest.getCostPerHour());
@@ -89,9 +91,31 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public void delete(Long ownerId, Long adId) throws PrivilegeException, EntityNotFoundException {
-        checkAdOwner(ownerId, getAd(adId));
+    public void delete(Long ownerId, Long adId) throws PrivilegeException, EntityNotFoundException, AdException {
+        Ad ad = getAd(adId);
+        checkAdOwner(ownerId, ad);
+        checkTaken(ad);
         adRepository.delete(adId);
+    }
+
+    @Override
+    public AdResponse setActual(Long ownerId, Long adId)
+            throws EntityNotFoundException, PrivilegeException, AdException {
+        Ad ad = getAd(adId);
+        checkAdOwner(ownerId, ad);
+        checkAdStatus(ad, AdStatus.NOT_RELEVANT);
+        ad.setStatus(AdStatus.ACTUAL);
+        return mapToResponse(ad);
+    }
+
+    @Override
+    public AdResponse setNotActual(Long ownerId, Long adId)
+            throws EntityNotFoundException, PrivilegeException, AdException {
+        Ad ad = getAd(adId);
+        checkAdOwner(ownerId, ad);
+        checkAdStatus(ad, AdStatus.ACTUAL);
+        ad.setStatus(AdStatus.NOT_RELEVANT);
+        return mapToResponse(ad);
     }
 
     private void checkCarOwner(Long ownerId, Car car) throws PrivilegeException {
@@ -124,5 +148,17 @@ public class AdServiceImpl implements AdService {
         List<AdResponse> adResponses = new ArrayList<>();
         ads.forEach(ad -> adResponses.add(mapToResponse(ad)));
         return adResponses;
+    }
+
+    private void checkAdStatus(Ad ad, AdStatus status) throws AdException {
+        if (!ad.getStatus().equals(status)) {
+            throw new AdException(String.format("Can't perform the action. The deal has status %s", ad.getStatus()));
+        }
+    }
+
+    private void checkTaken(Ad ad) throws AdException {
+        if (ad.getStatus().equals(AdStatus.TAKEN)) {
+            throw new AdException(String.format("Can't perform the action. The deal has status %s", ad.getStatus()));
+        }
     }
 }

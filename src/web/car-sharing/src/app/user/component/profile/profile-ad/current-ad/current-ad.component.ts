@@ -5,7 +5,8 @@ import {Ad} from "../../../../domain/ad";
 import {ActivatedRoute, Router} from "@angular/router";
 import {clone} from "lodash";
 import {Car} from "../../../../domain/car";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {AdStatus} from "../../../../domain/ad-status";
 
 @Component({
   selector: 'app-current-ad',
@@ -20,10 +21,12 @@ export class CurrentAdComponent implements OnInit {
   car = new Car;
   errorUpdate = "";
   errorDelete = "";
+  errorStatus = "";
   flagCar = false;
+  adStatus = new AdStatus();
 
   private subscription: Subscription;
-  private modalRef: any;
+  private modalRef: NgbModalRef;
 
   constructor(private adService: ProfileAdService, private router: Router, private activateRoute: ActivatedRoute,
               private modalService: NgbModal) {
@@ -74,6 +77,30 @@ export class CurrentAdComponent implements OnInit {
 
   showCar() {
     this.flagCar = this.flagCar == false;
+  }
+
+  showSetActual(content) {
+    this.errorStatus = "";
+    this.modalRef = this.modalService.open(content)
+  }
+
+  showSetNotActual(content) {
+    this.errorStatus = "";
+    this.modalRef = this.modalService.open(content)
+  }
+
+  setActual() {
+    this.adService.setActual(this.adId).then(ad => {
+      this.ad = ad;
+      this.modalRef.close()
+    }).catch(err => this.errorStatus = err)
+  }
+
+  setNotActual() {
+    this.adService.setNotActual(this.adId).then(ad => {
+      this.ad = ad;
+      this.modalRef.close()
+    }).catch(err => this.errorStatus = err)
   }
 
 }

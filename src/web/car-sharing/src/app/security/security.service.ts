@@ -14,10 +14,7 @@ export class SecurityService {
       .toPromise()
       .then(res => {
         this.authenticate()
-          .then(user => {
-            this.setAuthUser(user);
-            this.checkAdmin(user);
-          })
+          .then()
           .catch()
       })
       .catch(this.handleError);
@@ -30,11 +27,14 @@ export class SecurityService {
       .catch(this.handleError)
   }
 
-  private authenticate() {
+  authenticate() {
     return this.http.get("api/profile/principal")
       .toPromise()
-      .then(res => res.json() as User)
-      .catch(this.handleError)
+      .then(user => {
+        this.setAuthUser(user.json());
+        this.checkAdmin(user.json());
+      })
+      .catch(res => this.deleteAuthUser())
   }
 
   private checkAdmin(user: User) {

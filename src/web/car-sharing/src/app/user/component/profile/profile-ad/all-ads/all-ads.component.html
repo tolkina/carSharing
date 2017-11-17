@@ -1,13 +1,17 @@
 <h4 class="text-center">
   Мои объявления
-  <a [routerLink]="['/profile/ad/new']" class="btn btn-success">Добавить</a>
+  <a [routerLink]="['/profile/ad/new']" class="btn btn-success disabled" *ngIf="!numberOfCars">Добавить</a>
+  <a [routerLink]="['/profile/ad/new']" class="btn btn-success" *ngIf="numberOfCars">Добавить</a>
 </h4>
 <div class="row">
   <div class="col-md-4 col-sm-6" *ngFor="let ad of ads">
     <div class="card">
       <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image">
       <div class="card-body">
-        <div class="card-text"><b>Статус: </b>{{ad.status}}</div>
+        <div class="card-text" *ngIf="ad.status == adStatus.actual[0]"><b>Статус: </b>{{adStatus.actual[1]}}</div>
+        <div class="card-text" *ngIf="ad.status == adStatus.notRelevant[0]"><b>Статус: </b>{{adStatus.notRelevant[1]}}
+        </div>
+        <div class="card-text" *ngIf="ad.status == adStatus.taken[0]"><b>Статус: </b>{{adStatus.taken[1]}}</div>
         <div class="card-text"><b>Машина: </b>{{ad.car.generalParameters.brand}}
           {{ad.car.generalParameters.model}} {{ad.car.generalParameters.yearOfIssue}}
         </div>

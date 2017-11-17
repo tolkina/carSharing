@@ -85,6 +85,12 @@ public class ProfileEndpoint {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.getAllByOwner(ownerId)).build();
     }
+    @GET
+    @Path("car-without-ad")
+    public Response getAllCarsWithoutAdForPrincipal() throws UnauthorizedException, EntityNotFoundException {
+        Long ownerId = securityService.getPrincipalId();
+        return Response.status(200).entity(carService.getAllWithoutAdByOwner(ownerId)).build();
+    }
 
     @GET
     @Path("ad")

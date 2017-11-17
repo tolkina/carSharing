@@ -22,6 +22,8 @@ public interface CarService {
 
     List<CarResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException;
 
+    List<CarResponse> getAllWithoutAdByOwner(Long ownerId) throws EntityNotFoundException;
+
     CarResponse create(CarRequest car, Long ownerId) throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException;
 
     void delete(Long carId, Long ownerId) throws PrivilegeException, EntityNotFoundException;
