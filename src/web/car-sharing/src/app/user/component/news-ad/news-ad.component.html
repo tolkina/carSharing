@@ -2,7 +2,7 @@
   Объявления
 </h4>
 <div class="row">
-  <h5 *ngIf="!ads.length">Нет объявлений</h5>
+  <h5 *ngIf="ads.length == 0">Нет объявлений</h5>
   <div class="col-md-4 col-sm-6" *ngFor="let ad of ads">
     <div class="card">
       <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image">

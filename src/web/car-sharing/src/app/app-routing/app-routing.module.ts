@@ -23,7 +23,6 @@ import {GearboxComponent} from "../admin/component/setup-admin/gearbox/gearbox.c
 import {ModelComponent} from "../admin/component/setup-admin/model/model.component";
 import {LoginComponent} from "../login/login.component";
 import {RegistrationComponent} from "../registration/registration.component";
-import {LogoutComponent} from "../logout/logout.component";
 import {CurrentAdComponent} from "../user/component/profile/profile-ad/current-ad/current-ad.component";
 import {NewAdComponent} from "../user/component/profile/profile-ad/new-ad/new-ad.component";
 import {AllAdsComponent} from "../user/component/profile/profile-ad/all-ads/all-ads.component";
@@ -39,7 +38,6 @@ import {ConfirmProfileComponent} from "../admin/component/confirm-profile/confir
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'logout', component: LogoutComponent},
   {path: 'registration', component: RegistrationComponent},
   {
     path: 'admin', component: HomePageAdminComponent, canActivate: [RoleAuthGuardService],

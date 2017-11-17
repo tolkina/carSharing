@@ -33,7 +33,6 @@ import {TiresSeasonComponent} from "./admin/component/setup-admin/tires-season/t
 import {BodyTypeComponent} from "./admin/component/setup-admin/body-type/body-type.component";
 import {LoginComponent} from "./login/login.component";
 import {RegistrationComponent} from "./registration/registration.component";
-import {LogoutComponent} from "./logout/logout.component";
 import {EqualValidator} from "./directive/equal-validator";
 import {AllAdsComponent} from "./user/component/profile/profile-ad/all-ads/all-ads.component";
 import {NewAdComponent} from "./user/component/profile/profile-ad/new-ad/new-ad.component";
@@ -65,10 +64,10 @@ import {ConfirmProfileComponent} from "./admin/component/confirm-profile/confirm
     NewCarComponent, CurrentCarComponent, TechnicalParametersComponent, GeneralParametersComponent,
     CurrentConditionComponent, HomePageUserComponent, HomePageAdminComponent, SetupAdminComponent, GearboxComponent,
     BrandComponent, ModelComponent, ColorComponent, DriveUnitComponent, FuelTypeComponent, InteriorMaterialComponent,
-    TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, LogoutComponent, EqualValidator,
-    AllAdsComponent, NewAdComponent, CurrentAdComponent, PassportDataComponent, DriverLicenseComponent,
-    ProfileAdComponent, CreditCardComponent, CarParameterComponent, ConfirmProfileComponent, NewsAdComponent,
-    MyDealsComponent, DealsWithMeComponent
+    TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, EqualValidator, AllAdsComponent,
+    NewAdComponent, CurrentAdComponent, PassportDataComponent, DriverLicenseComponent, ProfileAdComponent,
+    CreditCardComponent, CarParameterComponent, ConfirmProfileComponent, NewsAdComponent, MyDealsComponent,
+    DealsWithMeComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, ReactiveFormsModule, NgbModule.forRoot()
