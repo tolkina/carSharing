@@ -3,7 +3,16 @@
     <div class="card">
       <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image">
       <div class="card-body">
-        <div class="card-text"><b>Статус: </b>{{deal.status}}</div>
+        <div class="card-text" *ngIf="deal.status == dealStatus.booking[0]"><b>Статус: </b>{{dealStatus.booking[1]}}
+        </div>
+        <div class="card-text" *ngIf="deal.status == dealStatus.cancelBooking[0]"><b>Статус: </b>{{dealStatus.cancelBooking[1]}}
+        </div>
+        <div class="card-text" *ngIf="deal.status == dealStatus.overdueBooking[0]"><b>Статус: </b>{{dealStatus.overdueBooking[1]}}
+        </div>
+        <div class="card-text" *ngIf="deal.status == dealStatus.rentalStart[0]"><b>Статус: </b>{{dealStatus.rentalStart[1]}}
+        </div>
+        <div class="card-text" *ngIf="deal.status == dealStatus.rentalEnd[0]"><b>Статус: </b>{{dealStatus.rentalEnd[1]}}
+        </div>
         <div class="card-text"><b>Начало бронирования: </b>{{deal.bookingStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
         <div class="card-text"><b>Начало аренды: </b>{{deal.rentalStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
         <div class="card-text"><b>Предполагаемое окончание аренды: </b>{{deal.estimatedRentalEndTime |
@@ -23,7 +32,7 @@
         </div>
       </div>
       <div class="card-footer" align="center">
-        <button class="btn btn-primary" style="width: 100%" *ngIf="deal.status==dealStatus.booking"
+        <button class="btn btn-primary" style="width: 100%" *ngIf="deal.status==dealStatus.booking[0]"
                 (click)="showCancelBooking(deal, contentCancelBooking)">
           Отменить бронирование
         </button>

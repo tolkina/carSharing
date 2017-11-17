@@ -1,7 +1,7 @@
 export class DealStatus {
-  booking = "BOOKING";
-  cancelBooking = "CANCEL_BOOKING";
-  overdueBooking = "OVERDUE_BOOKING";
-  rentalStart = "RENTAL_START";
-  rentalEnd = "RENTAL_END";
+  booking = ["BOOKING", "Забронировано"];
+  cancelBooking = ["CANCEL_BOOKING", "Бронирование отменено"];
+  overdueBooking = ["OVERDUE_BOOKING", "Бронирование просрочено"];
+  rentalStart = ["RENTAL_START", "Идет аренда"];
+  rentalEnd = ["RENTAL_END", "Аренда закончена"];
 }
