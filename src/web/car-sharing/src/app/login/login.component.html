@@ -8,17 +8,13 @@
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" class="form-control" id="email"
+        <input type="email" class="form-control" id="email"
                required
                [(ngModel)]="user.email" name="email"
-               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                #email="ngModel">
         <div [hidden]="email.valid || email.pristine"
              class="alert alert-danger">
-          <div [hidden]="!email.hasError('required')">Email обязателен</div>
-          <div [hidden]="!email.hasError('pattern')">Email должен быть в формате
-            <small><b>joe@abc.com</b></small>
-          </div>
+          <div [hidden]="!email.hasError('required')">Обязательное поле</div>
         </div>
       </div>
       <div class="form-group">
@@ -26,13 +22,10 @@
         <input type="password" class="form-control" id="password"
                required
                [(ngModel)]="user.password" name="password"
-               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                #password="ngModel">
         <div [hidden]="password.valid || password.pristine"
              class="alert alert-danger">
-          <div [hidden]="!password.hasError('required')">Password обязателен</div>
-          <div [hidden]="!password.hasError('pattern')">Минимум 8 знаков, хотя бы одна латинская буква, хотя бы одна цифра
-          </div>
+          <div [hidden]="!password.hasError('required')">Обязательное поле</div>
         </div>
       </div>
       <button type="submit" class="btn btn-success btn-block" [disabled]="!loginForm.form.valid">Войти</button>
