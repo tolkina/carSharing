@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Http} from "@angular/http";
 import {SecurityService} from "../security/security.service";
 import {Router} from '@angular/router'
-import {SecurityModel} from "../security/security-model";
+import {User} from "../user/domain/user";
 
 @Component({
   selector: 'app-login',
@@ -11,29 +10,17 @@ import {SecurityModel} from "../security/security-model";
 })
 export class LoginComponent implements OnInit {
   errorMessage = "";
-  user: any = {};
+  user = new User;
 
-  constructor(private http: Http, private securityService: SecurityService, private router: Router,
-              private securityModel: SecurityModel) {
+  constructor(private securityService: SecurityService, private router: Router) {
   }
 
   ngOnInit() {
   }
 
-  onSubmit() {
-    this.login(this.user)
-  }
-
-
-
-  login(credentials) {
-    this.securityService.login(credentials).then(res => {
-      this.securityModel.authenticate().then(res =>
-        this.router.navigateByUrl('')
-      ).catch(res => this.errorMessage = res);
-    }).catch(res => {
-      this.errorMessage = res;
-      this.securityModel.authenticated = false;
-    });
+  login() {
+    this.securityService.login(this.user)
+      .then(res => this.router.navigateByUrl(''))
+      .catch(res => this.errorMessage = res)
   }
 }

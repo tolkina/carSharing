@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../../../../service/profile-car.service";
 import {GeneralParameters} from "../../../../domain/general-parameters";
 import {Car} from "../../../../domain/car";
-import {SecurityModel} from "../../../../../security/security-model";
 
 @Component({
   selector: 'app-all-cars',
@@ -11,14 +10,12 @@ import {SecurityModel} from "../../../../../security/security-model";
 })
 export class AllCarsComponent implements OnInit {
   cars: Car[] = [];
-  profileId: number;
   generalParameters: GeneralParameters;
 
-  constructor(private carService: ProfileCarService, private securityModel: SecurityModel) {
+  constructor(private carService: ProfileCarService) {
   }
 
   ngOnInit() {
-    this.profileId = this.securityModel.principal.id;
     this.getCarsOfPrincipal();
   }
 

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SecurityModel} from "../../../security/security-model";
 import {SecurityService} from "../../../security/security.service";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-home-page',
@@ -13,7 +14,7 @@ export class HomePageUserComponent implements OnInit {
   private modalRef: NgbModalRef;
 
   constructor(private securityModel: SecurityModel, private securityService: SecurityService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal, private router: Router) {
   }
 
   ngOnInit() {
@@ -21,9 +22,8 @@ export class HomePageUserComponent implements OnInit {
 
   logout() {
     this.securityService.logout().then(res => {
-      this.securityModel.authenticated = false;
-      this.securityModel.principal = null;
       this.modalRef.close();
+      this.router.navigateByUrl('')
     }).catch();
   }
 
