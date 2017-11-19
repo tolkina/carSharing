@@ -54,7 +54,8 @@
         <select class="form-control" id="creditCardId" name="creditCardId" [(ngModel)]="newDeal.creditCardId"
                 #creditCardId="ngModel" required>
           <option *ngFor="let creditCard of creditCards" [ngValue]="creditCard.id">{{creditCard.firstName}}
-            {{creditCard.lastName}} {{creditCard.number}} {{creditCard.validUntil}}
+            {{creditCard.lastName}} {{creditCard.number[0]}}{{creditCard.number[1]}}**************
+            {{creditCard.validUntil}}
           </option>
         </select>
         <div [hidden]="creditCardId.valid || creditCardId.pristine" class="alert alert-danger">

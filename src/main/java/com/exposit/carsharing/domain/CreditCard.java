@@ -20,7 +20,7 @@ public class CreditCard extends AbstractEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    private Integer number;
+    private String number;
 
     @Column(name = "valid_until")
     private LocalDate validUntil;

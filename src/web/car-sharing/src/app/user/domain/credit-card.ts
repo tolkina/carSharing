@@ -2,6 +2,6 @@ export class CreditCard {
   id: number;
   firstName: String;
   lastName: String;
-  number: number;
+  number: String;
   validUntil: Date;
 }

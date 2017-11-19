@@ -18,6 +18,8 @@ export class CreditCardComponent implements OnInit {
   errorMessage: String;
   errorDelete: String;
   modalRef: any;
+  ngbValidUntil: NgbDateStruct[] = [];
+  touchedValidUntil = false;
 
   constructor(private creditCardService: CreditCardService, private dateFormatter: DateFormatter,
               private modalService: NgbModal) {
@@ -25,6 +27,7 @@ export class CreditCardComponent implements OnInit {
 
   ngOnInit() {
     this.getCreditCards();
+    this.putNgbBorders();
   }
 
   getCreditCards() {
@@ -58,9 +61,23 @@ export class CreditCardComponent implements OnInit {
     this.errorMessage = "";
     this.modalRef = this.modalService.open(contentCreate);
     this.newCreditCard = new CreditCard();
+    this.touchedValidUntil = false;
   }
 
   onChange(date: NgbDateStruct) {
     this.newCreditCard.validUntil = this.dateFormatter.toDate(date);
+  }
+
+  touchValidUntil() {
+    this.touchedValidUntil = true
+  }
+
+  private putNgbBorders() {
+    const currentDate = new Date();
+    this.ngbValidUntil.push({
+      day: currentDate.getUTCDate(),
+      month: currentDate.getUTCMonth() + 1,
+      year: currentDate.getUTCFullYear()
+    });
   }
 }

@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -18,8 +19,9 @@ public class CreditCardRequest implements Serializable {
     @Size(max = 20)
     @NotBlank
     private String lastName;
-    @NotNull
-    private Integer number;
+    @NotBlank
+    @Pattern(regexp = "[0-9]{16}")
+    private String number;
     @NotNull
     private LocalDate validUntil;
 }

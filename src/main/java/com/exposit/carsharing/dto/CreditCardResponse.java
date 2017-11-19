@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class CreditCardResponse extends AbstractResponse {
     private String firstName;
     private String lastName;
-    private Integer number;
+    private String number;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate validUntil;
 }
