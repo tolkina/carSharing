@@ -1,6 +1,5 @@
 package com.exposit.carsharing.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +19,8 @@ public class PassportDataRequest implements Serializable {
     private String middleName;
     @Size(max = 2)
     private String series;
-    private Integer number;
+    @Pattern(regexp = "[0-9]{7,8}")
+    private String number;
     @Size(max = 20)
     private String personalNumber;
     private LocalDate dateOfIssue;

@@ -24,7 +24,7 @@ public class PassportData extends AbstractEntity {
 
     private String series;
 
-    private Integer number;
+    private String number;
 
     @Column(name = "personal_number")
     private String personalNumber;

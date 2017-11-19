@@ -13,7 +13,7 @@ public class PassportDataResponse extends AbstractResponse {
     private String lastName;
     private String middleName;
     private String series;
-    private Integer number;
+    private String number;
     private String personalNumber;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfIssue;

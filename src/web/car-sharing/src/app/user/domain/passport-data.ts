@@ -4,7 +4,7 @@ export class PassportData {
   lastName: String;
   middleName: String;
   series: String;
-  number: number;
+  number: String;
   personalNumber: String;
   placeOfIssue: String;
   dateOfIssue: Date;
