@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {Profile} from "../../../domain/profile";
 import {ProfileService} from "../../../service/profile.service";
 import {clone} from "lodash";
-import {ActivatedRoute} from "@angular/router";
 import {DateFormatter} from "../../../../date-formatter";
 import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap"
 
@@ -20,13 +19,15 @@ export class ProfileInfoComponent {
   noConfirm = "NO";
   yesConfirm = "YES";
   checkConfirm = "CHECK";
+  ngbBirthday: NgbDateStruct[] = [];
 
-  constructor(private profileService: ProfileService, private activateRoute: ActivatedRoute,
-              private dateFormatter: DateFormatter, private modalService: NgbModal) {
+  constructor(private profileService: ProfileService, private dateFormatter: DateFormatter,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
     this.getProfile();
+    this.putNgbBorders();
   }
 
   getProfile() {
@@ -68,5 +69,14 @@ export class ProfileInfoComponent {
     this.profileService.confirmProfile()
       .then(res => this.profile.confirmProfile = this.checkConfirm)
       .catch()
+  }
+
+  private putNgbBorders() {
+    const currentDate = new Date();
+    this.ngbBirthday.push({year: 1960, month: 1, day: 1}, {
+      day: currentDate.getUTCDate(),
+      month: currentDate.getUTCMonth() + 1,
+      year: currentDate.getUTCFullYear() - 17
+    });
   }
 }

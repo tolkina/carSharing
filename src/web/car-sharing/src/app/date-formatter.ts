@@ -9,6 +9,9 @@ export class DateFormatter {
   }
 
   fromDate(date: Date) {
+    if (date === null) {
+      return null;
+    }
     let d: any = {};
     if (date != null) {
       d.year = +(date[0] + date[1] + date[2] + date[3]);

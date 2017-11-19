@@ -53,19 +53,18 @@
 
       <div class="form-group">
         <label>Дата рождения:
-          <form class="form-inline">
-            <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd"
-                       name="dp" [(ngModel)]="birthday" ngbDatepicker #d="ngbDatepicker"
-                       (ngModelChange)="onChange(birthday)">
-                <button class="input-group-addon" (click)="d.toggle()" type="button">
-                  <img src="../../assets/images/calendar-icon.svg"
-                       style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
-                </button>
-              </div>
+          <div class="form-group">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                     name="dp" [(ngModel)]="birthday" ngbDatepicker #d="ngbDatepicker"
+                     (ngModelChange)="onChange(birthday)" [minDate]="ngbBirthday[0]"
+                     [maxDate]="ngbBirthday[1]">
+              <button class="input-group-addon" (click)="d.toggle()" type="button">
+                <img src="../../assets/images/calendar-icon.svg"
+                     style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
+              </button>
             </div>
-          </form>
+          </div>
         </label>
       </div>
 

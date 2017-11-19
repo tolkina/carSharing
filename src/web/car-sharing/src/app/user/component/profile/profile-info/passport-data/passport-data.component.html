@@ -155,12 +155,13 @@
               <input id="dateOfIssue" class="form-control" placeholder="yyyy-mm-dd"
                      name="dp" [(ngModel)]="dateOfIssue" ngbDatepicker #d="ngbDatepicker"
                      (ngModelChange)="onChangeDateOfIssue(dateOfIssue)" [minDate]="ngbDateOfIssue[0]"
-                     [maxDate]="ngbDateOfIssue[1]">
+                     [maxDate]="ngbDateOfIssue[1]" required (blur)="touchDateOfIssue()">
               <button class="input-group-addon" (click)="d.toggle()" type="button">
                 <img src="../../assets/images/calendar-icon.svg"
                      style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
               </button>
             </div>
+            <div [hidden]="dateOfIssue != null || !touchedDateOfIssue" class="alert alert-danger">Обязательно поле</div>
           </div>
 
           <div class="form-group">
@@ -170,12 +171,13 @@
                 <input class="form-control" id="validUntil" placeholder="yyyy-mm-dd"
                        name="dp1" [(ngModel)]="validUntil" ngbDatepicker #ds="ngbDatepicker"
                        (ngModelChange)="onChangeValidUntil(validUntil)" [minDate]="ngbValidUntil[0]"
-                       [maxDate]="ngbValidUntil[1]">
+                       [maxDate]="ngbValidUntil[1]" required (blur)="touchValidUntil()">
                 <button class="input-group-addon" (click)="ds.toggle()" type="button">
                   <img src="../../assets/images/calendar-icon.svg"
                        style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
                 </button>
               </div>
+              <div [hidden]="validUntil != null || !touchedValidUntil" class="alert alert-danger">Обязательно поле</div>
             </div>
           </div>
 

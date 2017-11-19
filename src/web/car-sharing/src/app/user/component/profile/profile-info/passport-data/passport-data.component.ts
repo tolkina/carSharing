@@ -21,9 +21,19 @@ export class PassportDataComponent implements OnInit {
   validUntil: NgbDateStruct;
   ngbValidUntil: NgbDateStruct[] = [];
   ngbDateOfIssue: NgbDateStruct[] = [];
+  touchedValidUntil = false;
+  touchedDateOfIssue = false;
 
   constructor(private passportService: PassportDataService, private dateFormatter: DateFormatter,
               private modalService: NgbModal, private profileInfoComponent: ProfileInfoComponent) {
+  }
+
+  touchValidUntil() {
+    this.touchedValidUntil = true
+  }
+
+  touchDateOfIssue() {
+    this.touchedDateOfIssue = true
   }
 
   ngOnInit() {
@@ -66,6 +76,8 @@ export class PassportDataComponent implements OnInit {
     this.validUntil = this.dateFormatter.fromDate(this.passport.validUntil);
     this.editedPassport.validUntil = this.dateFormatter.toDate(this.validUntil);
     this.editedPassport.dateOfIssue = this.dateFormatter.toDate(this.dateOfIssue);
+    this.touchedDateOfIssue = false;
+    this.touchedValidUntil = false;
   }
 
   private putNgbBorders() {
