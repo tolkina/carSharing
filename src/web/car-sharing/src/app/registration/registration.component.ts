@@ -10,7 +10,6 @@ import {Router} from '@angular/router';
 export class RegistrationComponent implements OnInit {
   errorMessage = "";
   user: any = {};
-  // emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
   constructor(private profileService: ProfileService, private router: Router) {
   }
