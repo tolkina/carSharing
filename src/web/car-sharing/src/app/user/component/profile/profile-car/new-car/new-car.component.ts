@@ -47,6 +47,7 @@ export class NewCarComponent implements OnInit {
   }
 
   changeModel(brand) {
+    this.car.generalParameters.model = null;
     this.models = [];
     for (let i = 0; i < this.allModels.length; i++) {
       if (this.allModels[i].brand.name == brand) {
