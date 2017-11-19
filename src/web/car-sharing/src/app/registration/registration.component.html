@@ -11,13 +11,12 @@
         <input type="email" class="form-control" id="email"
                required
                [(ngModel)]="user.email" name="email"
-               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$"
                #email="ngModel">
         <div [hidden]="email.valid || email.pristine"
              class="alert alert-danger">
           <div [hidden]="!email.hasError('required')">Обязательное поле</div>
-          <div [hidden]="!email.hasError('pattern')">Email должен быть в формате
-            <small><b>joe@abc.com</b></small>
+          <div [hidden]="!email.hasError('pattern')">Email должен быть в формате <small><b>joe@abc.com</b></small>
           </div>
         </div>
       </div>

@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
     private void checkEmail(String email) throws EntityAlreadyExistException {
         if (profileRepository.findByEmail(email) != null) {
-            throw new EntityAlreadyExistException(String.format("Email %s already used", email));
+            throw new EntityAlreadyExistException(String.format("Email %s already exist", email));
         }
     }
 }
