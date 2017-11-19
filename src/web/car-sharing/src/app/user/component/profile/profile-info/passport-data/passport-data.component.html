@@ -85,9 +85,10 @@
             <label for="lastName">Фамилия:</label>
             <input type="text" class="form-control" id="lastName" name="lastName"
                    [(ngModel)]="editedPassport.lastName"
-                   pattern="[A-ZА-Я][А-яA-z]{0,19}" #lastName="ngModel">
+                   required pattern="[А-яA-z-]{0,20}" #lastName="ngModel">
             <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
-              <div [hidden]="!lastName.hasError('pattern')">Только буквы, начиная с заглавной. Максимум 20</div>
+              <div [hidden]="!lastName.hasError('pattern')">Буквы, тире. Максимум 20</div>
+              <div [hidden]="!lastName.hasError('required')">Обязательно поле</div>
             </div>
           </div>
 
@@ -95,9 +96,10 @@
             <label for="firstName">Имя:</label>
             <input type="text" class="form-control" id="firstName" name="firstName"
                    [(ngModel)]="editedPassport.firstName"
-                   pattern="[A-ZА-Я][А-яA-z]{0,19}" #firstName="ngModel">
+                   required pattern="[А-яA-z-]{0,20}" #firstName="ngModel">
             <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
-              <div [hidden]="!firstName.hasError('pattern')">Только буквы, начиная с заглавной. Максимум 20</div>
+              <div [hidden]="!firstName.hasError('pattern')">Буквы, тире. Максимум 20</div>
+              <div [hidden]="!firstName.hasError('required')">Обязательно поле</div>
             </div>
           </div>
 
@@ -105,27 +107,30 @@
             <label for="middleName">Отчество:</label>
             <input type="text" id="middleName" name="middleName"
                    [(ngModel)]="editedPassport.middleName" class="form-control"
-                   pattern="[A-ZА-Я][А-яA-z]{0,19}" #middleName="ngModel">
+                   required pattern="[А-яA-z-]{0,20}" #middleName="ngModel">
             <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">
-              <div [hidden]="!middleName.hasError('pattern')">Только буквы, начиная с заглавной. Максимум 20</div>
+              <div [hidden]="!middleName.hasError('pattern')">Буквы, тире. Максимум 20</div>
+              <div [hidden]="!middleName.hasError('required')">Обязательно поле</div>
             </div>
           </div>
 
           <div class="form-group">
             <label for="series">Серия:</label>
             <input type="text" id="series" name="series" [(ngModel)]="editedPassport.series" class="form-control"
-                   pattern="[А-яA-z]{2}" #series="ngModel">
+                   required pattern="[А-яA-z]{2}" #series="ngModel">
             <div [hidden]="series.valid || series.pristine" class="alert alert-danger">
               <div [hidden]="!series.hasError('pattern')">Только 2 буквы.</div>
+              <div [hidden]="!series.hasError('required')">Обязательно поле</div>
             </div>
           </div>
 
           <div class="form-group">
             <label for="number">Номер:</label>
             <input type="text" id="number" name="number" [(ngModel)]="editedPassport.number" class="form-control"
-                   pattern="[0-9]{0,20}" #number="ngModel">
+                   required pattern="\d{0,20}" #number="ngModel">
             <div [hidden]="number.valid || number.pristine" class="alert alert-danger">
               <div [hidden]="!number.hasError('pattern')">Только цифры. Максимум 20</div>
+              <div [hidden]="!number.hasError('required')">Обязательно поле</div>
             </div>
           </div>
         </div>
@@ -136,9 +141,10 @@
             <label for="personalNumber">Личный номер:</label>
             <input type="text" id="personalNumber" name="personalNumber"
                    [(ngModel)]="editedPassport.personalNumber" class="form-control"
-                   pattern="[А-яA-z0-9]{0,20}" #personalNumber="ngModel">
+                   required pattern="[А-яA-z0-9]{0,20}" #personalNumber="ngModel">
             <div [hidden]="personalNumber.valid || personalNumber.pristine" class="alert alert-danger">
               <div [hidden]="!personalNumber.hasError('pattern')">Буквы, цифры. Максимум 20</div>
+              <div [hidden]="!number.hasError('required')">Обязательно поле</div>
             </div>
 
           </div>
@@ -148,7 +154,8 @@
             <div class="input-group">
               <input id="dateOfIssue" class="form-control" placeholder="yyyy-mm-dd"
                      name="dp" [(ngModel)]="dateOfIssue" ngbDatepicker #d="ngbDatepicker"
-                     (ngModelChange)="onChangeDateOfIssue(dateOfIssue)">
+                     (ngModelChange)="onChangeDateOfIssue(dateOfIssue)" [minDate]="ngbDateOfIssue[0]"
+                     [maxDate]="ngbDateOfIssue[1]">
               <button class="input-group-addon" (click)="d.toggle()" type="button">
                 <img src="../../assets/images/calendar-icon.svg"
                      style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
@@ -162,7 +169,8 @@
               <div class="input-group">
                 <input class="form-control" id="validUntil" placeholder="yyyy-mm-dd"
                        name="dp1" [(ngModel)]="validUntil" ngbDatepicker #ds="ngbDatepicker"
-                       (ngModelChange)="onChangeValidUntil(validUntil)">
+                       (ngModelChange)="onChangeValidUntil(validUntil)" [minDate]="ngbValidUntil[0]"
+                       [maxDate]="ngbValidUntil[1]">
                 <button class="input-group-addon" (click)="ds.toggle()" type="button">
                   <img src="../../assets/images/calendar-icon.svg"
                        style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
@@ -174,8 +182,10 @@
           <div class="form-group">
             <label for="placeOfIssue">Место выдачи:</label>
             <input type="text" id="placeOfIssue" name="placeOfIssue" [(ngModel)]="editedPassport.placeOfIssue"
-                   class="form-control">
-
+                   class="form-control" required #placeOfIssue="ngModel">
+            <div [hidden]="placeOfIssue.valid || placeOfIssue.pristine" class="alert alert-danger">
+              <div [hidden]="!placeOfIssue.hasError('required')">Обязательно поле</div>
+            </div>
           </div>
         </div>
       </div>
