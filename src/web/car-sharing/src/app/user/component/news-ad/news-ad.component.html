@@ -10,7 +10,7 @@
         <div class="card-text"><b>Машина: </b>{{ad.car.generalParameters.brand}}
           {{ad.car.generalParameters.model}} {{ad.car.generalParameters.yearOfIssue}}
         </div>
-        <div class="card-text"><b>Владелец: </b>{{ad.owner.email}}
+        <div class="card-text"><b>Владелец: </b>{{ad.owner.login}}
           <div *ngIf="ad.owner.confirmProfile==confirm">Проверенный пользователь</div>
         </div>
         <div class="card-text"><b>Местоположение: </b>{{ad.carLocation}}</div>

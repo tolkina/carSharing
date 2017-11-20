@@ -1,7 +1,7 @@
 <!--Driver license-->
 <div class="row">
   <div class="col-12 newblock"><h3>Водительское удостоверение</h3></div>
-  <div class="col-4">
+  <div class="col-5">
     <div class="row">
       <div class="col-6">
         <h6>Серия и номер:</h6>
@@ -17,7 +17,7 @@
       <div class="col-6">{{driverLicense.category}}</div>
     </div>
   </div>
-  <div class="col-1" *ngIf="driverLicense.id">
+  <div class="col-2" *ngIf="driverLicense.id">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit(content)"
             data-placement="bottom" title="Редактировать водительское удостоверение">✎
     </button>

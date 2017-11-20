@@ -9,5 +9,6 @@ import java.util.Collection;
 @Setter
 public class UserResponse extends AbstractResponse {
     private String email;
+    private String login;
     private Collection<RoleResponse> roles;
 }

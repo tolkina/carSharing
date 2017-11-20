@@ -59,6 +59,7 @@ public class UserServiceImpl implements UserService {
         Profile profile = new Profile();
         profile.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
         profile.setEmail(userRequest.getEmail());
+        profile.setLogin(userRequest.getLogin());
         profile.setRoles(roles);
         profileRepository.save(profile);
 

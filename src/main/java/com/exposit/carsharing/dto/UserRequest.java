@@ -17,4 +17,6 @@ public class UserRequest implements Serializable {
     @Pattern(regexp = Constants.PASSWORD_REGEX)
     @NotBlank
     private String password;
+    @NotBlank
+    private String login;
 }

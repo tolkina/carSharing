@@ -6,6 +6,7 @@
         <div class="col-6">
           <p><b>Id:</b> {{profile.id}}</p></div>
         <p><b>E-mail:</b> {{profile.email}}</p>
+        <p><b>Login:</b> {{profile.login}}</p>
         <div class="col-6">
           <p><b>Дата рождения:</b> {{profile.birthday | date: 'yyyy-MM-dd'}}</p></div>
         <p><b>Стаж вождения:</b> {{profile.drivingExperience}}</p>
@@ -18,7 +19,7 @@
           <p><b>Фамилия:</b> {{profile.passportDataResponse.lastName}}</p>
           <p><b>Имя:</b> {{profile.passportDataResponse.firstName}}</p>
           <p><b>Отчество:</b> {{profile.passportDataResponse.middleName}}</p>
-          <p><b>Серия:</b> {{profile.passportDataResponse.series}}</p>
+          <p><b>Серия:</b> {{profile.passportDataResponse.seriesAndNumber}}</p>
           <p><b>Номер:</b> {{profile.passportDataResponse.number}}</p>
         </div>
         <div class="col-6">

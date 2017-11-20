@@ -22,8 +22,8 @@
         <div class="card-text" *ngIf="deal.deposit != null"><b>Депозит: </b>{{deal.deposit}}</div>
         <div class="card-text"><b>Количество суток: </b>{{deal.daysForRent}}</div>
         <div class="card-text"><b>Цена: </b>{{deal.price}} BYN</div>
-        <div class="card-text"><b>Владелец: </b>{{deal.owner.email}}</div>
-        <div class="card-text"><b>Клиент: </b>{{deal.customer.email}}</div>
+        <div class="card-text"><b>Владелец: </b>{{deal.owner.login}}</div>
+        <div class="card-text"><b>Клиент: </b>{{deal.customer.login}}</div>
         <div class="card-text"><b>Машина: </b>{{deal.ad.car.generalParameters.brand}}
           {{deal.ad.car.generalParameters.model}} {{deal.ad.car.generalParameters.yearOfIssue}}
         </div>

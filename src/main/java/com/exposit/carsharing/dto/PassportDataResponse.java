@@ -12,8 +12,7 @@ public class PassportDataResponse extends AbstractResponse {
     private String firstName;
     private String lastName;
     private String middleName;
-    private String series;
-    private String number;
+    private String seriesAndNumber;
     private String personalNumber;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfIssue;

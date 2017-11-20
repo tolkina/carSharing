@@ -1,5 +1,6 @@
 package com.exposit.carsharing.dto;
 
+import com.exposit.carsharing.configuration.Constants;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,11 +18,9 @@ public class PassportDataRequest implements Serializable {
     private String lastName;
     @Size(max = 20)
     private String middleName;
-    @Size(max = 2)
-    private String series;
-    @Pattern(regexp = "[0-9]{7,8}")
-    private String number;
-    @Size(max = 20)
+    @Pattern(regexp = Constants.SERIES_AND_NUMBER_REGEX)
+    private String seriesAndNumber;
+    @Pattern(regexp = Constants.PERSONAL_NUMBER_REGEX)
     private String personalNumber;
     private LocalDate dateOfIssue;
     private String placeOfIssue;

@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +48,11 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileResponse updateProfile(Long id, ProfileRequest profileRequest) throws EntityNotFoundException {
+    public ProfileResponse updateProfile(Long id, @Valid ProfileRequest profileRequest) throws EntityNotFoundException {
         Profile profile = getProfile(id);
         profile.setDrivingExperience(profileRequest.getDrivingExperience());
         profile.setBirthday(profileRequest.getBirthday());
+        profile.setLogin(profileRequest.getLogin());
         profileRepository.save(profile);
         return mapToResponse(profile);
     }

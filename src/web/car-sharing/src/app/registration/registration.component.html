@@ -16,8 +16,17 @@
         <div [hidden]="email.valid || email.pristine"
              class="alert alert-danger">
           <div [hidden]="!email.hasError('required')">Обязательное поле</div>
-          <div [hidden]="!email.hasError('pattern')">Email должен быть в формате <small><b>joe@abc.com</b></small>
+          <div [hidden]="!email.hasError('pattern')">Email должен быть в формате
+            <small><b>joe@abc.com</b></small>
           </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input type="text" class="form-control" id="login" required [(ngModel)]="user.login" name="login"
+               #login="ngModel">
+        <div [hidden]="login.valid || login.pristine" class="alert alert-danger">
+          <div [hidden]="!login.hasError('required')">Обязательное поле</div>
         </div>
       </div>
       <div class="form-group">
@@ -30,7 +39,8 @@
         <div [hidden]="password.valid || password.pristine"
              class="alert alert-danger">
           <div [hidden]="!password.hasError('required')">Обязательное поле</div>
-          <div [hidden]="!password.hasError('pattern')">Минимум 8 знаков, хотя бы одна латинская буква, хотя бы одна цифра
+          <div [hidden]="!password.hasError('pattern')">Минимум 8 знаков, хотя бы одна латинская буква, хотя бы одна
+            цифра
           </div>
         </div>
       </div>
@@ -43,10 +53,11 @@
                #confirmPassword="ngModel">
         <div [hidden]="confirmPassword.valid || confirmPassword.pristine"
              class="alert alert-danger">
-         Пароли не совпадают
+          Пароли не совпадают
         </div>
       </div>
-      <button type="submit" class="btn btn-success btn-block" [disabled]="!loginForm.form.valid">Зарегистрироваться</button>
+      <button type="submit" class="btn btn-success btn-block" [disabled]="!loginForm.form.valid">Зарегистрироваться
+      </button>
     </form>
   </div>
 </div>

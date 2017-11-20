@@ -46,6 +46,7 @@ export class PassportDataComponent implements OnInit {
   }
 
   onChangeDateOfIssue(dateOfIssue: NgbDateStruct) {
+    this.ngbValidUntil[0] = dateOfIssue;
     this.editedPassport.dateOfIssue = this.dateFormatter.toDate(dateOfIssue);
   }
 

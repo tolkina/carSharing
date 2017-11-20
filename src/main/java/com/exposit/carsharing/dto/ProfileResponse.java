@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class ProfileResponse extends AbstractResponse {
     private String avatarUrl;
     private String email;
+    private String login;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private double drivingExperience;

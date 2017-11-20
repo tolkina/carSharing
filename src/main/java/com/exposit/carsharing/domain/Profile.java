@@ -18,6 +18,8 @@ public class Profile extends AbstractEntity {
 
     private String password;
 
+    private String login;
+
     @Column(name = "avatar")
     private String avatarUrl;
 
