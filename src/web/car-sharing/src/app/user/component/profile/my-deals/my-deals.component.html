@@ -14,14 +14,14 @@
         <div class="card-text" *ngIf="deal.status == dealStatus.rentalEnd[0]"><b>Статус: </b>{{dealStatus.rentalEnd[1]}}
         </div>
         <div class="card-text"><b>Начало бронирования: </b>{{deal.bookingStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
-        <div class="card-text"><b>Начало аренды: </b>{{deal.rentalStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
-        <div class="card-text"><b>Предполагаемое окончание аренды: </b>{{deal.estimatedRentalEndTime |
+        <div class="card-text" *ngIf="deal.rentalStartTime != null"><b>Начало аренды: </b>{{deal.rentalStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
+        <div class="card-text" *ngIf="deal.estimatedRentalEndTime != null"><b>Предполагаемое окончание аренды: </b>{{deal.estimatedRentalEndTime |
           date: 'hh:mm:ss dd-MM-yyyy'}}
         </div>
-        <div class="card-text"><b>Окончание аренды: </b>{{deal.rentalEndTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
-        <div class="card-text"><b>Депозит: </b>{{deal.deposit}}</div>
+        <div class="card-text" *ngIf="deal.rentalEndTime != null"><b>Окончание аренды: </b>{{deal.rentalEndTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
+        <div class="card-text" *ngIf="deal.deposit != null"><b>Депозит: </b>{{deal.deposit}}</div>
         <div class="card-text"><b>Часы аренды: </b>{{deal.hoursForRent}}</div>
-        <div class="card-text"><b>Цена: </b>{{deal.price}}</div>
+        <div class="card-text"><b>Цена: </b>{{deal.price}} BYN</div>
         <div class="card-text"><b>Владелец: </b>{{deal.owner.email}}</div>
         <div class="card-text"><b>Клиент: </b>{{deal.customer.email}}</div>
         <div class="card-text"><b>Машина: </b>{{deal.ad.car.generalParameters.brand}}

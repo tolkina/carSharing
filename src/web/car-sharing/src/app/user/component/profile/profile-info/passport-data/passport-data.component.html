@@ -88,7 +88,7 @@
                    required pattern="[А-яA-z-]{0,20}" #lastName="ngModel">
             <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
               <div [hidden]="!lastName.hasError('pattern')">Буквы, тире. Максимум 20</div>
-              <div [hidden]="!lastName.hasError('required')">Обязательно поле</div>
+              <div [hidden]="!lastName.hasError('required')">Обязательное поле</div>
             </div>
           </div>
 
@@ -99,7 +99,7 @@
                    required pattern="[А-яA-z-]{0,20}" #firstName="ngModel">
             <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
               <div [hidden]="!firstName.hasError('pattern')">Буквы, тире. Максимум 20</div>
-              <div [hidden]="!firstName.hasError('required')">Обязательно поле</div>
+              <div [hidden]="!firstName.hasError('required')">Обязательное поле</div>
             </div>
           </div>
 
@@ -110,7 +110,7 @@
                    required pattern="[А-яA-z-]{0,20}" #middleName="ngModel">
             <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">
               <div [hidden]="!middleName.hasError('pattern')">Буквы, тире. Максимум 20</div>
-              <div [hidden]="!middleName.hasError('required')">Обязательно поле</div>
+              <div [hidden]="!middleName.hasError('required')">Обязательное поле</div>
             </div>
           </div>
 
@@ -120,7 +120,7 @@
                    required pattern="[А-яA-z]{2}" #series="ngModel">
             <div [hidden]="series.valid || series.pristine" class="alert alert-danger">
               <div [hidden]="!series.hasError('pattern')">Только 2 буквы.</div>
-              <div [hidden]="!series.hasError('required')">Обязательно поле</div>
+              <div [hidden]="!series.hasError('required')">Обязательное поле</div>
             </div>
           </div>
 
@@ -130,7 +130,7 @@
                    required pattern="\d{7,8}" #number="ngModel">
             <div [hidden]="number.valid || number.pristine" class="alert alert-danger">
               <div [hidden]="!number.hasError('pattern')">Только цифры.</div>
-              <div [hidden]="!number.hasError('required')">Обязательно поле</div>
+              <div [hidden]="!number.hasError('required')">Обязательное поле</div>
             </div>
           </div>
         </div>
@@ -144,9 +144,8 @@
                    required pattern="[А-яA-z0-9]{0,20}" #personalNumber="ngModel">
             <div [hidden]="personalNumber.valid || personalNumber.pristine" class="alert alert-danger">
               <div [hidden]="!personalNumber.hasError('pattern')">Буквы, цифры. Максимум 20</div>
-              <div [hidden]="!number.hasError('required')">Обязательно поле</div>
+              <div [hidden]="!personalNumber.hasError('required')">Обязательное поле</div>
             </div>
-
           </div>
 
           <div class="form-group">
@@ -161,7 +160,7 @@
                      style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
               </button>
             </div>
-            <div [hidden]="dateOfIssue != null || !touchedDateOfIssue" class="alert alert-danger">Обязательно поле</div>
+            <div [hidden]="dateOfIssue != null || !touchedDateOfIssue" class="alert alert-danger">Обязательное поле</div>
           </div>
 
           <div class="form-group">
@@ -177,7 +176,7 @@
                        style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
                 </button>
               </div>
-              <div [hidden]="validUntil != null || !touchedValidUntil" class="alert alert-danger">Обязательно поле</div>
+              <div [hidden]="validUntil != null || !touchedValidUntil" class="alert alert-danger">Обязательное поле</div>
             </div>
           </div>
 
@@ -186,7 +185,7 @@
             <input type="text" id="placeOfIssue" name="placeOfIssue" [(ngModel)]="editedPassport.placeOfIssue"
                    class="form-control" required #placeOfIssue="ngModel">
             <div [hidden]="placeOfIssue.valid || placeOfIssue.pristine" class="alert alert-danger">
-              <div [hidden]="!placeOfIssue.hasError('required')">Обязательно поле</div>
+              <div [hidden]="!placeOfIssue.hasError('required')">Обязательное поле</div>
             </div>
           </div>
         </div>
