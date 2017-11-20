@@ -15,8 +15,8 @@ public class DealRequest implements Serializable {
     private Long adId;
     @NotNull
     @Min(1)
-    @Max(72)
-    private Long hoursOfRent;
+    @Max(30)
+    private Long daysForRent;
     @NotNull
     private Long creditCardId;
 }

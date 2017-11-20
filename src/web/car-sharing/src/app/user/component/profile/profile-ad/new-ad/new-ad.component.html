@@ -29,28 +29,12 @@
     <div [hidden]="!car.hasError('required')">Обязательное поле</div>
   </div>
 
-  <label for="costPerHour" class="col-form-label">Стоимость аренды за час (BYN):</label>
-  <input type="text" class="form-control" [(ngModel)]="ad.costPerHour" id="costPerHour" name="costPerHour"
-         #costPerHour="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
-  <div [hidden]="costPerHour.valid || costPerHour.pristine" class="alert alert-danger">
-    <div [hidden]="!costPerHour.hasError('pattern')">Десятичное число</div>
-    <div [hidden]="!costPerHour.hasError('required')">Обязательное поле</div>
-  </div>
-
-  <label for="costPerDay" class="col-form-label">Стоимость аренды за день (BYN):</label>
+  <label for="costPerDay" class="col-form-label">Стоимость аренды за сутки (BYN):</label>
   <input type="text" class="form-control" [(ngModel)]="ad.costPerDay" id="costPerDay" name="costPerDay"
          #costPerDay="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
   <div [hidden]="costPerDay.valid || costPerDay.pristine" class="alert alert-danger">
     <div [hidden]="!costPerDay.hasError('pattern')">Десятичное число</div>
     <div [hidden]="!costPerDay.hasError('required')">Обязательное поле</div>
-  </div>
-
-  <label for="costPer3Days" class="col-form-label">Стоимость аренды за 3 дня (BYN):</label>
-  <input type="text" class="form-control" [(ngModel)]="ad.costPer3Days" id="costPer3Days" name="costPer3Days"
-         #costPer3Days="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
-  <div [hidden]="costPer3Days.valid || costPer3Days.pristine" class="alert alert-danger">
-    <div [hidden]="!costPer3Days.hasError('pattern')">Десятичное число</div>
-    <div [hidden]="!costPer3Days.hasError('required')">Обязательное поле</div>
   </div>
 
   <hr>

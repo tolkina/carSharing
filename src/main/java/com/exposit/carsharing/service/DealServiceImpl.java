@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -65,7 +67,7 @@ public class DealServiceImpl implements DealService {
         Deal deal = getDeal(dealId);
         checkOwner(deal, principalId);
         checkStatus(deal, DealStatus.BOOKING);
-        deal.setRentalStartTime(System.currentTimeMillis());
+        deal.setRentalStartTime(LocalDateTime.now());
         deal.setEstimatedRentalEndTime(calculateEstimatedRentalTime(deal));
         deal.setStatus(DealStatus.RENTAL_START);
         return mapToResponse(deal);
@@ -77,8 +79,8 @@ public class DealServiceImpl implements DealService {
         Deal deal = getDeal(dealId);
         checkOwner(deal, principalId);
         checkStatus(deal, DealStatus.RENTAL_START);
-        deal.setRentalEndTime(System.currentTimeMillis());
-        recountPrice(deal);
+        deal.setRentalEndTime(LocalDateTime.now());
+        deal.setPrice(recountPrice(deal));
         deal.setStatus(DealStatus.RENTAL_END);
         deal.getAd().setStatus(AdStatus.ACTUAL);
         return mapToResponse(deal);
@@ -107,10 +109,10 @@ public class DealServiceImpl implements DealService {
         deal.setOwner(ad.getOwner());
         deal.setCustomer(profileService.getProfile(customerId));
         deal.setCreditCard(creditCardService.getCreditCard(dealRequest.getCreditCardId(), customerId));
-        deal.setBookingStartTime(System.currentTimeMillis());
-        deal.setPrice(calculateCost(ad, dealRequest.getHoursOfRent()));
+        deal.setBookingStartTime(LocalDateTime.now());
+        deal.setPrice(multiple(dealRequest.getDaysForRent(), ad.getCostPerDay()));
         deal.setAd(ad);
-        deal.setHoursForRent(dealRequest.getHoursOfRent());
+        deal.setDaysForRent(dealRequest.getDaysForRent());
         dealRepository.save(deal);
         ad.setStatus(AdStatus.TAKEN);
         return mapToResponse(deal);
@@ -144,15 +146,6 @@ public class DealServiceImpl implements DealService {
         return itemPrice.multiply(new BigDecimal(itemQuantity));
     }
 
-    private BigDecimal calculateCost(Ad ad, Long time) {
-        if (time < 24) {
-            return multiple(time, ad.getCostPerHour());
-        } else if (time < 72) {
-            return multiple(time, ad.getCostPerDay());
-        }
-        return multiple(time, ad.getCostPer3Days());
-    }
-
     private void checkOwner(Deal deal, Long principalId) throws PrivilegeException {
         if (!deal.getOwner().getId().equals(principalId)) {
             throw new PrivilegeException();
@@ -171,15 +164,19 @@ public class DealServiceImpl implements DealService {
         }
     }
 
-    private Long calculateEstimatedRentalTime(Deal deal) throws DealException {
-        Long millisForRent = TimeUnit.HOURS.toMillis(deal.getHoursForRent());
-        return deal.getRentalStartTime() + millisForRent;
+    private LocalDateTime calculateEstimatedRentalTime(Deal deal) throws DealException {
+        return deal.getRentalStartTime().plusDays(deal.getDaysForRent());
     }
 
-    private void recountPrice(Deal deal) {
-        long diff = deal.getRentalEndTime() - deal.getEstimatedRentalEndTime();
-        if (diff > 0) {
-            deal.setPrice(deal.getPrice().add(calculateCost(deal.getAd(), TimeUnit.MILLISECONDS.toHours(diff))));
+    private BigDecimal recountPrice(Deal deal) {
+        BigDecimal newPrice = deal.getPrice();
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(
+                Duration.between(deal.getEstimatedRentalEndTime(), deal.getRentalEndTime()).toMillis());
+        if (minutes > 15) {
+            long days = (long) Math.ceil(minutes / 60.0 / 24.0);
+            BigDecimal fine = multiple(days, deal.getAd().getCostPerDay());
+            newPrice = newPrice.add(fine);
         }
+        return newPrice;
     }
 }

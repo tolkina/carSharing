@@ -84,9 +84,7 @@ public class AdServiceImpl implements AdService {
         checkTaken(ad);
         ad.setCarLocation(adRequest.getCarLocation());
         ad.setReturnPlace(adRequest.getReturnPlace());
-        ad.setCostPerHour(adRequest.getCostPerHour());
         ad.setCostPerDay(adRequest.getCostPerDay());
-        ad.setCostPer3Days(adRequest.getCostPer3Days());
         return mapToResponse(ad);
     }
 

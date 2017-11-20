@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,19 +17,19 @@ public class Deal extends AbstractEntity {
     private DealStatus status;
 
     @Column(name = "booking_start_time")
-    private Long bookingStartTime;
+    private LocalDateTime bookingStartTime;
 
     @Column(name = "rental_start_time")
-    private Long rentalStartTime;
+    private LocalDateTime rentalStartTime;
 
     @Column(name = "estimated_rental_end_time")
-    private Long estimatedRentalEndTime;
+    private LocalDateTime estimatedRentalEndTime;
 
     @Column(name = "rental_end_time")
-    private Long rentalEndTime;
+    private LocalDateTime rentalEndTime;
 
     @Column(name = "hours_for_rent")
-    private Long hoursForRent;
+    private Long daysForRent;
 
     private BigDecimal deposit;
 

@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Component
 @Transactional
@@ -30,8 +30,8 @@ public class ScheduledTasks {
     }
 
     private void checkOverdueBooking(Deal deal) {
-        long bookingEndTime = deal.getBookingStartTime() + TimeUnit.MINUTES.toMillis(30);
-        if (System.currentTimeMillis() > bookingEndTime) {
+        LocalDateTime estimatedBookingEndTime = deal.getBookingStartTime().plusHours(1);
+        if (LocalDateTime.now().isAfter(estimatedBookingEndTime)) {
             deal.setStatus(DealStatus.OVERDUE_BOOKING);
             deal.getAd().setStatus(AdStatus.ACTUAL);
             deal.getCustomer().setCountOfOverdueBooking(deal.getCustomer().getCountOfOverdueBooking() + 1);

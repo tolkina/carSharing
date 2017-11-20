@@ -17,9 +17,7 @@
         </div>
         <div class="card-text"><b>Местоположение: </b>{{ad.carLocation}}</div>
         <div class="card-text"><b>Место возврата: </b>{{ad.returnPlace}}</div>
-        <div class="card-text"><b>За час: </b>{{ad.costPerHour}} BYN</div>
-        <div class="card-text"><b>За день: </b>{{ad.costPerDay}} BYN</div>
-        <div class="card-text"><b>За 3 дня: </b>{{ad.costPer3Days}} BYN</div>
+        <div class="card-text"><b>Цена за сутки: </b>{{ad.costPerDay}} BYN</div>
       </div>
       <div class="card-footer" align="center">
         <button [routerLink]="['/profile/ad', ad.id]" class="btn btn-primary" style="width: 100%">Посмотреть

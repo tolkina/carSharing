@@ -15,5 +15,5 @@ export class Deal {
   customer = new Profile;
   ad = new Ad();
   creditCard = new CreditCard();
-  hoursForRent: number;
+  daysForRent: number;
 }

@@ -22,14 +22,8 @@ public class Ad extends AbstractEntity {
     @Column(name = "return_place")
     private String returnPlace;
 
-    @Column(name = "cost_per_hour")
-    private BigDecimal costPerHour;
-
     @Column(name = "cost_per_day")
     private BigDecimal CostPerDay;
-
-    @Column(name = "cost_per_3_days")
-    private BigDecimal CostPer3Days;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)

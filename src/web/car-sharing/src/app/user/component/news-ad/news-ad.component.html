@@ -4,7 +4,7 @@
 <div class="row">
   <h5 *ngIf="ads.length == 0">Нет объявлений</h5>
   <div class="col-md-4 col-sm-6" *ngFor="let ad of ads">
-    <div class="card"  style="height: 100%">
+    <div class="card" style="height: 100%">
       <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image">
       <div class="card-body">
         <div class="card-text"><b>Машина: </b>{{ad.car.generalParameters.brand}}
@@ -15,9 +15,7 @@
         </div>
         <div class="card-text"><b>Местоположение: </b>{{ad.carLocation}}</div>
         <div class="card-text"><b>Место возврата: </b>{{ad.returnPlace}}</div>
-        <div class="card-text"><b>За час: </b>{{ad.costPerHour}} BYN</div>
-        <div class="card-text"><b>За день: </b>{{ad.costPerDay}} BYN</div>
-        <div class="card-text"><b>За 3 дня: </b>{{ad.costPer3Days}} BYN</div>
+        <div class="card-text"><b>Цена за сутки: </b>{{ad.costPerDay}} BYN</div>
       </div>
       <div class="card-footer" align="center">
         <button class="btn btn-primary" style="width: 100%" (click)="showCreateDeal(ad, contentCreateDeal)">Взять в
@@ -38,28 +36,30 @@
   <form (ngSubmit)="createDeal()" #create="ngForm">
     <div class="modal-body">
       <div class="alert alert-danger" role="alert" *ngIf="dealError">{{dealError}}</div>
-      <div class="alert alert-danger" role="alert" *ngIf="creditCards.length < 1">{{errorCreditCard}}</div>
       <div class="form-group">
-        <label for="hoursOfRent">Часы аренды:</label>
-        <input type="number" class="form-control" id="hoursOfRent"
-               required min="1" max="72"
-               [(ngModel)]="newDeal.hoursOfRent" name="hoursOfRent"
-               #hoursOfRent="ngModel">
-        <div [hidden]="hoursOfRent.valid || hoursOfRent.pristine" class="alert alert-danger">
-          <div [hidden]="!hoursOfRent.hasError('required')">Обязательное поле</div>
+        <label for="daysForRent">Количество суток:</label>
+        <input type="number" class="form-control" id="daysForRent" required min="1" max="30"
+               [(ngModel)]="newDeal.daysForRent" name="daysForRent" #daysForRent="ngModel">
+        <div [hidden]="daysForRent.valid || daysForRent.pristine" class="alert alert-danger">
+          <div [hidden]="!daysForRent.hasError('required')">Обязательное поле</div>
         </div>
       </div>
       <div class="form-group">
         <label for="creditCardId" class="col-form-label">Кредитная карта:</label>
-        <select class="form-control" id="creditCardId" name="creditCardId" [(ngModel)]="newDeal.creditCardId"
-                #creditCardId="ngModel" required>
-          <option *ngFor="let creditCard of creditCards" [ngValue]="creditCard.id">{{creditCard.firstName}}
-            {{creditCard.lastName}} {{creditCard.number[0]}}{{creditCard.number[1]}}**************
-            {{creditCard.validUntil}}
-          </option>
-        </select>
-        <div [hidden]="creditCardId.valid || creditCardId.pristine" class="alert alert-danger">
-          <div [hidden]="!creditCardId.hasError('required')">Обязательное поле</div>
+        <div *ngIf="creditCards.length < 1">
+          <button class="btn btn-danger" (click)="redirectToCreditCard()">Добавьте кредитную карту</button>
+        </div>
+        <div *ngIf="creditCards.length > 0">
+          <select class="form-control" id="creditCardId" name="creditCardId" [(ngModel)]="newDeal.creditCardId"
+                  #creditCardId="ngModel" required>
+            <option *ngFor="let creditCard of creditCards" [ngValue]="creditCard.id">{{creditCard.firstName}}
+              {{creditCard.lastName}} {{creditCard.number[0]}}{{creditCard.number[1]}}**************
+              {{creditCard.validUntil}}
+            </option>
+          </select>
+          <div [hidden]="creditCardId.valid || creditCardId.pristine" class="alert alert-danger">
+            <div [hidden]="!creditCardId.hasError('required')">Обязательное поле</div>
+          </div>
         </div>
       </div>
     </div>

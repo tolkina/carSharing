@@ -12,10 +12,12 @@
                 *ngIf="ad.status != adStatus.taken[0]">␡
         </button>
         <button class="btn-sm btn-success" data-placement="bottom" title="Установить статус: актуально"
-                (click)="showSetActual(contentActual)" *ngIf="ad.status == adStatus.notRelevant[0]">Актуально
+                (click)="showSetActual(contentActual)" *ngIf="ad.status == adStatus.notRelevant[0]">
+          {{adStatus.actual[1]}}
         </button>
         <button class="btn-sm btn-success" data-placement="bottom" title="Установить статус: не акутально"
-                (click)="showSetNotActual(contentNotActual)" *ngIf="ad.status == adStatus.actual[0]">Не актуально
+                (click)="showSetNotActual(contentNotActual)" *ngIf="ad.status == adStatus.actual[0]">
+          {{adStatus.notRelevant}}
         </button>
       </div>
     </div>
@@ -25,20 +27,20 @@
         <p *ngIf="ad.status == adStatus.actual[0]"><b>Статус: </b>{{adStatus.actual[1]}}</p>
         <p *ngIf="ad.status == adStatus.notRelevant[0]"><b>Статус: </b>{{adStatus.notRelevant[1]}}</p>
         <p *ngIf="ad.status == adStatus.taken[0]"><b>Статус: </b>{{adStatus.taken[1]}}</p>
+        <p><b>Стоимость аренды за сутки: </b>{{ad.costPerDay}} BYN</p>
+      </div>
+      <div class="col-6">
         <p><b>Местоположение машины: </b>{{ad.carLocation}}</p>
         <p><b>Место возврата машины: </b>{{ad.returnPlace}}</p>
         <p><b>Машина: </b>
-          <button class="btn btn-outline-primary" (click)="showCar()">{{ad.car.generalParameters.brand}}
-            {{ad.car.generalParameters.model}} {{ad.car.generalParameters.yearOfIssue}}
+          <button class="btn btn-outline-primary" [routerLink]="['/profile/car/', ad.car.id]">
+            {{ad.car.generalParameters.brand}} {{ad.car.generalParameters.model}}
+            {{ad.car.generalParameters.yearOfIssue}}
           </button>
         </p>
       </div>
-      <div class="col-6">
-        <p><b>Стоимость аренды за час: </b>{{ad.costPerHour}} BYN</p>
-        <p><b>Стоимость аренды за день: </b>{{ad.costPerDay}} BYN</p>
-        <p><b>Стоимость аренды за 3 дня: </b>{{ad.costPer3Days}} BYN</p>
-      </div>
     </div>
+    <!--
     <div *ngIf="flagCar">
       <hr>
       <div>
@@ -87,7 +89,7 @@
         <p><b>Повреждения:</b> {{ad.car.currentCondition.damageDescription}}</p>
         <p><b>Пробег:</b> {{ad.car.currentCondition.mileage}} км</p>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>
 
@@ -117,15 +119,7 @@
         <div [hidden]="!returnPlace.hasError('required')">Обязательное поле</div>
       </div>
 
-      <label for="costPerHour" class="col-form-label">Стоимость аренды за час (BYN):</label>
-      <input type="text" class="form-control" [(ngModel)]="editedAd.costPerHour" id="costPerHour" name="costPerHour"
-             #costPerHour="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
-      <div [hidden]="costPerHour.valid || costPerHour.pristine" class="alert alert-danger">
-        <div [hidden]="!costPerHour.hasError('pattern')">Десятичное число</div>
-        <div [hidden]="!costPerHour.hasError('required')">Обязательное поле</div>
-      </div>
-
-      <label for="costPerDay" class="col-form-label">Стоимость аренды за день (BYN):</label>
+      <label for="costPerDay" class="col-form-label">Стоимость аренды за сутки (BYN):</label>
       <input type="text" class="form-control" [(ngModel)]="editedAd.costPerDay" id="costPerDay" name="costPerDay"
              #costPerDay="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
       <div [hidden]="costPerDay.valid || costPerDay.pristine" class="alert alert-danger">
@@ -133,13 +127,6 @@
         <div [hidden]="!costPerDay.hasError('required')">Обязательное поле</div>
       </div>
 
-      <label for="costPer3Days" class="col-form-label">Стоимость аренды за 3 дня (BYN):</label>
-      <input type="text" class="form-control" [(ngModel)]="editedAd.costPer3Days" id="costPer3Days" name="costPer3Days"
-             #costPer3Days="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
-      <div [hidden]="costPer3Days.valid || costPer3Days.pristine" class="alert alert-danger">
-        <div [hidden]="!costPer3Days.hasError('pattern')">Десятичное число</div>
-        <div [hidden]="!costPer3Days.hasError('required')">Обязательное поле</div>
-      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>

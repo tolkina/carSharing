@@ -20,8 +20,6 @@ export class NewsAdComponent implements OnInit {
   creditCards: CreditCard[] = [];
   newDeal: any = {};
   currentDeal: Deal = new Deal;
-  errorCreditCard = "Нельзя оформить сделку без кредитной карты. " +
-    "Пожалуйста, сначала добавьте кредитную карту в личном кабинете.";
   private modalRef: any;
 
   constructor(private adService: ProfileAdService, private modalService: NgbModal,
@@ -47,7 +45,7 @@ export class NewsAdComponent implements OnInit {
   }
 
   createDeal() {
-    if (this.checkHours(this.newDeal.hoursOfRent)) {
+    if (this.checkDays(this.newDeal.daysForRent)) {
       this.dealService.createDeal(this.newDeal)
         .then(res => {
           this.currentDeal = res;
@@ -67,10 +65,15 @@ export class NewsAdComponent implements OnInit {
     }).catch()
   }
 
-  private checkHours(hours: number) {
+  redirectToCreditCard() {
+    this.modalRef.close();
+    this.router.navigateByUrl('/profile/credit-card')
+  }
+
+  private checkDays(days: number) {
     this.dealError = "";
-    if (hours < 1 || hours > 72) {
-      this.dealError = "Часы аренды должны быть в интервале от 1 до 72";
+    if (days < 1 || days > 30) {
+      this.dealError = "Количество суток должно быть в интервале от 1 до 30";
       return false;
     }
     return true;

@@ -6,9 +6,7 @@ export class Ad {
   status: string;
   carLocation: String;
   returnPlace: String;
-  costPerHour: number;
   costPerDay: number;
-  costPer3Days: number;
   owner = new Profile;
   car = new Car;
 }
