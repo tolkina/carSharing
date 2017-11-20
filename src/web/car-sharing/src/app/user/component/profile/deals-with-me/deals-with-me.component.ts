@@ -3,6 +3,7 @@ import {Deal} from "../../../domain/deal";
 import {DealService} from "../../../service/deal.service";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {DealStatus} from "../../../domain/deal-status";
+import {SortDealsService} from "../../../service/sort-deals.service";
 
 @Component({
   selector: 'app-deals-with-me',
@@ -13,10 +14,11 @@ export class DealsWithMeComponent implements OnInit {
   dealStatus = new DealStatus;
   deals: Deal[] = [];
   errorDeal = "";
+  sortedByStatus = false;
   private cloneDeal = new Deal;
   private modalRef: NgbModalRef;
 
-  constructor(private dealService: DealService, private modalService: NgbModal) {
+  constructor(private dealService: DealService, private modalService: NgbModal, private sortDealsService: SortDealsService) {
   }
 
   ngOnInit() {
@@ -55,5 +57,10 @@ export class DealsWithMeComponent implements OnInit {
         this.modalRef.close();
       })
       .catch(err => this.errorDeal = err)
+  }
+
+  sortDeals() {
+    this.sortedByStatus = this.sortedByStatus != true;
+    this.deals = this.sortDealsService.sort(this.sortedByStatus, this.deals);
   }
 }

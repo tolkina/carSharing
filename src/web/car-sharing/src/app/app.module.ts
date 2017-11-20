@@ -57,6 +57,7 @@ import {DealsWithMeComponent} from './user/component/profile/deals-with-me/deals
 import {HomePageAdminComponent} from "./admin/component/home-page-admin/home-page-admin.component";
 import {SetupAdminComponent} from "./admin/component/setup-admin/setup-admin.component";
 import {ConfirmProfileComponent} from "./admin/component/confirm-profile/confirm-profile.component";
+import {SortDealsService} from "./user/service/sort-deals.service";
 
 @NgModule({
   declarations: [
@@ -74,7 +75,7 @@ import {ConfirmProfileComponent} from "./admin/component/confirm-profile/confirm
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
     CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuardService, DateFormatter,
-    RoleAuthGuardService, CreditCardService, ConfirmProfileService, DealService],
+    RoleAuthGuardService, CreditCardService, ConfirmProfileService, DealService, SortDealsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
