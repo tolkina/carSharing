@@ -11,9 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @Transactional
@@ -31,6 +30,7 @@ public class AdminServiceImpl implements AdminService {
     private final ProfileService profileService;
     private final RoleRepository roleRepository;
     private final ProfileRepository profileRepository;
+    private final ConfirmationRepository confirmationRepository;
 
     public AdminServiceImpl(BodyTypeRepository bodyTypeRepository,
                             BrandRepository brandRepository,
@@ -42,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
                             ModelRepository modelRepository,
                             TiresSeasonRepository tiresSeasonRepository,
                             ModelMapper modelMapper, ProfileService profileService, RoleRepository roleRepository,
-                            ProfileRepository profileRepository) {
+                            ProfileRepository profileRepository, ConfirmationRepository confirmationRepository) {
         this.bodyTypeRepository = bodyTypeRepository;
         this.brandRepository = brandRepository;
         this.colorRepository = colorRepository;
@@ -56,6 +56,7 @@ public class AdminServiceImpl implements AdminService {
         this.profileService = profileService;
         this.roleRepository = roleRepository;
         this.profileRepository = profileRepository;
+        this.confirmationRepository = confirmationRepository;
     }
 
     @Override
@@ -583,23 +584,66 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void setConfirmProfileYes(Long profileId) throws EntityNotFoundException,
+    public ConfirmationResponse setConfirmProfileYes(Long profileId) throws EntityNotFoundException,
             PrivilegeException, ConfirmProfileException {
-        confirmProfile(profileId, ConfirmProfile.YES);
+        return confirmProfile(profileId, ConfirmProfile.YES);
     }
 
     @Override
-    public void setConfirmProfileNo(Long profileId) throws EntityNotFoundException,
+    public ConfirmationResponse setConfirmProfileNo(Long profileId) throws EntityNotFoundException,
             PrivilegeException, ConfirmProfileException {
-        confirmProfile(profileId, ConfirmProfile.NO);
+        return confirmProfile(profileId, ConfirmProfile.NO);
     }
 
-    private void confirmProfile(Long profileId, ConfirmProfile confirmProfile)
+    @Override
+    public Set<ConfirmationResponse> getConfirmations() {
+        Set<ConfirmationResponse> confirmations = new HashSet<>();
+        confirmationRepository.findAll()
+                .forEach(confirmation -> confirmations.add(mapToConfirmationResponse(confirmation)));
+        return confirmations;
+    }
+
+    private ConfirmationResponse confirmProfile(Long profileId, ConfirmProfile confirmProfile)
             throws EntityNotFoundException, ConfirmProfileException {
         Profile profile = profileService.getProfile(profileId);
         if (!profile.getConfirmProfile().equals(ConfirmProfile.CHECK)) {
             throw new ConfirmProfileException("This profile has not been submitted for confirm");
         }
         profile.setConfirmProfile(confirmProfile);
+        return createConfirmation(profile);
+    }
+
+    private ConfirmationResponse createConfirmation(Profile profile) {
+        Confirmation confirmation = new Confirmation();
+
+        confirmation.setConfirmProfile(profile.getConfirmProfile());
+        confirmation.setDateConfirm(LocalDateTime.now());
+        confirmation.setProfile(profile);
+
+        confirmation.setPassportFirstName(profile.getPassportData().getFirstName());
+        confirmation.setPassportLastName(profile.getPassportData().getLastName());
+        confirmation.setPassportMiddleName(profile.getPassportData().getMiddleName());
+        confirmation.setPassportSeriesAndNumber(profile.getPassportData().getSeriesAndNumber());
+        confirmation.setPassportPersonalNumber(profile.getPassportData().getPersonalNumber());
+        confirmation.setPassportDateOfIssue(profile.getPassportData().getDateOfIssue());
+        confirmation.setPassportPlaceOfIssue(profile.getPassportData().getPlaceOfIssue());
+        confirmation.setPassportValidUntil(profile.getPassportData().getValidUntil());
+        confirmation.setPassportRegistrationPhotoUrl(profile.getPassportData().getRegistrationPhotoUrl());
+        confirmation.setPassportPhotoUrl(profile.getPassportData().getPhotoUrl());
+
+        confirmation.setDriverLicenseSeriesAndNumber(profile.getDriverLicense().getSeriesAndNumber());
+        confirmation.setDriverLicenseCategory(profile.getDriverLicense().getCategory());
+        confirmation.setDriverLicenseFrontSideImageUrl(profile.getDriverLicense().getFrontSideImageUrl());
+        confirmation.setDriverLicenseBackSideImageUrl(profile.getDriverLicense().getBackSideImageUrl());
+
+        confirmationRepository.save(confirmation);
+        return mapToConfirmationResponse(confirmation);
+    }
+
+    private ConfirmationResponse mapToConfirmationResponse(Confirmation confirmation) {
+        ConfirmationResponse confirmationResponse = modelMapper.map(confirmation, ConfirmationResponse.class);
+        confirmationResponse.setProfileId(confirmation.getProfile().getId());
+        confirmationResponse.setProfileLogin(confirmation.getProfile().getLogin());
+        return confirmationResponse;
     }
 }

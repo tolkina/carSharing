@@ -7,6 +7,7 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AdminService {
 
@@ -157,9 +158,11 @@ public interface AdminService {
 
     List<ConfirmProfileResponse> getProfilesToConfirm();
 
-    void setConfirmProfileYes(Long profileId)
+    ConfirmationResponse setConfirmProfileYes(Long profileId)
             throws EntityNotFoundException, PrivilegeException, ConfirmProfileException;
 
-    void setConfirmProfileNo(Long profileId)
+    ConfirmationResponse setConfirmProfileNo(Long profileId)
             throws EntityNotFoundException, PrivilegeException, ConfirmProfileException;
+
+    Set<ConfirmationResponse> getConfirmations();
 }

@@ -29,6 +29,7 @@ public class Profile extends AbstractEntity {
     private double drivingExperience;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "confirm_profile")
     private ConfirmProfile confirmProfile;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, orphanRemoval = true)
@@ -63,6 +64,9 @@ public class Profile extends AbstractEntity {
 
     @Column(name = "count_of_overdue_booking")
     private long countOfOverdueBooking;
+
+    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Confirmation> confirmations;
 
     public Profile() {
         this.confirmProfile = ConfirmProfile.NO;

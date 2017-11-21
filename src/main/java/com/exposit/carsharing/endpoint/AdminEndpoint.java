@@ -374,8 +374,7 @@ public class AdminEndpoint {
     public Response setConfirmProfileYes(@PathParam("id") Long id)
             throws EntityNotFoundException, UnauthorizedException, PrivilegeException, ConfirmProfileException {
         checkAdmin();
-        adminService.setConfirmProfileYes(id);
-        return Response.status(200).build();
+        return Response.status(200).entity(adminService.setConfirmProfileYes(id)).build();
     }
 
     @PUT
@@ -383,7 +382,13 @@ public class AdminEndpoint {
     public Response setConfirmProfileNo(@PathParam("id") Long id)
             throws EntityNotFoundException, UnauthorizedException, PrivilegeException, ConfirmProfileException {
         checkAdmin();
-        adminService.setConfirmProfileNo(id);
-        return Response.status(200).build();
+        return Response.status(200).entity(adminService.setConfirmProfileNo(id)).build();
+    }
+
+    @GET
+    @Path("confirmation")
+    public Response getConfirmations() throws EntityNotFoundException, PrivilegeException, UnauthorizedException {
+        checkAdmin();
+        return Response.status(200).entity(adminService.getConfirmations()).build();
     }
 }

@@ -1,56 +1,45 @@
+<h4>Надо просмотреть</h4>
 <div class="card" *ngFor="let profile of profiles">
   <div class="card-body">
-    <div>
-      <h4 class="text-center">Общая информация</h4>
-      <div class="row">
-        <div class="col-6">
-          <p><b>Id:</b> {{profile.id}}</p></div>
-        <p><b>E-mail:</b> {{profile.email}}</p>
+    <div class="row">
+      <div class="col-md-3">
+        <h5 class="text-center">Общая информация</h5>
+        <p><b>Id:</b> {{profile.id}}</p>
         <p><b>Login:</b> {{profile.login}}</p>
-        <div class="col-6">
-          <p><b>Дата рождения:</b> {{profile.birthday | date: 'yyyy-MM-dd'}}</p></div>
-        <p><b>Стаж вождения:</b> {{profile.drivingExperience}}</p>
       </div>
-    </div>
-    <div *ngIf="profile.passportDataResponse">
-      <h4 class="text-center">Паспортные данные</h4>
-      <div class="row">
-        <div class="col-6">
-          <p><b>Фамилия:</b> {{profile.passportDataResponse.lastName}}</p>
-          <p><b>Имя:</b> {{profile.passportDataResponse.firstName}}</p>
-          <p><b>Отчество:</b> {{profile.passportDataResponse.middleName}}</p>
-          <p><b>Серия:</b> {{profile.passportDataResponse.seriesAndNumber}}</p>
-          <p><b>Номер:</b> {{profile.passportDataResponse.number}}</p>
-        </div>
-        <div class="col-6">
-          <p><b>Личный номер:</b> {{profile.passportDataResponse.personalNumber}}</p>
-          <p><b>Дата выдачи:</b> {{profile.passportDataResponse.dateOfIssue | date: 'yyyy-MM-dd'}}</p>
-          <p><b>Место выдачи:</b> {{profile.passportDataResponse.placeOfIssue}}</p>
-          <p><b>Срок действия:</b> {{profile.passportDataResponse.validUntil | date: 'yyyy-MM-dd'}}</p>
+      <div class="col-md-6">
+        <h5 class="text-center">Паспортные данные</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <p><b>Фамилия:</b> {{profile.passportDataResponse.lastName}}</p>
+            <p><b>Имя:</b> {{profile.passportDataResponse.firstName}}</p>
+            <p><b>Отчество:</b> {{profile.passportDataResponse.middleName}}</p>
+            <p><b>Серия и номер:</b> {{profile.passportDataResponse.seriesAndNumber}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><b>Личный номер:</b> {{profile.passportDataResponse.personalNumber}}</p>
+            <p><b>Дата выдачи:</b> {{profile.passportDataResponse.dateOfIssue | date: 'yyyy-MM-dd'}}</p>
+            <p><b>Место выдачи:</b> {{profile.passportDataResponse.placeOfIssue}}</p>
+            <p><b>Срок действия:</b> {{profile.passportDataResponse.validUntil | date: 'yyyy-MM-dd'}}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div *ngIf="profile.driverLicenseResponse">
-      <h4 class="text-center">Водительское удостоверение</h4>
-      <div class="row">
-        <div class="col-6">
-          <p><b>Серия и номер:</b> {{profile.driverLicenseResponse.seriesAndNumber}}</p>
-        </div>
-        <div class="col-6">
-          <p><b>Категории:</b> {{profile.driverLicenseResponse.category}}</p></div>
+      <div class="col-md-3">
+        <h5 class="text-center">Водительское удостоверение</h5>
+        <p><b>Серия и номер:</b> {{profile.driverLicenseResponse.seriesAndNumber}}</p>
+        <p><b>Категории:</b> {{profile.driverLicenseResponse.category}}</p>
       </div>
-    </div>
-    <div class="card-footer" align="center">
-      <button type="button" class="btn-sm btn-primary" (click)="showConfirmProfile(profile, contentConfirm)">
-        Подтвердить
-      </button>
-      <button type="button" class="btn-sm btn-danger" (click)="showNotConfirmProfile(profile, contentNotConfirm)">
-        Не подтверждать
-      </button>
     </div>
   </div>
+  <div class="card-footer" align="center">
+    <button type="button" class="btn-sm btn-primary" (click)="showConfirmProfile(profile, contentConfirm)">
+      Подтвердить
+    </button>
+    <button type="button" class="btn-sm btn-danger" (click)="showNotConfirmProfile(profile, contentNotConfirm)">
+      Не подтверждать
+    </button>
+  </div>
 </div>
-
 
 <ng-template #contentConfirm let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -83,3 +72,42 @@
     <button type="submit" class="btn btn-primary" (click)="notConfirmProfile()">Не подтверждать</button>
   </div>
 </ng-template>
+
+
+<h4>Просмотренные</h4>
+<div class="card" *ngFor="let confirmation of confirmations">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <h5 class="text-center">Общая информация</h5>
+        <p><b>Id:</b> {{confirmation.id}}</p>
+        <p><b>Profile id:</b> {{confirmation.profileId}}</p>
+        <p><b>Login:</b> {{confirmation.profileLogin}}</p>
+        <p><b>Статус:</b> {{confirmation.confirmProfile}}</p>
+        <p><b>Дата подтверждения:</b> {{confirmation.dateConfirm | date:'yyyy-MM-dd hh:mm:ss'}}</p>
+      </div>
+      <div class="col-md-6">
+        <h5 class="text-center">Паспортные данные</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <p><b>Фамилия:</b> {{confirmation.passportLastName}}</p>
+            <p><b>Имя:</b> {{confirmation.passportFirstName}}</p>
+            <p><b>Отчество:</b> {{confirmation.passportMiddleName}}</p>
+            <p><b>Серия и номер:</b> {{confirmation.passportSeriesAndNumber}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><b>Личный номер:</b> {{confirmation.passportPersonalNumber}}</p>
+            <p><b>Дата выдачи:</b> {{confirmation.passportDateOfIssue | date: 'yyyy-MM-dd'}}</p>
+            <p><b>Место выдачи:</b> {{confirmation.passportPlaceOfIssue}}</p>
+            <p><b>Срок действия:</b> {{confirmation.passportValidUntil | date: 'yyyy-MM-dd'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <h5 class="text-center">Водительское удостоверение</h5>
+        <p><b>Серия и номер:</b> {{confirmation.driverLicenseSeriesAndNumber}}</p>
+        <p><b>Категории:</b> {{confirmation.driverLicenseCategory}}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,17 +1,13 @@
 export class ConfirmProfile {
   id: number;
-  email: String;
-  birthday: Date;
-  drivingExperience: number;
-  avatarUrl: String;
+  login: String;
   confirmProfile: String;
   passportDataResponse: {
     id: number;
     firstName: String;
     lastName: String;
     middleName: String;
-    series: String;
-    number: number;
+    seriesAndNumber: String;
     personalNumber: String;
     placeOfIssue: String;
     dateOfIssue: Date;
