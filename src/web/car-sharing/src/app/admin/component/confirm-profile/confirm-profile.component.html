@@ -1,43 +1,83 @@
-<h4>Надо просмотреть</h4>
-<div class="card" *ngFor="let profile of profiles">
-  <div class="card-body">
-    <div class="row">
-      <div class="col-md-3">
-        <h5 class="text-center">Общая информация</h5>
-        <p><b>Id:</b> {{profile.id}}</p>
-        <p><b>Login:</b> {{profile.login}}</p>
-      </div>
-      <div class="col-md-6">
-        <h5 class="text-center">Паспортные данные</h5>
-        <div class="row">
-          <div class="col-md-6">
-            <p><b>Фамилия:</b> {{profile.passportDataResponse.lastName}}</p>
-            <p><b>Имя:</b> {{profile.passportDataResponse.firstName}}</p>
-            <p><b>Отчество:</b> {{profile.passportDataResponse.middleName}}</p>
-            <p><b>Серия и номер:</b> {{profile.passportDataResponse.seriesAndNumber}}</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>Личный номер:</b> {{profile.passportDataResponse.personalNumber}}</p>
-            <p><b>Дата выдачи:</b> {{profile.passportDataResponse.dateOfIssue | date: 'yyyy-MM-dd'}}</p>
-            <p><b>Место выдачи:</b> {{profile.passportDataResponse.placeOfIssue}}</p>
-            <p><b>Срок действия:</b> {{profile.passportDataResponse.validUntil | date: 'yyyy-MM-dd'}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <h5 class="text-center">Водительское удостоверение</h5>
-        <p><b>Серия и номер:</b> {{profile.driverLicenseResponse.seriesAndNumber}}</p>
-        <p><b>Категории:</b> {{profile.driverLicenseResponse.category}}</p>
+<div id="accordion" role="tablist">
+  <div class="card">
+    <div class="card-header" role="tab" id="headingOne">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Профили на подтверждение
+        </a>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+          <tr>
+            <th class="text-center">Id пользователя</th>
+            <th class="text-center">Логин</th>
+            <th class="text-center"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let profile of profiles">
+            <td>{{ profile.id }}</td>
+            <td>{{ profile.login }}</td>
+            <td>
+              <button type="button" class="btn btn-primary"
+                      (click)="showProfile(profile, contentProfile)">Посмотреть
+              </button>
+              <button type="button" class="btn btn-success"
+                      (click)="showConfirmProfile(profile, contentConfirm)">Да
+              </button>
+              <button type="button" class="btn btn-danger"
+                      (click)="showNotConfirmProfile(profile, contentNotConfirm)">Нет
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  <div class="card-footer" align="center">
-    <button type="button" class="btn-sm btn-primary" (click)="showConfirmProfile(profile, contentConfirm)">
-      Подтвердить
-    </button>
-    <button type="button" class="btn-sm btn-danger" (click)="showNotConfirmProfile(profile, contentNotConfirm)">
-      Не подтверждать
-    </button>
+
+  <div class="card">
+    <div class="card-header" role="tab" id="headingTwo">
+      <h5 class="mb-0">
+        <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false"
+           aria-controls="collapseTwo">
+          История подтверждений
+        </a>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+          <tr>
+            <th class="text-center">Id</th>
+            <th class="text-center">Id пользователя</th>
+            <th class="text-center">Логин</th>
+            <th class="text-center">Статус</th>
+            <th class="text-center">Дата</th>
+            <th class="text-center"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let confirmation of confirmations">
+            <td>{{ confirmation.id }}</td>
+            <td>{{ confirmation.profileId }}</td>
+            <td>{{ confirmation.profileLogin }}</td>
+            <td>{{ getStatus(confirmation.confirmProfile) }}</td>
+            <td>{{ confirmation.dateConfirm |date:'hh:mm dd-MM-yyyy'}}</td>
+            <td align="center" width="20%">
+              <button type="button" class="btn btn-primary"
+                      (click)="showConfirmation(confirmation, contentConfirmation)">Посмотреть
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -52,8 +92,8 @@
     <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
-    <button type="submit" class="btn btn-primary" (click)="confirmProfile()">Подтвердить</button>
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
+    <button type="submit" class="btn btn-primary" (click)="confirmProfile()">Да</button>
   </div>
 </ng-template>
 
@@ -68,46 +108,78 @@
     <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
-    <button type="submit" class="btn btn-primary" (click)="notConfirmProfile()">Не подтверждать</button>
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
+    <button type="submit" class="btn btn-primary" (click)="notConfirmProfile()">Да</button>
   </div>
 </ng-template>
 
-
-<h4>Просмотренные</h4>
-<div class="card" *ngFor="let confirmation of confirmations">
-  <div class="card-body">
+<ng-template #contentConfirmation let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">История подтверждения</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
     <div class="row">
-      <div class="col-md-3">
-        <h5 class="text-center">Общая информация</h5>
-        <p><b>Id:</b> {{confirmation.id}}</p>
-        <p><b>Profile id:</b> {{confirmation.profileId}}</p>
-        <p><b>Login:</b> {{confirmation.profileLogin}}</p>
-        <p><b>Статус:</b> {{confirmation.confirmProfile}}</p>
-        <p><b>Дата подтверждения:</b> {{confirmation.dateConfirm | date:'yyyy-MM-dd hh:mm:ss'}}</p>
-      </div>
       <div class="col-md-6">
-        <h5 class="text-center">Паспортные данные</h5>
-        <div class="row">
-          <div class="col-md-6">
-            <p><b>Фамилия:</b> {{confirmation.passportLastName}}</p>
-            <p><b>Имя:</b> {{confirmation.passportFirstName}}</p>
-            <p><b>Отчество:</b> {{confirmation.passportMiddleName}}</p>
-            <p><b>Серия и номер:</b> {{confirmation.passportSeriesAndNumber}}</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>Личный номер:</b> {{confirmation.passportPersonalNumber}}</p>
-            <p><b>Дата выдачи:</b> {{confirmation.passportDateOfIssue | date: 'yyyy-MM-dd'}}</p>
-            <p><b>Место выдачи:</b> {{confirmation.passportPlaceOfIssue}}</p>
-            <p><b>Срок действия:</b> {{confirmation.passportValidUntil | date: 'yyyy-MM-dd'}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
+        <h5 class="text-center">Общая информация</h5>
+        <p><b>Id пользователя:</b> {{confirmation.profileId}}</p>
+        <p><b>Логин:</b> {{confirmation.profileLogin}}</p>
+        <p><b>Статус:</b> {{getStatus(confirmation.confirmProfile)}}</p>
+        <p><b>Дата:</b> {{confirmation.dateConfirm | date:'hh:mm dd-MM-yyyy'}}</p>
         <h5 class="text-center">Водительское удостоверение</h5>
         <p><b>Серия и номер:</b> {{confirmation.driverLicenseSeriesAndNumber}}</p>
-        <p><b>Категории:</b> {{confirmation.driverLicenseCategory}}</p>
+        <p><b>Категории:</b> {{confirmation.driverLicenseCategory}}</p></div>
+      <div class="col-md-6">
+        <h5 class="text-center">Паспортные данные</h5>
+        <p><b>Фамилия:</b> {{confirmation.passportLastName}}</p>
+        <p><b>Имя:</b> {{confirmation.passportFirstName}}</p>
+        <p><b>Отчество:</b> {{confirmation.passportMiddleName}}</p>
+        <p><b>Серия и номер:</b> {{confirmation.passportSeriesAndNumber}}</p>
+        <p><b>Личный номер:</b> {{confirmation.passportPersonalNumber}}</p>
+        <p><b>Дата выдачи:</b> {{confirmation.passportDateOfIssue | date: 'yyyy-MM-dd'}}</p>
+        <p><b>Место выдачи:</b> {{confirmation.passportPlaceOfIssue}}</p>
+        <p><b>Срок действия:</b> {{confirmation.passportValidUntil | date: 'yyyy-MM-dd'}}</p>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
+  </div>
+</ng-template>
+
+<ng-template #contentProfile let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Профиль на подверждение</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <h5 class="text-center">Общая информация</h5>
+        <p><b>Id:</b> {{profile.id}}</p>
+        <p><b>Логин:</b> {{profile.login}}</p>
+        <h5 class="text-center">Водительское удостоверение</h5>
+        <p><b>Серия и номер:</b> {{profile.driverLicenseResponse.seriesAndNumber}}</p>
+        <p><b>Категории:</b> {{profile.driverLicenseResponse.category}}</p>
+      </div>
+      <div class="col-md-6">
+        <h5 class="text-center">Паспортные данные</h5>
+        <p><b>Фамилия:</b> {{profile.passportDataResponse.lastName}}</p>
+        <p><b>Имя:</b> {{profile.passportDataResponse.firstName}}</p>
+        <p><b>Отчество:</b> {{profile.passportDataResponse.middleName}}</p>
+        <p><b>Серия и номер:</b> {{profile.passportDataResponse.seriesAndNumber}}</p>
+        <p><b>Личный номер:</b> {{profile.passportDataResponse.personalNumber}}</p>
+        <p><b>Дата выдачи:</b> {{profile.passportDataResponse.dateOfIssue | date: 'yyyy-MM-dd'}}</p>
+        <p><b>Место выдачи:</b> {{profile.passportDataResponse.placeOfIssue}}</p>
+        <p><b>Срок действия:</b> {{profile.passportDataResponse.validUntil | date: 'yyyy-MM-dd'}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
+  </div>
+</ng-template>

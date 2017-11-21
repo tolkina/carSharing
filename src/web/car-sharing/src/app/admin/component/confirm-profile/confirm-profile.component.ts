@@ -17,6 +17,8 @@ export class ConfirmProfileComponent implements OnInit {
   modalRef: any;
   error = "";
   confirmProfileStatus = new ConfirmProfileStatus();
+  confirmation = new Confirmation();
+  profile = new ConfirmProfile();
 
   constructor(private confirmProfileService: ConfirmProfileService, private modalService: NgbModal) {
   }
@@ -70,13 +72,23 @@ export class ConfirmProfileComponent implements OnInit {
     this.modalRef = this.modalService.open(content);
   }
 
-  getStatus(profile: ConfirmProfile) {
-    if (profile.confirmProfile == this.confirmProfileStatus.yes[0]) {
+  getStatus(confirmProfile: String) {
+    if (confirmProfile == this.confirmProfileStatus.yes[0]) {
       return this.confirmProfileStatus.yes[1]
     }
-    if (profile.confirmProfile == this.confirmProfileStatus.no[0]) {
+    if (confirmProfile == this.confirmProfileStatus.no[0]) {
       return this.confirmProfileStatus.no[1]
     }
     return this.confirmProfileStatus.check[1]
+  }
+
+  showConfirmation(confirmation, content) {
+    this.confirmation = confirmation;
+    this.modalRef = this.modalService.open(content, {size: 'lg'})
+  }
+
+  showProfile(profile, content) {
+    this.profile = profile;
+    this.modalRef = this.modalService.open(content, {size: 'lg'})
   }
 }
