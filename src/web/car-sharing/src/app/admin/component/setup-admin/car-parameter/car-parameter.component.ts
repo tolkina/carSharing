@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TechnicalParameter} from "../../../domain/technical-parameter";
 import {TechnicalParameterService} from "../../../service/technical-parameter.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {SortCarParameterService} from "../../../service/sort-car-parameter.service";
 
 @Component({
   selector: 'app-car-parameter',
@@ -20,8 +21,10 @@ export class CarParameterComponent implements OnInit {
   createModalRef: any;
   updateModalRef: any;
   deleteModalRef: any;
+  sortedByName = false;
 
-  constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal) {
+  constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal,
+              private sortCarParameterService: SortCarParameterService) {
   }
 
   ngOnInit() {
@@ -79,5 +82,10 @@ export class CarParameterComponent implements OnInit {
     this.cloneParameter = parameter;
     this.editedParameter = new TechnicalParameter();
     this.editedParameter.id = parameter.id;
+  }
+
+  sortCarParameter() {
+    this.sortedByName = this.sortedByName != true;
+    this.parameters = this.sortCarParameterService.sortCarParameters(this.sortedByName, this.parameters)
   }
 }

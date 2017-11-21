@@ -3,6 +3,7 @@ import {TechnicalParameter} from "../../../domain/technical-parameter";
 import {TechnicalParameterService} from "../../../service/technical-parameter.service";
 import {Brand_} from "../../../domain/brand_";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {SortCarParameterService} from "../../../service/sort-car-parameter.service";
 
 @Component({
   selector: 'app-brand',
@@ -26,8 +27,10 @@ export class BrandComponent implements OnInit {
   deleteModalRef: any;
   flag: boolean = false;
   flag_model: number;
+  sortedByName = false;
 
-  constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal) {
+  constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal,
+              private sortCarParameterService: SortCarParameterService) {
   }
 
   ngOnInit() {
@@ -156,4 +159,8 @@ export class BrandComponent implements OnInit {
     this.editedModel.id = model.id;
   }
 
+  sortCarParameter() {
+    this.sortedByName = this.sortedByName != true;
+    this.parameters = this.sortCarParameterService.sortBrands(this.sortedByName, this.parameters)
+  }
 }

@@ -12,12 +12,9 @@ export class SortDealsService {
 
   sort(sortedByStatus: boolean, deals: Deal[]) {
     if (sortedByStatus) {
-      deals = this.sortByStatus(deals)
+      return this.sortByStatus(deals)
     }
-    else {
-      deals = this.sortById(deals)
-    }
-    return deals;
+    return this.sortById(deals)
   }
 
   private getStatus(a: Deal) {

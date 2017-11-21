@@ -1,3 +1,7 @@
+<div align="right">
+  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="!sortedByName">Сортировать по имени</button>
+  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="sortedByName">Сортировать по id</button>
+</div>
 <table class="table table-bordered table-striped table-hover">
   <thead>
   <tr>
