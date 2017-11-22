@@ -8,11 +8,18 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.*;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -105,10 +112,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CarParameterResponse> getAllBodyTypes() {
-        List<CarParameterResponse> bodyTypes = new ArrayList<>();
-        bodyTypeRepository.findAll().forEach(bodyType -> bodyTypes.add(modelMapper.map(bodyType, CarParameterResponse.class)));
-        return bodyTypes;
+    public Page<CarParameterResponse> getAllBodyTypes(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, bodyTypeRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+        List<CarParameterResponse> carParameters = new ArrayList<>();
+        Page<BodyType> carParameterPage = bodyTypeRepository.findAll(pageRequest);
+        carParameterPage.getContent()
+                .forEach(carParameter -> carParameters.add(modelMapper.map(carParameter, CarParameterResponse.class)));
+        return new PageImpl<>(carParameters, pageRequest, carParameterPage.getTotalElements());
     }
 
     @Override
@@ -168,10 +181,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<BrandResponse> getAllBrands() {
+    public Page<BrandResponse> getAllBrands(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, brandRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
         List<BrandResponse> brands = new ArrayList<>();
-        brandRepository.findAll().forEach(brand -> brands.add(modelMapper.map(brand, BrandResponse.class)));
-        return brands;
+        Page<Brand> brandPage = brandRepository.findAll(pageRequest);
+        brandPage.getContent().forEach(brand -> brands.add(modelMapper.map(brand, BrandResponse.class)));
+        return new PageImpl<>(brands, pageRequest, brandPage.getTotalElements());
     }
 
     @Override
@@ -222,10 +240,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CarParameterResponse> getAllColors() {
-        List<CarParameterResponse> colors = new ArrayList<>();
-        colorRepository.findAll().forEach(color -> colors.add(modelMapper.map(color, CarParameterResponse.class)));
-        return colors;
+    public Page<CarParameterResponse> getAllColors(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, colorRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+        List<CarParameterResponse> carParameters = new ArrayList<>();
+        Page<Color> carParameterPage = colorRepository.findAll(pageRequest);
+        carParameterPage.getContent()
+                .forEach(carParameter -> carParameters.add(modelMapper.map(carParameter, CarParameterResponse.class)));
+        return new PageImpl<>(carParameters, pageRequest, carParameterPage.getTotalElements());
     }
 
     @Override
@@ -275,10 +299,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CarParameterResponse> getAllDriveUnits() {
-        List<CarParameterResponse> driveUnits = new ArrayList<>();
-        driveUnitRepository.findAll().forEach(driveUnit -> driveUnits.add(modelMapper.map(driveUnit, CarParameterResponse.class)));
-        return driveUnits;
+    public Page<CarParameterResponse> getAllDriveUnits(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, driveUnitRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+        List<CarParameterResponse> carParameters = new ArrayList<>();
+        Page<DriveUnit> carParameterPage = driveUnitRepository.findAll(pageRequest);
+        carParameterPage.getContent()
+                .forEach(carParameter -> carParameters.add(modelMapper.map(carParameter, CarParameterResponse.class)));
+        return new PageImpl<>(carParameters, pageRequest, carParameterPage.getTotalElements());
     }
 
     @Override
@@ -328,10 +358,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CarParameterResponse> getAllFuelTypes() {
-        List<CarParameterResponse> fuelTypes = new ArrayList<>();
-        fuelTypeRepository.findAll().forEach(fuelType -> fuelTypes.add(modelMapper.map(fuelType, CarParameterResponse.class)));
-        return fuelTypes;
+    public Page<CarParameterResponse> getAllFuelTypes(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, fuelTypeRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+        List<CarParameterResponse> carParameters = new ArrayList<>();
+        Page<FuelType> carParameterPage = fuelTypeRepository.findAll(pageRequest);
+        carParameterPage.getContent()
+                .forEach(carParameter -> carParameters.add(modelMapper.map(carParameter, CarParameterResponse.class)));
+        return new PageImpl<>(carParameters, pageRequest, carParameterPage.getTotalElements());
     }
 
     @Override
@@ -381,10 +417,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CarParameterResponse> getAllGearboxes() {
-        List<CarParameterResponse> gearboxes = new ArrayList<>();
-        gearboxRepository.findAll().forEach(gearbox -> gearboxes.add(modelMapper.map(gearbox, CarParameterResponse.class)));
-        return gearboxes;
+    public Page<CarParameterResponse> getAllGearboxes(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, gearboxRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+        List<CarParameterResponse> carParameters = new ArrayList<>();
+        Page<Gearbox> carParameterPage = gearboxRepository.findAll(pageRequest);
+        carParameterPage.getContent()
+                .forEach(carParameter -> carParameters.add(modelMapper.map(carParameter, CarParameterResponse.class)));
+        return new PageImpl<>(carParameters, pageRequest, carParameterPage.getTotalElements());
     }
 
     @Override
@@ -434,11 +476,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CarParameterResponse> getAllInteriorMaterials() {
-        List<CarParameterResponse> interiorMaterials = new ArrayList<>();
-        interiorMaterialRepository.findAll().forEach(interiorMaterial ->
-                interiorMaterials.add(modelMapper.map(interiorMaterial, CarParameterResponse.class)));
-        return interiorMaterials;
+    public Page<CarParameterResponse> getAllInteriorMaterials(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, interiorMaterialRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+        List<CarParameterResponse> carParameters = new ArrayList<>();
+        Page<InteriorMaterial> carParameterPage = interiorMaterialRepository.findAll(pageRequest);
+        carParameterPage.getContent()
+                .forEach(carParameter -> carParameters.add(modelMapper.map(carParameter, CarParameterResponse.class)));
+        return new PageImpl<>(carParameters, pageRequest, carParameterPage.getTotalElements());
     }
 
     @Override
@@ -490,10 +537,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<ModelResponse> getAllModels() {
+    public Page<ModelResponse> getAllModels(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, modelRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
         List<ModelResponse> models = new ArrayList<>();
-        modelRepository.findAll().forEach(model -> models.add(modelMapper.map(model, ModelResponse.class)));
-        return models;
+        Page<Model> carParameterPage = modelRepository.findAll(pageRequest);
+        carParameterPage.getContent()
+                .forEach(model -> models.add(modelMapper.map(model, ModelResponse.class)));
+        return new PageImpl<>(models, pageRequest, carParameterPage.getTotalElements());
     }
 
     @Override
@@ -552,10 +605,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CarParameterResponse> getAllTiresSeasons() {
-        List<CarParameterResponse> tiresSeasons = new ArrayList<>();
-        tiresSeasonRepository.findAll().forEach(tiresSeason -> tiresSeasons.add(modelMapper.map(tiresSeason, CarParameterResponse.class)));
-        return tiresSeasons;
+    public Page<CarParameterResponse> getAllTiresSeasons(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, tiresSeasonRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+        List<CarParameterResponse> carParameters = new ArrayList<>();
+        Page<TiresSeason> carParameterPage = tiresSeasonRepository.findAll(pageRequest);
+        carParameterPage.getContent()
+                .forEach(carParameter -> carParameters.add(modelMapper.map(carParameter, CarParameterResponse.class)));
+        return new PageImpl<>(carParameters, pageRequest, carParameterPage.getTotalElements());
     }
 
     @Override
@@ -645,5 +704,21 @@ public class AdminServiceImpl implements AdminService {
         confirmationResponse.setProfileId(confirmation.getProfile().getId());
         confirmationResponse.setProfileLogin(confirmation.getProfile().getLogin());
         return confirmationResponse;
+    }
+
+    private List<Integer> checkPaginatedParams(Integer page, Integer size, long maxCount) {
+        if (page != null && size == null) {
+            throw new InvalidParameterException("Invalid parameter set. Enter size.");
+        }
+        if (page == null && size != null) {
+            throw new InvalidParameterException("Invalid parameter set. Enter page.");
+        }
+        if (page == null) {
+            page = 1;
+        }
+        if (size == null) {
+            size = (int) maxCount;
+        }
+        return Stream.of(page, size).collect(Collectors.toList());
     }
 }

@@ -55,8 +55,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/body-type")
-    public Response getAllBodyTypes() throws EntityNotFoundException {
-        return Response.status(200).entity(adminService.getAllBodyTypes()).build();
+    public Response getAllBodyTypes(@QueryParam(value = "page") Integer page,
+                                    @QueryParam(value = "size") Integer size) throws EntityNotFoundException {
+        return Response.status(200).entity(adminService.getAllBodyTypes(page, size)).build();
     }
 
     @GET
@@ -91,8 +92,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/brand")
-    public Response getAllBrands() {
-        return Response.status(200).entity(adminService.getAllBrands()).build();
+    public Response getAllBrands(@QueryParam(value = "page") Integer page,
+                                 @QueryParam(value = "size") Integer size) {
+        return Response.status(200).entity(adminService.getAllBrands(page, size)).build();
     }
 
 
@@ -128,8 +130,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/model")
-    public Response getAllModels() {
-        return Response.status(200).entity(adminService.getAllModels()).build();
+    public Response getAllModels(@QueryParam(value = "page") Integer page,
+                                 @QueryParam(value = "size") Integer size) {
+        return Response.status(200).entity(adminService.getAllModels(page, size)).build();
     }
 
     @GET
@@ -170,8 +173,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/color")
-    public Response getAllColors() {
-        return Response.status(200).entity(adminService.getAllColors()).build();
+    public Response getAllColors(@QueryParam(value = "page") Integer page,
+                                 @QueryParam(value = "size") Integer size) {
+        return Response.status(200).entity(adminService.getAllColors(page, size)).build();
     }
 
     @GET
@@ -206,8 +210,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/drive-unit")
-    public Response getAllDriveUnits() {
-        return Response.status(200).entity(adminService.getAllDriveUnits()).build();
+    public Response getAllDriveUnits(@QueryParam(value = "page") Integer page,
+                                     @QueryParam(value = "size") Integer size) {
+        return Response.status(200).entity(adminService.getAllDriveUnits(page, size)).build();
     }
 
     @GET
@@ -242,8 +247,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/fuel-type")
-    public Response getAllFuelTypes() {
-        return Response.status(200).entity(adminService.getAllFuelTypes()).build();
+    public Response getAllFuelTypes(@QueryParam(value = "page") Integer page,
+                                    @QueryParam(value = "size") Integer size) {
+        return Response.status(200).entity(adminService.getAllFuelTypes(page, size)).build();
     }
 
     @GET
@@ -278,8 +284,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/gearbox")
-    public Response getAllGearboxes() {
-        return Response.status(200).entity(adminService.getAllGearboxes()).build();
+    public Response getAllGearboxes(@QueryParam(value = "page") Integer page,
+                                    @QueryParam(value = "size") Integer size) {
+        return Response.status(200).entity(adminService.getAllGearboxes(page, size)).build();
     }
 
     @GET
@@ -314,8 +321,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/interior-material")
-    public Response getAllInteriorMaterials() {
-        return Response.status(200).entity(adminService.getAllInteriorMaterials()).build();
+    public Response getAllInteriorMaterials(@QueryParam(value = "page") Integer page,
+                                            @QueryParam(value = "size") Integer size) {
+        return Response.status(200).entity(adminService.getAllInteriorMaterials(page, size)).build();
     }
 
     @GET
@@ -350,8 +358,9 @@ public class AdminEndpoint {
 
     @GET
     @Path("/tires-season")
-    public Response getAllTiresSeasons() {
-        return Response.status(200).entity(adminService.getAllTiresSeasons()).build();
+    public Response getAllTiresSeasons(@QueryParam(value = "page") Integer page,
+                                       @QueryParam(value = "size") Integer size) {
+        return Response.status(200).entity(adminService.getAllTiresSeasons(page, size)).build();
     }
 
     @GET
