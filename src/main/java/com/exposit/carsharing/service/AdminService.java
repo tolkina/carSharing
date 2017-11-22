@@ -7,8 +7,6 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface AdminService {
 
     void checkAdmin(Long principalId) throws EntityNotFoundException, PrivilegeException;
@@ -48,7 +46,7 @@ public interface AdminService {
 
     Page<BrandResponse> getAllBrands(Integer page, Integer size);
 
-    BrandResponse getBrand(Long id) throws EntityNotFoundException;
+    BrandResponse getBrandResponse(Long id) throws EntityNotFoundException;
 
     // ---------------------- Color --------------------
     void checkColorExist(String name) throws EntityNotFoundException;
@@ -150,9 +148,10 @@ public interface AdminService {
 
     Page<ModelResponse> getAllModels(Integer page, Integer size);
 
-    List<CarParameterResponse> getAllModelsByBrand(Long brand_id) throws EntityNotFoundException;
+    Page<CarParameterResponse> getAllModelsByBrand(Long brandId, Integer page, Integer size)
+            throws EntityNotFoundException;
 
-    ModelResponse getModel(Long id) throws EntityNotFoundException;
+    ModelResponse getModelResponse(Long id) throws EntityNotFoundException;
 
     // ---------------------- Tires season --------------------
 

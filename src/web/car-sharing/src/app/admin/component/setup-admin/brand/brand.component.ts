@@ -5,6 +5,7 @@ import {Brand_} from "../../../domain/brand_";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {SortCarParameterService} from "../../../service/sort-car-parameter.service";
 import {PageBrand} from "../../../domain/page-brand";
+import {PageTechnicalParameter} from "../../../domain/page-technical-parameter";
 
 @Component({
   selector: 'app-brand',
@@ -14,6 +15,7 @@ import {PageBrand} from "../../../domain/page-brand";
 export class BrandComponent implements OnInit {
   name = "brand";
   parameters = new PageBrand();
+  models = new PageTechnicalParameter();
   newBrand = new Brand_();
   newModel = new TechnicalParameter();
   editedBrand = new Brand_();
@@ -27,9 +29,11 @@ export class BrandComponent implements OnInit {
   updateModalRef: any;
   deleteModalRef: any;
   flag: boolean = false;
-  flag_model: number;
+  branId: number;
   sortedByName = false;
+  sortedModelByName = false;
   page: number = 1;
+  pageModel: number = 1;
   size: number = 5;
 
   constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal,
@@ -46,16 +50,27 @@ export class BrandComponent implements OnInit {
       .catch();
   }
 
+  getModelsByBrand(brandId: number) {
+    this.technicalParameterService.getModelsByBrand(brandId, this.pageModel, this.size)
+      .then(models => this.models = models)
+      .catch();
+  }
+
   onChangePage() {
     this.getTechnicalParameters()
   }
 
-  showModels(parameter) {
-    if (this.flag_model == parameter.id) {
-      this.flag_model = null
+  onChangePageModel() {
+    this.getModelsByBrand(this.branId)
+  }
+
+  showModels(brand) {
+    if (this.branId == brand.id) {
+      this.branId = null
     }
     else {
-      this.flag_model = parameter.id;
+      this.branId = brand.id;
+      this.getModelsByBrand(brand.id)
     }
   }
 
@@ -71,11 +86,8 @@ export class BrandComponent implements OnInit {
 
   saveModel() {
     this.technicalParameterService.addModel(this.cloneBrand, this.newModel)
-      .then(result => {
-        if (this.cloneBrand.models == null) {
-          this.cloneBrand.models = [];
-        }
-        this.cloneBrand.models.push(result);
+      .then(model => {
+        this.models.content.push(model);
         this.createModalRef.close();
       })
       .catch(err => this.errorCreate = err);
@@ -93,7 +105,7 @@ export class BrandComponent implements OnInit {
   removeModel() {
     this.technicalParameterService.deleteParameter("model", this.cloneModel)
       .then(result => {
-        this.cloneBrand.models.splice(this.cloneBrand.models.indexOf(this.cloneModel), 1);
+        this.models.content.splice(this.models.content.indexOf(this.cloneBrand), 1)
         this.deleteModalRef.close();
       })
       .catch(err => this.errorDelete = err);
@@ -165,6 +177,11 @@ export class BrandComponent implements OnInit {
 
   sortCarParameter() {
     this.sortedByName = this.sortedByName != true;
-    this.parameters.content = this.sortCarParameterService.sortBrands(this.sortedByName, this.parameters.content)
+    this.parameters.content = this.sortCarParameterService.sortCarParameters(this.sortedByName, this.parameters.content)
+  }
+
+  sortModel() {
+    this.sortedModelByName = this.sortedModelByName != true;
+    this.models.content = this.sortCarParameterService.sortCarParameters(this.sortedModelByName, this.models.content)
   }
 }

@@ -185,6 +185,13 @@ export class TechnicalParameterService {
       .catch(this.handleError);
   }
 
+  getModelsByBrand(brandId: number, page: number, size: number): Promise<PageTechnicalParameter> {
+    return this.http.get(this.adminUrl + "brand/" + brandId + "/model" + "?page=" + page + "&size=" + size)
+      .toPromise()
+      .then(res => res.json() as PageTechnicalParameter)
+      .catch(this.handleError);
+  }
+
   addModel(brand: Brand_, model: TechnicalParameter) {
     return this.http.post(this.brandUrl + "/" + brand.id + "/model", model)
       .toPromise()

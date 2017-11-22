@@ -1,6 +1,7 @@
 <div align="right">
   <button type="button" class="btn btn-success" (click)="showCreateBrand(contentCreateBrand)">Добавить</button>
-  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="!sortedByName">Сортировать по имени</button>
+  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="!sortedByName">Сортировать по имени
+  </button>
   <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="sortedByName">Сортировать по id</button>
 </div>
 <table class="table table-bordered table-striped table-hover">
@@ -15,19 +16,23 @@
     <td>{{ parameter.id }}</td>
     <td>
       <button type="button" class="btn btn-outline-info" (click)="showModels(parameter)">{{ parameter.name }}
-        <span class="badge badge-light" *ngIf="parameter.models != null">{{parameter.models.length}}</span>
+        <span class="badge badge-light">{{parameter.countOfModels}}</span>
       </button>
       <!--start models-->
-      <div *ngIf="flag_model == parameter.id">
+      <div *ngIf="branId == parameter.id">
         <hr>
-        <p align="center">
+        <div align="right">
           <button type="button" class="btn btn-outline-success"
-                  (click)="showCreateModel(parameter, contentCreateModel)">
-            Добавить модель
+                  (click)="showCreateModel(parameter, contentCreateModel)">Добавить модель
           </button>
-        </p>
+          <button class="btn btn-outline-primary" (click)="sortModel()" *ngIf="!sortedModelByName">Сортировать по
+            имени
+          </button>
+          <button class="btn btn-outline-primary" (click)="sortModel()" *ngIf="sortedModelByName">Сортировать по id
+          </button>
+        </div>
         <table class="table table-bordered table-striped table-hover">
-          <tr *ngFor="let model of parameter.models">
+          <tr *ngFor="let model of models.content">
             <td>{{ model.id }}</td>
             <td>
               {{ model.name }}
@@ -44,6 +49,8 @@
             </td>
           </tr>
         </table>
+        <ngb-pagination [collectionSize]="models.totalElements" [(page)]="pageModel" [pageSize]="models.size"
+                        [maxSize]="5" [rotate]="true" (pageChange)="onChangePageModel()"></ngb-pagination>
       </div>
       <!--end models-->
     </td>

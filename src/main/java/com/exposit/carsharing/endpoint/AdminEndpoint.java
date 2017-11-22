@@ -101,7 +101,7 @@ public class AdminEndpoint {
     @GET
     @Path("/brand/{id}")
     public Response getBrand(@PathParam("id") Long id) throws EntityNotFoundException {
-        return Response.status(200).entity(adminService.getBrand(id)).build();
+        return Response.status(200).entity(adminService.getBrandResponse(id)).build();
     }
 
     // ---------------------- Model --------------------
@@ -137,14 +137,16 @@ public class AdminEndpoint {
 
     @GET
     @Path("brand/{id}/model")
-    public Response getAllModelsByBrand(@PathParam("id") Long brand_id) throws EntityNotFoundException {
-        return Response.status(200).entity(adminService.getAllModelsByBrand(brand_id)).build();
+    public Response getAllModelsByBrand(@QueryParam(value = "page") Integer page,
+                                        @QueryParam(value = "size") Integer size,
+                                        @PathParam("id") Long brand_id) throws EntityNotFoundException {
+        return Response.status(200).entity(adminService.getAllModelsByBrand(brand_id, page, size)).build();
     }
 
     @GET
     @Path("/model/{id}")
     public Response getModel(@PathParam("id") Long id) throws EntityNotFoundException {
-        return Response.status(200).entity(adminService.getModel(id)).build();
+        return Response.status(200).entity(adminService.getModelResponse(id)).build();
     }
 
     // ---------------------- Color --------------------

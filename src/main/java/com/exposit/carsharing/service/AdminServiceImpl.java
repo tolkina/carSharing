@@ -164,22 +164,20 @@ public class AdminServiceImpl implements AdminService {
         checkBrandNameUsed(carParameterRequest.getName());
         Brand brand = modelMapper.map(carParameterRequest, Brand.class);
         brandRepository.save(brand);
-        return modelMapper.map(brand, BrandResponse.class);
+        return mapToBrandResponse(brand);
     }
 
     @Override
     public void deleteBrand(Long id) throws EntityNotFoundException {
-        getBrand(id);
-        brandRepository.delete(id);
+        brandRepository.delete(getBrand(id));
     }
 
     @Override
     public BrandResponse updateBrand(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        BrandResponse brand = getBrand(id);
+        Brand brand = getBrand(id);
         checkBrandNameUsed(carParameterRequest.getName());
         brand.setName(carParameterRequest.getName());
-        brandRepository.save(modelMapper.map(brand, Brand.class));
-        return brand;
+        return mapToBrandResponse(brand);
     }
 
     @Override
@@ -190,17 +188,27 @@ public class AdminServiceImpl implements AdminService {
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<BrandResponse> brands = new ArrayList<>();
         Page<Brand> brandPage = brandRepository.findAll(pageRequest);
-        brandPage.getContent().forEach(brand -> brands.add(modelMapper.map(brand, BrandResponse.class)));
+        brandPage.getContent().forEach(brand -> brands.add(mapToBrandResponse(brand)));
         return new PageImpl<>(brands, pageRequest, brandPage.getTotalElements());
     }
 
     @Override
-    public BrandResponse getBrand(Long id) throws EntityNotFoundException {
-        Brand brand = brandRepository.findById(id);
+    public BrandResponse getBrandResponse(Long id) throws EntityNotFoundException {
+        return mapToBrandResponse(getBrand(id));
+    }
+
+    private Brand getBrand(Long id) throws EntityNotFoundException {
+        Brand brand = brandRepository.findOne(id);
         if (brand == null) {
             throw new EntityNotFoundException("Brand", id);
         }
-        return modelMapper.map(brand, BrandResponse.class);
+        return brand;
+    }
+
+    private BrandResponse mapToBrandResponse(Brand brand) {
+        BrandResponse brandResponse = modelMapper.map(brand, BrandResponse.class);
+        brandResponse.setCountOfModels(brand.getModels().size());
+        return brandResponse;
     }
 
     @Override
@@ -515,7 +523,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ModelResponse createModel(Long branId, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        Brand brand = modelMapper.map(getBrand(branId), Brand.class);
+        Brand brand = getBrand(branId);
         checkModelNameUsed(carParameterRequest.getName());
         Model model = modelMapper.map(carParameterRequest, Model.class);
         model.setBrand(brand);
@@ -525,17 +533,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteModel(Long id) throws EntityNotFoundException {
-        getModel(id);
-        modelRepository.delete(id);
+        modelRepository.delete(getModel(id));
     }
 
     @Override
     public ModelResponse updateModel(Long id, CarParameterRequest carParameterRequest) throws EntityAlreadyExistException, EntityNotFoundException {
-        ModelResponse model = getModel(id);
+        Model model = getModel(id);
         checkModelNameUsed(carParameterRequest.getName());
         model.setName(carParameterRequest.getName());
-        modelRepository.save(modelMapper.map(model, Model.class));
-        return model;
+        return modelMapper.map(model, ModelResponse.class);
     }
 
     @Override
@@ -552,20 +558,31 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CarParameterResponse> getAllModelsByBrand(Long brandId) throws EntityNotFoundException {
+    public Page<CarParameterResponse> getAllModelsByBrand(Long brandId, Integer page, Integer size) throws EntityNotFoundException {
+        Brand brand = getBrand(brandId);
+
+        List<Integer> params = checkPaginatedParams(page, size, modelRepository.countByBrand(brand));
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+
         List<CarParameterResponse> models = new ArrayList<>();
-        modelRepository.findAllByBrand(modelMapper.map(getBrand(brandId), Brand.class))
-                .forEach(model -> models.add(modelMapper.map(model, CarParameterResponse.class)));
-        return models;
+        Page<Model> modelPage = modelRepository.findAllByBrand(brand, pageRequest);
+        modelPage.getContent().forEach(model -> models.add(modelMapper.map(model, CarParameterResponse.class)));
+        return new PageImpl<>(models, pageRequest, modelPage.getTotalElements());
     }
 
     @Override
-    public ModelResponse getModel(Long id) throws EntityNotFoundException {
+    public ModelResponse getModelResponse(Long id) throws EntityNotFoundException {
+        return modelMapper.map(getModel(id), ModelResponse.class);
+    }
+
+    private Model getModel(Long id) throws EntityNotFoundException {
         Model model = modelRepository.findOne(id);
         if (model == null) {
             throw new EntityNotFoundException("Model", id);
         }
-        return modelMapper.map(model, ModelResponse.class);
+        return model;
     }
 
     @Override
