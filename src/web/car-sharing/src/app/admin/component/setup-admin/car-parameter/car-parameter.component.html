@@ -1,6 +1,7 @@
 <div align="right">
   <button type="button" class="btn btn-success" (click)="showCreate(contentCreate)">Добавить</button>
-  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="!sortedByName">Сортировать по имени</button>
+  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="!sortedByName">Сортировать по имени
+  </button>
   <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="sortedByName">Сортировать по id</button>
 </div>
 <table class="table table-bordered table-striped table-hover">
@@ -11,7 +12,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let parameter of parameters">
+  <tr *ngFor="let parameter of parameters.content">
     <td>{{ parameter.id }}</td>
     <td>{{ parameter.name }}</td>
     <td align="center" width="20%">
@@ -21,6 +22,8 @@
   </tr>
   </tbody>
 </table>
+<ngb-pagination [collectionSize]="parameters.totalElements" [(page)]="page" [pageSize]="parameters.size" [maxSize]="5"
+                [rotate]="true" (pageChange)="onChangePage(page)"></ngb-pagination>
 
 <ng-template #contentCreate let-c="close" let-d="dismiss">
   <div class="modal-header">

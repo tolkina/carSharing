@@ -3,6 +3,8 @@ import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {TechnicalParameter} from "../domain/technical-parameter";
 import {Brand_} from "../domain/brand_";
+import {PageTechnicalParameter} from "../domain/page-technical-parameter";
+import {PageBrand} from "../domain/page-brand";
 
 @Injectable()
 export class TechnicalParameterService {
@@ -53,34 +55,34 @@ export class TechnicalParameterService {
     }
   }
 
-  getParameters(name: String) {
+  getParameters(name: String, page: number, size: number) {
     switch (name) {
       case "bodyType": {
-        return this.getTechnicalParameters(this.bodyTypeUrl);
+        return this.getTechnicalParameters(this.bodyTypeUrl, page, size);
       }
       case "brand": {
-        return this.getTechnicalParameters(this.brandUrl);
+        return this.getTechnicalParameters(this.brandUrl, page, size);
       }
       case "color": {
-        return this.getTechnicalParameters(this.colorUrl);
+        return this.getTechnicalParameters(this.colorUrl, page, size);
       }
       case "driveUnit": {
-        return this.getTechnicalParameters(this.driveUnitUrl);
+        return this.getTechnicalParameters(this.driveUnitUrl, page, size);
       }
       case "fuelType": {
-        return this.getTechnicalParameters(this.fuelTypeUrl);
+        return this.getTechnicalParameters(this.fuelTypeUrl, page, size);
       }
       case "gearbox": {
-        return this.getTechnicalParameters(this.gearboxUrl);
+        return this.getTechnicalParameters(this.gearboxUrl, page, size);
       }
       case "interiorMaterial": {
-        return this.getTechnicalParameters(this.interiorMaterialUrl);
+        return this.getTechnicalParameters(this.interiorMaterialUrl, page, size);
       }
       case "model": {
-        return this.getTechnicalParameters(this.modelUrl);
+        return this.getTechnicalParameters(this.modelUrl, page, size);
       }
       case "tiresSeason": {
-        return this.getTechnicalParameters(this.tiresSeasonUrl);
+        return this.getTechnicalParameters(this.tiresSeasonUrl, page, size);
       }
     }
   }
@@ -169,17 +171,17 @@ export class TechnicalParameterService {
       .catch(this.handleError);
   }
 
-  getTechnicalParameters(url): Promise<TechnicalParameter[]> {
-    return this.http.get(url)
+  getTechnicalParameters(url, page: number, size: number): Promise<PageTechnicalParameter> {
+    return this.http.get(url + "?page=" + page + "&size=" + size)
       .toPromise()
-      .then(this.extractData)
+      .then(res => res.json() as PageTechnicalParameter)
       .catch(this.handleError);
   }
 
-  getBrands(): Promise<Brand_[]> {
-    return this.http.get(this.brandUrl)
+  getBrands(page: number, size: number): Promise<PageBrand> {
+    return this.http.get(this.brandUrl + "?page=" + page + "&size=" + size)
       .toPromise()
-      .then(this.extractDataBrand)
+      .then(res => res.json() as PageBrand)
       .catch(this.handleError);
   }
 

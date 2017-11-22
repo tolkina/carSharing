@@ -3,6 +3,7 @@ import {TechnicalParameter} from "../../../domain/technical-parameter";
 import {TechnicalParameterService} from "../../../service/technical-parameter.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {SortCarParameterService} from "../../../service/sort-car-parameter.service";
+import {PageTechnicalParameter} from "../../../domain/page-technical-parameter";
 
 @Component({
   selector: 'app-car-parameter',
@@ -11,7 +12,7 @@ import {SortCarParameterService} from "../../../service/sort-car-parameter.servi
 })
 export class CarParameterComponent implements OnInit {
   @Input() name: string;
-  parameters: TechnicalParameter[];
+  parameters = new PageTechnicalParameter;
   newParameter = new TechnicalParameter();
   editedParameter = new TechnicalParameter();
   cloneParameter = new TechnicalParameter();
@@ -22,6 +23,8 @@ export class CarParameterComponent implements OnInit {
   updateModalRef: any;
   deleteModalRef: any;
   sortedByName = false;
+  page: number = 1;
+  size: number = 5;
 
   constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal,
               private sortCarParameterService: SortCarParameterService) {
@@ -32,15 +35,19 @@ export class CarParameterComponent implements OnInit {
   }
 
   getTechnicalParameters() {
-    this.technicalParameterService.getParameters(this.name)
+    this.technicalParameterService.getParameters(this.name, this.page, this.size)
       .then(parameters => this.parameters = parameters)
       .catch();
+  }
+
+  onChangePage() {
+    this.getTechnicalParameters()
   }
 
   saveParameter() {
     this.technicalParameterService.addParameter(this.name, this.newParameter)
       .then(result => {
-        this.parameters.push(result);
+        this.parameters.content.push(result);
         this.createModalRef.close();
       })
       .catch(err => this.errorCreate = err);
@@ -49,7 +56,7 @@ export class CarParameterComponent implements OnInit {
   removeParameter() {
     this.technicalParameterService.deleteParameter(this.name, this.cloneParameter)
       .then(result => {
-        this.parameters.splice(this.parameters.indexOf(this.cloneParameter), 1);
+        this.parameters.content.splice(this.parameters.content.indexOf(this.cloneParameter), 1);
         this.deleteModalRef.close();
       })
       .catch(err => this.errorDelete = err);
@@ -58,7 +65,7 @@ export class CarParameterComponent implements OnInit {
   updateParameter() {
     this.technicalParameterService.updateParameter(this.name, this.editedParameter)
       .then(result => {
-        this.parameters[this.parameters.indexOf(this.cloneParameter)].name = result.name;
+        this.parameters.content[this.parameters.content.indexOf(this.cloneParameter)].name = result.name;
         this.updateModalRef.close();
       })
       .catch(err => this.errorUpdate = err);
@@ -86,6 +93,6 @@ export class CarParameterComponent implements OnInit {
 
   sortCarParameter() {
     this.sortedByName = this.sortedByName != true;
-    this.parameters = this.sortCarParameterService.sortCarParameters(this.sortedByName, this.parameters)
+    this.parameters.content = this.sortCarParameterService.sortCarParameters(this.sortedByName, this.parameters.content)
   }
 }

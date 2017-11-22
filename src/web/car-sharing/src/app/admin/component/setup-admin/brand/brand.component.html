@@ -11,7 +11,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let parameter of parameters">
+  <tr *ngFor="let parameter of parameters.content">
     <td>{{ parameter.id }}</td>
     <td>
       <button type="button" class="btn btn-outline-info" (click)="showModels(parameter)">{{ parameter.name }}
@@ -56,6 +56,8 @@
   </tr>
   </tbody>
 </table>
+<ngb-pagination [collectionSize]="parameters.totalElements" [(page)]="page" [pageSize]="parameters.size" [maxSize]="5"
+                [rotate]="true" (pageChange)="onChangePage(page)"></ngb-pagination>
 
 <ng-template #contentCreateBrand let-c="close" let-d="dismiss">
   <div class="modal-header">

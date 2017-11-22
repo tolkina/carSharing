@@ -4,6 +4,7 @@ import {TechnicalParameterService} from "../../../service/technical-parameter.se
 import {Brand_} from "../../../domain/brand_";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {SortCarParameterService} from "../../../service/sort-car-parameter.service";
+import {PageBrand} from "../../../domain/page-brand";
 
 @Component({
   selector: 'app-brand',
@@ -12,7 +13,7 @@ import {SortCarParameterService} from "../../../service/sort-car-parameter.servi
 })
 export class BrandComponent implements OnInit {
   name = "brand";
-  parameters: Brand_[];
+  parameters = new PageBrand();
   newBrand = new Brand_();
   newModel = new TechnicalParameter();
   editedBrand = new Brand_();
@@ -28,6 +29,8 @@ export class BrandComponent implements OnInit {
   flag: boolean = false;
   flag_model: number;
   sortedByName = false;
+  page: number = 1;
+  size: number = 5;
 
   constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal,
               private sortCarParameterService: SortCarParameterService) {
@@ -38,12 +41,13 @@ export class BrandComponent implements OnInit {
   }
 
   getTechnicalParameters() {
-    this.technicalParameterService.getBrands()
-      .then(parameters => {
-          this.parameters = parameters;
-        }
-      )
+    this.technicalParameterService.getBrands(this.page, this.size)
+      .then(parameters => this.parameters = parameters)
       .catch();
+  }
+
+  onChangePage() {
+    this.getTechnicalParameters()
   }
 
   showModels(parameter) {
@@ -59,7 +63,7 @@ export class BrandComponent implements OnInit {
     this.technicalParameterService.addParameter(this.name, this.newBrand)
       .then(result => {
         result.models = [];
-        this.parameters.push(result);
+        this.parameters.content.push(result);
         this.createModalRef.close();
       })
       .catch(err => this.errorCreate = err);
@@ -80,7 +84,7 @@ export class BrandComponent implements OnInit {
   removeBrand() {
     this.technicalParameterService.deleteParameter(this.name, this.cloneBrand)
       .then(result => {
-        this.parameters.splice(this.parameters.indexOf(this.cloneBrand), 1);
+        this.parameters.content.splice(this.parameters.content.indexOf(this.cloneBrand), 1);
         this.deleteModalRef.close();
       })
       .catch(err => this.errorDelete = err);
@@ -99,7 +103,7 @@ export class BrandComponent implements OnInit {
   updateBrand() {
     this.technicalParameterService.updateParameter(this.name, this.editedBrand)
       .then(result => {
-        this.parameters[this.parameters.indexOf(this.cloneBrand)].name = result.name;
+        this.parameters.content[this.parameters.content.indexOf(this.cloneBrand)].name = result.name;
         this.updateModalRef.close();
       })
       .catch(err => this.errorUpdate = err);
@@ -161,6 +165,6 @@ export class BrandComponent implements OnInit {
 
   sortCarParameter() {
     this.sortedByName = this.sortedByName != true;
-    this.parameters = this.sortCarParameterService.sortBrands(this.sortedByName, this.parameters)
+    this.parameters.content = this.sortCarParameterService.sortBrands(this.sortedByName, this.parameters.content)
   }
 }
