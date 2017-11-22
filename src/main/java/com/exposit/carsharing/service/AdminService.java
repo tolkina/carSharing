@@ -8,7 +8,6 @@ import com.exposit.carsharing.exception.PrivilegeException;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Set;
 
 public interface AdminService {
 
@@ -175,7 +174,7 @@ public interface AdminService {
 
     // ------------------------- Confirm Profile --------------------
 
-    List<ConfirmProfileResponse> getProfilesToConfirm();
+    Page<ConfirmProfileResponse> getProfilesToConfirm(Integer page, Integer size);
 
     ConfirmationResponse setConfirmProfileYes(Long profileId)
             throws EntityNotFoundException, PrivilegeException, ConfirmProfileException;
@@ -183,5 +182,5 @@ public interface AdminService {
     ConfirmationResponse setConfirmProfileNo(Long profileId)
             throws EntityNotFoundException, PrivilegeException, ConfirmProfileException;
 
-    Set<ConfirmationResponse> getConfirmations();
+    Page<ConfirmationResponse> getConfirmations(Integer page, Integer size);
 }

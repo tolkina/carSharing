@@ -4,6 +4,8 @@ import {ConfirmProfileService} from "../../service/confirm-profile.service";
 import {ConfirmProfile} from "../../domain/confirm-profile";
 import {ConfirmProfileStatus} from "../../domain/confirm-profile-status";
 import {Confirmation} from "../../domain/confirmation";
+import {PageConfirmation} from "../../domain/page-confirmation";
+import {PageConfirmProfile} from "../../domain/page-confirm-profile";
 
 @Component({
   selector: 'app-confirm-profile',
@@ -11,14 +13,17 @@ import {Confirmation} from "../../domain/confirmation";
   styleUrls: ['./confirm-profile.component.css']
 })
 export class ConfirmProfileComponent implements OnInit {
-  profiles: ConfirmProfile[] = [];
-  confirmations: Confirmation[] = [];
+  profiles = new PageConfirmProfile;
+  confirmations = new PageConfirmation;
   cloneProfile = new ConfirmProfile();
   modalRef: any;
   error = "";
   confirmProfileStatus = new ConfirmProfileStatus();
   confirmation = new Confirmation();
   profile = new ConfirmProfile();
+  pageConfirmation: number = 1;
+  pageConfirmProfile: number = 1;
+  size: number = 5;
 
   constructor(private confirmProfileService: ConfirmProfileService, private modalService: NgbModal) {
   }
@@ -28,12 +33,20 @@ export class ConfirmProfileComponent implements OnInit {
     this.getConfirmations()
   }
 
+  onChangePageConfirmation() {
+    this.getConfirmations()
+  }
+
+  onChangePageConfirmProfile() {
+    this.getProfilesForConfirmation()
+  }
+
   notConfirmProfile() {
     this.confirmProfileService.notConfirmProfile(this.cloneProfile.id)
       .then(res => {
         this.modalRef.close();
-        this.profiles.splice(this.profiles.indexOf(this.cloneProfile), 1);
-        this.confirmations.push(res)
+        this.profiles.content.splice(this.profiles.content.indexOf(this.cloneProfile), 1);
+        this.confirmations.content.push(res)
       })
       .catch(err => this.error = err);
   }
@@ -42,20 +55,20 @@ export class ConfirmProfileComponent implements OnInit {
     this.confirmProfileService.confirmProfile(this.cloneProfile.id)
       .then(res => {
         this.modalRef.close();
-        this.profiles.splice(this.profiles.indexOf(this.cloneProfile), 1);
-        this.confirmations.push(res)
+        this.profiles.content.splice(this.profiles.content.indexOf(this.cloneProfile), 1);
+        this.confirmations.content.push(res)
       })
       .catch(err => this.error = err);
   }
 
   getProfilesForConfirmation() {
-    this.confirmProfileService.getProfilesForConfirmation()
+    this.confirmProfileService.getProfilesForConfirmation(this.pageConfirmProfile, this.size)
       .then(res => this.profiles = res)
       .catch();
   }
 
   getConfirmations() {
-    this.confirmProfileService.getConfirmations()
+    this.confirmProfileService.getConfirmations(this.pageConfirmation, this.size)
       .then(res => this.confirmations = res)
       .catch();
   }

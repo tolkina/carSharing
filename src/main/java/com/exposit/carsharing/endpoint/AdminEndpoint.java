@@ -373,9 +373,11 @@ public class AdminEndpoint {
 
     @GET
     @Path("/confirm-profile")
-    public Response getProfilesToConfirm() throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
+    public Response getProfilesToConfirm(@QueryParam(value = "page") Integer page,
+                                         @QueryParam(value = "size") Integer size)
+            throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
         checkAdmin();
-        return Response.status(200).entity(adminService.getProfilesToConfirm()).build();
+        return Response.status(200).entity(adminService.getProfilesToConfirm(page, size)).build();
     }
 
     @PUT
@@ -396,8 +398,10 @@ public class AdminEndpoint {
 
     @GET
     @Path("confirmation")
-    public Response getConfirmations() throws EntityNotFoundException, PrivilegeException, UnauthorizedException {
+    public Response getConfirmations(@QueryParam(value = "page") Integer page,
+                                     @QueryParam(value = "size") Integer size)
+            throws EntityNotFoundException, PrivilegeException, UnauthorizedException {
         checkAdmin();
-        return Response.status(200).entity(adminService.getConfirmations()).build();
+        return Response.status(200).entity(adminService.getConfirmations(page, size)).build();
     }
 }

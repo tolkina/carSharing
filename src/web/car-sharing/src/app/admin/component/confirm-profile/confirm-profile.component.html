@@ -18,7 +18,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let profile of profiles">
+          <tr *ngFor="let profile of profiles.content">
             <td>{{ profile.id }}</td>
             <td>{{ profile.login }}</td>
             <td>
@@ -35,6 +35,9 @@
           </tr>
           </tbody>
         </table>
+        <ngb-pagination [collectionSize]="profiles.totalElements" [(page)]="pageConfirmProfile"
+                        [pageSize]="profiles.size" [maxSize]="5" [rotate]="true"
+                        (pageChange)="onChangePageConfirmProfile()"></ngb-pagination>
       </div>
     </div>
   </div>
@@ -62,7 +65,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let confirmation of confirmations">
+          <tr *ngFor="let confirmation of confirmations.content">
             <td>{{ confirmation.id }}</td>
             <td>{{ confirmation.profileId }}</td>
             <td>{{ confirmation.profileLogin }}</td>
@@ -76,6 +79,9 @@
           </tr>
           </tbody>
         </table>
+        <ngb-pagination [collectionSize]="confirmations.totalElements" [(page)]="pageConfirmation"
+                        [pageSize]="confirmations.size" [maxSize]="5" [rotate]="true"
+                        (pageChange)="onChangePageConfirmation()"></ngb-pagination>
       </div>
     </div>
   </div>

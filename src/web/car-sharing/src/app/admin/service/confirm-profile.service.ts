@@ -3,6 +3,8 @@ import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {ConfirmProfile} from "../domain/confirm-profile";
 import {Confirmation} from "../domain/confirmation";
+import {PageConfirmProfile} from "../domain/page-confirm-profile";
+import {PageConfirmation} from "../domain/page-confirmation";
 
 @Injectable()
 export class ConfirmProfileService {
@@ -26,17 +28,17 @@ export class ConfirmProfileService {
       .catch(this.handleError);
   }
 
-  getProfilesForConfirmation() {
-    return this.http.get(this.adminUrl + "/confirm-profile")
+  getProfilesForConfirmation(page: number, size: number) {
+    return this.http.get(this.adminUrl + "/confirm-profile?page=" + page + "&size=" + size)
       .toPromise()
-      .then(this.extractData)
+      .then(res => res.json() as PageConfirmProfile)
       .catch(this.handleError);
   }
 
-  getConfirmations() {
-    return this.http.get(this.adminUrl + "/confirmation")
+  getConfirmations(page: number, size: number) {
+    return this.http.get(this.adminUrl + "/confirmation?page=" + page + "&size=" + size)
       .toPromise()
-      .then(res => res.json() as Confirmation[])
+      .then(res => res.json() as PageConfirmation)
       .catch(this.handleError);
   }
 

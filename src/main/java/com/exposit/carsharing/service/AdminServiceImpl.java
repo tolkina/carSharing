@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -629,9 +631,15 @@ public class AdminServiceImpl implements AdminService {
     // ------------------------- Confirm Profile --------------------
 
     @Override
-    public List<ConfirmProfileResponse> getProfilesToConfirm() {
+    public Page<ConfirmProfileResponse> getProfilesToConfirm(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size,
+                profileRepository.countByConfirmProfile(ConfirmProfile.CHECK));
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
         List<ConfirmProfileResponse> profiles = new ArrayList<>();
-        profileRepository.findByConfirmProfile(ConfirmProfile.CHECK).forEach(profile -> {
+        Page<Profile> profilePage = profileRepository.findByConfirmProfile(ConfirmProfile.CHECK, pageRequest);
+        profilePage.getContent().forEach(profile -> {
             ConfirmProfileResponse confirmProfileResponse = modelMapper.map(profile, ConfirmProfileResponse.class);
             confirmProfileResponse.setPassportDataResponse(
                     modelMapper.map(profile.getPassportData(), PassportDataResponse.class));
@@ -639,7 +647,7 @@ public class AdminServiceImpl implements AdminService {
                     modelMapper.map(profile.getDriverLicense(), DriverLicenseResponse.class));
             profiles.add(confirmProfileResponse);
         });
-        return profiles;
+        return new PageImpl<>(profiles, pageRequest, profilePage.getTotalElements());
     }
 
     @Override
@@ -655,11 +663,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Set<ConfirmationResponse> getConfirmations() {
-        Set<ConfirmationResponse> confirmations = new HashSet<>();
-        confirmationRepository.findAll()
-                .forEach(confirmation -> confirmations.add(mapToConfirmationResponse(confirmation)));
-        return confirmations;
+    public Page<ConfirmationResponse> getConfirmations(Integer page, Integer size) {
+        List<Integer> params = checkPaginatedParams(page, size, confirmationRepository.count());
+        page = params.get(0);
+        size = params.get(1);
+        Pageable pageRequest = new PageRequest(page - 1, size);
+        List<ConfirmationResponse> confirmations = new ArrayList<>();
+        Page<Confirmation> confirmationPage = confirmationRepository.findAll(pageRequest);
+        confirmationPage.getContent()
+                .forEach(confirmation -> confirmations.add(modelMapper.map(confirmation, ConfirmationResponse.class)));
+        return new PageImpl<>(confirmations, pageRequest, confirmationPage.getTotalElements());
     }
 
     private ConfirmationResponse confirmProfile(Long profileId, ConfirmProfile confirmProfile)
