@@ -1,6 +1,8 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.CarParameterRequest;
+import com.exposit.carsharing.dto.PageParametersRequest;
+import com.exposit.carsharing.dto.SortType;
 import com.exposit.carsharing.exception.*;
 import com.exposit.carsharing.service.AdminService;
 import com.exposit.carsharing.service.SecurityService;
@@ -93,8 +95,10 @@ public class AdminEndpoint {
     @GET
     @Path("/brand")
     public Response getAllBrands(@QueryParam(value = "page") Integer page,
-                                 @QueryParam(value = "size") Integer size) {
-        return Response.status(200).entity(adminService.getAllBrands(page, size)).build();
+                                 @QueryParam(value = "size") Integer size,
+                                 @QueryParam(value = "sort") SortType sortType) {
+        return Response.status(200).entity(adminService.getAllBrands(new PageParametersRequest(page, size, sortType)))
+                .build();
     }
 
 

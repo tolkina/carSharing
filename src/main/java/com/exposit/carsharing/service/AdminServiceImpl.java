@@ -8,20 +8,14 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.*;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -41,16 +35,12 @@ public class AdminServiceImpl implements AdminService {
     private final ProfileRepository profileRepository;
     private final ConfirmationRepository confirmationRepository;
 
-    public AdminServiceImpl(BodyTypeRepository bodyTypeRepository,
-                            BrandRepository brandRepository,
-                            ColorRepository colorRepository,
-                            DriveUnitRepository driveUnitRepository,
-                            FuelTypeRepository fuelTypeRepository,
-                            GearboxRepository gearboxRepository,
-                            InteriorMaterialRepository interiorMaterialRepository,
-                            ModelRepository modelRepository,
-                            TiresSeasonRepository tiresSeasonRepository,
-                            ModelMapper modelMapper, ProfileService profileService, RoleRepository roleRepository,
+    public AdminServiceImpl(BodyTypeRepository bodyTypeRepository, BrandRepository brandRepository,
+                            ColorRepository colorRepository, DriveUnitRepository driveUnitRepository,
+                            FuelTypeRepository fuelTypeRepository, GearboxRepository gearboxRepository,
+                            InteriorMaterialRepository interiorMaterialRepository, ModelRepository modelRepository,
+                            TiresSeasonRepository tiresSeasonRepository, ModelMapper modelMapper,
+                            ProfileService profileService, RoleRepository roleRepository,
                             ProfileRepository profileRepository, ConfirmationRepository confirmationRepository) {
         this.bodyTypeRepository = bodyTypeRepository;
         this.brandRepository = brandRepository;
@@ -115,9 +105,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<CarParameterResponse> getAllBodyTypes(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, bodyTypeRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<BodyType> carParameterPage = bodyTypeRepository.findAll(pageRequest);
@@ -181,15 +168,29 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<BrandResponse> getAllBrands(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, brandRepository.count());
-        page = params.get(0);
-        size = params.get(1);
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<BrandResponse> getAllBrands(PageParametersRequest pageParametersRequest) {
+        PageRequest pageRequest = getPageRequest(pageParametersRequest);
         List<BrandResponse> brands = new ArrayList<>();
         Page<Brand> brandPage = brandRepository.findAll(pageRequest);
         brandPage.getContent().forEach(brand -> brands.add(mapToBrandResponse(brand)));
         return new PageImpl<>(brands, pageRequest, brandPage.getTotalElements());
+    }
+
+    private PageRequest getPageRequest(PageParametersRequest pageParametersRequest) {
+        if (pageParametersRequest.getSortType() == SortType.BY_ID_REVERSE) {
+            return new PageRequest(pageParametersRequest.getPage() - 1,
+                    pageParametersRequest.getSize(), Sort.Direction.DESC, "id");
+        }
+        if (pageParametersRequest.getSortType() == SortType.BY_NAME) {
+            return new PageRequest(pageParametersRequest.getPage() - 1,
+                    pageParametersRequest.getSize(), Sort.Direction.ASC, "name");
+        }
+        if (pageParametersRequest.getSortType() == SortType.BY_NAME_REVERSE) {
+            return new PageRequest(pageParametersRequest.getPage() - 1,
+                    pageParametersRequest.getSize(), Sort.Direction.DESC, "name");
+        }
+        return new PageRequest(pageParametersRequest.getPage() - 1,
+                pageParametersRequest.getSize(), Sort.Direction.ASC, "id");
     }
 
     @Override
@@ -251,9 +252,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<CarParameterResponse> getAllColors(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, colorRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<Color> carParameterPage = colorRepository.findAll(pageRequest);
@@ -310,9 +308,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<CarParameterResponse> getAllDriveUnits(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, driveUnitRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<DriveUnit> carParameterPage = driveUnitRepository.findAll(pageRequest);
@@ -369,9 +364,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<CarParameterResponse> getAllFuelTypes(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, fuelTypeRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<FuelType> carParameterPage = fuelTypeRepository.findAll(pageRequest);
@@ -428,9 +420,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<CarParameterResponse> getAllGearboxes(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, gearboxRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<Gearbox> carParameterPage = gearboxRepository.findAll(pageRequest);
@@ -487,9 +476,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<CarParameterResponse> getAllInteriorMaterials(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, interiorMaterialRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<InteriorMaterial> carParameterPage = interiorMaterialRepository.findAll(pageRequest);
@@ -546,9 +532,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<ModelResponse> getAllModels(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, modelRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<ModelResponse> models = new ArrayList<>();
         Page<Model> carParameterPage = modelRepository.findAll(pageRequest);
@@ -560,12 +543,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Page<CarParameterResponse> getAllModelsByBrand(Long brandId, Integer page, Integer size) throws EntityNotFoundException {
         Brand brand = getBrand(brandId);
-
-        List<Integer> params = checkPaginatedParams(page, size, modelRepository.countByBrand(brand));
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
-
         List<CarParameterResponse> models = new ArrayList<>();
         Page<Model> modelPage = modelRepository.findAllByBrand(brand, pageRequest);
         modelPage.getContent().forEach(model -> models.add(modelMapper.map(model, CarParameterResponse.class)));
@@ -625,9 +603,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<CarParameterResponse> getAllTiresSeasons(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, tiresSeasonRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<TiresSeason> carParameterPage = tiresSeasonRepository.findAll(pageRequest);
@@ -649,10 +624,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<ConfirmProfileResponse> getProfilesToConfirm(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size,
-                profileRepository.countByConfirmProfile(ConfirmProfile.CHECK));
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<ConfirmProfileResponse> profiles = new ArrayList<>();
         Page<Profile> profilePage = profileRepository.findByConfirmProfile(ConfirmProfile.CHECK, pageRequest);
@@ -681,9 +652,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<ConfirmationResponse> getConfirmations(Integer page, Integer size) {
-        List<Integer> params = checkPaginatedParams(page, size, confirmationRepository.count());
-        page = params.get(0);
-        size = params.get(1);
         Pageable pageRequest = new PageRequest(page - 1, size);
         List<ConfirmationResponse> confirmations = new ArrayList<>();
         Page<Confirmation> confirmationPage = confirmationRepository.findAll(pageRequest);
@@ -734,21 +702,5 @@ public class AdminServiceImpl implements AdminService {
         confirmationResponse.setProfileId(confirmation.getProfile().getId());
         confirmationResponse.setProfileLogin(confirmation.getProfile().getLogin());
         return confirmationResponse;
-    }
-
-    private List<Integer> checkPaginatedParams(Integer page, Integer size, long maxCount) {
-        if (page != null && size == null) {
-            throw new InvalidParameterException("Invalid parameter set. Enter size.");
-        }
-        if (page == null && size != null) {
-            throw new InvalidParameterException("Invalid parameter set. Enter page.");
-        }
-        if (page == null) {
-            page = 1;
-        }
-        if (size == null) {
-            size = (int) maxCount;
-        }
-        return Stream.of(page, size).collect(Collectors.toList());
     }
 }

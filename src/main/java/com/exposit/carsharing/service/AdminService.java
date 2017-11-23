@@ -44,7 +44,7 @@ public interface AdminService {
     BrandResponse updateBrand(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<BrandResponse> getAllBrands(Integer page, Integer size);
+    Page<BrandResponse> getAllBrands(PageParametersRequest pageParametersRequest);
 
     BrandResponse getBrandResponse(Long id) throws EntityNotFoundException;
 
