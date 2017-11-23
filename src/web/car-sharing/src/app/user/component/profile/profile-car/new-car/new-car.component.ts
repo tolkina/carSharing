@@ -17,7 +17,6 @@ export class NewCarComponent implements OnInit {
   models: Model[] = [];
   error = "";
   brands: Brand_[] = [];
-  allModels: Model[] = [];
   gearboxes: CarParameter[] = [];
   fuelTypes: CarParameter[] = [];
   bodyTypes: CarParameter[] = [];
@@ -46,33 +45,39 @@ export class NewCarComponent implements OnInit {
       .catch(error => this.error = error);
   }
 
-  changeModel(brand) {
-    this.car.generalParameters.model = null;
-    this.models = [];
-    for (let i = 0; i < this.allModels.length; i++) {
-      if (this.allModels[i].brand.name == brand) {
-        this.models.push(this.allModels[i]);
+  onChangeBrand(brandName: string) {
+    this.getModelsByBrand(this.findBrand(brandName).id)
+  }
+
+  private findBrand(brandName: string) {
+    for (let i = 0; i < this.brands.length; i++) {
+      if (this.brands[i].name == brandName) {
+        return this.brands[i]
       }
-    }
-    if (this.models.length > 0) {
-      this.car.generalParameters.model = this.models[0].name;
     }
   }
 
-  private getCarParams() {
-    this.carParameterService.getBrands().then(param => {
-      this.brands = param;
-      if (param.length > 0) {
-        this.car.generalParameters.brand = param[0].name;
-        if (param[0].models) {
-          this.models = param[0].models;
-          this.car.generalParameters.model = param[0].models[0].name;
-        }
+  private getModelsByBrand(brandId: number) {
+    this.carParameterService.getModelsByBrand(brandId).then(models => {
+      this.models = models;
+      if (models.length > 0) {
+        this.car.generalParameters.model = models[0].name;
+      }
+      else {
+        this.car.generalParameters.model = ""
       }
     });
-    this.carParameterService.getModels().then(param => {
-      this.allModels = param;
+  }
+
+  private getCarParams() {
+    this.carParameterService.getBrands().then(brands => {
+      this.brands = brands;
+      if (brands.length > 0) {
+        this.car.generalParameters.brand = brands[0].name;
+        this.getModelsByBrand(brands[0].id);
+      }
     });
+
     this.carParameterService.getGearboxes().then(param => {
       this.gearboxes = param;
       if (param.length > 0) {

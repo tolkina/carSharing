@@ -6,7 +6,7 @@
       <div class="form-group">
         <label for="brand" class="col-form-label">Марка</label>
         <select class="form-control" id="brand" name="brand" [(ngModel)]="car.generalParameters.brand"
-                (ngModelChange)="changeModel(car.generalParameters.brand)" required #brand="ngModel">
+                (ngModelChange)="onChangeBrand(car.generalParameters.brand)" required #brand="ngModel">
           <option *ngFor="let brand of brands" [ngValue]="brand.name">{{brand.name}}</option>
         </select>
         <div [hidden]="brand.valid || brand.pristine" class="alert alert-danger">

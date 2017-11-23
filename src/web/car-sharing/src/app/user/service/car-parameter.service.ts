@@ -18,70 +18,78 @@ export class CarParameterService {
   private interiorMaterialUrl = this.adminUrl + "interior-material";
   private modelUrl = this.adminUrl + "model";
   private tiresSeasonUrl = this.adminUrl + "tires-season";
+  private pageUrl = "?page=1&size=" + 100;
 
   constructor(private http: Http) {
   }
 
   getBrands() {
-    return this.http.get(this.brandUrl)
+    return this.http.get(this.brandUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as Brand_)
+      .then(res => res.json().content as Brand_[])
       .catch(this.handleError);
   }
 
   getModels() {
-    return this.http.get(this.modelUrl)
+    return this.http.get(this.modelUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as Model)
+      .then(res => res.json().content as Model[])
+      .catch(this.handleError);
+  }
+
+  getModelsByBrand(brandId: number) {
+    return this.http.get(this.adminUrl + "brand/" + brandId + "/model" + this.pageUrl)
+      .toPromise()
+      .then(res => res.json().content as Model[])
       .catch(this.handleError);
   }
 
   getGearboxes() {
-    return this.http.get(this.gearboxUrl)
+    return this.http.get(this.gearboxUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as CarParameter)
+      .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getFuelTypes() {
-    return this.http.get(this.fuelTypeUrl)
+    return this.http.get(this.fuelTypeUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as CarParameter)
+      .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getBodyTypes() {
-    return this.http.get(this.bodyTypeUrl)
+    return this.http.get(this.bodyTypeUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as CarParameter)
+      .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getDriveUnits() {
-    return this.http.get(this.driveUnitUrl)
+    return this.http.get(this.driveUnitUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as CarParameter)
+      .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getTiresSeasons() {
-    return this.http.get(this.tiresSeasonUrl)
+    return this.http.get(this.tiresSeasonUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as CarParameter)
+      .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getInteriorMaterials() {
-    return this.http.get(this.interiorMaterialUrl)
+    return this.http.get(this.interiorMaterialUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as CarParameter)
+      .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getColors() {
-    return this.http.get(this.colorUrl)
+    return this.http.get(this.colorUrl + this.pageUrl)
       .toPromise()
-      .then(res => res.json() as CarParameter)
+      .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
