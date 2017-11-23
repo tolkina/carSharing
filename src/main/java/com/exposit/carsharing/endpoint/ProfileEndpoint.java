@@ -1,5 +1,6 @@
 package com.exposit.carsharing.endpoint;
 
+import com.dropbox.core.DbxException;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
@@ -8,12 +9,16 @@ import com.exposit.carsharing.service.AdService;
 import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.ProfileService;
 import com.exposit.carsharing.service.SecurityService;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Component
 @Consumes({MediaType.APPLICATION_JSON})
@@ -85,6 +90,7 @@ public class ProfileEndpoint {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.getAllByOwner(ownerId)).build();
     }
+
     @GET
     @Path("car-without-ad")
     public Response getAllCarsWithoutAdForPrincipal() throws UnauthorizedException, EntityNotFoundException {
@@ -97,5 +103,17 @@ public class ProfileEndpoint {
     public Response getAllAdsForPrincipal() throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(adService.getAllByOwner(ownerId)).build();
+    }
+
+    @POST
+    @Path("avatar")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadProfileAvatar(@FormDataParam("file") InputStream uploadedInputStream,
+                                        @FormDataParam("file") FormDataContentDisposition fileDetail)
+            throws DbxException, IOException, UnauthorizedException, EntityNotFoundException {
+        return Response.status(200)
+                .entity(profileService.uploadUserAvatar(
+                        securityService.getPrincipalId(), uploadedInputStream, fileDetail))
+                .build();
     }
 }

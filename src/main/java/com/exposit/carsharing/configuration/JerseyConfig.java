@@ -3,6 +3,7 @@ package com.exposit.carsharing.configuration;
 import com.exposit.carsharing.endpoint.*;
 import com.exposit.carsharing.exception.MyExceptionMapper;
 import com.exposit.carsharing.exception.ValidationExceptionMapper;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,5 +25,6 @@ public class JerseyConfig extends ResourceConfig {
         register(ApplicationEndpoint.class);
         register(MyExceptionMapper.class);
         register(ValidationExceptionMapper.class);
+        register(MultiPartFeature.class);
     }
 }
