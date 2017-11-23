@@ -3,6 +3,7 @@ package com.exposit.carsharing.exception;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+import java.security.InvalidParameterException;
 
 @Provider
 public class MyExceptionMapper implements ExceptionMapper<Exception> {
@@ -29,6 +30,9 @@ public class MyExceptionMapper implements ExceptionMapper<Exception> {
         }
         if (exception instanceof AdException) {
             return Response.status(409).entity(new ExceptionResponse(409, exception.getMessage())).build();
+        }
+        if (exception instanceof InvalidParameterException) {
+            return Response.status(400).entity(new ExceptionResponse(400, exception.getMessage())).build();
         }
         return Response.status(500).entity(new ExceptionResponse(500, exception.getMessage())).build();
     }
