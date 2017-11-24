@@ -105,15 +105,21 @@ public class ProfileEndpoint {
         return Response.status(200).entity(adService.getAllByOwner(ownerId)).build();
     }
 
-    @POST
+    @PUT
     @Path("avatar")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadProfileAvatar(@FormDataParam("file") InputStream uploadedInputStream,
                                         @FormDataParam("file") FormDataContentDisposition fileDetail)
             throws DbxException, IOException, UnauthorizedException, EntityNotFoundException {
         return Response.status(200)
-                .entity(profileService.uploadUserAvatar(
+                .entity(profileService.uploadProfileAvatar(
                         securityService.getPrincipalId(), uploadedInputStream, fileDetail))
                 .build();
+    }
+
+    @DELETE
+    @Path("avatar")
+    public Response deleteProfileAvatar() throws UnauthorizedException, EntityNotFoundException {
+        return Response.status(200).entity(profileService.deleteProfileAvatar(securityService.getPrincipalId())).build();
     }
 }

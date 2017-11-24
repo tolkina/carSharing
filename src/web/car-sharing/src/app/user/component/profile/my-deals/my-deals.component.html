@@ -4,7 +4,7 @@
 </div>
 <div class="row">
   <div class="col-md-6 col-sm-12" *ngFor="let deal of deals">
-    <div class="card"  style="height: 100%">
+    <div class="card"  style="height: 100%" appHover>
       <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image">
       <div class="card-body">
         <div class="card-text" *ngIf="deal.status == dealStatus.booking[0]"><b>Статус: </b>{{dealStatus.booking[1]}}

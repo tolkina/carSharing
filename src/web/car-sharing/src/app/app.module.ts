@@ -59,6 +59,7 @@ import {SetupAdminComponent} from "./admin/component/setup-admin/setup-admin.com
 import {ConfirmProfileComponent} from "./admin/component/confirm-profile/confirm-profile.component";
 import {SortDealsService} from "./user/service/sort-deals.service";
 import {SortCarParameterService} from "./admin/service/sort-car-parameter.service";
+import {HoverDirective} from "./directive/hover-directive";
 
 @NgModule({
   declarations: [
@@ -69,7 +70,7 @@ import {SortCarParameterService} from "./admin/service/sort-car-parameter.servic
     TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, EqualValidator, AllAdsComponent,
     NewAdComponent, CurrentAdComponent, PassportDataComponent, DriverLicenseComponent, ProfileAdComponent,
     CreditCardComponent, CarParameterComponent, ConfirmProfileComponent, NewsAdComponent, MyDealsComponent,
-    DealsWithMeComponent
+    DealsWithMeComponent, HoverDirective
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, ReactiveFormsModule, NgbModule.forRoot()

@@ -25,12 +25,24 @@ public class DropboxClient implements CloudStorageClient {
         try {
             url = client.sharing().createSharedLinkWithSettings(path).getUrl();
         } catch (CreateSharedLinkWithSettingsErrorException e) {
-            return getExistSharedLink(path);
+            url = getExistSharedLink(path);
         }
         // Look at https://cantonbecker.com/etcetera/2014/how-to-directly-link-or-embed-dropbox-images/
         url = url.replace("?dl=0", "?raw=1");
 
         return url;
+    }
+
+    public void removeFile(String path) throws DbxException {
+        client.files().delete(path);
+    }
+
+    public void createFolder(String path) throws DbxException {
+        client.files().createFolder(path);
+    }
+
+    public void removeFolder(String path) throws DbxException {
+        removeFile(path);
     }
 
     private String getExistSharedLink(String path) throws DbxException {

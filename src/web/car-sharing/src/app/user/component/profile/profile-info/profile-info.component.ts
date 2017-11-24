@@ -3,7 +3,8 @@ import {Profile} from "../../../domain/profile";
 import {ProfileService} from "../../../service/profile.service";
 import {clone} from "lodash";
 import {DateFormatter} from "../../../../date-formatter";
-import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap"
+import {NgbDateStruct, NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap"
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-profile-info',
@@ -11,18 +12,22 @@ import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap"
   styleUrls: ['./profile-info.component.css']
 })
 export class ProfileInfoComponent {
-  modalRef: any;
   profile: Profile = new Profile();
   editedProfile: Profile = new Profile();
   birthday: NgbDateStruct;
-  errorUpdate: String;
+  errorUpdate = "";
+  errorAvatar = "";
   noConfirm = "NO";
   yesConfirm = "YES";
   checkConfirm = "CHECK";
   ngbBirthday: NgbDateStruct[] = [];
+  form: FormGroup;
+  loading: boolean = false;
+  private modalRef: NgbModalRef;
 
   constructor(private profileService: ProfileService, private dateFormatter: DateFormatter,
-              private modalService: NgbModal) {
+              private modalService: NgbModal, private fb: FormBuilder) {
+    this.createForm();
   }
 
   ngOnInit() {
@@ -65,10 +70,58 @@ export class ProfileInfoComponent {
     this.birthday = this.dateFormatter.fromDate(this.profile.birthday);
   }
 
+  showDeleteAvatar(content) {
+    this.errorAvatar = "";
+    this.modalRef = this.modalService.open(content);
+  }
+
+  showLoadAvatar(content) {
+    this.errorAvatar = "";
+    this.modalRef = this.modalService.open(content);
+  }
+
   confirmProfile() {
     this.profileService.confirmProfile()
       .then(res => this.profile.confirmProfile = this.checkConfirm)
       .catch()
+  }
+
+  createForm() {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      avatar: null
+    });
+  }
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      let file = event.target.files[0];
+      this.form.get('avatar').setValue(file);
+    }
+  }
+
+  uploadAvatar() {
+    const formModel = this.prepareSave();
+    this.loading = true;
+    this.profileService.uploadAvatar(formModel)
+      .then(profile => {
+        this.profile.avatarUrl = profile.avatarUrl;
+        this.loading = false;
+        this.modalRef.close()
+      })
+      .catch(err => {
+        this.loading = false;
+        this.errorAvatar = err;
+      })
+  }
+
+  deleteAvatar() {
+    this.profileService.deleteAvatar()
+      .then(profile => {
+        this.profile.avatarUrl = profile.avatarUrl;
+        this.modalRef.close()
+      })
+      .catch(err => this.errorAvatar = err)
   }
 
   private putNgbBorders() {
@@ -78,5 +131,11 @@ export class ProfileInfoComponent {
       month: currentDate.getUTCMonth() + 1,
       year: currentDate.getUTCFullYear() - 17
     });
+  }
+
+  private prepareSave(): any {
+    let input = new FormData();
+    input.append('file', this.form.get('avatar').value);
+    return input;
   }
 }

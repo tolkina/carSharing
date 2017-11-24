@@ -97,8 +97,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileResponse uploadUserAvatar(Long id, InputStream uploadedInputStream,
-                                            FormDataContentDisposition fileDetail)
+    public ProfileResponse uploadProfileAvatar(Long id, InputStream uploadedInputStream,
+                                               FormDataContentDisposition fileDetail)
             throws IOException, DbxException, EntityNotFoundException {
         AttachmentManager.checkFormData(uploadedInputStream, fileDetail);
         String fileName = fileDetail.getFileName();
@@ -108,6 +108,13 @@ public class ProfileServiceImpl implements ProfileService {
         String sharedUrl = cloudStorageClient.createSharedLink(pathToSave);
         Profile profile = getProfile(id);
         profile.setAvatarUrl(sharedUrl);
+        return mapToResponse(profile);
+    }
+
+    @Override
+    public ProfileResponse deleteProfileAvatar(Long id) throws EntityNotFoundException {
+        Profile profile = getProfile(id);
+        profile.setAvatarUrl(null);
         return mapToResponse(profile);
     }
 

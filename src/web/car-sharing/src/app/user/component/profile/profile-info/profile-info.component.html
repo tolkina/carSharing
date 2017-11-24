@@ -8,35 +8,48 @@
 
 <div class="row">
   <div class="col-12 newblock" style="margin-top: 0"><h3>Общая информация</h3></div>
+  <div class="col-4">
+    <div class="avatar">
+      <img src="{{profile.avatarUrl}}" alt="Avatar" *ngIf="profile.avatarUrl" class="image">
+      <img src="../../assets/images/avatar.png" alt="Avatar" *ngIf="!profile.avatarUrl" class="image">
+      <div class="avatar-options">
+        <button type="button" class="btn btn-sm btn-danger" (click)="showDeleteAvatar(contentDeleteAvatar)"
+                *ngIf="profile.avatarUrl" data-placement="bottom" title="Удалить фото">␡
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="showLoadAvatar(contentLoadAvatar)"
+                data-placement="bottom" title="Изменить фото">✎
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-1"></div>
   <div class="col-5">
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>E-mail:</h6>
       </div>
-      <div class="col-6">{{profile.email}}</div>
+      <div class="col-md-6">{{profile.email}}</div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Login:</h6>
       </div>
-      <div class="col-6">{{profile.login}}</div>
+      <div class="col-md-6">{{profile.login}}</div>
     </div>
-  </div>
-  <div class="col-5">
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Дата рождения:</h6>
       </div>
-      <div class="col-6">{{profile.birthday | date: 'yyyy-MM-dd'}}</div>
+      <div class="col-md-6">{{profile.birthday | date: 'yyyy-MM-dd'}}</div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Стаж вождения:</h6>
       </div>
-      <div class="col-6">{{profile.drivingExperience}}</div>
+      <div class="col-md-6">{{profile.drivingExperience}}</div>
     </div>
   </div>
-  <div class="col-2" *ngIf="profile.id">
+  <div class="col-1" *ngIf="profile.id">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit(content)"
             data-placement="bottom" title="Редактировать общую информацию">✎
     </button>
@@ -101,6 +114,45 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
       <button type="submit" class="btn btn-primary" [disabled]="!updateProfileInfo.form.valid">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentDeleteAvatar let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удалить аватар?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorAvatar">{{errorAvatar}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
+    <button type="submit" class="btn btn-primary" (click)="deleteAvatar()">Да</button>
+  </div>
+</ng-template>
+
+<ng-template #contentLoadAvatar let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Загрузка аватара</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="uploadAvatar()" #loadAvatar="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorAvatar">{{errorAvatar}}</div>
+      <div class="form-group">
+        <label for="avatar">Фото:</label>
+        <input type="file" name="avatar" id="avatar" (change)="onFileChange($event)" required
+               class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" [disabled]="!loadAvatar.form.valid || loading" class="btn btn-primary">Загрузить</button>
     </div>
   </form>
 </ng-template>

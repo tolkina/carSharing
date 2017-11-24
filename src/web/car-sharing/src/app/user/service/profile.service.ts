@@ -50,6 +50,22 @@ export class ProfileService {
       .catch(this.handleError)
   }
 
+  uploadAvatar(file: FormData) {
+    return this.http
+      .put(this.profileUrl + "avatar", file)
+      .toPromise()
+      .then(profile => profile.json() as Profile)
+      .catch(this.handleError)
+  }
+
+  deleteAvatar() {
+    return this.http
+      .delete(this.profileUrl + "avatar")
+      .toPromise()
+      .then(profile => profile.json() as Profile)
+      .catch(this.handleError)
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);
     return Promise.reject(error.json().message || error)

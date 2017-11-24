@@ -1,10 +1,35 @@
-.row{
+.row {
   margin-top: 5px;
 }
 
-.newblock{
+.newblock {
   margin-top: 20px;
   margin-bottom: 15px;
-  border-bottom: 1px #51566c solid ;
-  text-align:center;
+  border-bottom: 1px #51566c solid;
+  text-align: center;
+}
+
+.avatar {
+  position: relative;
+}
+
+.image {
+  opacity: 1;
+  width: 100%;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.avatar-options {
+  position: absolute;
+  transition: .5s ease;
+  opacity: 0;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%)
+}
+
+.avatar:hover .avatar-options {
+  opacity: 1;
 }

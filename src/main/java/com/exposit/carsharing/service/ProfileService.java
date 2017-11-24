@@ -30,6 +30,8 @@ public interface ProfileService {
 
     void setConfirmProfileNo(Long profileId) throws EntityNotFoundException;
 
-    ProfileResponse uploadUserAvatar(Long id, InputStream uploadedInputStream, FormDataContentDisposition fileDetail)
+    ProfileResponse uploadProfileAvatar(Long id, InputStream uploadedInputStream, FormDataContentDisposition fileDetail)
             throws IOException, DbxException, EntityNotFoundException;
+
+    ProfileResponse deleteProfileAvatar(Long id) throws EntityNotFoundException;
 }

@@ -2,58 +2,58 @@
   <div class="col-12 newblock"><h3>Паспортные данные</h3></div>
   <div class="col-5">
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Фамилия:</h6>
       </div>
-      <div class="col-6">{{passport.lastName}}</div>
+      <div class="col-md-6">{{passport.lastName}}</div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Имя:</h6>
       </div>
-      <div class="col-6">{{passport.firstName}}</div>
+      <div class="col-md-6">{{passport.firstName}}</div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Отчество:</h6>
       </div>
-      <div class="col-6">{{passport.middleName}}</div>
+      <div class="col-md-6">{{passport.middleName}}</div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Серия и номер:</h6>
       </div>
-      <div class="col-6">{{passport.seriesAndNumber}}</div>
+      <div class="col-md-6">{{passport.seriesAndNumber}}</div>
     </div>
   </div>
 
   <div class="col-5">
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Личный номер:</h6>
       </div>
-      <div class="col-6">{{passport.personalNumber}}</div>
+      <div class="col-md-6">{{passport.personalNumber}}</div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Дата выдачи:</h6>
       </div>
-      <div class="col-6">{{passport.dateOfIssue | date: 'yyyy-MM-dd'}}</div>
+      <div class="col-md-6">{{passport.dateOfIssue | date: 'yyyy-MM-dd'}}</div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Место выдачи:</h6>
       </div>
-      <div class="col-6">{{passport.placeOfIssue}}</div>
+      <div class="col-md-6">{{passport.placeOfIssue}}</div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-md-6">
         <h6>Срок действия:</h6>
       </div>
-      <div class="col-6">{{passport.validUntil | date: 'yyyy-MM-dd'}}</div>
+      <div class="col-md-6">{{passport.validUntil | date: 'yyyy-MM-dd'}}</div>
     </div>
   </div>
-  <div class="col-2" *ngIf="passport.id">
+  <div class="col-1" *ngIf="passport.id">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit(content)"
             data-placement="bottom" title="Редактировать паспортные данные">✎
     </button>
