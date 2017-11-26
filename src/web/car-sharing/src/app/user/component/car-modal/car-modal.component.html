@@ -1,0 +1,65 @@
+<button class="btn btn-outline-primary" (click)="showCar(contentCar)">
+  {{car.generalParameters.brand}} {{car.generalParameters.model}}
+  {{car.generalParameters.yearOfIssue}}
+</button>
+
+<ng-template #contentCar let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Машина</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <h4 align="center">Общие параметры</h4>
+      <p *ngIf="car.generalParameters.brand"><b>Марка:</b> {{car.generalParameters.brand}}</p>
+      <p *ngIf="car.generalParameters.model"><b>Модель:</b> {{car.generalParameters.model}}</p>
+      <p *ngIf="car.generalParameters.yearOfIssue"><b>Год выпуска:</b> {{car.generalParameters.yearOfIssue}}</p>
+      <div class="row">
+        <div class="col-4" *ngFor="let photo of car.generalParameters.photos">
+          <img src="{{photo}}" alt="Car image" class="image" width="100%">
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <h4 align="center">Технические параметры</h4>
+      <div class="row">
+        <div class="col-6">
+          <p *ngIf="car.technicalParameters.gearbox"><b>Коробка передач:</b> {{car.technicalParameters.gearbox}}</p>
+          <p *ngIf="car.technicalParameters.bodyType"><b>Тип кузова:</b> {{car.technicalParameters.bodyType}}</p>
+          <p *ngIf="car.technicalParameters.seatNumber"><b>Кол-во мест:</b> {{car.technicalParameters.seatNumber}}</p>
+          <p *ngIf="car.technicalParameters.doorNumber"><b>Кол-во дверей:</b> {{car.technicalParameters.doorNumber}}</p>
+          <p *ngIf="car.technicalParameters.fuelType"><b>Тип топлива:</b> {{car.technicalParameters.fuelType}}</p>
+          <p *ngIf="car.technicalParameters.fuelConsumption"><b>Расход топлива на 100 км. (смешанный цикл):</b>
+            {{car.technicalParameters.fuelConsumption}} л. / 100 км.</p>
+          <p><b>Привод:</b> {{car.technicalParameters.driveUnit}}</p>
+        </div>
+        <div class="col-6">
+          <p *ngIf="car.technicalParameters.tiresSeason"><b>Сезон шин:</b> {{car.technicalParameters.tiresSeason}}</p>
+          <p *ngIf="car.technicalParameters.interiorMaterial"><b>Материал салона:</b>
+            {{car.technicalParameters.interiorMaterial}}</p>
+          <p *ngIf="car.technicalParameters.color"><b>Цвет:</b> {{car.technicalParameters.color}}</p>
+          <p *ngIf="car.technicalParameters.vin"><b>VIN:</b> {{car.technicalParameters.vin}}</p>
+          <p *ngIf="car.technicalParameters.govNumber"><b>Гос. номер:</b> {{car.technicalParameters.govNumber}}</p>
+          <p *ngIf="car.technicalParameters.stsFormNumber"><b>Номер бланка СТС:</b>
+            {{car.technicalParameters.stsFormNumber}}</p>
+          <p *ngIf="car.technicalParameters.stsImageLink"><b>Фото СТС:</b> {{car.technicalParameters.stsImageLink}}</p>
+          <p *ngIf="car.technicalParameters.ptsImageLink"><b>Фото ПТС:</b> {{car.technicalParameters.ptsImageLink}}</p>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <h4 align="center">Текущее состояние</h4>
+      <p *ngIf="car.currentCondition.damageDescription"><b>Повреждения:</b> {{car.currentCondition.damageDescription}}
+      </p>
+      <p *ngIf="!car.currentCondition.damageDescription"><b>Повреждения:</b> нет</p>
+      <p *ngIf="car.currentCondition.mileage"><b>Пробег:</b> {{car.currentCondition.mileage}} км</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
+  </div>
+</ng-template>

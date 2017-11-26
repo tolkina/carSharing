@@ -110,7 +110,6 @@ export class ProfileCarService {
   }
 
   deletePhotos(photos: CarPhotos, carId: number) {
-    console.log(photos)
     return this.http.delete(this.carUrl + carId + this.generalParametersUrl + "photos", new RequestOptions({body: photos}))
       .toPromise()
       .then(res => res.json() as GeneralParameters)

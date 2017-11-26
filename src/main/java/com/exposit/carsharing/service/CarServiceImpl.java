@@ -236,7 +236,6 @@ public class CarServiceImpl implements CarService {
         Car car = getCar(carId);
         checkCarOwner(car, ownerId);
         checkCarTaken(car);
-        System.out.println(carPhotosRequest.getPhotos());
         carPhotosRequest.getPhotos().forEach(photo -> car.getGeneralParameters().getPhotos().remove(photo));
         return mapToResponse(car.getGeneralParameters());
     }

@@ -60,6 +60,7 @@ import {ConfirmProfileComponent} from "./admin/component/confirm-profile/confirm
 import {SortDealsService} from "./user/service/sort-deals.service";
 import {SortCarParameterService} from "./admin/service/sort-car-parameter.service";
 import {HoverDirective} from "./directive/hover-directive";
+import {CarModalComponent} from './user/component/car-modal/car-modal.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,7 @@ import {HoverDirective} from "./directive/hover-directive";
     TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, EqualValidator, AllAdsComponent,
     NewAdComponent, CurrentAdComponent, PassportDataComponent, DriverLicenseComponent, ProfileAdComponent,
     CreditCardComponent, CarParameterComponent, ConfirmProfileComponent, NewsAdComponent, MyDealsComponent,
-    DealsWithMeComponent, HoverDirective
+    DealsWithMeComponent, HoverDirective, CarModalComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, ReactiveFormsModule, NgbModule.forRoot()
