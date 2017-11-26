@@ -40,8 +40,11 @@ export class NewCarComponent implements OnInit {
   }
 
   saveCar() {
-    this.carService.addCar(this.car).then()
-      .then(res => this.router.navigateByUrl('profile/car/all'))
+    this.carService.addCar(this.car)
+      .then(car => {
+        const url = "profile/car/" + car.id;
+        this.router.navigateByUrl(url)
+      })
       .catch(error => this.error = error);
   }
 

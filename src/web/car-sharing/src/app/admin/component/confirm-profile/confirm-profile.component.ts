@@ -24,6 +24,8 @@ export class ConfirmProfileComponent implements OnInit {
   pageConfirmation: number = 1;
   pageConfirmProfile: number = 1;
   size: number = 5;
+  isCollapsedConfirmProfile = true;
+  isCollapsedConfirmations = true;
 
   constructor(private confirmProfileService: ConfirmProfileService, private modalService: NgbModal) {
   }

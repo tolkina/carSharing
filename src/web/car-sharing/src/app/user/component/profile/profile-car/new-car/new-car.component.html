@@ -1,8 +1,7 @@
-<h4 align="center">Общие параметры:</h4>
 <form (ngSubmit)="onSubmit()" #saveCar="ngForm">
   <div class="row">
     <div class="col-6">
-
+      <h4 align="center">Общие параметры:</h4>
       <div class="form-group">
         <label for="brand" class="col-form-label">Марка</label>
         <select class="form-control" id="brand" name="brand" [(ngModel)]="car.generalParameters.brand"
@@ -13,7 +12,6 @@
           <div [hidden]="!brand.hasError('required')">Обязательное поле</div>
         </div>
       </div>
-
       <div class="form-group">
         <label for="model" class="col-form-label">Модель</label>
         <select class="form-control" id="model" name="model" [(ngModel)]="car.generalParameters.model" required
@@ -24,7 +22,6 @@
           <div [hidden]="!model.hasError('required')">Обязательное поле</div>
         </div>
       </div>
-
       <div class="form-group">
         <label for="yearOfIssue" class="col-form-label">Год выпуска</label>
         <select class="form-control" id="yearOfIssue" name="yearOfIssue" [(ngModel)]="car.generalParameters.yearOfIssue"
@@ -35,10 +32,23 @@
           <div [hidden]="!yearOfIssue.hasError('required')">Обязательное поле</div>
         </div>
       </div>
-
     </div>
     <div class="col-6">
-      <img src="../../../../../../assets/images/placeholder-car.png" alt="Car image" width="100%">
+      <h4 align="center">Текущее состояние:</h4>
+      <div class="form-group">
+        <label for="damageDescription" class="col-form-label">Повреждения</label>
+        <input type="text" class="form-control" id="damageDescription" name="damageDescription"
+               [(ngModel)]="car.currentCondition.damageDescription">
+      </div>
+      <div class="form-group">
+        <label for="mileage" class="col-form-label">Пробег</label>
+        <input type="text" class="form-control" id="mileage" name="mileage" [(ngModel)]="car.currentCondition.mileage"
+               pattern="[0-9]{0,10}" #mileage="ngModel">
+        <div [hidden]="mileage.valid || mileage.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!mileage.hasError('pattern')">Только цифры. Максимум 10</div>
+        </div>
+      </div>
     </div>
   </div>
   <hr>
@@ -59,41 +69,42 @@
           <option *ngFor="let bodyType of bodyTypes" [ngValue]="bodyType.name">{{bodyType.name}}</option>
         </select>
       </div>
-
-      <label for="seatNumber" class="col-form-label">Кол-во мест:</label>
-      <input type="text" class="form-control" id="seatNumber" name="seatNumber"
-             pattern="[0-9]{0,2}" #seatNumber="ngModel"
-             [(ngModel)]="car.technicalParameters.seatNumber">
-      <div [hidden]="seatNumber.valid || seatNumber.pristine"
-           class="alert alert-danger">
-        <div [hidden]="!seatNumber.hasError('pattern')">Только цифры. Максимум 2</div>
+      <div class="form-group">
+        <label for="seatNumber" class="col-form-label">Кол-во мест:</label>
+        <input type="text" class="form-control" id="seatNumber" name="seatNumber"
+               pattern="[0-9]{0,2}" #seatNumber="ngModel"
+               [(ngModel)]="car.technicalParameters.seatNumber">
+        <div [hidden]="seatNumber.valid || seatNumber.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!seatNumber.hasError('pattern')">Только цифры. Максимум 2</div>
+        </div>
       </div>
-
-      <label for="doorNumber" class="col-form-label">Кол-во дверей:</label>
-      <input type="text" class="form-control" id="doorNumber" name="doorNumber"
-             pattern="[0-9]{0,2}" #doorNumber="ngModel"
-             [(ngModel)]="car.technicalParameters.doorNumber">
-      <div [hidden]="doorNumber.valid || doorNumber.pristine"
-           class="alert alert-danger">
-        <div [hidden]="!doorNumber.hasError('pattern')">Только цифры. Максимум 2</div>
+      <div class="form-group">
+        <label for="doorNumber" class="col-form-label">Кол-во дверей:</label>
+        <input type="text" class="form-control" id="doorNumber" name="doorNumber"
+               pattern="[0-9]{0,2}" #doorNumber="ngModel"
+               [(ngModel)]="car.technicalParameters.doorNumber">
+        <div [hidden]="doorNumber.valid || doorNumber.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!doorNumber.hasError('pattern')">Только цифры. Максимум 2</div>
+        </div>
       </div>
-
       <div class="form-group">
         <label for="fuelType" class="col-form-label">Тип топлива:</label>
         <select class="form-control" id="fuelType" name="fuelType" [(ngModel)]="car.technicalParameters.fuelType">
           <option *ngFor="let fuelType of fuelTypes" [ngValue]="fuelType.name">{{fuelType.name}}</option>
         </select>
       </div>
-
-      <label for="fuelConsumption" class="col-form-label">Расход топлива на 100 км. (смешанный цикл):</label>
-      <input type="text" class="form-control" id="fuelConsumption" name="fuelConsumption"
-             [(ngModel)]="car.technicalParameters.fuelConsumption"
-             pattern="[0-9]+\.{0,1}[0-9]*" #fuelConsumption="ngModel">
-      <div [hidden]="fuelConsumption.valid || fuelConsumption.pristine"
-           class="alert alert-danger">
-        <div [hidden]="!fuelConsumption.hasError('pattern')">Десятичное число</div>
+      <div class="form-group">
+        <label for="fuelConsumption" class="col-form-label">Расход топлива на 100 км. (смешанный цикл):</label>
+        <input type="text" class="form-control" id="fuelConsumption" name="fuelConsumption"
+               [(ngModel)]="car.technicalParameters.fuelConsumption"
+               pattern="[0-9]+\.{0,1}[0-9]*" #fuelConsumption="ngModel">
+        <div [hidden]="fuelConsumption.valid || fuelConsumption.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!fuelConsumption.hasError('pattern')">Десятичное число</div>
+        </div>
       </div>
-
       <div class="form-group">
         <label for="driveUnit" class="col-form-label">Привод:</label>
         <select class="form-control" id="driveUnit" name="driveUnit" [(ngModel)]="car.technicalParameters.driveUnit">
@@ -127,42 +138,19 @@
           <option *ngFor="let color of colors" [ngValue]="color.name">{{color.name}}</option>
         </select>
       </div>
-
-      <label for="vin" class="col-form-label">VIN:</label>
-      <input type="text" class="form-control" id="vin" name="vin" [(ngModel)]="car.technicalParameters.vin">
-
-      <label for="govNumber" class="col-form-label">Гос. номер:</label>
-      <input type="text" class="form-control" id="govNumber" name="govNumber"
-             [(ngModel)]="car.technicalParameters.govNumber">
-
-      <label for="stsFormNumber" class="col-form-label">Номер бланка СТС:</label>
-      <input type="text" class="form-control" id="stsFormNumber" name="stsFormNumber"
-             [(ngModel)]="car.technicalParameters.stsFormNumber">
-
-      <label for="stsImageLink" class="col-form-label">Фото СТС:</label>
-      <input type="text" class="form-control" id="stsImageLink" name="stsImageLink"
-             [(ngModel)]="car.technicalParameters.stsImageLink">
-
-      <label for="ptsImageLink" class="col-form-label">Фото ПТС:</label>
-      <input type="text" class="form-control" id="ptsImageLink" name="ptsImageLink"
-             [(ngModel)]="car.technicalParameters.ptsImageLink">
-    </div>
-  </div>
-  <hr>
-  <h4 align="center">Текущее состояние:</h4>
-  <div class="row">
-    <div class="col-6">
-      <label for="damageDescription" class="col-form-label">Повреждения</label>
-      <input type="text" class="form-control" id="damageDescription" name="damageDescription"
-             [(ngModel)]="car.currentCondition.damageDescription">
-    </div>
-    <div class="col-6">
-      <label for="mileage" class="col-form-label">Пробег</label>
-      <input type="text" class="form-control" id="mileage" name="mileage" [(ngModel)]="car.currentCondition.mileage"
-             pattern="[0-9]{0,10}" #mileage="ngModel">
-      <div [hidden]="mileage.valid || mileage.pristine"
-           class="alert alert-danger">
-        <div [hidden]="!mileage.hasError('pattern')">Только цифры. Максимум 10</div>
+      <div class="form-group">
+        <label for="vin" class="col-form-label">VIN:</label>
+        <input type="text" class="form-control" id="vin" name="vin" [(ngModel)]="car.technicalParameters.vin">
+      </div>
+      <div class="form-group">
+        <label for="govNumber" class="col-form-label">Гос. номер:</label>
+        <input type="text" class="form-control" id="govNumber" name="govNumber"
+               [(ngModel)]="car.technicalParameters.govNumber">
+      </div>
+      <div class="form-group">
+        <label for="stsFormNumber" class="col-form-label">Номер бланка СТС:</label>
+        <input type="text" class="form-control" id="stsFormNumber" name="stsFormNumber"
+               [(ngModel)]="car.technicalParameters.stsFormNumber">
       </div>
     </div>
   </div>

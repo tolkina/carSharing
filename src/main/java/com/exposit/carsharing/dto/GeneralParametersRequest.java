@@ -10,6 +10,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class GeneralParametersRequest implements Serializable {
+    private String brand;
+    private String model;
     @Min(1900)
     @Max(2018)
     private Integer yearOfIssue;

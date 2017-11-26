@@ -23,6 +23,7 @@ export class ProfileInfoComponent {
   ngbBirthday: NgbDateStruct[] = [];
   form: FormGroup;
   loading: boolean = false;
+  input: any = new FormData();
   private modalRef: NgbModalRef;
 
   constructor(private profileService: ProfileService, private dateFormatter: DateFormatter,
@@ -101,18 +102,20 @@ export class ProfileInfoComponent {
   }
 
   uploadAvatar() {
-    const formModel = this.prepareSave();
-    this.loading = true;
-    this.profileService.uploadAvatar(formModel)
-      .then(profile => {
-        this.profile.avatarUrl = profile.avatarUrl;
-        this.loading = false;
-        this.modalRef.close()
-      })
-      .catch(err => {
-        this.loading = false;
-        this.errorAvatar = err;
-      })
+    this.prepareSave();
+    if (!this.errorAvatar) {
+      this.loading = true;
+      this.profileService.uploadAvatar(this.input)
+        .then(profile => {
+          this.profile.avatarUrl = profile.avatarUrl;
+          this.loading = false;
+          this.modalRef.close()
+        })
+        .catch(err => {
+          this.loading = false;
+          this.errorAvatar = err;
+        })
+    }
   }
 
   deleteAvatar() {
@@ -133,9 +136,15 @@ export class ProfileInfoComponent {
     });
   }
 
-  private prepareSave(): any {
-    let input = new FormData();
-    input.append('file', this.form.get('avatar').value);
-    return input;
+  private prepareSave() {
+    this.errorAvatar = "";
+    this.input = new FormData();
+    if (this.form.get('avatar').value.size > 2097152) // 2 mb for bytes.
+    {
+      this.errorAvatar = "File size must under 2mb!";
+      return false;
+    }
+    this.input.append('file', this.form.get('avatar').value);
+    return true;
   }
 }

@@ -20,6 +20,7 @@ export class GeneralParametersComponent implements OnInit {
   filesToUpload: Array<File> = [];
   photo: string;
   loading: boolean = false;
+  formData: any = new FormData();
   private modalRef: NgbModalRef;
 
   constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
@@ -72,14 +73,16 @@ export class GeneralParametersComponent implements OnInit {
   }
 
   uploadPhotos() {
-    this.loading = true;
-    this.carService.uploadPhotos(this.prepareFilesToUpload(), this.carId)
-      .then(generalParameters => {
-        this.generalParameters = generalParameters;
-        this.loading = false
-        this.modalRef.close()
-      })
-      .catch(err => this.errorUpdate = err)
+    if (this.prepareFilesToUpload()) {
+      this.loading = true;
+      this.carService.uploadPhotos(this.formData, this.carId)
+        .then(generalParameters => {
+          this.generalParameters = generalParameters;
+          this.loading = false
+          this.modalRef.close()
+        })
+        .catch(err => this.errorUpdate = err)
+    }
   }
 
   updateGeneralParameters() {
@@ -92,12 +95,18 @@ export class GeneralParametersComponent implements OnInit {
   }
 
   private prepareFilesToUpload() {
-    const formData: any = new FormData();
+    this.errorUpdate = "";
+    this.formData = new FormData();
     const files: Array<File> = this.filesToUpload;
     for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i], files[i]['name']);
+      if (files[i].size > 2097152) // 2 mb for bytes.
+      {
+        this.errorUpdate = "File size " + files[i]['name'] + " must under 2mb!";
+        return false;
+      }
+      this.formData.append("files", files[i], files[i]['name']);
     }
-    return formData;
+    return true;
   }
 
   private setYears() {
