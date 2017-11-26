@@ -1,18 +1,18 @@
 package com.exposit.carsharing.endpoint;
 
-import com.exposit.carsharing.dto.CarRequest;
-import com.exposit.carsharing.dto.CurrentConditionRequest;
-import com.exposit.carsharing.dto.GeneralParametersRequest;
-import com.exposit.carsharing.dto.TechnicalParametersRequest;
+import com.dropbox.core.DbxException;
+import com.exposit.carsharing.dto.*;
 import com.exposit.carsharing.exception.*;
 import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.SecurityService;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 @Component
 @Path("/car")
@@ -70,12 +70,6 @@ public class CarEndpoint {
     }
 
     @GET
-    @Path("/technical-parameters")
-    public Response getAllTechnicalParameters() {
-        return Response.status(200).entity(carService.getAllTechnicalParameters()).build();
-    }
-
-    @GET
     @Path("/{car_id}/technical-parameters")
     public Response getTechnicalParameters(@PathParam("car_id") Long carId) throws EntityNotFoundException {
         return Response.status(200).entity(carService.getTechnicalParameters(carId)).build();
@@ -85,18 +79,12 @@ public class CarEndpoint {
 
     @PUT
     @Path("/{car_id}/general-parameters")
-    public Response createGeneralParameters(
-            @PathParam("car_id") Long carId, @Valid GeneralParametersRequest generalParametersRequest)
+    public Response updateGeneralParameters(@PathParam("car_id") Long carId,
+                                            @Valid GeneralParametersRequest generalParametersRequest)
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, UnauthorizedException,
             AdException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.updateGeneralParameters(generalParametersRequest, carId, ownerId)).build();
-    }
-
-    @GET
-    @Path("/general-parameters")
-    public Response getAllGeneralParameters() {
-        return Response.status(200).entity(carService.getAllGeneralParameters()).build();
     }
 
     @GET
@@ -105,21 +93,34 @@ public class CarEndpoint {
         return Response.status(200).entity(carService.getGeneralParameters(carId)).build();
     }
 
+    @PUT
+    @Path("/{car_id}/general-parameters/photos")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadPhotos(@PathParam("car_id") Long carId, FormDataMultiPart multiPart)
+            throws UnauthorizedException, EntityNotFoundException, IOException, AdException, DbxException,
+            PrivilegeException {
+        Long ownerId = securityService.getPrincipalId();
+        return Response.status(200).entity(carService.uploadPhotos(multiPart, ownerId, carId)).build();
+    }
+
+    @DELETE
+    @Path("/{car_id}/general-parameters/photos")
+    public Response deletePhotos(@PathParam("car_id") Long carId, @Valid CarPhotosRequest carPhotosRequest)
+            throws UnauthorizedException, EntityNotFoundException, IOException, AdException, DbxException,
+            PrivilegeException {
+        Long ownerId = securityService.getPrincipalId();
+        return Response.status(200).entity(carService.deletePhotos(carPhotosRequest, ownerId, carId)).build();
+    }
+
     // ------------------------------- Current Condition ----------------------------------------
 
     @PUT
     @Path("/{car_id}/current-condition")
-    public Response createCurrentCondition(@PathParam("car_id") Long carId, CurrentConditionRequest currentCondition)
+    public Response updateCurrentCondition(@PathParam("car_id") Long carId, CurrentConditionRequest currentCondition)
             throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, UnauthorizedException,
             AdException {
         Long ownerId = securityService.getPrincipalId();
         return Response.status(200).entity(carService.updateCurrentCondition(currentCondition, carId, ownerId)).build();
-    }
-
-    @GET
-    @Path("/current-condition")
-    public Response getAllCurrentConditions() {
-        return Response.status(200).entity(carService.getAllCurrentCondition()).build();
     }
 
     @GET

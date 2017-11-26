@@ -3,4 +3,5 @@ export class GeneralParameters {
   brand: string;
   model: string;
   yearOfIssue: number;
+  photos: string[] = [];
 }

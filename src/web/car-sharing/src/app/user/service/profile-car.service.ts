@@ -1,18 +1,19 @@
 import {Injectable} from '@angular/core';
-import {Http} from "@angular/http";
+import {Http, RequestOptions} from "@angular/http";
 import {Car} from "../domain/car";
 import {GeneralParameters} from "../domain/general-parameters";
 import {TechnicalParameters} from "../domain/technical-parameters";
 import {CurrentCondition} from "../domain/current-condition";
+import {CarPhotos} from "../domain/car-photos";
 
 @Injectable()
 export class ProfileCarService {
 
   private profileUrl = '/api/profile/';
   private carUrl = '/api/car/';
-  private generalParametersUrl = "/general-parameters";
-  private technicalParametersUrl = "/technical-parameters";
-  private currentConditionUrl = "/current-condition";
+  private generalParametersUrl = "/general-parameters/";
+  private technicalParametersUrl = "/technical-parameters/";
+  private currentConditionUrl = "/current-condition/";
 
   constructor(private http: Http) {
   }
@@ -98,6 +99,21 @@ export class ProfileCarService {
     return this.http.get(this.carUrl + carId + this.currentConditionUrl)
       .toPromise()
       .then(res => res.json() as CurrentCondition)
+      .catch(this.handleError);
+  }
+
+  uploadPhotos(files: FormData, carId: number) {
+    return this.http.put(this.carUrl + carId + this.generalParametersUrl + "photos", files)
+      .toPromise()
+      .then(res => res.json() as GeneralParameters)
+      .catch(this.handleError);
+  }
+
+  deletePhotos(photos: CarPhotos, carId: number) {
+    console.log(photos)
+    return this.http.delete(this.carUrl + carId + this.generalParametersUrl + "photos", new RequestOptions({body: photos}))
+      .toPromise()
+      .then(res => res.json() as GeneralParameters)
       .catch(this.handleError);
   }
 

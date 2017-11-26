@@ -1,4 +1,25 @@
-<img src="../../../../../../../assets/images/placeholder-car.png" alt="Car image" width="50%">
+<div class="row">
+  <div class="col-4" *ngFor="let photo of generalParameters.photos">
+    <div class="avatar">
+      <img src="{{photo}}" alt="Car image" class="image">
+      <div class="avatar-options">
+        <button type="button" class="btn btn-sm btn-danger" (click)="showDeletePhoto(photo, contentDeletePhoto)"
+                data-placement="bottom" title="Удалить фото">␡
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="avatar">
+      <img src="../../../../../../../assets/images/placeholder-car.png" alt="Car image" class="image">
+      <div class="avatar-options">
+        <button type="button" class="btn btn-sm btn-success" (click)="showUploadPhotos(contentLoadPhoto)"
+                data-placement="bottom" title="Загрузить фото">+
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <div align="left">
   <p><b>Марка:</b> {{generalParameters.brand}}</p>
   <p><b>Модель:</b> {{generalParameters.model}}</p>
@@ -32,6 +53,45 @@
       <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
       <button type="submit" class="btn btn-primary" [disabled]="!generalParameters.form.valid">Сохранить
       </button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentDeletePhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удалить фото?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
+    <button type="submit" class="btn btn-primary" (click)="deletePhoto()">Да</button>
+  </div>
+</ng-template>
+
+<ng-template #contentLoadPhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Загрузите фото</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="uploadPhotos()" #loadPhoto="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="form-group">
+        <label for="avatar">Фото:</label>
+        <input type="file" name="avatar" id="avatar" (change)="fileChangeEvent($event)" class="form-control" required
+               multiple>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" [disabled]="!loadPhoto.form.valid || loading" class="btn btn-primary">Загрузить</button>
     </div>
   </form>
 </ng-template>

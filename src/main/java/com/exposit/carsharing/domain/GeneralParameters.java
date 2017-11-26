@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,6 +14,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "general_parameters")
 public class GeneralParameters extends AbstractEntity {
+    @ElementCollection
+    private List<String> photos = new ArrayList<>();
+
     private String brand;
 
     private String model;
