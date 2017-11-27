@@ -23,7 +23,6 @@ import {GearboxComponent} from "../admin/component/setup-admin/gearbox/gearbox.c
 import {ModelComponent} from "../admin/component/setup-admin/model/model.component";
 import {LoginComponent} from "../login/login.component";
 import {RegistrationComponent} from "../registration/registration.component";
-import {CurrentAdComponent} from "../user/component/profile/profile-ad/current-ad/current-ad.component";
 import {NewAdComponent} from "../user/component/profile/profile-ad/new-ad/new-ad.component";
 import {AllAdsComponent} from "../user/component/profile/profile-ad/all-ads/all-ads.component";
 import {AuthGuardService} from "../security/auth-guard.service";
@@ -90,9 +89,6 @@ const routes: Routes = [
               {path: '', redirectTo: 'all', pathMatch: 'full'},
               {path: 'all', component: AllAdsComponent},
               {path: 'new', component: NewAdComponent},
-              {
-                path: ':adId', component: CurrentAdComponent,
-              }
             ]
           },
           {path: 'credit-card', component: CreditCardComponent},

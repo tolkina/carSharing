@@ -36,7 +36,6 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {EqualValidator} from "./directive/equal-validator";
 import {AllAdsComponent} from "./user/component/profile/profile-ad/all-ads/all-ads.component";
 import {NewAdComponent} from "./user/component/profile/profile-ad/new-ad/new-ad.component";
-import {CurrentAdComponent} from "./user/component/profile/profile-ad/current-ad/current-ad.component";
 import {PassportDataComponent} from "./user/component/profile/profile-info/passport-data/passport-data.component";
 import {DriverLicenseComponent} from "./user/component/profile/profile-info/driver-license/driver-license.component";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -67,9 +66,9 @@ import {CarModalComponent} from './user/component/car-modal/car-modal.component'
     CurrentConditionComponent, HomePageUserComponent, HomePageAdminComponent, SetupAdminComponent, GearboxComponent,
     BrandComponent, ModelComponent, ColorComponent, DriveUnitComponent, FuelTypeComponent, InteriorMaterialComponent,
     TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, EqualValidator, AllAdsComponent,
-    NewAdComponent, CurrentAdComponent, PassportDataComponent, DriverLicenseComponent, ProfileAdComponent,
-    CreditCardComponent, CarParameterComponent, ConfirmProfileComponent, NewsAdComponent, MyDealsComponent,
-    DealsWithMeComponent, HoverDirective, CarModalComponent
+    NewAdComponent, PassportDataComponent, DriverLicenseComponent, ProfileAdComponent, CreditCardComponent,
+    CarParameterComponent, ConfirmProfileComponent, NewsAdComponent, MyDealsComponent, DealsWithMeComponent,
+    HoverDirective, CarModalComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, ReactiveFormsModule, NgbModule.forRoot()

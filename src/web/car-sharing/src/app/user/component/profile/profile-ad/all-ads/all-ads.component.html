@@ -6,25 +6,127 @@
      *ngIf="numberOfCars">+</a>
 </h4>
 <div class="row">
-  <div class="col-md-4 col-sm-6" *ngFor="let ad of ads">
+  <div class="col-md-6 col-sm-6" *ngFor="let ad of ads">
     <div class="card" style="height: 100%" appHover>
-      <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image"
-           *ngIf="ad.car.generalParameters.photos.length < 1">
-      <img class="card-img-top" src="{{ad.car.generalParameters.photos[0]}}" alt="Car image"
-           *ngIf="ad.car.generalParameters.photos.length > 0">
       <div class="card-body">
         <div class="card-text"><b>Статус: </b>{{getStatus(ad.status)}}</div>
-        <div class="card-text"><b>Машина: </b>{{ad.car.generalParameters.brand}} {{ad.car.generalParameters.model}}
-          {{ad.car.generalParameters.yearOfIssue}}
+        <div class="card-text"><b>Машина: </b>
+          <button class="btn btn-outline-primary" [routerLink]="['/profile/car/', ad.car.id]">
+            {{ad.car.generalParameters.brand}} {{ad.car.generalParameters.model}}
+            {{ad.car.generalParameters.yearOfIssue}}
+          </button>
         </div>
         <div class="card-text"><b>Местоположение: </b>{{ad.carLocation}}</div>
         <div class="card-text"><b>Место возврата: </b>{{ad.returnPlace}}</div>
         <div class="card-text"><b>Цена за сутки: </b>{{ad.costPerDay}} BYN</div>
       </div>
       <div class="card-footer" align="center">
-        <button [routerLink]="['/profile/ad', ad.id]" class="btn btn-primary" style="width: 100%">Посмотреть
+        <button class="btn btn-sm btn-primary" data-placement="bottom" title="Редактировать"
+                (click)="showUpdate(ad, contentUpdate)" *ngIf="ad.status != adStatus.taken[0]">✎
+        </button>
+        <button class="btn btn-sm btn-danger" data-placement="bottom" title="Удалить"
+                (click)="showDelete(ad,contentDelete)"
+                *ngIf="ad.status != adStatus.taken[0]">␡
+        </button>
+        <button class="btn btn-sm btn-success" data-placement="bottom" title="Установить статус: актуально"
+                (click)="showSetActual(ad, contentActual)" *ngIf="ad.status == adStatus.notRelevant[0]">
+          {{adStatus.actual[1]}}
+        </button>
+        <button class="btn btn-sm btn-success" data-placement="bottom" title="Установить статус: не акутально"
+                (click)="showSetNotActual(ad, contentNotActual)" *ngIf="ad.status == adStatus.actual[0]">
+          {{adStatus.notRelevant[1]}}
         </button>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #contentUpdate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Редактирование объявления</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="updateAd()" #update="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+
+      <label for="carLocation" class="col-form-label">Местоположение машины:</label>
+      <input class="form-control" [(ngModel)]="editedAd.carLocation" id="carLocation" name="carLocation"
+             #carLocation="ngModel" required>
+      <div [hidden]="carLocation.valid || carLocation.pristine" class="alert alert-danger">
+        <div [hidden]="!carLocation.hasError('required')">Обязательное поле</div>
+      </div>
+
+      <label for="returnPlace" class="col-form-label">Место возврата:</label>
+      <input class="form-control" [(ngModel)]="editedAd.returnPlace" name="returnPlace" id="returnPlace"
+             #returnPlace="ngModel"
+             required>
+      <div [hidden]="returnPlace.valid || returnPlace.pristine" class="alert alert-danger">
+        <div [hidden]="!returnPlace.hasError('required')">Обязательное поле</div>
+      </div>
+
+      <label for="costPerDay" class="col-form-label">Стоимость аренды за сутки (BYN):</label>
+      <input type="text" class="form-control" [(ngModel)]="editedAd.costPerDay" id="costPerDay" name="costPerDay"
+             #costPerDay="ngModel" required pattern="[0-9]+\.{0,1}[0-9]*">
+      <div [hidden]="costPerDay.valid || costPerDay.pristine" class="alert alert-danger">
+        <div [hidden]="!costPerDay.hasError('pattern')">Десятичное число</div>
+        <div [hidden]="!costPerDay.hasError('required')">Обязательное поле</div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!update.form.valid">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentDelete let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите удаление</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="deleteAd()">Удалить</button>
+  </div>
+</ng-template>
+
+<ng-template #contentActual let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите статус "Актуально"</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="setActual()">Подтвердить</button>
+  </div>
+</ng-template>
+
+<ng-template #contentNotActual let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите статус "Не актуально"</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="setNotActual()">Подтвердить</button>
+  </div>
+</ng-template>

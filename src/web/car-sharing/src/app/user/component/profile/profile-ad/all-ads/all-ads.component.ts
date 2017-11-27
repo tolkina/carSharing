@@ -3,6 +3,8 @@ import {Ad} from "../../../../domain/ad";
 import {ProfileAdService} from "../../../../service/profile-ad.service";
 import {ProfileCarService} from "../../../../service/profile-car.service";
 import {AdStatus} from "../../../../domain/ad-status";
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {clone} from "lodash";
 
 @Component({
   selector: 'app-all-ads',
@@ -14,8 +16,13 @@ export class AllAdsComponent implements OnInit {
   ads: Ad[];
   numberOfCars: number;
   adStatus = new AdStatus();
+  error = "";
+  ad = new Ad();
+  editedAd = new Ad();
+  private modalRef: NgbModalRef;
 
-  constructor(private adService: ProfileAdService, private carService: ProfileCarService) {
+  constructor(private adService: ProfileAdService, private carService: ProfileCarService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -45,5 +52,61 @@ export class AllAdsComponent implements OnInit {
     if (adStatus == this.adStatus.notRelevant[0]) {
       return this.adStatus.notRelevant[1]
     }
+  }
+
+  updateAd() {
+    this.adService.updateAd(this.editedAd, this.ad.id)
+      .then(ad => {
+        this.ads[this.ads.indexOf(this.ad)] = ad;
+        this.modalRef.close()
+      })
+      .catch(err => this.error = err);
+  }
+
+  deleteAd() {
+    this.adService.deleteAd(this.ad.id).then(res => {
+      this.ads.splice(this.ads.indexOf(this.ad), 1);
+      this.modalRef.close();
+    })
+      .catch(err => this.error = err);
+  }
+
+  showUpdate(ad: Ad, content) {
+    this.error = "";
+    this.ad = ad;
+    this.editedAd = clone(ad);
+    this.modalRef = this.modalService.open(content);
+  }
+
+  showDelete(ad: Ad, content) {
+    this.error = "";
+    this.ad = ad;
+    this.modalRef = this.modalService.open(content);
+  }
+
+  showSetActual(ad: Ad, content) {
+    this.error = "";
+    this.ad = ad;
+    this.modalRef = this.modalService.open(content)
+  }
+
+  showSetNotActual(ad: Ad, content) {
+    this.error = "";
+    this.ad = ad;
+    this.modalRef = this.modalService.open(content)
+  }
+
+  setActual() {
+    this.adService.setActual(this.ad.id).then(ad => {
+      this.ads[this.ads.indexOf(this.ad)] = ad;
+      this.modalRef.close()
+    }).catch(err => this.error = err)
+  }
+
+  setNotActual() {
+    this.adService.setNotActual(this.ad.id).then(ad => {
+      this.ads[this.ads.indexOf(this.ad)] = ad;
+      this.modalRef.close()
+    }).catch(err => this.error = err)
   }
 }
