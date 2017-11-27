@@ -17,7 +17,9 @@
   </div>
   <div class="card footer">
     <div align="right">
-      <button type="button" class="btn btn-danger" (click)="showDelete(content)">Удалить машину</button>
+      <button type="button" class="btn btn-sm btn-danger" data-placement="bottom" title="Удалить"
+              (click)="showDelete(content)">␡
+      </button>
     </div>
   </div>
 </div>
@@ -30,7 +32,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>

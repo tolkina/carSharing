@@ -1,32 +1,27 @@
 <div align="right">
-  <button class="btn btn-primary" (click)="sortDeals()" *ngIf="!sortedByStatus">Сортировать по статусу</button>
-  <button class="btn btn-primary" (click)="sortDeals()" *ngIf="sortedByStatus">Сортировать по id</button>
+  <button class="btn btn-primary" (click)="sortDeals()" *ngIf="!sortedByStatus && deals.length > 0">По статусу</button>
+  <button class="btn btn-primary" (click)="sortDeals()" *ngIf="sortedByStatus && deals.length > 0">По id</button>
 </div>
 <div class="row">
   <div class="col-md-6 col-sm-12" *ngFor="let deal of deals">
-    <div class="card"  style="height: 100%" appHover>
+    <div class="card" style="height: 100%" appHover>
       <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image"
            *ngIf="deal.ad.car.generalParameters.photos.length < 1">
       <img class="card-img-top" src="{{deal.ad.car.generalParameters.photos[0]}}" alt="Car image"
            *ngIf="deal.ad.car.generalParameters.photos.length > 0">
       <div class="card-body">
-        <div class="card-text" *ngIf="deal.status == dealStatus.booking[0]"><b>Статус: </b>{{dealStatus.booking[1]}}
-        </div>
-        <div class="card-text" *ngIf="deal.status == dealStatus.cancelBooking[0]"><b>Статус: </b>{{dealStatus.cancelBooking[1]}}
-        </div>
-        <div class="card-text" *ngIf="deal.status == dealStatus.overdueBooking[0]"><b>Статус: </b>{{dealStatus.overdueBooking[1]}}
-        </div>
-        <div class="card-text" *ngIf="deal.status == dealStatus.rentalStart[0]"><b>Статус: </b>{{dealStatus.rentalStart[1]}}
-        </div>
-        <div class="card-text" *ngIf="deal.status == dealStatus.rentalEnd[0]"><b>Статус: </b>{{dealStatus.rentalEnd[1]}}
-        </div>
+        <div class="card-text"><b>Статус: </b>{{getStatus(deal.status)}}</div>
         <div class="card-text"><b>Начало бронирования: </b>{{deal.bookingStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
-        <div class="card-text" *ngIf="deal.rentalStartTime != null"><b>Начало аренды: </b>{{deal.rentalStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
-        <div class="card-text" *ngIf="deal.estimatedRentalEndTime != null"><b>Предполагаемое окончание аренды: </b>{{deal.estimatedRentalEndTime |
-          date: 'hh:mm:ss dd-MM-yyyy'}}
+        <div class="card-text" *ngIf="deal.rentalStartTime != null"><b>Начало аренды: </b>
+          {{deal.rentalStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}
         </div>
-        <div class="card-text" *ngIf="deal.rentalEndTime != null"><b>Окончание аренды: </b>{{deal.rentalEndTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
-        <div class="card-text" *ngIf="deal.deposit != null"><b>Депозит: </b>{{deal.deposit}}</div>
+        <div class="card-text" *ngIf="deal.estimatedRentalEndTime != null"><b>Предполагаемое окончание аренды: </b>
+          {{deal.estimatedRentalEndTime | date: 'hh:mm:ss dd-MM-yyyy'}}
+        </div>
+        <div class="card-text" *ngIf="deal.rentalEndTime != null"><b>Окончание аренды: </b>
+          {{deal.rentalEndTime | date: 'hh:mm:ss dd-MM-yyyy'}}
+        </div>
+        <div class="card-text" *ngIf="deal.deposit"><b>Депозит: </b>{{deal.deposit}}</div>
         <div class="card-text"><b>Количество суток: </b>{{deal.daysForRent}}</div>
         <div class="card-text"><b>Цена: </b>{{deal.price}} BYN</div>
         <div class="card-text"><b>Владелец: </b>{{deal.owner.login}}</div>
@@ -39,13 +34,11 @@
         </div>
       </div>
       <div class="card-footer" align="center">
-        <button class="btn btn-primary" style="width: 100%" *ngIf="deal.status==dealStatus.booking[0]"
-                (click)="showStartRental(deal, contentStartRental)">
-          Начать аренду
+        <button class="btn btn-primary" style="width: 100%" *ngIf="deal.status == dealStatus.booking[0]"
+                (click)="showStartRental(deal, contentStartRental)">Начать аренду
         </button>
-        <button class="btn btn-primary" style="width: 100%" *ngIf="deal.status==dealStatus.rentalStart[0]"
-                (click)="showStopRental(deal, contentStopRental)">
-          Закончить аренду
+        <button class="btn btn-primary" style="width: 100%" *ngIf="deal.status == dealStatus.rentalStart[0]"
+                (click)="showStopRental(deal, contentStopRental)">Закончить аренду
         </button>
       </div>
     </div>

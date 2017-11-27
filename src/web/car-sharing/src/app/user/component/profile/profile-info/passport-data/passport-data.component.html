@@ -1,59 +1,19 @@
+<h4 class="text-center">Паспортные данные</h4>
+<hr>
 <div class="row">
-  <div class="col-12 newblock"><h3>Паспортные данные</h3></div>
   <div class="col-5">
-    <div class="row">
-      <div class="col-md-6">
-        <h6>Фамилия:</h6>
-      </div>
-      <div class="col-md-6">{{passport.lastName}}</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <h6>Имя:</h6>
-      </div>
-      <div class="col-md-6">{{passport.firstName}}</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <h6>Отчество:</h6>
-      </div>
-      <div class="col-md-6">{{passport.middleName}}</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <h6>Серия и номер:</h6>
-      </div>
-      <div class="col-md-6">{{passport.seriesAndNumber}}</div>
-    </div>
+    <p><b>Фамилия: </b>{{passport.lastName}}</p>
+    <p><b>Имя: </b>{{passport.firstName}}</p>
+    <p><b>Отчество: </b>{{passport.middleName}}</p>
+    <p><b>Серия и номер: </b>{{passport.seriesAndNumber}}</p>
   </div>
-
   <div class="col-5">
-    <div class="row">
-      <div class="col-md-6">
-        <h6>Личный номер:</h6>
-      </div>
-      <div class="col-md-6">{{passport.personalNumber}}</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <h6>Дата выдачи:</h6>
-      </div>
-      <div class="col-md-6">{{passport.dateOfIssue | date: 'yyyy-MM-dd'}}</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <h6>Место выдачи:</h6>
-      </div>
-      <div class="col-md-6">{{passport.placeOfIssue}}</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <h6>Срок действия:</h6>
-      </div>
-      <div class="col-md-6">{{passport.validUntil | date: 'yyyy-MM-dd'}}</div>
-    </div>
+    <p><b>Личный номер: </b>{{passport.personalNumber}}</p>
+    <p><b>Дата выдачи: </b>{{passport.dateOfIssue | date: 'yyyy-MM-dd'}}</p>
+    <p><b>Место выдачи: </b>{{passport.placeOfIssue}}</p>
+    <p><b>Срок действия: </b>{{passport.validUntil | date: 'yyyy-MM-dd'}}</p>
   </div>
-  <div class="col-1" *ngIf="passport.id">
+  <div class="col-2" *ngIf="passport.id" align="right">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit(content)"
             data-placement="bottom" title="Редактировать паспортные данные">✎
     </button>
@@ -70,7 +30,7 @@
   <form (ngSubmit)="updatePassport()" #updatePassportData="ngForm">
     <div class="modal-body">
 
-      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
 
       <div class="row">
         <div class="col-6">
@@ -138,7 +98,7 @@
               <input id="dateOfIssue" class="form-control" placeholder="yyyy-mm-dd"
                      name="dp" [(ngModel)]="dateOfIssue" ngbDatepicker #d="ngbDatepicker"
                      (ngModelChange)="onChangeDateOfIssue(dateOfIssue)" [minDate]="ngbDateOfIssue[0]"
-                     [maxDate]="ngbDateOfIssue[1]" required (blur)="touchDateOfIssue()">
+                     [maxDate]="ngbDateOfIssue[1]" required (blur)="touchedDateOfIssue = true">
               <button class="input-group-addon" (click)="d.toggle()" type="button">
                 <img src="../../assets/images/calendar-icon.svg"
                      style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>
@@ -155,7 +115,7 @@
                 <input class="form-control" id="validUntil" placeholder="yyyy-mm-dd"
                        name="dp1" [(ngModel)]="validUntil" ngbDatepicker #ds="ngbDatepicker"
                        (ngModelChange)="onChangeValidUntil(validUntil)" [minDate]="ngbValidUntil[0]"
-                       [maxDate]="ngbValidUntil[1]" required (blur)="touchValidUntil()">
+                       [maxDate]="ngbValidUntil[1]" required (blur)="touchedValidUntil = true">
                 <button class="input-group-addon" (click)="ds.toggle()" type="button">
                   <img src="../../assets/images/calendar-icon.svg"
                        style="width: 0.5rem; height: 0.5rem; cursor: pointer;"/>

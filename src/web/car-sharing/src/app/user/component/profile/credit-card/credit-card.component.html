@@ -1,21 +1,25 @@
 <h4 class="text-center">
   Мои кредитные карты
-  <button data-toggle="modal" data-target="#add" data-placement="bottom" class="btn btn-success"
-          title="Добавить кредитную карту" (click)="showNew(contentCreate)">Добавить
+  <button type="button" class="btn btn-sm btn-success" data-placement="bottom" title="Добавить"
+          (click)="showCreate(contentCreate)">+
   </button>
 </h4>
-<div class="card" *ngFor="let card of creditCards">
-  <div class="card-body">
-    <div class="row">
-      <div class="col-9">
-        <p><b>Владелец:</b> {{card.firstName}} {{card.lastName}}</p>
-        <p><b>Номер карты:</b> {{card.number[0]}}{{card.number[1]}}**************</p>
-        <p><b>Действительна до:</b> {{card.validUntil}}</p>
-      </div>
-      <div class="col-1">
-        <button type="button" class="btn-sm btn-danger" data-placement="bottom" title="Удалить кредитную карту"
-                (click)="showDelete(card, contentDelete)">␡
-        </button>
+<div class="row">
+  <div class="col-md-6" *ngFor="let card of creditCards">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-10">
+            <p><b>Владелец:</b> {{card.firstName}} {{card.lastName}}</p>
+            <p><b>Номер карты:</b> {{card.number[0]}}{{card.number[1]}}**************</p>
+            <p><b>Действительна до:</b> {{card.validUntil}}</p>
+          </div>
+          <div class="col-1">
+            <button type="button" class="btn btn-sm btn-danger" data-placement="bottom" title="Удалить"
+                    (click)="showDelete(card, contentDelete)">␡
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -29,7 +33,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
@@ -46,8 +50,8 @@
   </div>
   <form (ngSubmit)="createCreditCard()" #createCard="ngForm">
     <div class="modal-body">
-      <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
-        {{errorMessage}}
+      <div class="alert alert-danger" role="alert" *ngIf="error">
+        {{error}}
       </div>
 
       <div class="form-group">

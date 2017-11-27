@@ -5,17 +5,17 @@
         <h4><b>Подробная информация об объявлении:</b></h4>
       </div>
       <div class="col-4" align="right">
-        <button class="btn-sm btn-primary" data-placement="bottom" title="Редактировать"
+        <button class="btn btn-sm btn-primary" data-placement="bottom" title="Редактировать"
                 (click)="showUpdate(contentUpdate)" *ngIf="ad.status != adStatus.taken[0]">✎
         </button>
-        <button class="btn-sm btn-danger" data-placement="bottom" title="Удалить" (click)="showDelete(contentDelete)"
+        <button class="btn btn-sm btn-danger" data-placement="bottom" title="Удалить" (click)="showDelete(contentDelete)"
                 *ngIf="ad.status != adStatus.taken[0]">␡
         </button>
-        <button class="btn-sm btn-success" data-placement="bottom" title="Установить статус: актуально"
+        <button class="btn btn-sm btn-success" data-placement="bottom" title="Установить статус: актуально"
                 (click)="showSetActual(contentActual)" *ngIf="ad.status == adStatus.notRelevant[0]">
           {{adStatus.actual[1]}}
         </button>
-        <button class="btn-sm btn-success" data-placement="bottom" title="Установить статус: не акутально"
+        <button class="btn btn-sm btn-success" data-placement="bottom" title="Установить статус: не акутально"
                 (click)="showSetNotActual(contentNotActual)" *ngIf="ad.status == adStatus.actual[0]">
           {{adStatus.notRelevant[1]}}
         </button>
@@ -24,9 +24,7 @@
     <hr>
     <div class="row">
       <div class="col-6">
-        <p *ngIf="ad.status == adStatus.actual[0]"><b>Статус: </b>{{adStatus.actual[1]}}</p>
-        <p *ngIf="ad.status == adStatus.notRelevant[0]"><b>Статус: </b>{{adStatus.notRelevant[1]}}</p>
-        <p *ngIf="ad.status == adStatus.taken[0]"><b>Статус: </b>{{adStatus.taken[1]}}</p>
+        <p><b>Статус: </b>{{getStatus(ad.status)}}</p>
         <p><b>Стоимость аренды за сутки: </b>{{ad.costPerDay}} BYN</p>
       </div>
       <div class="col-6">
@@ -52,7 +50,7 @@
   </div>
   <form (ngSubmit)="updateAd()" #update="ngForm">
     <div class="modal-body">
-      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
 
       <label for="carLocation" class="col-form-label">Местоположение машины:</label>
       <input class="form-control" [(ngModel)]="editedAd.carLocation" id="carLocation" name="carLocation"
@@ -93,7 +91,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
@@ -109,7 +107,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="alert alert-danger" role="alert" *ngIf="errorStatus">{{errorStatus}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
@@ -125,7 +123,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="alert alert-danger" role="alert" *ngIf="errorStatus">{{errorStatus}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>

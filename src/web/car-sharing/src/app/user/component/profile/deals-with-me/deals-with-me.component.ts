@@ -13,12 +13,13 @@ import {SortDealsService} from "../../../service/sort-deals.service";
 export class DealsWithMeComponent implements OnInit {
   dealStatus = new DealStatus;
   deals: Deal[] = [];
-  errorDeal = "";
+  error = "";
   sortedByStatus = false;
   private cloneDeal = new Deal;
   private modalRef: NgbModalRef;
 
-  constructor(private dealService: DealService, private modalService: NgbModal, private sortDealsService: SortDealsService) {
+  constructor(private dealService: DealService, private modalService: NgbModal,
+              private sortDealsService: SortDealsService) {
   }
 
   ngOnInit() {
@@ -30,7 +31,7 @@ export class DealsWithMeComponent implements OnInit {
   }
 
   showStopRental(deal: Deal, content) {
-    this.errorDeal = "";
+    this.error = "";
     this.cloneDeal = deal;
     this.modalRef = this.modalService.open(content);
   }
@@ -41,11 +42,11 @@ export class DealsWithMeComponent implements OnInit {
         this.deals[this.deals.indexOf(this.cloneDeal)] = deal;
         this.modalRef.close();
       })
-      .catch(err => this.errorDeal = err)
+      .catch(err => this.error = err)
   }
 
   showStartRental(deal: Deal, content) {
-    this.errorDeal = "";
+    this.error = "";
     this.cloneDeal = deal;
     this.modalRef = this.modalService.open(content);
   }
@@ -56,11 +57,29 @@ export class DealsWithMeComponent implements OnInit {
         this.deals[this.deals.indexOf(this.cloneDeal)] = deal;
         this.modalRef.close();
       })
-      .catch(err => this.errorDeal = err)
+      .catch(err => this.error = err)
   }
 
   sortDeals() {
     this.sortedByStatus = this.sortedByStatus != true;
     this.deals = this.sortDealsService.sort(this.sortedByStatus, this.deals);
+  }
+
+  getStatus(dealStatus: string): string {
+    if (dealStatus == this.dealStatus.booking[0]) {
+      return this.dealStatus.booking[1]
+    }
+    if (dealStatus == this.dealStatus.cancelBooking[0]) {
+      return this.dealStatus.cancelBooking[1]
+    }
+    if (dealStatus == this.dealStatus.overdueBooking[0]) {
+      return this.dealStatus.overdueBooking[1]
+    }
+    if (dealStatus == this.dealStatus.rentalStart[0]) {
+      return this.dealStatus.rentalStart[1]
+    }
+    if (dealStatus == this.dealStatus.rentalEnd[0]) {
+      return this.dealStatus.rentalEnd[1]
+    }
   }
 }

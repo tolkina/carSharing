@@ -10,7 +10,7 @@ import {Car} from "../../../../domain/car";
 })
 export class AllCarsComponent implements OnInit {
   cars: Car[] = [];
-  generalParameters: GeneralParameters;
+  generalParameters = new GeneralParameters();
 
   constructor(private carService: ProfileCarService) {
   }

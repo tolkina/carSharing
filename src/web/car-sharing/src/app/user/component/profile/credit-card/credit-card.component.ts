@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CreditCardService} from "../../../service/credit-card.service";
 import {CreditCard} from "../../../domain/credit-card";
-import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDateStruct, NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {DateFormatter} from "../../../../date-formatter";
 
 @Component({
@@ -15,11 +15,10 @@ export class CreditCardComponent implements OnInit {
   newCreditCard: CreditCard = new CreditCard();
   cloneCreditCard: CreditCard = new CreditCard();
   date: NgbDateStruct;
-  errorMessage: String;
-  errorDelete: String;
-  modalRef: any;
+  error = "";
   ngbValidUntil: NgbDateStruct[] = [];
   touchedValidUntil = false;
+  private modalRef: NgbModalRef;
 
   constructor(private creditCardService: CreditCardService, private dateFormatter: DateFormatter,
               private modalService: NgbModal) {
@@ -39,7 +38,7 @@ export class CreditCardComponent implements OnInit {
       this.creditCards.push(card);
       this.modalRef.close()
     })
-      .catch(err => this.errorMessage = err)
+      .catch(err => this.error = err)
   }
 
   deleteCreditCard() {
@@ -48,17 +47,17 @@ export class CreditCardComponent implements OnInit {
         this.creditCards.splice(this.creditCards.indexOf(this.cloneCreditCard), 1);
         this.modalRef.close()
       })
-      .catch(err => this.errorDelete = err)
+      .catch(err => this.error = err)
   }
 
   showDelete(creditCard: CreditCard, contentDelete) {
-    this.errorDelete = "";
+    this.error = "";
     this.modalRef = this.modalService.open(contentDelete);
     this.cloneCreditCard = creditCard;
   }
 
-  showNew(contentCreate) {
-    this.errorMessage = "";
+  showCreate(contentCreate) {
+    this.error = "";
     this.modalRef = this.modalService.open(contentCreate);
     this.newCreditCard = new CreditCard();
     this.touchedValidUntil = false;

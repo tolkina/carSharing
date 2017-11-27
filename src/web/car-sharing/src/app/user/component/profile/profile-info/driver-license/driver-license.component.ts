@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {clone} from "lodash";
 import {DriverLicense} from "../../../../domain/driver-license";
 import {DriverLicenseService} from "../../../../service/driver-license.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {ProfileInfoComponent} from "../profile-info.component";
 
 @Component({
@@ -13,8 +13,8 @@ import {ProfileInfoComponent} from "../profile-info.component";
 export class DriverLicenseComponent implements OnInit {
   driverLicense: DriverLicense = new DriverLicense();
   editedDriverLicense: DriverLicense = new DriverLicense();
-  errorUpdate: String;
-  modalRef: any;
+  error: String;
+  private modalRef: NgbModalRef;
 
   constructor(private driverLicenseService: DriverLicenseService, private modalService: NgbModal,
               private profileInfoComponent: ProfileInfoComponent) {
@@ -32,15 +32,11 @@ export class DriverLicenseComponent implements OnInit {
         this.editedDriverLicense = new DriverLicense();
         this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.noConfirm;
       })
-      .catch(err => this.errorUpdate = err._body);
-  }
-
-  onSubmit() {
-    this.updateDriverLicense()
+      .catch(err => this.error = err._body);
   }
 
   showEdit(content) {
-    this.errorUpdate = "";
+    this.error = "";
     this.modalRef = this.modalService.open(content);
     this.editedDriverLicense = clone(this.driverLicense);
   }

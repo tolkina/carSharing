@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {clone} from "lodash";
 import {ActivatedRoute, Router} from '@angular/router'
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {ProfileCarService} from "../../../../../service/profile-car.service";
+import {CurrentCondition} from "../../../../../domain/current-condition";
 
 @Component({
   selector: 'app-current-condition',
@@ -11,10 +12,10 @@ import {ProfileCarService} from "../../../../../service/profile-car.service";
 })
 export class CurrentConditionComponent implements OnInit {
   carId: number;
-  currentCondition: any = {};
-  editedCurrentCondition: any = {};
-  modalRef: any;
-  errorUpdate: String;
+  currentCondition = new CurrentCondition();
+  editedCurrentCondition = new CurrentCondition();
+  error = "";
+  private modalRef: NgbModalRef;
 
   constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
               private router: Router, private modalService: NgbModal) {
@@ -24,18 +25,14 @@ export class CurrentConditionComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.updateCurrentCondition()
+  ngOnInit() {
+    this.getCurrentCondition(this.carId);
   }
 
   showEdit(content) {
-    this.errorUpdate = "";
+    this.error = "";
     this.modalRef = this.modalService.open(content);
     this.editedCurrentCondition = clone(this.currentCondition);
-  }
-
-  ngOnInit() {
-    this.getCurrentCondition(this.carId);
   }
 
   updateCurrentCondition() {
@@ -44,10 +41,10 @@ export class CurrentConditionComponent implements OnInit {
         this.currentCondition = res;
         this.modalRef.close()
       })
-      .catch(err => this.errorUpdate = err);
+      .catch(err => this.error = err);
   }
 
-  getCurrentCondition(carId: number) {
+  private getCurrentCondition(carId: number) {
     this.carService.getCurrentCondition(carId).then()
       .then(res => this.currentCondition = res)
       .catch(res => this.router.navigateByUrl("profile/car"));

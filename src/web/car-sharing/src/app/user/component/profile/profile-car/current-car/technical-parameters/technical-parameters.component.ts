@@ -4,7 +4,7 @@ import {clone} from "lodash";
 import {ActivatedRoute, Router} from '@angular/router'
 import {CarParameter} from "../../../../../domain/car-parameter";
 import {CarParameterService} from "../../../../../service/car-parameter.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-technical-parameters',
@@ -22,12 +22,11 @@ export class TechnicalParametersComponent implements OnInit {
   tiresSeasons: CarParameter[] = [];
   interiorMaterials: CarParameter[] = [];
   colors: CarParameter[] = [];
-  modalRef: any;
-  errorUpdate: String;
+  error = "";
+  private modalRef: NgbModalRef;
 
   constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
-              private carParameterService: CarParameterService, private router: Router,
-              private modalService: NgbModal) {
+              private carParameterService: CarParameterService, private router: Router, private modalService: NgbModal) {
     this.carId = +activateRoute.snapshot.parent.params['carId'];
     if (isNaN(this.carId)) {
       this.router.navigateByUrl("profile/car")
@@ -45,25 +44,21 @@ export class TechnicalParametersComponent implements OnInit {
         this.modalRef.close()
       })
       .catch(err => {
-        this.errorUpdate = err;
+        this.error = err;
       });
   }
 
-  getTechnicalParameters(carId: number) {
-    this.carService.getTechnicalParameters(carId).then()
-      .then(res => this.technicalParameters = res)
-      .catch(res => this.router.navigateByUrl("profile/car"));
-  }
-
-  onSubmit() {
-    this.updateTechnicalParameters()
-  }
-
   showEdit(content) {
-    this.errorUpdate = "";
+    this.error = "";
     this.modalRef = this.modalService.open(content, {size: 'lg'});
     this.editedTechnicalParameters = clone(this.technicalParameters);
     this.getCarParams();
+  }
+
+  private getTechnicalParameters(carId: number) {
+    this.carService.getTechnicalParameters(carId).then()
+      .then(res => this.technicalParameters = res)
+      .catch(res => this.router.navigateByUrl("profile/car"));
   }
 
   private getCarParams() {

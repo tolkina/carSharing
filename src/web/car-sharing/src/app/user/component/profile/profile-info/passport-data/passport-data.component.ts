@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {PassportData} from "../../../../domain/passport-data";
 import {PassportDataService} from "../../../../service/passport-data.service";
 import {clone} from "lodash";
-import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDateStruct, NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {DateFormatter} from "../../../../../date-formatter";
 import {ProfileInfoComponent} from "../profile-info.component";
 
@@ -12,28 +12,19 @@ import {ProfileInfoComponent} from "../profile-info.component";
   styleUrls: ['./passport-data.component.css']
 })
 export class PassportDataComponent implements OnInit {
-  model;
-  errorUpdate: String;
-  modalRef: any;
-  passport: PassportData = new PassportData();
-  editedPassport: PassportData = new PassportData();
+  error: String;
+  passport = new PassportData();
+  editedPassport = new PassportData();
   dateOfIssue: NgbDateStruct;
   validUntil: NgbDateStruct;
   ngbValidUntil: NgbDateStruct[] = [];
   ngbDateOfIssue: NgbDateStruct[] = [];
   touchedValidUntil = false;
   touchedDateOfIssue = false;
+  private modalRef: NgbModalRef;
 
   constructor(private passportService: PassportDataService, private dateFormatter: DateFormatter,
               private modalService: NgbModal, private profileInfoComponent: ProfileInfoComponent) {
-  }
-
-  touchValidUntil() {
-    this.touchedValidUntil = true
-  }
-
-  touchDateOfIssue() {
-    this.touchedDateOfIssue = true
   }
 
   ngOnInit() {
@@ -59,18 +50,12 @@ export class PassportDataComponent implements OnInit {
           this.editedPassport = new PassportData();
           this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.noConfirm;
         })
-        .catch(err => this.errorUpdate = err);
+        .catch(err => this.error = err);
     }
   }
 
-  getPassportData() {
-    this.passportService.getPassport()
-      .then(passport => this.passport = passport)
-      .catch();
-  }
-
   showEdit(content) {
-    this.errorUpdate = "";
+    this.error = "";
     this.modalRef = this.modalService.open(content, {size: 'lg'});
     this.editedPassport = clone(this.passport);
     this.dateOfIssue = this.dateFormatter.fromDate(this.passport.dateOfIssue);
@@ -79,6 +64,12 @@ export class PassportDataComponent implements OnInit {
     this.editedPassport.dateOfIssue = this.dateFormatter.toDate(this.dateOfIssue);
     this.touchedDateOfIssue = false;
     this.touchedValidUntil = false;
+  }
+
+  private getPassportData() {
+    this.passportService.getPassport()
+      .then(passport => this.passport = passport)
+      .catch();
   }
 
   private putNgbBorders() {
@@ -97,7 +88,7 @@ export class PassportDataComponent implements OnInit {
 
   private checkNgbDates() {
     if (this.editedPassport.dateOfIssue > this.editedPassport.validUntil) {
-      this.errorUpdate = "Срок действия не может быть раньше даты выдачи";
+      this.error = "Срок действия не может быть раньше даты выдачи";
       return false;
     }
     return true;

@@ -21,12 +21,10 @@
     </div>
   </div>
 </div>
-<button type="button" class="btn-sm btn-secondary" (click)="showEdit(content)">
-  Редактировать
+<button type="button" class="btn btn-sm btn-primary" (click)="showEdit(content)" data-placement="bottom"
+        title="Изменить">✎
 </button>
 
-
-<!-- Modal -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Технические параметры</h4>
@@ -34,60 +32,59 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form (ngSubmit)="onSubmit()" #updateTechnicalParameters="ngForm">
+  <form (ngSubmit)="updateTechnicalParameters()" #update="ngForm">
     <div class="modal-body">
-      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
       <div class="row">
         <div class="col-6">
-
           <div class="form-group">
             <label for="gearbox" class="col-form-label">Коробка передач:</label>
             <select class="form-control" id="gearbox" name="gearbox" [(ngModel)]="editedTechnicalParameters.gearbox">
               <option *ngFor="let gearbox of gearboxes" [ngValue]="gearbox.name">{{gearbox.name}}</option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="bodyType" class="col-form-label">Тип кузова:</label>
             <select class="form-control" id="bodyType" name="bodyType" [(ngModel)]="editedTechnicalParameters.bodyType">
               <option *ngFor="let bodyType of bodyTypes" [ngValue]="bodyType.name">{{bodyType.name}}</option>
             </select>
           </div>
-
-          <label for="seatNumber" class="col-form-label">Кол-во мест:</label>
-          <input type="text" class="form-control" id="seatNumber" name="seatNumber"
-                 [(ngModel)]="editedTechnicalParameters.seatNumber"
-                 pattern="[0-9]{0,2}" #seatNumber="ngModel">
-          <div [hidden]="seatNumber.valid || seatNumber.pristine"
-               class="alert alert-danger">
-            <div [hidden]="!seatNumber.hasError('pattern')">Только цифры. Максимум 2</div>
+          <div class="form-group">
+            <label for="seatNumber" class="col-form-label">Кол-во мест:</label>
+            <input type="text" class="form-control" id="seatNumber" name="seatNumber"
+                   [(ngModel)]="editedTechnicalParameters.seatNumber"
+                   pattern="[0-9]{0,2}" #seatNumber="ngModel">
+            <div [hidden]="seatNumber.valid || seatNumber.pristine"
+                 class="alert alert-danger">
+              <div [hidden]="!seatNumber.hasError('pattern')">Только цифры. Максимум 2</div>
+            </div>
           </div>
-
-          <label for="doorNumber" class="col-form-label">Кол-во дверей:</label>
-          <input type="text" class="form-control" id="doorNumber" name="doorNumber"
-                 [(ngModel)]="editedTechnicalParameters.doorNumber"
-                 pattern="[0-9]{0,2}" #doorNumber="ngModel">
-          <div [hidden]="doorNumber.valid || doorNumber.pristine"
-               class="alert alert-danger">
-            <div [hidden]="!doorNumber.hasError('pattern')">Только цифры. Максимум 2</div>
+          <div class="form-group">
+            <label for="doorNumber" class="col-form-label">Кол-во дверей:</label>
+            <input type="text" class="form-control" id="doorNumber" name="doorNumber"
+                   [(ngModel)]="editedTechnicalParameters.doorNumber"
+                   pattern="[0-9]{0,2}" #doorNumber="ngModel">
+            <div [hidden]="doorNumber.valid || doorNumber.pristine"
+                 class="alert alert-danger">
+              <div [hidden]="!doorNumber.hasError('pattern')">Только цифры. Максимум 2</div>
+            </div>
           </div>
-
           <div class="form-group">
             <label for="fuelType" class="col-form-label">Тип топлива:</label>
             <select class="form-control" id="fuelType" name="fuelType" [(ngModel)]="editedTechnicalParameters.fuelType">
               <option *ngFor="let fuelType of fuelTypes" [ngValue]="fuelType.name">{{fuelType.name}}</option>
             </select>
           </div>
-
-          <label for="fuelConsumption" class="col-form-label">Расход топлива на 100 км. (смешанный цикл):</label>
-          <input type="text" class="form-control" id="fuelConsumption" name="fuelConsumption"
-                 [(ngModel)]="editedTechnicalParameters.fuelConsumption"
-                 pattern="[0-9]+\.{0,1}[0-9]*" #fuelConsumption="ngModel">
-          <div [hidden]="fuelConsumption.valid || fuelConsumption.pristine"
-               class="alert alert-danger">
-            <div [hidden]="!fuelConsumption.hasError('pattern')">Десятичное число</div>
+          <div class="form-group">
+            <label for="fuelConsumption" class="col-form-label">Расход топлива на 100 км. (смешанный цикл):</label>
+            <input type="text" class="form-control" id="fuelConsumption" name="fuelConsumption"
+                   [(ngModel)]="editedTechnicalParameters.fuelConsumption"
+                   pattern="[0-9]+\.{0,1}[0-9]*" #fuelConsumption="ngModel">
+            <div [hidden]="fuelConsumption.valid || fuelConsumption.pristine"
+                 class="alert alert-danger">
+              <div [hidden]="!fuelConsumption.hasError('pattern')">Десятичное число</div>
+            </div>
           </div>
-
           <div class="form-group">
             <label for="driveUnit" class="col-form-label">Привод:</label>
             <select class="form-control" id="driveUnit" name="driveUnit"
@@ -95,7 +92,6 @@
               <option *ngFor="let driveUnit of driveUnits" [ngValue]="driveUnit.name">{{driveUnit.name}}</option>
             </select>
           </div>
-
         </div>
         <div class="col-6">
           <div class="form-group">
@@ -106,7 +102,6 @@
               </option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="interiorMaterial" class="col-form-label">Материал салона:</label>
             <select class="form-control" id="interiorMaterial" name="interiorMaterial"
@@ -116,38 +111,42 @@
               </option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="color" class="col-form-label">Цвет:</label>
             <select class="form-control" id="color" name="color" [(ngModel)]="editedTechnicalParameters.color">
               <option *ngFor="let color of colors" [ngValue]="color.name">{{color.name}}</option>
             </select>
           </div>
-
-          <label for="vin" class="col-form-label">VIN:</label>
-          <input type="text" class="form-control" id="vin" name="vin" [(ngModel)]="editedTechnicalParameters.vin">
-
-          <label for="govNumber" class="col-form-label">Гос. номер:</label>
-          <input type="text" class="form-control" id="govNumber" name="govNumber"
-                 [(ngModel)]="editedTechnicalParameters.govNumber">
-
-          <label for="stsFormNumber" class="col-form-label">Номер бланка СТС:</label>
-          <input type="text" class="form-control" id="stsFormNumber" name="stsFormNumber"
-                 [(ngModel)]="editedTechnicalParameters.stsFormNumber">
-
-          <label for="stsImageLink" class="col-form-label">Фото СТС:</label>
-          <input type="text" class="form-control" id="stsImageLink" name="stsImageLink"
-                 [(ngModel)]="editedTechnicalParameters.stsImageLink">
-
-          <label for="ptsImageLink" class="col-form-label">Фото ПТС:</label>
-          <input type="text" class="form-control" id="ptsImageLink" name="ptsImageLink"
-                 [(ngModel)]="editedTechnicalParameters.ptsImageLink">
+          <div class="form-group">
+            <label for="vin" class="col-form-label">VIN:</label>
+            <input type="text" class="form-control" id="vin" name="vin" [(ngModel)]="editedTechnicalParameters.vin">
+          </div>
+          <div class="form-group">
+            <label for="govNumber" class="col-form-label">Гос. номер:</label>
+            <input type="text" class="form-control" id="govNumber" name="govNumber"
+                   [(ngModel)]="editedTechnicalParameters.govNumber">
+          </div>
+          <div class="form-group">
+            <label for="stsFormNumber" class="col-form-label">Номер бланка СТС:</label>
+            <input type="text" class="form-control" id="stsFormNumber" name="stsFormNumber"
+                   [(ngModel)]="editedTechnicalParameters.stsFormNumber">
+          </div>
+          <div class="form-group">
+            <label for="stsImageLink" class="col-form-label">Фото СТС:</label>
+            <input type="text" class="form-control" id="stsImageLink" name="stsImageLink"
+                   [(ngModel)]="editedTechnicalParameters.stsImageLink">
+          </div>
+          <div class="form-group">
+            <label for="ptsImageLink" class="col-form-label">Фото ПТС:</label>
+            <input type="text" class="form-control" id="ptsImageLink" name="ptsImageLink"
+                   [(ngModel)]="editedTechnicalParameters.ptsImageLink">
+          </div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
-      <button type="submit" class="btn btn-primary" [disabled]="!updateTechnicalParameters.form.valid">Сохранить
+      <button type="submit" class="btn btn-primary" [disabled]="!update.form.valid">Сохранить
       </button>
     </div>
   </form>

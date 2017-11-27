@@ -34,4 +34,16 @@ export class AllAdsComponent implements OnInit {
       .then(cars => this.numberOfCars = cars.length)
       .catch();
   }
+
+  getStatus(adStatus: string): string {
+    if (adStatus == this.adStatus.actual[0]) {
+      return this.adStatus.actual[1]
+    }
+    if (adStatus == this.adStatus.taken[0]) {
+      return this.adStatus.taken[1]
+    }
+    if (adStatus == this.adStatus.notRelevant[0]) {
+      return this.adStatus.notRelevant[1]
+    }
+  }
 }

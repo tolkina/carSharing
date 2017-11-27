@@ -26,7 +26,9 @@
   <p><b>Год выпуска:</b> {{generalParameters.yearOfIssue}}</p>
 </div>
 
-<button type="button" class="btn-sm btn-secondary" (click)="showUpdate(contentUpdate)">Редактировать</button>
+<button type="button" class="btn btn-sm btn-primary" (click)="showUpdate(contentUpdate)" data-placement="bottom"
+        title="Изменить">✎
+</button>
 
 <ng-template #contentUpdate let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -37,7 +39,7 @@
   </div>
   <form (ngSubmit)="updateGeneralParameters()" #generalParameters="ngForm">
     <div class="modal-body">
-      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
       <div class="form-group">
         <label for="yearOfIssue" class="col-form-label">Год выпуска</label>
         <select class="form-control" id="yearOfIssue" name="yearOfIssue"
@@ -65,7 +67,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
@@ -82,7 +84,7 @@
   </div>
   <form (ngSubmit)="uploadPhotos()" #loadPhoto="ngForm">
     <div class="modal-body">
-      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
       <div class="form-group">
         <label for="avatar">Фото:</label>
         <input type="file" name="avatar" id="avatar" (change)="fileChangeEvent($event)" class="form-control" required

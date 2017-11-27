@@ -35,10 +35,6 @@ export class NewCarComponent implements OnInit {
     this.setYears();
   }
 
-  onSubmit() {
-    this.saveCar()
-  }
-
   saveCar() {
     this.carService.addCar(this.car)
       .then(car => {

@@ -13,9 +13,9 @@ import {CarPhotos} from "../../../../../domain/car-photos";
 })
 export class GeneralParametersComponent implements OnInit {
   carId: number;
-  generalParameters: GeneralParameters = new GeneralParameters;
-  editedGeneralParameters: GeneralParameters = new GeneralParameters;
-  errorUpdate: string = "";
+  generalParameters = new GeneralParameters();
+  editedGeneralParameters = new GeneralParameters();
+  error = "";
   years: number[] = [];
   filesToUpload: Array<File> = [];
   photo: string;
@@ -36,14 +36,8 @@ export class GeneralParametersComponent implements OnInit {
     this.getGeneralParameters(this.carId);
   }
 
-  getGeneralParameters(carId: number) {
-    this.carService.getGeneralParameters(carId).then()
-      .then(res => this.generalParameters = res)
-      .catch(res => this.router.navigateByUrl("profile/car"));
-  }
-
   showUpdate(content) {
-    this.errorUpdate = "";
+    this.error = "";
     this.modalRef = this.modalService.open(content);
     this.editedGeneralParameters = clone(this.generalParameters);
   }
@@ -53,13 +47,13 @@ export class GeneralParametersComponent implements OnInit {
   }
 
   showDeletePhoto(photo: string, content) {
-    this.errorUpdate = "";
+    this.error = "";
     this.photo = photo;
     this.modalRef = this.modalService.open(content);
   }
 
   showUploadPhotos(content) {
-    this.errorUpdate = "";
+    this.error = "";
     this.modalRef = this.modalService.open(content);
   }
 
@@ -69,7 +63,7 @@ export class GeneralParametersComponent implements OnInit {
         this.generalParameters = generalParameters;
         this.modalRef.close()
       })
-      .catch(err => this.errorUpdate = err);
+      .catch(err => this.error = err);
   }
 
   uploadPhotos() {
@@ -81,7 +75,7 @@ export class GeneralParametersComponent implements OnInit {
           this.loading = false
           this.modalRef.close()
         })
-        .catch(err => this.errorUpdate = err)
+        .catch(err => this.error = err)
     }
   }
 
@@ -91,17 +85,23 @@ export class GeneralParametersComponent implements OnInit {
         this.generalParameters = generalParameters;
         this.modalRef.close()
       })
-      .catch(err => this.errorUpdate = err);
+      .catch(err => this.error = err);
+  }
+
+  private getGeneralParameters(carId: number) {
+    this.carService.getGeneralParameters(carId).then()
+      .then(res => this.generalParameters = res)
+      .catch(res => this.router.navigateByUrl("profile/car"));
   }
 
   private prepareFilesToUpload() {
-    this.errorUpdate = "";
+    this.error = "";
     this.formData = new FormData();
     const files: Array<File> = this.filesToUpload;
     for (let i = 0; i < files.length; i++) {
       if (files[i].size > 2097152) // 2 mb for bytes.
       {
-        this.errorUpdate = "File size " + files[i]['name'] + " must under 2mb!";
+        this.error = "File size " + files[i]['name'] + " must under 2mb!";
         return false;
       }
       this.formData.append("files", files[i], files[i]['name']);

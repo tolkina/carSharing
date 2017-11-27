@@ -2,13 +2,10 @@
   <p><b>Повреждения:</b> {{currentCondition.damageDescription}}</p>
   <p><b>Пробег:</b> {{currentCondition.mileage}} км</p>
 </div>
-
-<button type="button" class="btn-sm btn-secondary" (click)="showEdit(content)">
-  Редактировать
+<button type="button" class="btn btn-sm btn-primary" (click)="showEdit(content)" data-placement="bottom"
+        title="Изменить">✎
 </button>
 
-
-<!-- Modal -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Текущее состояние</h4>
@@ -16,18 +13,22 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form (ngSubmit)="onSubmit()" #curentCondition="ngForm">
+  <form (ngSubmit)="updateCurrentCondition()" #curentCondition="ngForm">
     <div class="modal-body">
-      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
-      <label for="damageDescription" class="col-form-label">Повреждения</label>
-      <input type="text" class="form-control" id="damageDescription" name="damageDescription"
-             [(ngModel)]="editedCurrentCondition.damageDescription">
-      <label for="mileage" class="col-form-label">Пробег</label>
-      <input type="text" class="form-control" id="mileage" name="mileage" [(ngModel)]="editedCurrentCondition.mileage"
-             pattern="[0-9]{0,10}" #mileage="ngModel">
-      <div [hidden]="mileage.valid || mileage.pristine"
-           class="alert alert-danger">
-        <div [hidden]="!mileage.hasError('pattern')">Только цифры. Максимум 10</div>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+      <div class="form-group">
+        <label for="damageDescription" class="col-form-label">Повреждения</label>
+        <input type="text" class="form-control" id="damageDescription" name="damageDescription"
+               [(ngModel)]="editedCurrentCondition.damageDescription">
+      </div>
+      <div class="form-group">
+        <label for="mileage" class="col-form-label">Пробег</label>
+        <input type="text" class="form-control" id="mileage" name="mileage" [(ngModel)]="editedCurrentCondition.mileage"
+               pattern="[0-9]{0,10}" #mileage="ngModel">
+        <div [hidden]="mileage.valid || mileage.pristine"
+             class="alert alert-danger">
+          <div [hidden]="!mileage.hasError('pattern')">Только цифры. Максимум 10</div>
+        </div>
       </div>
     </div>
     <div class="modal-footer">

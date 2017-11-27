@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" #saveCar="ngForm">
+<form (ngSubmit)="saveCar()" #save="ngForm">
   <div class="row">
     <div class="col-6">
       <h4 align="center">Общие параметры:</h4>
@@ -156,5 +156,5 @@
   </div>
   <hr>
   <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
-  <button type="submit" class="btn btn-success btn-block" [disabled]="!saveCar.form.valid">Добавить</button>
+  <button type="submit" class="btn btn-success btn-block" [disabled]="!save.form.valid">Добавить</button>
 </form>
