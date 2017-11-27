@@ -25,7 +25,7 @@ public interface AdminService {
     CarParameterResponse updateBodyType(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<CarParameterResponse> getAllBodyTypes(Integer page, Integer size);
+    Page<CarParameterResponse> getAllBodyTypes(Integer page, Integer size, String sort, String direction);
 
     CarParameterResponse getBodyType(Long id) throws EntityNotFoundException;
 
@@ -44,7 +44,7 @@ public interface AdminService {
     BrandResponse updateBrand(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<BrandResponse> getAllBrands(PageParametersRequest pageParametersRequest);
+    Page<BrandResponse> getAllBrands(Integer page, Integer size, String sort, String direction);
 
     BrandResponse getBrandResponse(Long id) throws EntityNotFoundException;
 
@@ -61,7 +61,7 @@ public interface AdminService {
     CarParameterResponse updateColor(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<CarParameterResponse> getAllColors(Integer page, Integer size);
+    Page<CarParameterResponse> getAllColors(Integer page, Integer size, String sort, String direction);
 
     CarParameterResponse getColor(Long id) throws EntityNotFoundException;
 
@@ -78,7 +78,7 @@ public interface AdminService {
     CarParameterResponse updateDriveUnit(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<CarParameterResponse> getAllDriveUnits(Integer page, Integer size);
+    Page<CarParameterResponse> getAllDriveUnits(Integer page, Integer size, String sort, String direction);
 
     CarParameterResponse getDriveUnit(Long id) throws EntityNotFoundException;
 
@@ -95,7 +95,7 @@ public interface AdminService {
     CarParameterResponse updateFuelType(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<CarParameterResponse> getAllFuelTypes(Integer page, Integer size);
+    Page<CarParameterResponse> getAllFuelTypes(Integer page, Integer size, String sort, String direction);
 
     CarParameterResponse getFuelType(Long id) throws EntityNotFoundException;
 
@@ -112,7 +112,7 @@ public interface AdminService {
     CarParameterResponse updateGearbox(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<CarParameterResponse> getAllGearboxes(Integer page, Integer size);
+    Page<CarParameterResponse> getAllGearboxes(Integer page, Integer size, String sort, String direction);
 
     CarParameterResponse getGearbox(Long id) throws EntityNotFoundException;
 
@@ -129,7 +129,7 @@ public interface AdminService {
     CarParameterResponse updateInteriorMaterial(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<CarParameterResponse> getAllInteriorMaterials(Integer page, Integer size);
+    Page<CarParameterResponse> getAllInteriorMaterials(Integer page, Integer size, String sort, String direction);
 
     CarParameterResponse getInteriorMaterial(Long id) throws EntityNotFoundException;
 
@@ -146,9 +146,9 @@ public interface AdminService {
     ModelResponse updateModel(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<ModelResponse> getAllModels(Integer page, Integer size);
+    Page<ModelResponse> getAllModels(Integer page, Integer size, String sort, String direction);
 
-    Page<CarParameterResponse> getAllModelsByBrand(Long brandId, Integer page, Integer size)
+    Page<CarParameterResponse> getAllModelsByBrand(Long brandId, Integer page, Integer size, String sort, String direction)
             throws EntityNotFoundException;
 
     ModelResponse getModelResponse(Long id) throws EntityNotFoundException;
@@ -167,13 +167,13 @@ public interface AdminService {
     CarParameterResponse updateTiresSeason(Long id, CarParameterRequest carParameterRequest)
             throws EntityAlreadyExistException, EntityNotFoundException;
 
-    Page<CarParameterResponse> getAllTiresSeasons(Integer page, Integer size);
+    Page<CarParameterResponse> getAllTiresSeasons(Integer page, Integer size, String sort, String direction);
 
     CarParameterResponse getTiresSeason(Long id) throws EntityNotFoundException;
 
     // ------------------------- Confirm Profile --------------------
 
-    Page<ConfirmProfileResponse> getProfilesToConfirm(Integer page, Integer size);
+    Page<ConfirmProfileResponse> getProfilesToConfirm(Integer page, Integer size, String sort, String direction);
 
     ConfirmationResponse setConfirmProfileYes(Long profileId)
             throws EntityNotFoundException, PrivilegeException, ConfirmProfileException;
@@ -181,5 +181,5 @@ public interface AdminService {
     ConfirmationResponse setConfirmProfileNo(Long profileId)
             throws EntityNotFoundException, PrivilegeException, ConfirmProfileException;
 
-    Page<ConfirmationResponse> getConfirmations(Integer page, Integer size);
+    Page<ConfirmationResponse> getConfirmations(Integer page, Integer size, String sort, String direction);
 }

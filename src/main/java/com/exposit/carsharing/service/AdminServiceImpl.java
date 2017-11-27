@@ -104,8 +104,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CarParameterResponse> getAllBodyTypes(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<CarParameterResponse> getAllBodyTypes(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<BodyType> carParameterPage = bodyTypeRepository.findAll(pageRequest);
         carParameterPage.getContent()
@@ -168,29 +168,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<BrandResponse> getAllBrands(PageParametersRequest pageParametersRequest) {
-        PageRequest pageRequest = getPageRequest(pageParametersRequest);
+    public Page<BrandResponse> getAllBrands(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<BrandResponse> brands = new ArrayList<>();
         Page<Brand> brandPage = brandRepository.findAll(pageRequest);
         brandPage.getContent().forEach(brand -> brands.add(mapToBrandResponse(brand)));
         return new PageImpl<>(brands, pageRequest, brandPage.getTotalElements());
-    }
-
-    private PageRequest getPageRequest(PageParametersRequest pageParametersRequest) {
-        if (pageParametersRequest.getSortType() == SortType.BY_ID_REVERSE) {
-            return new PageRequest(pageParametersRequest.getPage() - 1,
-                    pageParametersRequest.getSize(), Sort.Direction.DESC, "id");
-        }
-        if (pageParametersRequest.getSortType() == SortType.BY_NAME) {
-            return new PageRequest(pageParametersRequest.getPage() - 1,
-                    pageParametersRequest.getSize(), Sort.Direction.ASC, "name");
-        }
-        if (pageParametersRequest.getSortType() == SortType.BY_NAME_REVERSE) {
-            return new PageRequest(pageParametersRequest.getPage() - 1,
-                    pageParametersRequest.getSize(), Sort.Direction.DESC, "name");
-        }
-        return new PageRequest(pageParametersRequest.getPage() - 1,
-                pageParametersRequest.getSize(), Sort.Direction.ASC, "id");
     }
 
     @Override
@@ -251,8 +234,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CarParameterResponse> getAllColors(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<CarParameterResponse> getAllColors(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<Color> carParameterPage = colorRepository.findAll(pageRequest);
         carParameterPage.getContent()
@@ -307,8 +290,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CarParameterResponse> getAllDriveUnits(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<CarParameterResponse> getAllDriveUnits(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<DriveUnit> carParameterPage = driveUnitRepository.findAll(pageRequest);
         carParameterPage.getContent()
@@ -363,8 +346,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CarParameterResponse> getAllFuelTypes(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<CarParameterResponse> getAllFuelTypes(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<FuelType> carParameterPage = fuelTypeRepository.findAll(pageRequest);
         carParameterPage.getContent()
@@ -419,8 +402,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CarParameterResponse> getAllGearboxes(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<CarParameterResponse> getAllGearboxes(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<Gearbox> carParameterPage = gearboxRepository.findAll(pageRequest);
         carParameterPage.getContent()
@@ -475,8 +458,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CarParameterResponse> getAllInteriorMaterials(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<CarParameterResponse> getAllInteriorMaterials(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<InteriorMaterial> carParameterPage = interiorMaterialRepository.findAll(pageRequest);
         carParameterPage.getContent()
@@ -531,8 +514,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<ModelResponse> getAllModels(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<ModelResponse> getAllModels(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<ModelResponse> models = new ArrayList<>();
         Page<Model> carParameterPage = modelRepository.findAll(pageRequest);
         carParameterPage.getContent()
@@ -541,9 +524,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CarParameterResponse> getAllModelsByBrand(Long brandId, Integer page, Integer size) throws EntityNotFoundException {
+    public Page<CarParameterResponse> getAllModelsByBrand(Long brandId, Integer page, Integer size, String sort, String direction)
+            throws EntityNotFoundException {
         Brand brand = getBrand(brandId);
-        Pageable pageRequest = new PageRequest(page - 1, size);
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<CarParameterResponse> models = new ArrayList<>();
         Page<Model> modelPage = modelRepository.findAllByBrand(brand, pageRequest);
         modelPage.getContent().forEach(model -> models.add(modelMapper.map(model, CarParameterResponse.class)));
@@ -602,8 +586,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CarParameterResponse> getAllTiresSeasons(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<CarParameterResponse> getAllTiresSeasons(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<CarParameterResponse> carParameters = new ArrayList<>();
         Page<TiresSeason> carParameterPage = tiresSeasonRepository.findAll(pageRequest);
         carParameterPage.getContent()
@@ -623,8 +607,8 @@ public class AdminServiceImpl implements AdminService {
     // ------------------------- Confirm Profile --------------------
 
     @Override
-    public Page<ConfirmProfileResponse> getProfilesToConfirm(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<ConfirmProfileResponse> getProfilesToConfirm(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<ConfirmProfileResponse> profiles = new ArrayList<>();
         Page<Profile> profilePage = profileRepository.findByConfirmProfile(ConfirmProfile.CHECK, pageRequest);
         profilePage.getContent().forEach(profile -> {
@@ -651,8 +635,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<ConfirmationResponse> getConfirmations(Integer page, Integer size) {
-        Pageable pageRequest = new PageRequest(page - 1, size);
+    public Page<ConfirmationResponse> getConfirmations(Integer page, Integer size, String sort, String direction) {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
         List<ConfirmationResponse> confirmations = new ArrayList<>();
         Page<Confirmation> confirmationPage = confirmationRepository.findAll(pageRequest);
         confirmationPage.getContent()
@@ -703,4 +687,12 @@ public class AdminServiceImpl implements AdminService {
         confirmationResponse.setProfileLogin(confirmation.getProfile().getLogin());
         return confirmationResponse;
     }
+
+    private Pageable getPageRequest(Integer page, Integer size, String sort, String direction) {
+        if (direction.toLowerCase().equals("desc")) {
+            return new PageRequest(page - 1, size, Sort.Direction.DESC, sort);
+        }
+        return new PageRequest(page - 1, size, Sort.Direction.ASC, sort);
+    }
+
 }

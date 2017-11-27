@@ -3,9 +3,11 @@ import {TechnicalParameter} from "../../../domain/technical-parameter";
 import {TechnicalParameterService} from "../../../service/technical-parameter.service";
 import {Brand_} from "../../../domain/brand_";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {SortCarParameterService} from "../../../service/sort-car-parameter.service";
 import {PageBrand} from "../../../domain/page-brand";
 import {PageTechnicalParameter} from "../../../domain/page-technical-parameter";
+import {PageParameter} from "../../../domain/page-parameter";
+import {Direction} from "../../../domain/direction";
+import {Sort} from "../../../domain/sort";
 
 @Component({
   selector: 'app-brand',
@@ -30,14 +32,12 @@ export class BrandComponent implements OnInit {
   deleteModalRef: any;
   flag: boolean = false;
   branId: number;
-  sortedByName = false;
-  sortedModelByName = false;
-  page: number = 1;
-  pageModel: number = 1;
-  size: number = 5;
+  sort = new Sort();
+  direction = new Direction();
+  pageParameter = new PageParameter(1, 5, this.sort.id, this.direction.asc);
+  pageParameterModel = new PageParameter(1, 5, this.sort.id, this.direction.asc);
 
-  constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal,
-              private sortCarParameterService: SortCarParameterService) {
+  constructor(private technicalParameterService: TechnicalParameterService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -45,23 +45,15 @@ export class BrandComponent implements OnInit {
   }
 
   getTechnicalParameters() {
-    this.technicalParameterService.getBrands(this.page, this.size)
+    this.technicalParameterService.getBrands(this.pageParameter)
       .then(parameters => this.parameters = parameters)
       .catch();
   }
 
   getModelsByBrand(brandId: number) {
-    this.technicalParameterService.getModelsByBrand(brandId, this.pageModel, this.size)
+    this.technicalParameterService.getModelsByBrand(brandId, this.pageParameterModel)
       .then(models => this.models = models)
       .catch();
-  }
-
-  onChangePage() {
-    this.getTechnicalParameters()
-  }
-
-  onChangePageModel() {
-    this.getModelsByBrand(this.branId)
   }
 
   showModels(brand) {
@@ -111,7 +103,6 @@ export class BrandComponent implements OnInit {
       .catch(err => this.errorDelete = err);
   }
 
-
   updateBrand() {
     this.technicalParameterService.updateParameter(this.name, this.editedBrand)
       .then(result => {
@@ -129,7 +120,6 @@ export class BrandComponent implements OnInit {
       })
       .catch(err => this.errorUpdate = err);
   }
-
 
   showCreateBrand(content) {
     this.errorCreate = "";
@@ -175,13 +165,15 @@ export class BrandComponent implements OnInit {
     this.editedModel.id = model.id;
   }
 
-  sortCarParameter() {
-    this.sortedByName = this.sortedByName != true;
-    this.parameters.content = this.sortCarParameterService.sortCarParameters(this.sortedByName, this.parameters.content)
+  sortCarParameter(sortType: string, direction: string) {
+    this.pageParameter.sort = sortType;
+    this.pageParameter.direction = direction;
+    this.getTechnicalParameters();
   }
 
-  sortModel() {
-    this.sortedModelByName = this.sortedModelByName != true;
-    this.models.content = this.sortCarParameterService.sortCarParameters(this.sortedModelByName, this.models.content)
+  sortModel(sortType: string, direction: string) {
+    this.pageParameterModel.sort = sortType;
+    this.pageParameterModel.direction = direction;
+    this.getModelsByBrand(this.branId)
   }
 }

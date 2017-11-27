@@ -2,8 +2,7 @@
   <div class="card-header">
     <button type="button" class="btn btn-outline-primary"
             (click)="isCollapsedConfirmProfile = !isCollapsedConfirmProfile" [attr.aria-expanded]="!isCollapsed"
-            aria-controls="confirmProfile" style="width: 100%">
-      Профили на подтверждение
+            aria-controls="confirmProfile" style="width: 100%">Профили на подтверждение
     </button>
   </div>
 </div>
@@ -23,22 +22,19 @@
           <td>{{ profile.id }}</td>
           <td>{{ profile.login }}</td>
           <td>
-            <button type="button" class="btn btn-primary"
-                    (click)="showProfile(profile, contentProfile)">Посмотреть
+            <button type="button" class="btn btn-primary" (click)="showProfile(profile, contentProfile)">Посмотреть
             </button>
-            <button type="button" class="btn btn-success"
-                    (click)="showConfirmProfile(profile, contentConfirm)">Да
+            <button type="button" class="btn btn-success" (click)="showConfirmProfile(profile, contentConfirm)">Да
             </button>
-            <button type="button" class="btn btn-danger"
-                    (click)="showNotConfirmProfile(profile, contentNotConfirm)">Нет
+            <button type="button" class="btn btn-danger" (click)="showNotConfirmProfile(profile, contentNotConfirm)">Нет
             </button>
           </td>
         </tr>
         </tbody>
       </table>
-      <ngb-pagination [collectionSize]="profiles.totalElements" [(page)]="pageConfirmProfile"
+      <ngb-pagination [collectionSize]="profiles.totalElements" [(page)]="pageParameterConfirmProfile.page"
                       [pageSize]="profiles.size" [maxSize]="5" [rotate]="true"
-                      (pageChange)="onChangePageConfirmProfile()"></ngb-pagination>
+                      (pageChange)="getProfilesForConfirmation()" *ngIf="profiles.content.length > 0"></ngb-pagination>
     </div>
   </div>
 </div>
@@ -80,9 +76,9 @@
         </tr>
         </tbody>
       </table>
-      <ngb-pagination [collectionSize]="confirmations.totalElements" [(page)]="pageConfirmation"
+      <ngb-pagination [collectionSize]="confirmations.totalElements" [(page)]="pageParameterConfirmation"
                       [pageSize]="confirmations.size" [maxSize]="5" [rotate]="true"
-                      (pageChange)="onChangePageConfirmation()"></ngb-pagination>
+                      (pageChange)="getConfirmations()" *ngIf="confirmations.content.length > 0"></ngb-pagination>
     </div>
   </div>
 </div>

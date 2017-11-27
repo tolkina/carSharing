@@ -1,14 +1,31 @@
-<div align="right">
-  <button type="button" class="btn btn-success" (click)="showCreateBrand(contentCreateBrand)">Добавить</button>
-  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="!sortedByName">Сортировать по имени
-  </button>
-  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="sortedByName">Сортировать по id</button>
-</div>
 <table class="table table-bordered table-striped table-hover">
   <thead>
   <tr>
-    <th class="text-center" width="5%">Id</th>
-    <th class="text-center" colspan="2">Название</th>
+    <th width="110px">Id
+      <button class="btn btn-sm btn-light" (click)="sortCarParameter(sort.id, direction.asc)"
+              *ngIf="pageParameter.sort != sort.id || pageParameter.direction != direction.asc"
+              data-placement="bottom" title="По возрастанию id">&#x25B2;
+      </button>
+      <button class="btn btn-sm btn-light" (click)="sortCarParameter(sort.id, direction.desc)"
+              *ngIf="pageParameter.sort != sort.id || pageParameter.direction != direction.desc"
+              data-placement="bottom" title="По убыванию id">&#x25BC;
+      </button>
+    </th>
+    <th>Имя
+      <button class="btn btn-sm btn-light" (click)="sortCarParameter(sort.name, direction.asc)"
+              *ngIf="pageParameter.sort != sort.name || pageParameter.direction != direction.asc"
+              data-placement="bottom" title="По возрастанию name">&#x25B2;
+      </button>
+      <button class="btn btn-sm btn-light" (click)="sortCarParameter(sort.name, direction.desc)"
+              *ngIf="pageParameter.sort != sort.name || pageParameter.direction != direction.desc"
+              data-placement="bottom" title="По убыванию name">&#x25BC;
+      </button>
+    </th>
+    <th width="100px">
+      <button type="button" class="btn btn-sm btn-success" (click)="showCreateBrand(contentCreateBrand)"
+              data-placement="bottom" title="Добавить">+
+      </button>
+    </th>
   </tr>
   </thead>
   <tbody>
@@ -18,53 +35,73 @@
       <button type="button" class="btn btn-outline-info" (click)="showModels(parameter)">{{ parameter.name }}
         <span class="badge badge-light">{{parameter.countOfModels}}</span>
       </button>
+
       <!--start models-->
       <div *ngIf="branId == parameter.id">
-        <hr>
-        <div align="right">
-          <button type="button" class="btn btn-outline-success"
-                  (click)="showCreateModel(parameter, contentCreateModel)">Добавить модель
-          </button>
-          <button class="btn btn-outline-primary" (click)="sortModel()" *ngIf="!sortedModelByName">Сортировать по
-            имени
-          </button>
-          <button class="btn btn-outline-primary" (click)="sortModel()" *ngIf="sortedModelByName">Сортировать по id
-          </button>
-        </div>
         <table class="table table-bordered table-striped table-hover">
+          <thead>
+          <tr>
+            <th width="110px">Id
+              <button class="btn btn-sm btn-light" (click)="sortModel(sort.id, direction.asc)"
+                      *ngIf="pageParameterModel.sort != sort.id || pageParameterModel.direction != direction.asc"
+                      data-placement="bottom" title="По возрастанию id">&#x25B2;
+              </button>
+              <button class="btn btn-sm btn-light" (click)="sortModel(sort.id, direction.desc)"
+                      *ngIf="pageParameterModel.sort != sort.id || pageParameterModel.direction != direction.desc"
+                      data-placement="bottom" title="По убыванию id">&#x25BC;
+              </button>
+            </th>
+            <th>Имя
+              <button class="btn btn-sm btn-light" (click)="sortModel(sort.name, direction.asc)"
+                      *ngIf="pageParameterModel.sort != sort.name || pageParameterModel.direction != direction.asc"
+                      data-placement="bottom" title="По возрастанию name">&#x25B2;
+              </button>
+              <button class="btn btn-sm btn-light" (click)="sortModel(sort.name, direction.desc)"
+                      *ngIf="pageParameterModel.sort != sort.name || pageParameterModel.direction != direction.desc"
+                      data-placement="bottom" title="По убыванию name">&#x25BC;
+              </button>
+            </th>
+            <th width="100px">
+              <button type="button" class="btn btn-sm btn-success" title="Добавить"
+                      (click)="showCreateModel(parameter, contentCreateModel)" data-placement="bottom">+
+              </button>
+            </th>
+          </tr>
+          </thead>
           <tr *ngFor="let model of models.content">
             <td>{{ model.id }}</td>
+            <td>{{ model.name }}</td>
             <td>
-              {{ model.name }}
-            </td>
-            <td align="center">
-              <button type="button" class="btn btn-outline-primary"
-                      (click)="showUpdateModel(parameter, model, contentUpdateModel)">
-                Изменить модель
+              <button type="button" class="btn btn-sm btn-primary" title="Изменить"
+                      (click)="showUpdateModel(parameter, model, contentUpdateModel)" data-placement="bottom">✎
               </button>
-              <button type="button" class="btn btn-outline-danger"
-                      (click)="showDeleteModel(parameter, model, contentDeleteModel)">
-                Удалить модель
+              <button type="button" class="btn btn-sm btn-danger" title="Удалить"
+                      (click)="showDeleteModel(parameter, model, contentDeleteModel)" data-placement="bottom">␡
               </button>
             </td>
           </tr>
         </table>
-        <ngb-pagination [collectionSize]="models.totalElements" [(page)]="pageModel" [pageSize]="models.size"
-                        [maxSize]="5" [rotate]="true" (pageChange)="onChangePageModel()"></ngb-pagination>
+        <ngb-pagination [collectionSize]="models.totalElements" [(page)]="pageParameterModel.page"
+                        [pageSize]="models.size" [maxSize]="5" [rotate]="true"
+                        (pageChange)="getModelsByBrand(brandId)" *ngIf="models.content.length > 0"></ngb-pagination>
       </div>
       <!--end models-->
+
     </td>
-    <td align="center" width="20%">
-      <button type="button" class="btn btn-primary" (click)="showUpdateBrand(parameter, contentUpdateBrand)">Изменить
+    <td>
+      <button type="button" class="btn btn-sm btn-primary" (click)="showUpdateBrand(parameter, contentUpdateBrand)"
+              data-placement="bottom" title="Изменить">✎
       </button>
-      <button type="button" class="btn btn-danger" (click)="showDeleteBrand(parameter, contentDeleteBrand)">Удалить
+      <button type="button" class="btn btn-sm btn-danger" (click)="showDeleteBrand(parameter, contentDeleteBrand)"
+              data-placement="bottom" title="Удалить">␡
       </button>
     </td>
   </tr>
   </tbody>
 </table>
-<ngb-pagination [collectionSize]="parameters.totalElements" [(page)]="page" [pageSize]="parameters.size" [maxSize]="5"
-                [rotate]="true" (pageChange)="onChangePage(page)"></ngb-pagination>
+<ngb-pagination [collectionSize]="parameters.totalElements" [(page)]="pageParameter.page" [pageSize]="parameters.size"
+                [maxSize]="5" [rotate]="true" (pageChange)="getTechnicalParameters()"
+                *ngIf="parameters.content.length>0"></ngb-pagination>
 
 <ng-template #contentCreateBrand let-c="close" let-d="dismiss">
   <div class="modal-header">

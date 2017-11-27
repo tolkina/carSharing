@@ -5,6 +5,7 @@ import {TechnicalParameter} from "../domain/technical-parameter";
 import {Brand_} from "../domain/brand_";
 import {PageTechnicalParameter} from "../domain/page-technical-parameter";
 import {PageBrand} from "../domain/page-brand";
+import {PageParameter} from "../domain/page-parameter";
 
 @Injectable()
 export class TechnicalParameterService {
@@ -55,34 +56,34 @@ export class TechnicalParameterService {
     }
   }
 
-  getParameters(name: String, page: number, size: number) {
+  getParameters(name: String, pageParameter: PageParameter) {
     switch (name) {
       case "bodyType": {
-        return this.getTechnicalParameters(this.bodyTypeUrl, page, size);
+        return this.getTechnicalParameters(this.bodyTypeUrl, pageParameter);
       }
       case "brand": {
-        return this.getTechnicalParameters(this.brandUrl, page, size);
+        return this.getTechnicalParameters(this.brandUrl, pageParameter);
       }
       case "color": {
-        return this.getTechnicalParameters(this.colorUrl, page, size);
+        return this.getTechnicalParameters(this.colorUrl, pageParameter);
       }
       case "driveUnit": {
-        return this.getTechnicalParameters(this.driveUnitUrl, page, size);
+        return this.getTechnicalParameters(this.driveUnitUrl, pageParameter);
       }
       case "fuelType": {
-        return this.getTechnicalParameters(this.fuelTypeUrl, page, size);
+        return this.getTechnicalParameters(this.fuelTypeUrl, pageParameter);
       }
       case "gearbox": {
-        return this.getTechnicalParameters(this.gearboxUrl, page, size);
+        return this.getTechnicalParameters(this.gearboxUrl, pageParameter);
       }
       case "interiorMaterial": {
-        return this.getTechnicalParameters(this.interiorMaterialUrl, page, size);
+        return this.getTechnicalParameters(this.interiorMaterialUrl, pageParameter);
       }
       case "model": {
-        return this.getTechnicalParameters(this.modelUrl, page, size);
+        return this.getTechnicalParameters(this.modelUrl, pageParameter);
       }
       case "tiresSeason": {
-        return this.getTechnicalParameters(this.tiresSeasonUrl, page, size);
+        return this.getTechnicalParameters(this.tiresSeasonUrl, pageParameter);
       }
     }
   }
@@ -91,9 +92,6 @@ export class TechnicalParameterService {
     switch (name) {
       case "bodyType": {
         return this.updateTechnicalParameter(this.bodyTypeUrl, parameter);
-      }
-      case "brand": {
-        return this.updateTechnicalParameter(this.brandUrl, parameter);
       }
       case "color": {
         return this.updateTechnicalParameter(this.colorUrl, parameter);
@@ -171,22 +169,43 @@ export class TechnicalParameterService {
       .catch(this.handleError);
   }
 
-  getTechnicalParameters(url, page: number, size: number): Promise<PageTechnicalParameter> {
-    return this.http.get(url + "?page=" + page + "&size=" + size)
+  getTechnicalParameters(url, pageParameter: PageParameter): Promise<PageTechnicalParameter> {
+    return this.http.get(url, {
+      params: {
+        page: pageParameter.page,
+        size: pageParameter.size,
+        sort: pageParameter.sort,
+        direction: pageParameter.direction
+      }
+    })
       .toPromise()
       .then(res => res.json() as PageTechnicalParameter)
       .catch(this.handleError);
   }
 
-  getBrands(page: number, size: number): Promise<PageBrand> {
-    return this.http.get(this.brandUrl + "?page=" + page + "&size=" + size)
+  getBrands(pageParameter: PageParameter): Promise<PageBrand> {
+    return this.http.get(this.brandUrl, {
+      params: {
+        page: pageParameter.page,
+        size: pageParameter.size,
+        sort: pageParameter.sort,
+        direction: pageParameter.direction
+      }
+    })
       .toPromise()
       .then(res => res.json() as PageBrand)
       .catch(this.handleError);
   }
 
-  getModelsByBrand(brandId: number, page: number, size: number): Promise<PageTechnicalParameter> {
-    return this.http.get(this.adminUrl + "brand/" + brandId + "/model" + "?page=" + page + "&size=" + size)
+  getModelsByBrand(brandId: number, pageParameter: PageParameter): Promise<PageTechnicalParameter> {
+    return this.http.get(this.adminUrl + "brand/" + brandId + "/model", {
+      params: {
+        page: pageParameter.page,
+        size: pageParameter.size,
+        sort: pageParameter.sort,
+        direction: pageParameter.direction
+      }
+    })
       .toPromise()
       .then(res => res.json() as PageTechnicalParameter)
       .catch(this.handleError);

@@ -1,8 +1,6 @@
 package com.exposit.carsharing.endpoint;
 
 import com.exposit.carsharing.dto.CarParameterRequest;
-import com.exposit.carsharing.dto.PageParametersRequest;
-import com.exposit.carsharing.dto.SortType;
 import com.exposit.carsharing.exception.*;
 import com.exposit.carsharing.service.AdminService;
 import com.exposit.carsharing.service.SecurityService;
@@ -58,8 +56,10 @@ public class AdminEndpoint {
     @GET
     @Path("/body-type")
     public Response getAllBodyTypes(@QueryParam(value = "page") Integer page,
-                                    @QueryParam(value = "size") Integer size) throws EntityNotFoundException {
-        return Response.status(200).entity(adminService.getAllBodyTypes(page, size)).build();
+                                    @QueryParam(value = "size") Integer size,
+                                    @QueryParam(value = "sort") String sort,
+                                    @QueryParam(value = "direction") String direction) throws EntityNotFoundException {
+        return Response.status(200).entity(adminService.getAllBodyTypes(page, size, sort, direction)).build();
     }
 
     @GET
@@ -96,11 +96,10 @@ public class AdminEndpoint {
     @Path("/brand")
     public Response getAllBrands(@QueryParam(value = "page") Integer page,
                                  @QueryParam(value = "size") Integer size,
-                                 @QueryParam(value = "sort") SortType sortType) {
-        return Response.status(200).entity(adminService.getAllBrands(new PageParametersRequest(page, size, sortType)))
-                .build();
+                                 @QueryParam(value = "sort") String sort,
+                                 @QueryParam(value = "direction") String direction) {
+        return Response.status(200).entity(adminService.getAllBrands(page, size, sort, direction)).build();
     }
-
 
     @GET
     @Path("/brand/{id}")
@@ -135,16 +134,20 @@ public class AdminEndpoint {
     @GET
     @Path("/model")
     public Response getAllModels(@QueryParam(value = "page") Integer page,
-                                 @QueryParam(value = "size") Integer size) {
-        return Response.status(200).entity(adminService.getAllModels(page, size)).build();
+                                 @QueryParam(value = "size") Integer size,
+                                 @QueryParam(value = "sort") String sort,
+                                 @QueryParam(value = "direction") String direction) {
+        return Response.status(200).entity(adminService.getAllModels(page, size, sort, direction)).build();
     }
 
     @GET
     @Path("brand/{id}/model")
     public Response getAllModelsByBrand(@QueryParam(value = "page") Integer page,
                                         @QueryParam(value = "size") Integer size,
+                                        @QueryParam(value = "sort") String sort,
+                                        @QueryParam(value = "direction") String direction,
                                         @PathParam("id") Long brand_id) throws EntityNotFoundException {
-        return Response.status(200).entity(adminService.getAllModelsByBrand(brand_id, page, size)).build();
+        return Response.status(200).entity(adminService.getAllModelsByBrand(brand_id, page, size, sort, direction)).build();
     }
 
     @GET
@@ -180,8 +183,10 @@ public class AdminEndpoint {
     @GET
     @Path("/color")
     public Response getAllColors(@QueryParam(value = "page") Integer page,
-                                 @QueryParam(value = "size") Integer size) {
-        return Response.status(200).entity(adminService.getAllColors(page, size)).build();
+                                 @QueryParam(value = "size") Integer size,
+                                 @QueryParam(value = "sort") String sort,
+                                 @QueryParam(value = "direction") String direction) {
+        return Response.status(200).entity(adminService.getAllColors(page, size, sort, direction)).build();
     }
 
     @GET
@@ -217,8 +222,10 @@ public class AdminEndpoint {
     @GET
     @Path("/drive-unit")
     public Response getAllDriveUnits(@QueryParam(value = "page") Integer page,
-                                     @QueryParam(value = "size") Integer size) {
-        return Response.status(200).entity(adminService.getAllDriveUnits(page, size)).build();
+                                     @QueryParam(value = "size") Integer size,
+                                     @QueryParam(value = "sort") String sort,
+                                     @QueryParam(value = "direction") String direction) {
+        return Response.status(200).entity(adminService.getAllDriveUnits(page, size, sort, direction)).build();
     }
 
     @GET
@@ -254,8 +261,10 @@ public class AdminEndpoint {
     @GET
     @Path("/fuel-type")
     public Response getAllFuelTypes(@QueryParam(value = "page") Integer page,
-                                    @QueryParam(value = "size") Integer size) {
-        return Response.status(200).entity(adminService.getAllFuelTypes(page, size)).build();
+                                    @QueryParam(value = "size") Integer size,
+                                    @QueryParam(value = "sort") String sort,
+                                    @QueryParam(value = "direction") String direction) {
+        return Response.status(200).entity(adminService.getAllFuelTypes(page, size, sort, direction)).build();
     }
 
     @GET
@@ -291,8 +300,10 @@ public class AdminEndpoint {
     @GET
     @Path("/gearbox")
     public Response getAllGearboxes(@QueryParam(value = "page") Integer page,
-                                    @QueryParam(value = "size") Integer size) {
-        return Response.status(200).entity(adminService.getAllGearboxes(page, size)).build();
+                                    @QueryParam(value = "size") Integer size,
+                                    @QueryParam(value = "sort") String sort,
+                                    @QueryParam(value = "direction") String direction) {
+        return Response.status(200).entity(adminService.getAllGearboxes(page, size, sort, direction)).build();
     }
 
     @GET
@@ -328,8 +339,10 @@ public class AdminEndpoint {
     @GET
     @Path("/interior-material")
     public Response getAllInteriorMaterials(@QueryParam(value = "page") Integer page,
-                                            @QueryParam(value = "size") Integer size) {
-        return Response.status(200).entity(adminService.getAllInteriorMaterials(page, size)).build();
+                                            @QueryParam(value = "size") Integer size,
+                                            @QueryParam(value = "sort") String sort,
+                                            @QueryParam(value = "direction") String direction) {
+        return Response.status(200).entity(adminService.getAllInteriorMaterials(page, size, sort, direction)).build();
     }
 
     @GET
@@ -365,8 +378,10 @@ public class AdminEndpoint {
     @GET
     @Path("/tires-season")
     public Response getAllTiresSeasons(@QueryParam(value = "page") Integer page,
-                                       @QueryParam(value = "size") Integer size) {
-        return Response.status(200).entity(adminService.getAllTiresSeasons(page, size)).build();
+                                       @QueryParam(value = "size") Integer size,
+                                       @QueryParam(value = "sort") String sort,
+                                       @QueryParam(value = "direction") String direction) {
+        return Response.status(200).entity(adminService.getAllTiresSeasons(page, size, sort, direction)).build();
     }
 
     @GET
@@ -380,10 +395,12 @@ public class AdminEndpoint {
     @GET
     @Path("/confirm-profile")
     public Response getProfilesToConfirm(@QueryParam(value = "page") Integer page,
-                                         @QueryParam(value = "size") Integer size)
+                                         @QueryParam(value = "size") Integer size,
+                                         @QueryParam(value = "sort") String sort,
+                                         @QueryParam(value = "direction") String direction)
             throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
         checkAdmin();
-        return Response.status(200).entity(adminService.getProfilesToConfirm(page, size)).build();
+        return Response.status(200).entity(adminService.getProfilesToConfirm(page, size, sort, direction)).build();
     }
 
     @PUT
@@ -405,9 +422,11 @@ public class AdminEndpoint {
     @GET
     @Path("confirmation")
     public Response getConfirmations(@QueryParam(value = "page") Integer page,
-                                     @QueryParam(value = "size") Integer size)
+                                     @QueryParam(value = "size") Integer size,
+                                     @QueryParam(value = "sort") String sort,
+                                     @QueryParam(value = "direction") String direction)
             throws EntityNotFoundException, PrivilegeException, UnauthorizedException {
         checkAdmin();
-        return Response.status(200).entity(adminService.getConfirmations(page, size)).build();
+        return Response.status(200).entity(adminService.getConfirmations(page, size, sort, direction)).build();
     }
 }

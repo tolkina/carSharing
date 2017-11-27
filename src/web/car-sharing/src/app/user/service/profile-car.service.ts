@@ -110,7 +110,8 @@ export class ProfileCarService {
   }
 
   deletePhotos(photos: CarPhotos, carId: number) {
-    return this.http.delete(this.carUrl + carId + this.generalParametersUrl + "photos", new RequestOptions({body: photos}))
+    return this.http.delete(this.carUrl + carId + this.generalParametersUrl + "photos",
+      new RequestOptions({body: photos}))
       .toPromise()
       .then(res => res.json() as GeneralParameters)
       .catch(this.handleError);

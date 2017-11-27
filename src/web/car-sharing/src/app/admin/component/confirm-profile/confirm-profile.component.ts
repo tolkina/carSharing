@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmProfileService} from "../../service/confirm-profile.service";
 import {ConfirmProfile} from "../../domain/confirm-profile";
 import {ConfirmProfileStatus} from "../../domain/confirm-profile-status";
 import {Confirmation} from "../../domain/confirmation";
 import {PageConfirmation} from "../../domain/page-confirmation";
 import {PageConfirmProfile} from "../../domain/page-confirm-profile";
+import {PageParameter} from "../../domain/page-parameter";
+import {Direction} from "../../domain/direction";
+import {Sort} from "../../domain/sort";
 
 @Component({
   selector: 'app-confirm-profile',
@@ -16,31 +19,24 @@ export class ConfirmProfileComponent implements OnInit {
   profiles = new PageConfirmProfile;
   confirmations = new PageConfirmation;
   cloneProfile = new ConfirmProfile();
-  modalRef: any;
   error = "";
   confirmProfileStatus = new ConfirmProfileStatus();
   confirmation = new Confirmation();
   profile = new ConfirmProfile();
-  pageConfirmation: number = 1;
-  pageConfirmProfile: number = 1;
-  size: number = 5;
+  sort = new Sort();
+  direction = new Direction();
+  pageParameterConfirmation = new PageParameter(1, 5, this.sort.id, this.direction.asc);
+  pageParameterConfirmProfile = new PageParameter(1, 5, this.sort.id, this.direction.asc);
   isCollapsedConfirmProfile = true;
   isCollapsedConfirmations = true;
+  private modalRef: NgbModalRef;
 
   constructor(private confirmProfileService: ConfirmProfileService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
-    this.getProfilesForConfirmation()
+    this.getProfilesForConfirmation();
     this.getConfirmations()
-  }
-
-  onChangePageConfirmation() {
-    this.getConfirmations()
-  }
-
-  onChangePageConfirmProfile() {
-    this.getProfilesForConfirmation()
   }
 
   notConfirmProfile() {
@@ -64,13 +60,13 @@ export class ConfirmProfileComponent implements OnInit {
   }
 
   getProfilesForConfirmation() {
-    this.confirmProfileService.getProfilesForConfirmation(this.pageConfirmProfile, this.size)
+    this.confirmProfileService.getProfilesForConfirmation(this.pageParameterConfirmProfile)
       .then(res => this.profiles = res)
       .catch();
   }
 
   getConfirmations() {
-    this.confirmProfileService.getConfirmations(this.pageConfirmation, this.size)
+    this.confirmProfileService.getConfirmations(this.pageParameterConfirmation)
       .then(res => this.confirmations = res)
       .catch();
   }

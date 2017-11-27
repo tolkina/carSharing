@@ -5,6 +5,7 @@ import {ConfirmProfile} from "../domain/confirm-profile";
 import {Confirmation} from "../domain/confirmation";
 import {PageConfirmProfile} from "../domain/page-confirm-profile";
 import {PageConfirmation} from "../domain/page-confirmation";
+import {PageParameter} from "../domain/page-parameter";
 
 @Injectable()
 export class ConfirmProfileService {
@@ -28,15 +29,29 @@ export class ConfirmProfileService {
       .catch(this.handleError);
   }
 
-  getProfilesForConfirmation(page: number, size: number) {
-    return this.http.get(this.adminUrl + "/confirm-profile?page=" + page + "&size=" + size)
+  getProfilesForConfirmation(pageParameter: PageParameter) {
+    return this.http.get(this.adminUrl + "/confirm-profile", {
+      params: {
+        page: pageParameter.page,
+        size: pageParameter.size,
+        sort: pageParameter.sort,
+        direction: pageParameter.direction
+      }
+    })
       .toPromise()
       .then(res => res.json() as PageConfirmProfile)
       .catch(this.handleError);
   }
 
-  getConfirmations(page: number, size: number) {
-    return this.http.get(this.adminUrl + "/confirmation?page=" + page + "&size=" + size)
+  getConfirmations(pageParameter: PageParameter) {
+    return this.http.get(this.adminUrl + "/confirmation", {
+      params: {
+        page: pageParameter.page,
+        size: pageParameter.size,
+        sort: pageParameter.sort,
+        direction: pageParameter.direction
+      }
+    })
       .toPromise()
       .then(res => res.json() as PageConfirmation)
       .catch(this.handleError);

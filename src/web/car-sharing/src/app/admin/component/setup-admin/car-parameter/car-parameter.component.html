@@ -1,29 +1,51 @@
-<div align="right">
-  <button type="button" class="btn btn-success" (click)="showCreate(contentCreate)">Добавить</button>
-  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="!sortedByName">Сортировать по имени
-  </button>
-  <button class="btn btn-outline-primary" (click)="sortCarParameter()" *ngIf="sortedByName">Сортировать по id</button>
-</div>
 <table class="table table-bordered table-striped table-hover">
   <thead>
   <tr>
-    <th class="text-center" width="5%">Id</th>
-    <th class="text-center" colspan="2">Название</th>
+    <th width="110px">Id
+      <button class="btn btn-sm btn-light" (click)="sortCarParameter(sort.id, direction.asc)"
+              *ngIf="pageParameter.sort != sort.id || pageParameter.direction != direction.asc"
+              data-placement="bottom" title="По возрастанию id">&#x25B2;
+      </button>
+      <button class="btn btn-sm btn-light" (click)="sortCarParameter(sort.id, direction.desc)"
+              *ngIf="pageParameter.sort != sort.id || pageParameter.direction != direction.desc"
+              data-placement="bottom" title="По убыванию id">&#x25BC;
+      </button>
+    </th>
+    <th>Имя
+      <button class="btn btn-sm btn-light" (click)="sortCarParameter(sort.name, direction.asc)"
+              *ngIf="pageParameter.sort != sort.name || pageParameter.direction != direction.asc"
+              data-placement="bottom" title="По возрастанию name">&#x25B2;
+      </button>
+      <button class="btn btn-sm btn-light" (click)="sortCarParameter(sort.name, direction.desc)"
+              *ngIf="pageParameter.sort != sort.name || pageParameter.direction != direction.desc"
+              data-placement="bottom" title="По убыванию name">&#x25BC;
+      </button>
+    </th>
+    <th width="100px">
+      <button type="button" class="btn btn-sm btn-success" (click)="showCreate(contentCreate)"
+              data-placement="bottom" title="Добавить">+
+      </button>
+    </th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let parameter of parameters.content">
     <td>{{ parameter.id }}</td>
     <td>{{ parameter.name }}</td>
-    <td align="center" width="20%">
-      <button type="button" class="btn btn-primary" (click)="showUpdate(parameter, contentUpdate)">Изменить</button>
-      <button type="button" class="btn btn-danger" (click)="showDelete(parameter, contentDelete)">Удалить</button>
+    <td>
+      <button type="button" class="btn btn-sm btn-primary" (click)="showUpdate(parameter, contentUpdate)"
+              data-placement="bottom" title="Изменить">✎
+      </button>
+      <button type="button" class="btn btn-sm btn-danger" (click)="showDelete(parameter, contentDelete)"
+              data-placement="bottom" title="Удалить">␡
+      </button>
     </td>
   </tr>
   </tbody>
 </table>
-<ngb-pagination [collectionSize]="parameters.totalElements" [(page)]="page" [pageSize]="parameters.size" [maxSize]="5"
-                [rotate]="true" (pageChange)="onChangePage(page)"></ngb-pagination>
+<ngb-pagination [collectionSize]="parameters.totalElements" [(page)]="pageParameter.page" [pageSize]="parameters.size"
+                [maxSize]="5" [rotate]="true" (pageChange)="getTechnicalParameters()"
+                *ngIf="parameters.content.length > 0"></ngb-pagination>
 
 <ng-template #contentCreate let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -34,7 +56,7 @@
   </div>
   <form (ngSubmit)="saveParameter()" #create="ngForm">
     <div class="modal-body">
-      <div class="alert alert-danger" role="alert" *ngIf="errorCreate">{{errorCreate}}</div>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
       <div class="form-group">
         <label for="newParam" class="col-form-label">Название:</label>
         <input class="form-control" id="newParam" name="newParam" [(ngModel)]="newParameter.name" required
@@ -60,7 +82,7 @@
   </div>
   <form (ngSubmit)="updateParameter()" #update="ngForm">
     <div class="modal-body">
-      <div class="alert alert-danger" role="alert" *ngIf="errorUpdate">{{errorUpdate}}</div>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
       <div class="form-group">
         <label for="oldName" class="col-form-label">Старое название:</label>
         <input disabled type="text" class="form-control" id="oldName" name="oldName"
@@ -90,7 +112,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="alert alert-danger" role="alert" *ngIf="errorDelete">{{errorDelete}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
     <p>Id: <b>{{cloneParameter.id}}</b></p>
     <p>Название: <b>{{cloneParameter.name}}</b></p>
   </div>
