@@ -11,6 +11,7 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.DealRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,18 +48,19 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public List<DealResponse> getAll() {
-        return mapToListResponse(dealRepository.findAll());
+    public Page<DealResponse> getAllByCustomer(Long customerId, Integer page, Integer size, String sort,
+                                               String direction) throws EntityNotFoundException {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
+        Page<Deal> dealPage = dealRepository.findAllByCustomer(profileService.getProfile(customerId), pageRequest);
+        return new PageImpl<>(mapToListResponse(dealPage.getContent()), pageRequest, dealPage.getTotalElements());
     }
 
     @Override
-    public List<DealResponse> getAllByCustomer(Long customerId) throws EntityNotFoundException {
-        return mapToListResponse(dealRepository.findAllByCustomer(profileService.getProfile(customerId)));
-    }
-
-    @Override
-    public List<DealResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException {
-        return mapToListResponse(dealRepository.findAllByOwner(profileService.getProfile(ownerId)));
+    public Page<DealResponse> getAllByOwner(Long ownerId, Integer page, Integer size, String sort,
+                                            String direction) throws EntityNotFoundException {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
+        Page<Deal> dealPage = dealRepository.findAllByOwner(profileService.getProfile(ownerId), pageRequest);
+        return new PageImpl<>(mapToListResponse(dealPage.getContent()), pageRequest, dealPage.getTotalElements());
     }
 
     @Override
@@ -178,5 +180,12 @@ public class DealServiceImpl implements DealService {
             newPrice = newPrice.add(fine);
         }
         return newPrice;
+    }
+
+    private Pageable getPageRequest(Integer page, Integer size, String sort, String direction) {
+        if (direction.toLowerCase().equals("desc")) {
+            return new PageRequest(page - 1, size, Sort.Direction.DESC, sort);
+        }
+        return new PageRequest(page - 1, size, Sort.Direction.ASC, sort);
     }
 }

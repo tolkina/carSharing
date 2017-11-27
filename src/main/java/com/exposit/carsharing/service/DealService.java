@@ -5,17 +5,15 @@ import com.exposit.carsharing.dto.DealResponse;
 import com.exposit.carsharing.exception.DealException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface DealService {
     DealResponse get(Long dealId, Long principalId) throws EntityNotFoundException, PrivilegeException;
 
-    List<DealResponse> getAll();
+    Page<DealResponse> getAllByCustomer(Long customerId, Integer page, Integer size, String sort, String direction)
+            throws EntityNotFoundException;
 
-    List<DealResponse> getAllByCustomer(Long customerId) throws EntityNotFoundException;
-
-    List<DealResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException;
+    Page<DealResponse> getAllByOwner(Long ownerId, Integer page, Integer size, String sort, String direction) throws EntityNotFoundException;
 
     DealResponse startRental(Long dealId, Long principalId) throws EntityNotFoundException, PrivilegeException, DealException;
 

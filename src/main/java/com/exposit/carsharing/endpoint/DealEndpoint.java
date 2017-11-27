@@ -35,22 +35,26 @@ public class DealEndpoint {
     }
 
     @GET
-    public Response getAllDeals() {
-        return Response.status(200).entity(dealService.getAll()).build();
-    }
-
-    @GET
     @Path("/my")
-    public Response getAllMyDeals() throws EntityNotFoundException, UnauthorizedException {
+    public Response getAllMyDeals(@DefaultValue("1") @QueryParam(value = "page") Integer page,
+                                  @DefaultValue("4") @QueryParam(value = "size") Integer size,
+                                  @DefaultValue("status") @QueryParam(value = "sort") String sort,
+                                  @DefaultValue("asc") @QueryParam(value = "direction") String direction)
+            throws EntityNotFoundException, UnauthorizedException {
         Long customerId = securityService.getPrincipalId();
-        return Response.status(200).entity(dealService.getAllByCustomer(customerId)).build();
+        return Response.status(200).entity(dealService.getAllByCustomer(customerId, page, size, sort, direction))
+                .build();
     }
 
     @GET
     @Path("/by-me")
-    public Response getAllDealsWithMe() throws EntityNotFoundException, UnauthorizedException {
+    public Response getAllDealsWithMe(@DefaultValue("1") @QueryParam(value = "page") Integer page,
+                                      @DefaultValue("4") @QueryParam(value = "size") Integer size,
+                                      @DefaultValue("status") @QueryParam(value = "sort") String sort,
+                                      @DefaultValue("asc") @QueryParam(value = "direction") String direction)
+            throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
-        return Response.status(200).entity(dealService.getAllByOwner(ownerId)).build();
+        return Response.status(200).entity(dealService.getAllByOwner(ownerId, page, size, sort, direction)).build();
     }
 
     @GET

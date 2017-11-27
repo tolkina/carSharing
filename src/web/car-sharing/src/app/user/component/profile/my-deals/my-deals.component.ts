@@ -3,7 +3,10 @@ import {Deal} from "../../../domain/deal";
 import {DealService} from "../../../service/deal.service";
 import {DealStatus} from "../../../domain/deal-status";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {SortDealsService} from "../../../service/sort-deals.service";
+import {Sort} from "../../../domain/sort";
+import {Direction} from "../../../domain/direction";
+import {PageParameter} from "../../../domain/page-parameter";
+import {PageDeal} from "../../../domain/page-deal";
 
 @Component({
   selector: 'app-my-deals',
@@ -12,14 +15,15 @@ import {SortDealsService} from "../../../service/sort-deals.service";
 })
 export class MyDealsComponent implements OnInit {
   dealStatus = new DealStatus;
-  deals: Deal[] = [];
+  deals: PageDeal;
   cloneDeal: Deal;
   error = "";
-  sortedByStatus = false;
+  sort = new Sort();
+  direction = new Direction();
+  pageParameter = new PageParameter(1, 4, this.sort.status, this.direction.asc);
   private modalRef: NgbModalRef;
 
-  constructor(private dealService: DealService, private modalService: NgbModal,
-              private sortDealsService: SortDealsService) {
+  constructor(private dealService: DealService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -27,7 +31,7 @@ export class MyDealsComponent implements OnInit {
   }
 
   getMyDeals() {
-    this.dealService.getAllMyDeals().then(deals => this.deals = deals).catch()
+    this.dealService.getAllMyDeals(this.pageParameter).then(deals => this.deals = deals).catch()
   }
 
   showCancelBooking(deal: Deal, contentCancelBooking) {
@@ -39,15 +43,10 @@ export class MyDealsComponent implements OnInit {
   cancelBooking() {
     this.dealService.cancelBooking(this.cloneDeal.id)
       .then(deal => {
-        this.deals[this.deals.indexOf(this.cloneDeal)] = deal;
+        this.deals.content[this.deals.content.indexOf(this.cloneDeal)] = deal;
         this.modalRef.close();
       })
       .catch(err => this.error = err)
-  }
-
-  sortDeals() {
-    this.sortedByStatus = this.sortedByStatus != true;
-    this.deals = this.sortDealsService.sort(this.sortedByStatus, this.deals);
   }
 
   getStatus(dealStatus: string): string {
@@ -66,5 +65,11 @@ export class MyDealsComponent implements OnInit {
     if (dealStatus == this.dealStatus.rentalEnd[0]) {
       return this.dealStatus.rentalEnd[1]
     }
+  }
+
+  sortDeal(sortType: string, direction: string) {
+    this.pageParameter.sort = sortType;
+    this.pageParameter.direction = direction;
+    this.getMyDeals();
   }
 }

@@ -12,6 +12,4 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
     Page<Model> findAllByBrand(Brand brand, Pageable pageable);
 
     Model findByNameAndBrand(String model, Brand brand);
-
-    Long countByBrand(Brand brand);
 }

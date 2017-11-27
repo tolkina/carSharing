@@ -79,84 +79,42 @@ export class CarParameterService {
   }
 
   getFuelTypes() {
-    return this.http.get(this.fuelTypeUrl, {
-      params: {
-        page: 1,
-        size: 100,
-        sort: "name",
-        direction: "ASC"
-      }
-    })
+    return this.http.get(this.fuelTypeUrl)
       .toPromise()
       .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getBodyTypes() {
-    return this.http.get(this.bodyTypeUrl, {
-      params: {
-        page: 1,
-        size: 100,
-        sort: "name",
-        direction: "ASC"
-      }
-    })
+    return this.http.get(this.bodyTypeUrl)
       .toPromise()
       .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getDriveUnits() {
-    return this.http.get(this.driveUnitUrl, {
-      params: {
-        page: 1,
-        size: 100,
-        sort: "name",
-        direction: "ASC"
-      }
-    })
+    return this.http.get(this.driveUnitUrl)
       .toPromise()
       .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getTiresSeasons() {
-    return this.http.get(this.tiresSeasonUrl, {
-      params: {
-        page: 1,
-        size: 100,
-        sort: "name",
-        direction: "ASC"
-      }
-    })
+    return this.http.get(this.tiresSeasonUrl)
       .toPromise()
       .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getInteriorMaterials() {
-    return this.http.get(this.interiorMaterialUrl, {
-      params: {
-        page: 1,
-        size: 100,
-        sort: "name",
-        direction: "ASC"
-      }
-    })
+    return this.http.get(this.interiorMaterialUrl)
       .toPromise()
       .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);
   }
 
   getColors() {
-    return this.http.get(this.colorUrl, {
-      params: {
-        page: 1,
-        size: 100,
-        sort: "name",
-        direction: "ASC"
-      }
-    })
+    return this.http.get(this.colorUrl)
       .toPromise()
       .then(res => res.json().content as CarParameter[])
       .catch(this.handleError);

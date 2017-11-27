@@ -57,7 +57,6 @@ import {DealsWithMeComponent} from './user/component/profile/deals-with-me/deals
 import {HomePageAdminComponent} from "./admin/component/home-page-admin/home-page-admin.component";
 import {SetupAdminComponent} from "./admin/component/setup-admin/setup-admin.component";
 import {ConfirmProfileComponent} from "./admin/component/confirm-profile/confirm-profile.component";
-import {SortDealsService} from "./user/service/sort-deals.service";
 import {HoverDirective} from "./directive/hover-directive";
 import {CarModalComponent} from './user/component/car-modal/car-modal.component';
 
@@ -77,7 +76,7 @@ import {CarModalComponent} from './user/component/car-modal/car-modal.component'
   ],
   providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
     CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuardService, DateFormatter,
-    RoleAuthGuardService, CreditCardService, ConfirmProfileService, DealService, SortDealsService],
+    RoleAuthGuardService, CreditCardService, ConfirmProfileService, DealService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

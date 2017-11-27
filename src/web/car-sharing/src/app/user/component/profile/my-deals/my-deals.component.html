@@ -1,14 +1,40 @@
-<div align="right">
-  <button class="btn btn-primary" (click)="sortDeals()" *ngIf="!sortedByStatus && deals.length > 0">По статусу</button>
-  <button class="btn btn-primary" (click)="sortDeals()" *ngIf="sortedByStatus && deals.length > 0">По id</button>
+<h4 class="text-center">Мои сделки</h4>
+<div class="row" *ngIf="deals.content.length > 0">
+  <div class="col-4">Начало бронирования
+    <button class="btn btn-sm btn-light" (click)="sortDeal(sort.bookingStartTime, direction.asc)"
+            *ngIf="pageParameter.sort != sort.bookingStartTime || pageParameter.direction != direction.asc"
+            data-placement="bottom" title="По возрастанию">&#x25B2;
+    </button>
+    <button class="btn btn-sm btn-light" (click)="sortDeal(sort.bookingStartTime, direction.desc)"
+            *ngIf="pageParameter.sort != sort.bookingStartTime || pageParameter.direction != direction.desc"
+            data-placement="bottom" title="По убыванию">&#x25BC;
+    </button>
+  </div>
+  <div class="col-4">Количество суток
+    <button class="btn btn-sm btn-light" (click)="sortDeal(sort.daysForRent, direction.asc)"
+            *ngIf="pageParameter.sort != sort.daysForRent || pageParameter.direction != direction.asc"
+            data-placement="bottom" title="По возрастанию">&#x25B2;
+    </button>
+    <button class="btn btn-sm btn-light" (click)="sortDeal(sort.daysForRent, direction.desc)"
+            *ngIf="pageParameter.sort != sort.daysForRent || pageParameter.direction != direction.desc"
+            data-placement="bottom" title="По убыванию">&#x25BC;
+    </button>
+  </div>
+  <div class="col-4">Цена
+    <button class="btn btn-sm btn-light" (click)="sortDeal(sort.price, direction.asc)"
+            *ngIf="pageParameter.sort != sort.price || pageParameter.direction != direction.asc"
+            data-placement="bottom" title="По возрастанию">&#x25B2;
+    </button>
+    <button class="btn btn-sm btn-light" (click)="sortDeal(sort.price, direction.desc)"
+            *ngIf="pageParameter.sort != sort.price || pageParameter.direction != direction.desc"
+            data-placement="bottom" title="По убыванию">&#x25BC;
+    </button>
+  </div>
 </div>
+
 <div class="row">
-  <div class="col-md-6 col-sm-12" *ngFor="let deal of deals">
+  <div class="col-md-6 col-sm-12" *ngFor="let deal of deals.content">
     <div class="card" style="height: 100%" appHover>
-      <img class="card-img-top" src="../../assets/images/placeholder-car.png" alt="Car image"
-           *ngIf="deal.ad.car.generalParameters.photos.length < 1">
-      <img class="card-img-top" src="{{deal.ad.car.generalParameters.photos[0]}}" alt="Car image"
-           *ngIf="deal.ad.car.generalParameters.photos.length > 0">
       <div class="card-body">
         <div class="card-text"><b>Статус: </b>{{getStatus(deal.status)}}</div>
         <div class="card-text"><b>Начало бронирования: </b>{{deal.bookingStartTime | date: 'hh:mm:ss dd-MM-yyyy'}}</div>
@@ -41,6 +67,10 @@
     </div>
   </div>
 </div>
+
+<ngb-pagination [collectionSize]="deals.totalElements" [(page)]="pageParameter.page" [pageSize]="deals.size"
+                [maxSize]="4" [rotate]="true" (pageChange)="getMyDeals()"
+                *ngIf="deals.content.length > 0"></ngb-pagination>
 
 <ng-template #contentCancelBooking let-c="close" let-d="dismiss">
   <div class="modal-header">

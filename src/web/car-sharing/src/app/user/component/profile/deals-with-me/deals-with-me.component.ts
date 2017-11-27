@@ -3,7 +3,10 @@ import {Deal} from "../../../domain/deal";
 import {DealService} from "../../../service/deal.service";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {DealStatus} from "../../../domain/deal-status";
-import {SortDealsService} from "../../../service/sort-deals.service";
+import {Sort} from "../../../domain/sort";
+import {Direction} from "../../../domain/direction";
+import {PageParameter} from "../../../domain/page-parameter";
+import {PageDeal} from "../../../domain/page-deal";
 
 @Component({
   selector: 'app-deals-with-me',
@@ -12,14 +15,15 @@ import {SortDealsService} from "../../../service/sort-deals.service";
 })
 export class DealsWithMeComponent implements OnInit {
   dealStatus = new DealStatus;
-  deals: Deal[] = [];
+  deals = new PageDeal();
   error = "";
-  sortedByStatus = false;
+  sort = new Sort();
+  direction = new Direction();
+  pageParameter = new PageParameter(1, 4, this.sort.status, this.direction.asc);
   private cloneDeal = new Deal;
   private modalRef: NgbModalRef;
 
-  constructor(private dealService: DealService, private modalService: NgbModal,
-              private sortDealsService: SortDealsService) {
+  constructor(private dealService: DealService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -27,7 +31,7 @@ export class DealsWithMeComponent implements OnInit {
   }
 
   getDealsWithMe() {
-    this.dealService.getAllDealsWithMe().then(deals => this.deals = deals).catch()
+    this.dealService.getAllDealsWithMe(this.pageParameter).then(deals => this.deals = deals).catch()
   }
 
   showStopRental(deal: Deal, content) {
@@ -39,7 +43,7 @@ export class DealsWithMeComponent implements OnInit {
   stopRental() {
     this.dealService.stopRental(this.cloneDeal.id)
       .then(deal => {
-        this.deals[this.deals.indexOf(this.cloneDeal)] = deal;
+        this.deals.content[this.deals.content.indexOf(this.cloneDeal)] = deal;
         this.modalRef.close();
       })
       .catch(err => this.error = err)
@@ -54,15 +58,10 @@ export class DealsWithMeComponent implements OnInit {
   startRental() {
     this.dealService.startRental(this.cloneDeal.id)
       .then(deal => {
-        this.deals[this.deals.indexOf(this.cloneDeal)] = deal;
+        this.deals.content[this.deals.content.indexOf(this.cloneDeal)] = deal;
         this.modalRef.close();
       })
       .catch(err => this.error = err)
-  }
-
-  sortDeals() {
-    this.sortedByStatus = this.sortedByStatus != true;
-    this.deals = this.sortDealsService.sort(this.sortedByStatus, this.deals);
   }
 
   getStatus(dealStatus: string): string {
@@ -81,5 +80,11 @@ export class DealsWithMeComponent implements OnInit {
     if (dealStatus == this.dealStatus.rentalEnd[0]) {
       return this.dealStatus.rentalEnd[1]
     }
+  }
+
+  sortDeal(sortType: string, direction: string) {
+    this.pageParameter.sort = sortType;
+    this.pageParameter.direction = direction;
+    this.getDealsWithMe();
   }
 }

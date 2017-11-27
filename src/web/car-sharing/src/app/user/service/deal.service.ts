@@ -2,6 +2,8 @@ import 'rxjs/add/operator/toPromise';
 import {Http} from "@angular/http";
 import {Injectable} from '@angular/core';
 import {Deal} from "../domain/deal";
+import {PageParameter} from "../domain/page-parameter";
+import {PageDeal} from "../domain/page-deal";
 
 @Injectable()
 export class DealService {
@@ -18,24 +20,31 @@ export class DealService {
       .catch(this.handleError);
   }
 
-  getAllDeals(): Promise<Deal[]> {
-    return this.http.get(this.dealUrl)
+  getAllMyDeals(pageParameter: PageParameter): Promise<PageDeal> {
+    return this.http.get(this.dealUrl + "my", {
+      params: {
+        page: pageParameter.page,
+        size: pageParameter.size,
+        sort: pageParameter.sort,
+        direction: pageParameter.direction
+      }
+    })
       .toPromise()
-      .then(response => response.json() as Deal[])
+      .then(response => response.json() as PageDeal)
       .catch(this.handleError);
   }
 
-  getAllMyDeals(): Promise<Deal[]> {
-    return this.http.get(this.dealUrl + "my")
+  getAllDealsWithMe(pageParameter: PageParameter): Promise<PageDeal> {
+    return this.http.get(this.dealUrl + "by-me", {
+      params: {
+        page: pageParameter.page,
+        size: pageParameter.size,
+        sort: pageParameter.sort,
+        direction: pageParameter.direction
+      }
+    })
       .toPromise()
-      .then(response => response.json() as Deal[])
-      .catch(this.handleError);
-  }
-
-  getAllDealsWithMe(): Promise<Deal[]> {
-    return this.http.get(this.dealUrl + "by-me")
-      .toPromise()
-      .then(response => response.json() as Deal[])
+      .then(response => response.json() as PageDeal)
       .catch(this.handleError);
   }
 
