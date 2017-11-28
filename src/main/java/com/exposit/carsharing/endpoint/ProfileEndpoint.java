@@ -100,9 +100,13 @@ public class ProfileEndpoint {
 
     @GET
     @Path("ad")
-    public Response getAllAdsForPrincipal() throws EntityNotFoundException, UnauthorizedException {
+    public Response getAllAdsForPrincipal(@DefaultValue("1") @QueryParam(value = "page") Integer page,
+                                          @DefaultValue("4") @QueryParam(value = "size") Integer size,
+                                          @DefaultValue("status") @QueryParam(value = "sort") String sort,
+                                          @DefaultValue("asc") @QueryParam(value = "direction") String direction)
+            throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
-        return Response.status(200).entity(adService.getAllByOwner(ownerId)).build();
+        return Response.status(200).entity(adService.getAllByOwner(ownerId, page, size, sort, direction)).build();
     }
 
     @PUT

@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {Ad} from "../domain/ad";
+import {PageParameter} from "../domain/page-parameter";
+import {PageAd} from "../domain/page-ad";
 
 @Injectable()
 export class ProfileAdService {
@@ -35,19 +37,33 @@ export class ProfileAdService {
       .catch(this.handleError)
   }
 
-  getAllAdsForPrincipal() {
+  getAllAdsForPrincipal(pageParameter: PageParameter) {
     return this.http
-      .get(this.adsOfPrincipalUrl)
+      .get(this.adsOfPrincipalUrl, {
+        params: {
+          page: pageParameter.page,
+          size: pageParameter.size,
+          sort: pageParameter.sort,
+          direction: pageParameter.direction
+        }
+      })
       .toPromise()
-      .then(res => res.json() as Ad[])
+      .then(res => res.json() as PageAd)
       .catch(this.handleError)
   }
 
-  getAllNotMyActualAds() {
+  getAllNotMyActualAds(pageParameter: PageParameter) {
     return this.http
-      .get(this.adUrl + "all-not-my")
+      .get(this.adUrl + "all-not-my", {
+        params: {
+          page: pageParameter.page,
+          size: pageParameter.size,
+          sort: pageParameter.sort,
+          direction: pageParameter.direction
+        }
+      })
       .toPromise()
-      .then(res => res.json() as Ad[])
+      .then(res => res.json() as PageAd)
       .catch(this.handleError)
   }
 

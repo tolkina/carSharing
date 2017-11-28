@@ -7,6 +7,10 @@ import {CreditCardService} from "../../service/credit-card.service";
 import {DealService} from "../../service/deal.service";
 import {Deal} from "../../domain/deal";
 import {Router} from "@angular/router";
+import {Sort} from "../../domain/sort";
+import {Direction} from "../../domain/direction";
+import {PageParameter} from "../../domain/page-parameter";
+import {PageAd} from "../../domain/page-ad";
 
 @Component({
   selector: 'app-news-ad',
@@ -15,12 +19,15 @@ import {Router} from "@angular/router";
 })
 export class NewsAdComponent implements OnInit {
   confirm = "YES";
-  ads: Ad[] = [];
+  ads: PageAd;
   dealError = "";
   creditCards: CreditCard[] = [];
   newDeal: any = {};
   currentDeal: Deal = new Deal;
   private modalRef: any;
+  sort = new Sort();
+  direction = new Direction();
+  pageParameter = new PageParameter(1, 3, this.sort.status, this.direction.asc);
 
   constructor(private adService: ProfileAdService, private modalService: NgbModal,
               private creditCardService: CreditCardService, private dealService: DealService, private router: Router) {
@@ -32,7 +39,7 @@ export class NewsAdComponent implements OnInit {
   }
 
   getAllNotMyActualAds() {
-    this.adService.getAllNotMyActualAds().then()
+    this.adService.getAllNotMyActualAds(this.pageParameter).then()
       .then(ads => this.ads = ads)
       .catch();
   }

@@ -5,6 +5,10 @@ import {ProfileCarService} from "../../../../service/profile-car.service";
 import {AdStatus} from "../../../../domain/ad-status";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {clone} from "lodash";
+import {Sort} from "../../../../domain/sort";
+import {Direction} from "../../../../domain/direction";
+import {PageParameter} from "../../../../domain/page-parameter";
+import {PageAd} from "../../../../domain/page-ad";
 
 @Component({
   selector: 'app-all-ads',
@@ -13,13 +17,16 @@ import {clone} from "lodash";
 })
 export class AllAdsComponent implements OnInit {
 
-  ads: Ad[];
+  ads: PageAd;
   numberOfCars: number;
   adStatus = new AdStatus();
   error = "";
   ad = new Ad();
   editedAd = new Ad();
   private modalRef: NgbModalRef;
+  sort = new Sort();
+  direction = new Direction();
+  pageParameter = new PageParameter(1, 4, this.sort.status, this.direction.asc);
 
   constructor(private adService: ProfileAdService, private carService: ProfileCarService,
               private modalService: NgbModal) {
@@ -31,7 +38,7 @@ export class AllAdsComponent implements OnInit {
   }
 
   getAllAds() {
-    this.adService.getAllAdsForPrincipal().then()
+    this.adService.getAllAdsForPrincipal(this.pageParameter).then()
       .then(ads => this.ads = ads)
       .catch();
   }
@@ -57,7 +64,7 @@ export class AllAdsComponent implements OnInit {
   updateAd() {
     this.adService.updateAd(this.editedAd, this.ad.id)
       .then(ad => {
-        this.ads[this.ads.indexOf(this.ad)] = ad;
+        this.ads.content[this.ads.content.indexOf(this.ad)] = ad;
         this.modalRef.close()
       })
       .catch(err => this.error = err);
@@ -65,7 +72,7 @@ export class AllAdsComponent implements OnInit {
 
   deleteAd() {
     this.adService.deleteAd(this.ad.id).then(res => {
-      this.ads.splice(this.ads.indexOf(this.ad), 1);
+      this.ads.content.splice(this.ads.content.indexOf(this.ad), 1);
       this.modalRef.close();
     })
       .catch(err => this.error = err);
@@ -98,15 +105,21 @@ export class AllAdsComponent implements OnInit {
 
   setActual() {
     this.adService.setActual(this.ad.id).then(ad => {
-      this.ads[this.ads.indexOf(this.ad)] = ad;
+      this.ads.content[this.ads.content.indexOf(this.ad)] = ad;
       this.modalRef.close()
     }).catch(err => this.error = err)
   }
 
   setNotActual() {
     this.adService.setNotActual(this.ad.id).then(ad => {
-      this.ads[this.ads.indexOf(this.ad)] = ad;
+      this.ads.content[this.ads.content.indexOf(this.ad)] = ad;
       this.modalRef.close()
     }).catch(err => this.error = err)
+  }
+
+  sortAd(sortType: string, direction: string) {
+    this.pageParameter.sort = sortType;
+    this.pageParameter.direction = direction;
+    this.getAllAds();
   }
 }

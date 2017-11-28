@@ -6,7 +6,7 @@
      *ngIf="numberOfCars">+</a>
 </h4>
 <div class="row">
-  <div class="col-md-6 col-sm-6" *ngFor="let ad of ads">
+  <div class="col-md-6 col-sm-6" *ngFor="let ad of ads.content">
     <div class="card" style="height: 100%" appHover>
       <div class="card-body">
         <div class="card-text"><b>Статус: </b>{{getStatus(ad.status)}}</div>
@@ -40,6 +40,9 @@
     </div>
   </div>
 </div>
+<ngb-pagination [collectionSize]="ads.totalElements" [(page)]="pageParameter.page" [pageSize]="ads.size"
+                [maxSize]="4" [rotate]="true" (pageChange)="getAllAds()"
+                *ngIf="ads.content.length > 0"></ngb-pagination>
 
 <ng-template #contentUpdate let-c="close" let-d="dismiss">
   <div class="modal-header">

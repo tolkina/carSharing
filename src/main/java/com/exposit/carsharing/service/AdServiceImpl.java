@@ -11,6 +11,7 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.AdRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,14 +54,20 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public List<AdResponse> getAllNotMyActual(Long principalId) throws EntityNotFoundException {
-        return mapAllToResponse(adRepository.findAllByOwnerIsNotAndStatus(
-                profileService.getProfile(principalId), AdStatus.ACTUAL));
+    public Page<AdResponse> getAllNotMyActual(Long principalId, Integer page, Integer size, String sort,
+                                              String direction) throws EntityNotFoundException {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
+        Page<Ad> adPage = adRepository.findAllByOwnerIsNotAndStatus(profileService.getProfile(principalId),
+                AdStatus.ACTUAL, pageRequest);
+        return new PageImpl<>(mapAllToResponse(adPage.getContent()), pageRequest, adPage.getTotalElements());
     }
 
     @Override
-    public List<AdResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException {
-        return mapAllToResponse(profileService.getProfile(ownerId).getAds());
+    public Page<AdResponse> getAllByOwner(Long ownerId, Integer page, Integer size, String sort, String direction)
+            throws EntityNotFoundException {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
+        Page<Ad> adPage = adRepository.findAllByOwner(profileService.getProfile(ownerId), pageRequest);
+        return new PageImpl<>(mapAllToResponse(adPage.getContent()), pageRequest, adPage.getTotalElements());
     }
 
     @Override
@@ -158,5 +165,12 @@ public class AdServiceImpl implements AdService {
         if (ad.getStatus().equals(AdStatus.TAKEN)) {
             throw new AdException(String.format("Can't perform the action. The ad has status %s", ad.getStatus()));
         }
+    }
+
+    private Pageable getPageRequest(Integer page, Integer size, String sort, String direction) {
+        if (direction.toLowerCase().equals("desc")) {
+            return new PageRequest(page - 1, size, Sort.Direction.DESC, sort);
+        }
+        return new PageRequest(page - 1, size, Sort.Direction.ASC, sort);
     }
 }
