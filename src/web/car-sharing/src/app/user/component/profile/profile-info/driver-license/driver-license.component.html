@@ -3,9 +3,36 @@
 <div class="row">
   <div class="col-5">
     <p><b>Серия и номер: </b>{{driverLicense.seriesAndNumber}}</p>
+    <div class="avatar">
+      <img src="{{driverLicense.backSideImageUrl}}" alt="Обратная сторона" *ngIf="driverLicense.backSideImageUrl"
+           class="image">
+      <img src="../../assets/images/back-side.png" alt="Обратная сторона"
+           *ngIf="!driverLicense.backSideImageUrl" class="image">
+      <div class="avatar-options">
+        <button type="button" class="btn btn-sm btn-danger" (click)="showEditPhoto(contentDeleteBackSidePhoto)"
+                *ngIf="driverLicense.backSideImageUrl" data-placement="bottom" title="Удалить фото">␡
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="showEditPhoto(contentLoadBackSidePhoto)"
+                data-placement="bottom" title="Изменить фото">✎
+        </button>
+      </div>
+    </div>
   </div>
   <div class="col-5">
     <p><b>Категории: </b>{{driverLicense.category}}</p>
+    <div class="avatar">
+      <img src="{{driverLicense.frontSideImageUrl}}" alt="Лицевая сторона" *ngIf="driverLicense.frontSideImageUrl" class="image">
+      <img src="../../assets/images/front-side.png" alt="Лицевая сторона" *ngIf="!driverLicense.frontSideImageUrl"
+           class="image">
+      <div class="avatar-options">
+        <button type="button" class="btn btn-sm btn-danger" (click)="showEditPhoto(contentDeleteFrontSidePhoto)"
+                *ngIf="driverLicense.frontSideImageUrl" data-placement="bottom" title="Удалить фото">␡
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="showEditPhoto(contentLoadFrontSidePhoto)"
+                data-placement="bottom" title="Изменить фото">✎
+        </button>
+      </div>
+    </div>
   </div>
   <div class="col-2" *ngIf="driverLicense.id" align="right">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit(content)" data-placement="bottom"
@@ -38,6 +65,84 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
       <button type="submit" class="btn btn-primary" [disabled]="!update.form.valid">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentDeleteFrontSidePhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удалить лицевую сторону?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
+    <button type="submit" class="btn btn-primary" (click)="deleteFrontSidePhoto()">Да</button>
+  </div>
+</ng-template>
+
+<ng-template #contentDeleteBackSidePhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удалить обратную сторону?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
+    <button type="submit" class="btn btn-primary" (click)="deleteBackSidePhoto()">Да</button>
+  </div>
+</ng-template>
+
+<ng-template #contentLoadFrontSidePhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Загрузка лицевой стороны</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="uploadFrontSidePhoto()" #load="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+      <div class="form-group">
+        <label for="frontSide">Фото:</label>
+        <input type="file" name="frontSide" id="frontSide" (change)="onFileChange($event)" required
+               accept="image/*" class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" [disabled]="!load.form.valid || loading" class="btn btn-primary">Загрузить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentLoadBackSidePhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Загрузка обратной стороны</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="uploadBackSidePhoto()" #load="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+      <div class="form-group">
+        <label for="backSide">Фото:</label>
+        <input type="file" name="backSide" id="backSide" (change)="onFileChange($event)" required
+               accept="image/*" class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" [disabled]="!load.form.valid || loading" class="btn btn-primary">Загрузить</button>
     </div>
   </form>
 </ng-template>

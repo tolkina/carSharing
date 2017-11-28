@@ -13,6 +13,4 @@ public class DriverLicenseRequest implements Serializable {
     private String seriesAndNumber;
     @Size(max = 5)
     private String category;
-    private String frontSideImageUrl;
-    private String backSideImageUrl;
 }
