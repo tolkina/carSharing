@@ -12,7 +12,7 @@ import {DriverLicenseService} from "./user/service/driver-license.service";
 import {ProfileInfoComponent} from "./user/component/profile/profile-info/profile-info.component";
 import {CarComponent} from "./user/component/profile/profile-car/profile-car.component";
 import {AdComponent} from "./user/component/profile/profile-ad/profile-ad.component";
-import {CarService} from "./user/service/profile-car.service";
+import {CarService} from "./user/service/car.service";
 import {AllCarsComponent} from "./user/component/profile/profile-car/all-cars/all-cars.component";
 import {NewCarComponent} from "./user/component/profile/profile-car/new-car/new-car.component";
 import {CurrentCarComponent} from "./user/component/profile/profile-car/current-car/current-car.component";
@@ -39,7 +39,7 @@ import {NewAdComponent} from "./user/component/profile/profile-ad/new-ad/new-ad.
 import {PassportDataComponent} from "./user/component/profile/profile-info/passport-data/passport-data.component";
 import {DriverLicenseComponent} from "./user/component/profile/profile-info/driver-license/driver-license.component";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {AdService} from "./user/service/profile-ad.service";
+import {AdService} from "./user/service/ad.service";
 import {SecurityService} from "./security/security.service";
 import {SecurityModel} from "./security/security-model";
 import {DateFormatter} from "./date-formatter";

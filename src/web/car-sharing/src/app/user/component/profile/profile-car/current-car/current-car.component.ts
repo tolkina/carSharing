@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CarService} from "../../../../service/profile-car.service";
+import {CarService} from "../../../../service/car.service";
 import {ActivatedRoute, Router} from '@angular/router'
 import {Subscription} from 'rxjs/Subscription';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";

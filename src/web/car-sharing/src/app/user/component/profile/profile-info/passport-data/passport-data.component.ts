@@ -5,6 +5,7 @@ import {clone} from "lodash";
 import {NgbDateStruct, NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {DateFormatter} from "../../../../../date-formatter";
 import {ProfileInfoComponent} from "../profile-info.component";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-passport-data',
@@ -21,10 +22,15 @@ export class PassportDataComponent implements OnInit {
   ngbDateOfIssue: NgbDateStruct[] = [];
   touchedValidUntil = false;
   touchedDateOfIssue = false;
+  form: FormGroup;
+  loading: boolean = false;
+  input: any = new FormData();
   private modalRef: NgbModalRef;
 
   constructor(private passportService: PassportDataService, private dateFormatter: DateFormatter,
-              private modalService: NgbModal, private profileInfoComponent: ProfileInfoComponent) {
+              private modalService: NgbModal, private profileInfoComponent: ProfileInfoComponent,
+              private fb: FormBuilder) {
+    this.createForm();
   }
 
   ngOnInit() {
@@ -48,7 +54,7 @@ export class PassportDataComponent implements OnInit {
           this.modalRef.close();
           this.passport = passport;
           this.editedPassport = new PassportData();
-          this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.confirm.no[0];
+          this.profileInfoComponent.setConfirmNo();
         })
         .catch(err => this.error = err);
     }
@@ -64,6 +70,81 @@ export class PassportDataComponent implements OnInit {
     this.editedPassport.dateOfIssue = this.dateFormatter.toDate(this.dateOfIssue);
     this.touchedDateOfIssue = false;
     this.touchedValidUntil = false;
+  }
+
+  showEditPhoto(content) {
+    this.error = "";
+    this.modalRef = this.modalService.open(content);
+  }
+
+  createForm() {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      photo: null
+    });
+  }
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      let file = event.target.files[0];
+      this.form.get('photo').setValue(file);
+    }
+  }
+
+  uploadPhoto() {
+    this.prepareSave();
+    if (!this.error) {
+      this.loading = true;
+      this.passportService.uploadPhoto(this.input)
+        .then(passport => {
+          this.passport.photoUrl = passport.photoUrl;
+          this.modalRef.close();
+          this.loading = false;
+          this.profileInfoComponent.setConfirmNo();
+        })
+        .catch(err => {
+          this.error = err;
+          this.loading = false;
+        })
+    }
+  }
+
+  uploadRegistrationPhoto() {
+    this.prepareSave();
+    if (!this.error) {
+      this.loading = true;
+      this.passportService.uploadRegistrationPhoto(this.input)
+        .then(passport => {
+          this.passport.registrationPhotoUrl = passport.registrationPhotoUrl;
+          this.modalRef.close();
+          this.loading = false;
+          this.profileInfoComponent.setConfirmNo();
+        })
+        .catch(err => {
+          this.error = err;
+          this.loading = false;
+        })
+    }
+  }
+
+  deletePhoto() {
+    this.passportService.deletePhoto()
+      .then(passport => {
+        this.passport.photoUrl = passport.photoUrl;
+        this.modalRef.close();
+        this.profileInfoComponent.setConfirmNo();
+      })
+      .catch(err => this.error = err)
+  }
+
+  deleteRegistrationPhoto() {
+    this.passportService.deleteRegistrationPhoto()
+      .then(passport => {
+        this.passport.registrationPhotoUrl = passport.registrationPhotoUrl;
+        this.modalRef.close();
+        this.profileInfoComponent.setConfirmNo();
+      })
+      .catch(err => this.error = err)
   }
 
   private getPassportData() {
@@ -91,6 +172,18 @@ export class PassportDataComponent implements OnInit {
       this.error = "Срок действия не может быть раньше даты выдачи";
       return false;
     }
+    return true;
+  }
+
+  private prepareSave() {
+    this.error = "";
+    this.input = new FormData();
+    if (this.form.get('photo').value.size > 2097152) // 2 mb for bytes.
+    {
+      this.error = "File size must under 2mb!";
+      return false;
+    }
+    this.input.append('file', this.form.get('photo').value);
     return true;
   }
 }

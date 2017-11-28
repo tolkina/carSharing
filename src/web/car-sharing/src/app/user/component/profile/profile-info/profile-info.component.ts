@@ -130,6 +130,10 @@ export class ProfileInfoComponent {
     return this.profileService.getConfirmStatus(this.profile)
   }
 
+  setConfirmNo() {
+    this.profile.confirmProfile = this.confirm.no[0];
+  }
+
   private putNgbBorders() {
     const currentDate = new Date();
     this.ngbBirthday.push({year: 1960, month: 1, day: 1}, {

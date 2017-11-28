@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CarService} from "../../../../service/profile-car.service";
+import {CarService} from "../../../../service/car.service";
 import {Sort} from "../../../../domain/sort";
 import {Direction} from "../../../../domain/direction";
 import {PageParameter} from "../../../../domain/page-parameter";

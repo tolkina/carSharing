@@ -6,12 +6,38 @@
     <p><b>Имя: </b>{{passport.firstName}}</p>
     <p><b>Отчество: </b>{{passport.middleName}}</p>
     <p><b>Серия и номер: </b>{{passport.seriesAndNumber}}</p>
+    <div class="avatar">
+      <img src="{{passport.registrationPhotoUrl}}" alt="Страница с пропиской" *ngIf="passport.registrationPhotoUrl"
+           class="image">
+      <img src="../../assets/images/registration-photo.png" alt="Страница с пропиской" *ngIf="!passport.registrationPhotoUrl"
+           class="image">
+      <div class="avatar-options">
+        <button type="button" class="btn btn-sm btn-danger" (click)="showEditPhoto(contentDeleteRegistrationPhoto)"
+                *ngIf="passport.registrationPhotoUrl" data-placement="bottom" title="Удалить фото">␡
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="showEditPhoto(contentLoadRegistrationPhoto)"
+                data-placement="bottom" title="Изменить фото">✎
+        </button>
+      </div>
+    </div>
   </div>
   <div class="col-5">
     <p><b>Личный номер: </b>{{passport.personalNumber}}</p>
     <p><b>Дата выдачи: </b>{{passport.dateOfIssue | date: 'yyyy-MM-dd'}}</p>
     <p><b>Место выдачи: </b>{{passport.placeOfIssue}}</p>
     <p><b>Срок действия: </b>{{passport.validUntil | date: 'yyyy-MM-dd'}}</p>
+    <div class="avatar">
+      <img src="{{passport.photoUrl}}" alt="Страница с фото" *ngIf="passport.photoUrl" class="image">
+      <img src="../../assets/images/passport-photo.png" alt="Страница с фото" *ngIf="!passport.photoUrl" class="image">
+      <div class="avatar-options">
+        <button type="button" class="btn btn-sm btn-danger" (click)="showEditPhoto(contentDeletePhoto)"
+                *ngIf="passport.photoUrl" data-placement="bottom" title="Удалить фото">␡
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="showEditPhoto(contentLoadPhoto)"
+                data-placement="bottom" title="Изменить фото">✎
+        </button>
+      </div>
+    </div>
   </div>
   <div class="col-2" *ngIf="passport.id" align="right">
     <button type="button" class="btn-sm btn-primary" (click)="showEdit(content)"
@@ -141,6 +167,84 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="c('Close click')">Закрыть</button>
       <button type="submit" class="btn btn-primary" [disabled]="!updatePassportData.form.valid">Сохранить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentDeletePhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удалить страницу с фото?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
+    <button type="submit" class="btn btn-primary" (click)="deletePhoto()">Да</button>
+  </div>
+</ng-template>
+
+<ng-template #contentDeleteRegistrationPhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Удалить страницу с пропиской?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Нет</button>
+    <button type="submit" class="btn btn-primary" (click)="deleteRegistrationPhoto()">Да</button>
+  </div>
+</ng-template>
+
+<ng-template #contentLoadPhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Загрузка страницы с фото</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="uploadPhoto()" #load="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+      <div class="form-group">
+        <label for="passportPhoto">Фото:</label>
+        <input type="file" name="passportPhoto" id="passportPhoto" (change)="onFileChange($event)" required
+               accept="image/*" class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" [disabled]="!load.form.valid || loading" class="btn btn-primary">Загрузить</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #contentLoadRegistrationPhoto let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Загрузка страницы с пропиской</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="uploadRegistrationPhoto()" #load="ngForm">
+    <div class="modal-body">
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+      <div class="form-group">
+        <label for="registrationPhoto">Фото:</label>
+        <input type="file" name="registrationPhoto" id="registrationPhoto" (change)="onFileChange($event)" required
+               accept="image/*" class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+      <button type="submit" [disabled]="!load.form.valid || loading" class="btn btn-primary">Загрузить</button>
     </div>
   </form>
 </ng-template>

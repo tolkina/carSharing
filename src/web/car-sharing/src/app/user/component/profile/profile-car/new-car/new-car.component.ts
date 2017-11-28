@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CarService} from "../../../../service/profile-car.service";
+import {CarService} from "../../../../service/car.service";
 import {Router} from '@angular/router'
 import {CarParameterService} from "../../../../service/car-parameter.service";
 import {Brand_} from "../../../../domain/brand_";

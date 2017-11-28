@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {clone} from "lodash";
 import {ActivatedRoute, Router} from '@angular/router'
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {CarService} from "../../../../../service/profile-car.service";
+import {CarService} from "../../../../../service/car.service";
 import {CurrentCondition} from "../../../../../domain/current-condition";
 
 @Component({

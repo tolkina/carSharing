@@ -25,6 +25,4 @@ public class PassportDataRequest implements Serializable {
     private LocalDate dateOfIssue;
     private String placeOfIssue;
     private LocalDate validUntil;
-    private String registrationPhotoUrl;
-    private String photoUrl;
 }

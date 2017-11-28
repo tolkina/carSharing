@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CarService} from "../../../../../service/profile-car.service";
+import {CarService} from "../../../../../service/car.service";
 import {clone} from "lodash";
 import {ActivatedRoute, Router} from '@angular/router'
 import {CarParameter} from "../../../../../domain/car-parameter";

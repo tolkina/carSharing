@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Ad} from "../../../../domain/ad";
-import {AdService} from "../../../../service/profile-ad.service";
-import {CarService} from "../../../../service/profile-car.service";
+import {AdService} from "../../../../service/ad.service";
+import {CarService} from "../../../../service/car.service";
 import {AdStatus} from "../../../../domain/ad-status";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {clone} from "lodash";

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AdService} from "../../service/profile-ad.service";
+import {AdService} from "../../service/ad.service";
 import {Ad} from "../../domain/ad";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CreditCard} from "../../domain/credit-card";

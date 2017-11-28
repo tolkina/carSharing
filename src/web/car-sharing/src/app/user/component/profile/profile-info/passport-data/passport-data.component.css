@@ -1,0 +1,24 @@
+.avatar {
+  position: relative;
+}
+
+.image {
+  opacity: 1;
+  width: 100%;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.avatar-options {
+  position: absolute;
+  transition: .5s ease;
+  opacity: 0;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%)
+}
+
+.avatar:hover .avatar-options {
+  opacity: 1;
+}

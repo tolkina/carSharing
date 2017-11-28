@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Ad} from "../../../../domain/ad";
-import {AdService} from "../../../../service/profile-ad.service";
+import {AdService} from "../../../../service/ad.service";
 import {Router} from "@angular/router";
 import {Car} from "../../../../domain/car";
-import {CarService} from "../../../../service/profile-car.service";
+import {CarService} from "../../../../service/car.service";
 
 @Component({
   selector: 'app-new-ad',
