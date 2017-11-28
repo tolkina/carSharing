@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProfileCarService} from "../../../../../service/profile-car.service";
+import {CarService} from "../../../../../service/profile-car.service";
 import {clone} from "lodash";
 import {ActivatedRoute, Router} from '@angular/router'
 import {CarParameter} from "../../../../../domain/car-parameter";
@@ -25,7 +25,7 @@ export class TechnicalParametersComponent implements OnInit {
   error = "";
   private modalRef: NgbModalRef;
 
-  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
+  constructor(private carService: CarService, private activateRoute: ActivatedRoute,
               private carParameterService: CarParameterService, private router: Router, private modalService: NgbModal) {
     this.carId = +activateRoute.snapshot.parent.params['carId'];
     if (isNaN(this.carId)) {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProfileCarService} from "../../../../service/profile-car.service";
+import {CarService} from "../../../../service/profile-car.service";
 import {Router} from '@angular/router'
 import {CarParameterService} from "../../../../service/car-parameter.service";
 import {Brand_} from "../../../../domain/brand_";
@@ -26,7 +26,7 @@ export class NewCarComponent implements OnInit {
   colors: CarParameter[] = [];
   years: number[] = [];
 
-  constructor(private carService: ProfileCarService, private router: Router,
+  constructor(private carService: CarService, private router: Router,
               private carParameterService: CarParameterService) {
   }
 

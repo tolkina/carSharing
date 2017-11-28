@@ -10,9 +10,9 @@ import {ProfileComponent} from "./user/component/profile/profile.component";
 import {PassportDataService} from "./user/service/passport-data.service";
 import {DriverLicenseService} from "./user/service/driver-license.service";
 import {ProfileInfoComponent} from "./user/component/profile/profile-info/profile-info.component";
-import {ProfileCarComponent} from "./user/component/profile/profile-car/profile-car.component";
-import {ProfileAdComponent} from "./user/component/profile/profile-ad/profile-ad.component";
-import {ProfileCarService} from "./user/service/profile-car.service";
+import {CarComponent} from "./user/component/profile/profile-car/profile-car.component";
+import {AdComponent} from "./user/component/profile/profile-ad/profile-ad.component";
+import {CarService} from "./user/service/profile-car.service";
 import {AllCarsComponent} from "./user/component/profile/profile-car/all-cars/all-cars.component";
 import {NewCarComponent} from "./user/component/profile/profile-car/new-car/new-car.component";
 import {CurrentCarComponent} from "./user/component/profile/profile-car/current-car/current-car.component";
@@ -39,7 +39,7 @@ import {NewAdComponent} from "./user/component/profile/profile-ad/new-ad/new-ad.
 import {PassportDataComponent} from "./user/component/profile/profile-info/passport-data/passport-data.component";
 import {DriverLicenseComponent} from "./user/component/profile/profile-info/driver-license/driver-license.component";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ProfileAdService} from "./user/service/profile-ad.service";
+import {AdService} from "./user/service/profile-ad.service";
 import {SecurityService} from "./security/security.service";
 import {SecurityModel} from "./security/security-model";
 import {DateFormatter} from "./date-formatter";
@@ -61,21 +61,20 @@ import {CarModalComponent} from './user/component/car-modal/car-modal.component'
 
 @NgModule({
   declarations: [
-    AppComponent, ProfileComponent, ProfileInfoComponent, ProfileCarComponent, ProfileAdComponent, AllCarsComponent,
-    NewCarComponent, CurrentCarComponent, TechnicalParametersComponent, GeneralParametersComponent,
-    CurrentConditionComponent, HomePageUserComponent, HomePageAdminComponent, SetupAdminComponent, GearboxComponent,
+    AppComponent, ProfileComponent, ProfileInfoComponent, CarComponent, AdComponent, AllCarsComponent, NewCarComponent,
+    CurrentCarComponent, TechnicalParametersComponent, GeneralParametersComponent, CurrentConditionComponent,
+    HomePageUserComponent, HomePageAdminComponent, SetupAdminComponent, GearboxComponent, CarModalComponent,
     BrandComponent, ModelComponent, ColorComponent, DriveUnitComponent, FuelTypeComponent, InteriorMaterialComponent,
     TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, EqualValidator, AllAdsComponent,
-    NewAdComponent, PassportDataComponent, DriverLicenseComponent, ProfileAdComponent, CreditCardComponent,
-    CarParameterComponent, ConfirmProfileComponent, NewsAdComponent, MyDealsComponent, DealsWithMeComponent,
-    HoverDirective, CarModalComponent
+    NewAdComponent, PassportDataComponent, DriverLicenseComponent, CreditCardComponent, CarParameterComponent,
+    ConfirmProfileComponent, NewsAdComponent, MyDealsComponent, DealsWithMeComponent, HoverDirective
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, ReactiveFormsModule, NgbModule.forRoot()
   ],
-  providers: [ProfileService, PassportDataService, DriverLicenseService, ProfileCarService, ProfileAdService,
-    CarParameterService, TechnicalParameterService, SecurityService, SecurityModel, AuthGuardService, DateFormatter,
-    RoleAuthGuardService, CreditCardService, ConfirmProfileService, DealService],
+  providers: [ProfileService, PassportDataService, DriverLicenseService, CarService, AdService, CarParameterService,
+    TechnicalParameterService, SecurityService, SecurityModel, AuthGuardService, DateFormatter, RoleAuthGuardService,
+    CreditCardService, ConfirmProfileService, DealService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

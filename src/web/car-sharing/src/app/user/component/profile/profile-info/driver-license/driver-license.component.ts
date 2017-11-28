@@ -30,7 +30,7 @@ export class DriverLicenseComponent implements OnInit {
         this.modalRef.close();
         this.driverLicense = driverLicense;
         this.editedDriverLicense = new DriverLicense();
-        this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.noConfirm;
+        this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.confirm.no[0];
       })
       .catch(err => this.error = err._body);
   }

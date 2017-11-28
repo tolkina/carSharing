@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Ad} from "../../../../domain/ad";
-import {ProfileAdService} from "../../../../service/profile-ad.service";
-import {ProfileCarService} from "../../../../service/profile-car.service";
+import {AdService} from "../../../../service/profile-ad.service";
+import {CarService} from "../../../../service/profile-car.service";
 import {AdStatus} from "../../../../domain/ad-status";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {clone} from "lodash";
@@ -28,7 +28,7 @@ export class AllAdsComponent implements OnInit {
   pageParameter = new PageParameter(1, 4, this.sort.status, this.direction.asc);
   private modalRef: NgbModalRef;
 
-  constructor(private adService: ProfileAdService, private carService: ProfileCarService,
+  constructor(private adService: AdService, private carService: CarService,
               private modalService: NgbModal) {
   }
 

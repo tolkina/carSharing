@@ -5,6 +5,7 @@ import {clone} from "lodash";
 import {DateFormatter} from "../../../../date-formatter";
 import {NgbDateStruct, NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap"
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Confirm} from "../../../domain/confirm";
 
 @Component({
   selector: 'app-profile-info',
@@ -17,13 +18,11 @@ export class ProfileInfoComponent {
   birthday: NgbDateStruct;
   errorUpdate = "";
   errorAvatar = "";
-  noConfirm = "NO";
-  yesConfirm = "YES";
-  checkConfirm = "CHECK";
   ngbBirthday: NgbDateStruct[] = [];
   form: FormGroup;
   loading: boolean = false;
   input: any = new FormData();
+  confirm = new Confirm();
   private modalRef: NgbModalRef;
 
   constructor(private profileService: ProfileService, private dateFormatter: DateFormatter,
@@ -83,7 +82,7 @@ export class ProfileInfoComponent {
 
   confirmProfile() {
     this.profileService.confirmProfile()
-      .then(res => this.profile.confirmProfile = this.checkConfirm)
+      .then(res => this.profile.confirmProfile = this.confirm.check[0])
       .catch()
   }
 
@@ -125,6 +124,10 @@ export class ProfileInfoComponent {
         this.modalRef.close()
       })
       .catch(err => this.errorAvatar = err)
+  }
+
+  getConfirmStatus() {
+    return this.profileService.getConfirmStatus(this.profile)
   }
 
   private putNgbBorders() {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProfileAdService} from "../../service/profile-ad.service";
+import {AdService} from "../../service/profile-ad.service";
 import {Ad} from "../../domain/ad";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CreditCard} from "../../domain/credit-card";
@@ -11,6 +11,8 @@ import {Sort} from "../../domain/sort";
 import {Direction} from "../../domain/direction";
 import {PageParameter} from "../../domain/page-parameter";
 import {PageAd} from "../../domain/page-ad";
+import {Profile} from "../../domain/profile";
+import {ProfileService} from "../../service/profile.service";
 
 @Component({
   selector: 'app-news-ad',
@@ -18,7 +20,6 @@ import {PageAd} from "../../domain/page-ad";
   styleUrls: ['./news-ad.component.css']
 })
 export class NewsAdComponent implements OnInit {
-  confirm = "YES";
   ads = new PageAd();
   dealError = "";
   creditCards: CreditCard[] = [];
@@ -29,7 +30,7 @@ export class NewsAdComponent implements OnInit {
   pageParameter = new PageParameter(1, 3, this.sort.status, this.direction.asc);
   private modalRef: any;
 
-  constructor(private adService: ProfileAdService, private modalService: NgbModal,
+  constructor(private adService: AdService, private modalService: NgbModal, private profileService: ProfileService,
               private creditCardService: CreditCardService, private dealService: DealService, private router: Router) {
   }
 
@@ -75,6 +76,10 @@ export class NewsAdComponent implements OnInit {
   redirectToCreditCard() {
     this.modalRef.close();
     this.router.navigateByUrl('/profile/credit-card')
+  }
+
+  isConfirmed(profile: Profile) {
+    return this.profileService.isConfirmed(profile)
   }
 
   private checkDays(days: number) {

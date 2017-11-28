@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProfileCarService} from "../../../../service/profile-car.service";
+import {CarService} from "../../../../service/profile-car.service";
 import {Sort} from "../../../../domain/sort";
 import {Direction} from "../../../../domain/direction";
 import {PageParameter} from "../../../../domain/page-parameter";
@@ -16,7 +16,7 @@ export class AllCarsComponent implements OnInit {
   direction = new Direction();
   pageParameter = new PageParameter(1, 6, this.sort.id, this.direction.asc);
 
-  constructor(private carService: ProfileCarService) {
+  constructor(private carService: CarService) {
   }
 
   ngOnInit() {

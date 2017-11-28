@@ -50,8 +50,14 @@
         <div class="card-text" *ngIf="deal.deposit"><b>Депозит: </b>{{deal.deposit}}</div>
         <div class="card-text"><b>Количество суток: </b>{{deal.daysForRent}}</div>
         <div class="card-text"><b>Цена: </b>{{deal.price}} BYN</div>
-        <div class="card-text"><b>Владелец: </b>{{deal.owner.login}}</div>
-        <div class="card-text"><b>Клиент: </b>{{deal.customer.login}}</div>
+        <div class="card-text" *ngIf="isConfirmed(deal.owner)"><b>Владелец: </b>{{deal.owner.login}} &#9745;</div>
+        <div class="card-text" *ngIf="!isConfirmed(deal.owner)"><b>Владелец: </b>{{deal.owner.login}} &#9746;</div>
+        <div class="card-text" *ngIf="isConfirmed(deal.customer)"><b>Клиент: </b>{{deal.customer.login}} &#9745;
+          👎{{deal.customer.countOfOverdueBooking}}
+        </div>
+        <div class="card-text" *ngIf="!isConfirmed(deal.customer)"><b>Клиент: </b>{{deal.customer.login}} &#9746;
+          👎{{deal.customer.countOfOverdueBooking}}
+        </div>
         <div class="card-text"><b>Машина: </b>
           <app-car-modal [car]="deal.ad.car"></app-car-modal>
         </div>

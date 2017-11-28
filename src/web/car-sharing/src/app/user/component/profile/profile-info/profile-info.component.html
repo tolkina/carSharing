@@ -1,9 +1,9 @@
 <div align="right">
+  {{getConfirmStatus()}}
   <button type="button" class="btn-sm btn-primary" (click)="confirmProfile()"
-          *ngIf="profile.confirmProfile ==  noConfirm">Подтвердить профиль
+          *ngIf="profile.confirmProfile == confirm.no[0]">Подтвердить профиль
   </button>
-  <p *ngIf="profile.confirmProfile == yesConfirm">Профиль подтвержден</p>
-  <p *ngIf="profile.confirmProfile == checkConfirm">Профиль отправлен на подтверждение</p>
+   👎{{profile.countOfOverdueBooking}}
 </div>
 
 <h4 class="text-center">Общая информация</h4>

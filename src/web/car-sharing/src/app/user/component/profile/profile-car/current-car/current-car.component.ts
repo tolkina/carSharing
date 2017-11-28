@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ProfileCarService} from "../../../../service/profile-car.service";
+import {CarService} from "../../../../service/profile-car.service";
 import {ActivatedRoute, Router} from '@angular/router'
 import {Subscription} from 'rxjs/Subscription';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
@@ -16,7 +16,7 @@ export class CurrentCarComponent {
   private subscription: Subscription;
   private modalRef: NgbModalRef;
 
-  constructor(private carService: ProfileCarService, private router: Router, private activateRoute: ActivatedRoute,
+  constructor(private carService: CarService, private router: Router, private activateRoute: ActivatedRoute,
               private modalService: NgbModal) {
     this.subscription = activateRoute.params.subscribe(params => this.carId = params['carId']);
   }

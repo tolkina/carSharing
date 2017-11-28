@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProfileCarService} from "../../../../../service/profile-car.service";
+import {CarService} from "../../../../../service/profile-car.service";
 import {clone} from "lodash";
 import {ActivatedRoute, Router} from '@angular/router'
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
@@ -23,7 +23,7 @@ export class GeneralParametersComponent implements OnInit {
   formData: any = new FormData();
   private modalRef: NgbModalRef;
 
-  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
+  constructor(private carService: CarService, private activateRoute: ActivatedRoute,
               private router: Router, private modalService: NgbModal) {
     this.carId = +activateRoute.snapshot.parent.params['carId'];
     if (isNaN(this.carId)) {

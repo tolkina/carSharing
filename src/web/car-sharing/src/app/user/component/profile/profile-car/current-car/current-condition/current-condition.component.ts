@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {clone} from "lodash";
 import {ActivatedRoute, Router} from '@angular/router'
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {ProfileCarService} from "../../../../../service/profile-car.service";
+import {CarService} from "../../../../../service/profile-car.service";
 import {CurrentCondition} from "../../../../../domain/current-condition";
 
 @Component({
@@ -17,7 +17,7 @@ export class CurrentConditionComponent implements OnInit {
   error = "";
   private modalRef: NgbModalRef;
 
-  constructor(private carService: ProfileCarService, private activateRoute: ActivatedRoute,
+  constructor(private carService: CarService, private activateRoute: ActivatedRoute,
               private router: Router, private modalService: NgbModal) {
     this.carId = +activateRoute.snapshot.parent.params['carId'];
     if (isNaN(this.carId)) {

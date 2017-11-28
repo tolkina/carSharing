@@ -7,6 +7,8 @@ import {Sort} from "../../../domain/sort";
 import {Direction} from "../../../domain/direction";
 import {PageParameter} from "../../../domain/page-parameter";
 import {PageDeal} from "../../../domain/page-deal";
+import {Profile} from "../../../domain/profile";
+import {ProfileService} from "../../../service/profile.service";
 
 @Component({
   selector: 'app-my-deals',
@@ -23,7 +25,7 @@ export class MyDealsComponent implements OnInit {
   pageParameter = new PageParameter(1, 4, this.sort.status, this.direction.asc);
   private modalRef: NgbModalRef;
 
-  constructor(private dealService: DealService, private modalService: NgbModal) {
+  constructor(private dealService: DealService, private modalService: NgbModal, private profileService: ProfileService) {
   }
 
   ngOnInit() {
@@ -71,5 +73,9 @@ export class MyDealsComponent implements OnInit {
     this.pageParameter.sort = sortType;
     this.pageParameter.direction = direction;
     this.getMyDeals();
+  }
+
+  isConfirmed(profile: Profile) {
+    return this.profileService.isConfirmed(profile)
   }
 }

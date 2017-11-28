@@ -5,7 +5,7 @@ import {PageParameter} from "../domain/page-parameter";
 import {PageAd} from "../domain/page-ad";
 
 @Injectable()
-export class ProfileAdService {
+export class AdService {
 
   private adUrl = '/api/ad/';
   private adsOfPrincipalUrl = '/api/profile/ad';

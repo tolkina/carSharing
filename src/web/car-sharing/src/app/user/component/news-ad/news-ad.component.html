@@ -13,9 +13,8 @@
         <div class="card-text"><b>Машина: </b>
           <app-car-modal [car]="ad.car"></app-car-modal>
         </div>
-        <div class="card-text"><b>Владелец: </b>{{ad.owner.login}}
-          <div *ngIf="ad.owner.confirmProfile==confirm">Проверенный пользователь</div>
-        </div>
+        <div class="card-text" *ngIf="isConfirmed(ad.owner)"><b>Владелец: </b>{{ad.owner.login}} &#9745;</div>
+        <div class="card-text" *ngIf="!isConfirmed(ad.owner)"><b>Владелец: </b>{{ad.owner.login}} &#9746;</div>
         <div class="card-text"><b>Местоположение: </b>{{ad.carLocation}}</div>
         <div class="card-text"><b>Место возврата: </b>{{ad.returnPlace}}</div>
         <div class="card-text"><b>Цена за сутки: </b>{{ad.costPerDay}} BYN</div>

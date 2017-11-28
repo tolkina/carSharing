@@ -7,6 +7,8 @@ import {Sort} from "../../../domain/sort";
 import {Direction} from "../../../domain/direction";
 import {PageParameter} from "../../../domain/page-parameter";
 import {PageDeal} from "../../../domain/page-deal";
+import {ProfileService} from "../../../service/profile.service";
+import {Profile} from "../../../domain/profile";
 
 @Component({
   selector: 'app-deals-with-me',
@@ -23,7 +25,7 @@ export class DealsWithMeComponent implements OnInit {
   private cloneDeal = new Deal;
   private modalRef: NgbModalRef;
 
-  constructor(private dealService: DealService, private modalService: NgbModal) {
+  constructor(private dealService: DealService, private modalService: NgbModal, private profileService: ProfileService) {
   }
 
   ngOnInit() {
@@ -86,5 +88,9 @@ export class DealsWithMeComponent implements OnInit {
     this.pageParameter.sort = sortType;
     this.pageParameter.direction = direction;
     this.getDealsWithMe();
+  }
+
+  isConfirmed(profile: Profile) {
+    return this.profileService.isConfirmed(profile)
   }
 }

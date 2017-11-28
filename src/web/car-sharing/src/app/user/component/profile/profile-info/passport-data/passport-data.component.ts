@@ -48,7 +48,7 @@ export class PassportDataComponent implements OnInit {
           this.modalRef.close();
           this.passport = passport;
           this.editedPassport = new PassportData();
-          this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.noConfirm;
+          this.profileInfoComponent.profile.confirmProfile = this.profileInfoComponent.confirm.no[0];
         })
         .catch(err => this.error = err);
     }

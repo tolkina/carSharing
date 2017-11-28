@@ -6,4 +6,5 @@ export class Profile {
   drivingExperience: number;
   avatarUrl: String;
   confirmProfile: String;
+  countOfOverdueBooking: number;
 }

@@ -2,13 +2,28 @@ import 'rxjs/add/operator/toPromise';
 import {Injectable} from '@angular/core';
 import {Profile} from "../domain/profile";
 import {Http} from "@angular/http";
+import {Confirm} from "../domain/confirm";
 
 @Injectable()
 export class ProfileService {
-
+  private confirm = new Confirm();
   private profileUrl = '/api/profile/';
 
   constructor(private http: Http) {
+  }
+
+  getConfirmStatus(profile: Profile) {
+    if (profile.confirmProfile == this.confirm.yes[0]) {
+      return this.confirm.yes[1]
+    }
+    if (profile.confirmProfile == this.confirm.check[0]) {
+      return this.confirm.check[1]
+    }
+    return this.confirm.no[1]
+  }
+
+  isConfirmed(profile: Profile) {
+    return profile.confirmProfile == this.confirm.yes[0];
   }
 
   getProfile(): Promise<Profile> {

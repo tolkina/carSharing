@@ -3,8 +3,8 @@ import {RouterModule, Routes} from "@angular/router";
 
 import {ProfileComponent} from "../user/component/profile/profile.component";
 import {ProfileInfoComponent} from "../user/component/profile/profile-info/profile-info.component";
-import {ProfileCarComponent} from "../user/component/profile/profile-car/profile-car.component";
-import {ProfileAdComponent} from "../user/component/profile/profile-ad/profile-ad.component";
+import {CarComponent} from "../user/component/profile/profile-car/profile-car.component";
+import {AdComponent} from "../user/component/profile/profile-ad/profile-ad.component";
 import {AllCarsComponent} from "../user/component/profile/profile-car/all-cars/all-cars.component";
 import {NewCarComponent} from "../user/component/profile/profile-car/new-car/new-car.component";
 import {CurrentCarComponent} from "../user/component/profile/profile-car/current-car/current-car.component";
@@ -67,7 +67,7 @@ const routes: Routes = [
           {path: '', redirectTo: 'info', pathMatch: 'full'},
           {path: 'info', component: ProfileInfoComponent},
           {
-            path: 'car', component: ProfileCarComponent,
+            path: 'car', component: CarComponent,
             children: [
               {path: '', redirectTo: 'all', pathMatch: 'full'},
               {path: 'all', component: AllCarsComponent},
@@ -84,7 +84,7 @@ const routes: Routes = [
             ]
           },
           {
-            path: 'ad', component: ProfileAdComponent,
+            path: 'ad', component: AdComponent,
             children: [
               {path: '', redirectTo: 'all', pathMatch: 'full'},
               {path: 'all', component: AllAdsComponent},

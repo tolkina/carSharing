@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Ad} from "../../../../domain/ad";
-import {ProfileAdService} from "../../../../service/profile-ad.service";
+import {AdService} from "../../../../service/profile-ad.service";
 import {Router} from "@angular/router";
 import {Car} from "../../../../domain/car";
-import {ProfileCarService} from "../../../../service/profile-car.service";
+import {CarService} from "../../../../service/profile-car.service";
 
 @Component({
   selector: 'app-new-ad',
@@ -17,7 +17,7 @@ export class NewAdComponent implements OnInit {
   selectedCar: number;
   error = "";
 
-  constructor(private adService: ProfileAdService, private router: Router, private carService: ProfileCarService) {
+  constructor(private adService: AdService, private router: Router, private carService: CarService) {
   }
 
   ngOnInit() {

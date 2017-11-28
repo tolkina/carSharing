@@ -9,7 +9,7 @@ import {PageParameter} from "../domain/page-parameter";
 import {PageCar} from "../domain/page-car";
 
 @Injectable()
-export class ProfileCarService {
+export class CarService {
 
   private profileUrl = '/api/profile/';
   private carUrl = '/api/car/';
