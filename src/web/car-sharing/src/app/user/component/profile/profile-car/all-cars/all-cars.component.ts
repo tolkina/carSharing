@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileCarService} from "../../../../service/profile-car.service";
-import {GeneralParameters} from "../../../../domain/general-parameters";
-import {Car} from "../../../../domain/car";
+import {Sort} from "../../../../domain/sort";
+import {Direction} from "../../../../domain/direction";
+import {PageParameter} from "../../../../domain/page-parameter";
+import {PageCar} from "../../../../domain/page-car";
 
 @Component({
   selector: 'app-all-cars',
@@ -9,8 +11,10 @@ import {Car} from "../../../../domain/car";
   styleUrls: ['./all-cars.component.css']
 })
 export class AllCarsComponent implements OnInit {
-  cars: Car[] = [];
-  generalParameters = new GeneralParameters();
+  cars = new PageCar();
+  sort = new Sort();
+  direction = new Direction();
+  pageParameter = new PageParameter(1, 6, this.sort.id, this.direction.asc);
 
   constructor(private carService: ProfileCarService) {
   }
@@ -20,7 +24,7 @@ export class AllCarsComponent implements OnInit {
   }
 
   getCarsOfPrincipal() {
-    this.carService.getCarsOfPrincipal().then()
+    this.carService.getCarsOfPrincipal(this.pageParameter).then()
       .then(cars => this.cars = cars)
       .catch();
   }

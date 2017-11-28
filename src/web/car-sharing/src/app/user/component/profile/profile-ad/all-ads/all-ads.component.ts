@@ -17,16 +17,16 @@ import {PageAd} from "../../../../domain/page-ad";
 })
 export class AllAdsComponent implements OnInit {
 
-  ads: PageAd;
+  ads = new PageAd();
   numberOfCars: number;
   adStatus = new AdStatus();
   error = "";
   ad = new Ad();
   editedAd = new Ad();
-  private modalRef: NgbModalRef;
   sort = new Sort();
   direction = new Direction();
   pageParameter = new PageParameter(1, 4, this.sort.status, this.direction.asc);
+  private modalRef: NgbModalRef;
 
   constructor(private adService: ProfileAdService, private carService: ProfileCarService,
               private modalService: NgbModal) {

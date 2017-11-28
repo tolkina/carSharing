@@ -8,4 +8,5 @@ export class Sort {
   deposit = "deposit";
   price = "price";
   daysForRent = "daysForRent";
+  yearOfIssue = "yearOfIssue";
 }

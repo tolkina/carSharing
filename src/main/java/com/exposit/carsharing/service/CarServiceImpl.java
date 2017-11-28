@@ -17,6 +17,7 @@ import org.glassfish.jersey.media.multipart.BodyPartEntity;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,10 +78,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException {
-        List<CarResponse> cars = new ArrayList<>();
-        profileService.getProfile(ownerId).getCars().forEach(car -> cars.add(mapToResponse(car)));
-        return cars;
+    public Page<CarResponse> getAllByOwner(Long ownerId, Integer page, Integer size, String sort, String direction)
+            throws EntityNotFoundException {
+        Pageable pageRequest = getPageRequest(page, size, sort, direction);
+        Page<Car> carPage = carRepository.findAllByOwner(profileService.getProfile(ownerId), pageRequest);
+        return new PageImpl<>(mapToListResponse(carPage.getContent()), pageRequest, carPage.getTotalElements());
     }
 
     @Override
@@ -146,6 +148,19 @@ public class CarServiceImpl implements CarService {
         carResponse.setGeneralParameters(mapToResponse(car.getGeneralParameters()));
         carResponse.setTechnicalParameters(mapToResponse(car.getTechnicalParameters()));
         return carResponse;
+    }
+
+    private List<CarResponse> mapToListResponse(List<Car> cars) {
+        List<CarResponse> carResponses = new ArrayList<>();
+        cars.forEach(deal -> carResponses.add(mapToResponse(deal)));
+        return carResponses;
+    }
+
+    private Pageable getPageRequest(Integer page, Integer size, String sort, String direction) {
+        if (direction.toLowerCase().equals("desc")) {
+            return new PageRequest(page - 1, size, Sort.Direction.DESC, sort);
+        }
+        return new PageRequest(page - 1, size, Sort.Direction.ASC, sort);
     }
 
     private void checkCarTaken(Car car) throws AdException {

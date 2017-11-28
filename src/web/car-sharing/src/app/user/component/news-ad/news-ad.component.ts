@@ -19,15 +19,15 @@ import {PageAd} from "../../domain/page-ad";
 })
 export class NewsAdComponent implements OnInit {
   confirm = "YES";
-  ads: PageAd;
+  ads = new PageAd();
   dealError = "";
   creditCards: CreditCard[] = [];
   newDeal: any = {};
   currentDeal: Deal = new Deal;
-  private modalRef: any;
   sort = new Sort();
   direction = new Direction();
   pageParameter = new PageParameter(1, 3, this.sort.status, this.direction.asc);
+  private modalRef: any;
 
   constructor(private adService: ProfileAdService, private modalService: NgbModal,
               private creditCardService: CreditCardService, private dealService: DealService, private router: Router) {

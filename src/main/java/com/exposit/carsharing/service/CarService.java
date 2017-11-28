@@ -9,6 +9,7 @@ import com.exposit.carsharing.exception.EntityAlreadyExistException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.springframework.data.domain.Page;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +22,8 @@ public interface CarService {
 
     List<CarResponse> getAll();
 
-    List<CarResponse> getAllByOwner(Long ownerId) throws EntityNotFoundException;
+    Page<CarResponse> getAllByOwner(Long ownerId, Integer page, Integer size, String sort, String direction)
+            throws EntityNotFoundException;
 
     List<CarResponse> getAllWithoutAdByOwner(Long ownerId) throws EntityNotFoundException;
 

@@ -86,9 +86,13 @@ public class ProfileEndpoint {
 
     @GET
     @Path("car")
-    public Response getAllCarsForPrincipal() throws UnauthorizedException, EntityNotFoundException {
+    public Response getAllCarsForPrincipal(@DefaultValue("1") @QueryParam(value = "page") Integer page,
+                                           @DefaultValue("4") @QueryParam(value = "size") Integer size,
+                                           @DefaultValue("id") @QueryParam(value = "sort") String sort,
+                                           @DefaultValue("asc") @QueryParam(value = "direction") String direction)
+            throws UnauthorizedException, EntityNotFoundException {
         Long ownerId = securityService.getPrincipalId();
-        return Response.status(200).entity(carService.getAllByOwner(ownerId)).build();
+        return Response.status(200).entity(carService.getAllByOwner(ownerId, page, size, sort, direction)).build();
     }
 
     @GET

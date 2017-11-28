@@ -5,6 +5,8 @@ import {GeneralParameters} from "../domain/general-parameters";
 import {TechnicalParameters} from "../domain/technical-parameters";
 import {CurrentCondition} from "../domain/current-condition";
 import {CarPhotos} from "../domain/car-photos";
+import {PageParameter} from "../domain/page-parameter";
+import {PageCar} from "../domain/page-car";
 
 @Injectable()
 export class ProfileCarService {
@@ -39,10 +41,17 @@ export class ProfileCarService {
       .catch(this.handleError);
   }
 
-  getCarsOfPrincipal() {
-    return this.http.get(this.profileUrl + "car")
+  getCarsOfPrincipal(pageParameter: PageParameter) {
+    return this.http.get(this.profileUrl + "car", {
+      params: {
+        page: pageParameter.page,
+        size: pageParameter.size,
+        sort: pageParameter.sort,
+        direction: pageParameter.direction
+      }
+    })
       .toPromise()
-      .then(res => res.json() as Car[])
+      .then(pageCar => pageCar.json() as PageCar)
       .catch(this.handleError);
   }
 

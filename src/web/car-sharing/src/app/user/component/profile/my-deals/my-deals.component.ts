@@ -15,8 +15,8 @@ import {PageDeal} from "../../../domain/page-deal";
 })
 export class MyDealsComponent implements OnInit {
   dealStatus = new DealStatus;
-  deals: PageDeal;
-  cloneDeal: Deal;
+  deals = new PageDeal();
+  cloneDeal = new Deal();
   error = "";
   sort = new Sort();
   direction = new Direction();
