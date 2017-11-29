@@ -35,6 +35,7 @@ import {HomePageAdminComponent} from "../admin/component/home-page-admin/home-pa
 import {SetupAdminComponent} from "../admin/component/setup-admin/setup-admin.component";
 import {ConfirmProfileComponent} from "../admin/component/confirm-profile/confirm-profile.component";
 import {SetupComponent} from "../user/component/profile/setup/setup.component";
+import {HomePageComponent} from "../home-page/home-page.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -42,6 +43,7 @@ const routes: Routes = [
   {
     path: 'admin', component: HomePageAdminComponent, canActivate: [RoleAuthGuardService],
     children: [
+      {path: '', component: HomePageComponent},
       {
         path: 'setup', component: SetupAdminComponent,
         children: [
@@ -62,6 +64,7 @@ const routes: Routes = [
   {
     path: '', component: HomePageUserComponent,
     children: [
+      {path: '', component: HomePageComponent},
       {
         path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService],
         children: [

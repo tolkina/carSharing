@@ -59,6 +59,7 @@ import {ConfirmProfileComponent} from "./admin/component/confirm-profile/confirm
 import {HoverDirective} from "./directive/hover-directive";
 import {CarModalComponent} from './user/component/car-modal/car-modal.component';
 import {SetupComponent} from './user/component/profile/setup/setup.component';
+import {HomePageComponent} from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,7 @@ import {SetupComponent} from './user/component/profile/setup/setup.component';
     BrandComponent, ModelComponent, ColorComponent, DriveUnitComponent, FuelTypeComponent, InteriorMaterialComponent,
     TiresSeasonComponent, BodyTypeComponent, LoginComponent, RegistrationComponent, EqualValidator, AllAdsComponent,
     NewAdComponent, PassportDataComponent, DriverLicenseComponent, CreditCardComponent, CarParameterComponent,
-    ConfirmProfileComponent, NewsAdComponent, MyDealsComponent, DealsWithMeComponent, HoverDirective, SetupComponent
+    ConfirmProfileComponent, NewsAdComponent, MyDealsComponent, DealsWithMeComponent, HoverDirective, SetupComponent, HomePageComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, ReactiveFormsModule, NgbModule.forRoot()
