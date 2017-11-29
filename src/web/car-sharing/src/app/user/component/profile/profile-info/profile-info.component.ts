@@ -57,12 +57,6 @@ export class ProfileInfoComponent {
       });
   }
 
-  deleteProfile() {
-    this.profileService.deleteProfile()
-      .then()
-      .catch();
-  }
-
   showEdit(content) {
     this.errorUpdate = "";
     this.modalRef = this.modalService.open(content);

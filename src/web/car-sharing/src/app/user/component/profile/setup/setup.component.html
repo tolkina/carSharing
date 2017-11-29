@@ -1,0 +1,19 @@
+<button class="btn btn-outline-success my-2 my-sm-0" type="button" (click)="showDisableProfile(contentDisableProfile)">
+  Удалить аккаунт
+</button>
+
+<ng-template #contentDisableProfile let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Подтвердите удаление аккаунта</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Отмена</button>
+    <button type="submit" class="btn btn-primary" (click)="disableProfile()">Удалить</button>
+  </div>
+</ng-template>

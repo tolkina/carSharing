@@ -49,9 +49,9 @@ export class ProfileService {
       .catch(this.handleError);
   }
 
-  deleteProfile(): Promise<void> {
+  disableProfile(): Promise<void> {
     return this.http
-      .delete(this.profileUrl)
+      .put(this.profileUrl + "disable", {})
       .toPromise()
       .then()
       .catch(this.handleError)

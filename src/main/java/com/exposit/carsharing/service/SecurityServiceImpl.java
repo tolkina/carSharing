@@ -60,7 +60,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public UserResponse getPrincipal() throws UnauthorizedException {
         try {
-            return profileService.findByEmail(getPrincipalUsername());
+            return profileService.findByEmailAndEnabledStatus(getPrincipalUsername());
         } catch (EntityNotFoundException e) {
             throw new UnauthorizedException();
         }

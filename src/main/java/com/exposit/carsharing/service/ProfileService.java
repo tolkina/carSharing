@@ -7,6 +7,7 @@ import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.dto.UserResponse;
 import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import java.io.IOException;
@@ -22,9 +23,7 @@ public interface ProfileService {
 
     List<ProfileResponse> getAll();
 
-    void delete(Long profileId) throws EntityNotFoundException;
-
-    UserResponse findByEmail(String email) throws EntityNotFoundException;
+    UserResponse findByEmailAndEnabledStatus(String email) throws EntityNotFoundException;
 
     void setConfirmProfileCheck(Long profileId) throws EntityNotFoundException, ConfirmProfileException;
 
@@ -34,4 +33,8 @@ public interface ProfileService {
             throws IOException, DbxException, EntityNotFoundException;
 
     ProfileResponse deleteProfileAvatar(Long id) throws EntityNotFoundException;
+
+    void disableUser(Long id) throws EntityNotFoundException, PrivilegeException;
+
+    boolean isEnabled(Long id) throws EntityNotFoundException, PrivilegeException;
 }

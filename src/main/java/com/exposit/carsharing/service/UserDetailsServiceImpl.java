@@ -1,6 +1,7 @@
 package com.exposit.carsharing.service;
 
 
+import com.exposit.carsharing.domain.AccountStatus;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.domain.Role;
 import com.exposit.carsharing.repository.ProfileRepository;
@@ -24,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Profile user = profileRepository.findByEmail(email);
+        Profile user = profileRepository.findByEmailAndStatus(email, AccountStatus.ENABLED);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }

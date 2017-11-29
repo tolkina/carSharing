@@ -34,6 +34,7 @@ import {DealsWithMeComponent} from "../user/component/profile/deals-with-me/deal
 import {HomePageAdminComponent} from "../admin/component/home-page-admin/home-page-admin.component";
 import {SetupAdminComponent} from "../admin/component/setup-admin/setup-admin.component";
 import {ConfirmProfileComponent} from "../admin/component/confirm-profile/confirm-profile.component";
+import {SetupComponent} from "../user/component/profile/setup/setup.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -93,7 +94,8 @@ const routes: Routes = [
           },
           {path: 'credit-card', component: CreditCardComponent},
           {path: 'deal/my', component: MyDealsComponent},
-          {path: 'deal/by-me', component: DealsWithMeComponent}
+          {path: 'deal/by-me', component: DealsWithMeComponent},
+          {path: 'setup', component: SetupComponent}
         ]
       },
       {path: 'ads', component: NewsAdComponent}

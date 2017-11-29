@@ -20,6 +20,9 @@ public class Profile extends AbstractEntity {
 
     private String login;
 
+    @Enumerated(value = EnumType.STRING)
+    private AccountStatus status;
+
     @Column(name = "avatar")
     private String avatarUrl;
 
@@ -70,5 +73,6 @@ public class Profile extends AbstractEntity {
 
     public Profile() {
         this.confirmProfile = ConfirmProfile.NO;
+        this.status = AccountStatus.ENABLED;
     }
 }

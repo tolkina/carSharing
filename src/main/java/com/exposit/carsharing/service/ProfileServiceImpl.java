@@ -2,6 +2,7 @@ package com.exposit.carsharing.service;
 
 import com.dropbox.core.DbxException;
 import com.exposit.carsharing.cloud.CloudStorageClient;
+import com.exposit.carsharing.domain.AccountStatus;
 import com.exposit.carsharing.domain.ConfirmProfile;
 import com.exposit.carsharing.domain.Profile;
 import com.exposit.carsharing.dto.ProfileRequest;
@@ -9,7 +10,9 @@ import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.dto.UserResponse;
 import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.ProfileRepository;
+import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.util.AttachmentManager;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.modelmapper.ModelMapper;
@@ -28,12 +31,14 @@ public class ProfileServiceImpl implements ProfileService {
     private final ModelMapper modelMapper;
     private final ProfileRepository profileRepository;
     private final CloudStorageClient cloudStorageClient;
+    private final RoleRepository roleRepository;
 
     public ProfileServiceImpl(ProfileRepository profileRepository, ModelMapper modelMapper,
-                              CloudStorageClient cloudStorageClient) {
+                              CloudStorageClient cloudStorageClient, RoleRepository roleRepository) {
         this.profileRepository = profileRepository;
         this.modelMapper = modelMapper;
         this.cloudStorageClient = cloudStorageClient;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -67,13 +72,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public void delete(Long profileId) throws EntityNotFoundException {
-        profileRepository.delete(this.getProfile(profileId));
-    }
-
-    @Override
-    public UserResponse findByEmail(String email) throws EntityNotFoundException {
-        Profile profile = profileRepository.findByEmail(email);
+    public UserResponse findByEmailAndEnabledStatus(String email) throws EntityNotFoundException {
+        Profile profile = profileRepository.findByEmailAndStatus(email, AccountStatus.ENABLED);
         if (profile == null) {
             throw new EntityNotFoundException("Profile not found.");
         }
@@ -118,11 +118,18 @@ public class ProfileServiceImpl implements ProfileService {
         return mapToResponse(profile);
     }
 
-    private ProfileResponse mapToResponse(Profile profile) {
-        return modelMapper.map(profile, ProfileResponse.class);
+    @Override
+    public void disableUser(Long id) throws EntityNotFoundException, PrivilegeException {
+        Profile profile = getProfile(id);
+        profile.setStatus(AccountStatus.DISABLED);
     }
 
-    private boolean existAvatar(Profile profile) {
-        return profile.getAvatarUrl() != null;
+    @Override
+    public boolean isEnabled(Long id) throws EntityNotFoundException, PrivilegeException {
+        return getProfile(id).getStatus() == AccountStatus.ENABLED;
+    }
+
+    private ProfileResponse mapToResponse(Profile profile) {
+        return modelMapper.map(profile, ProfileResponse.class);
     }
 }
