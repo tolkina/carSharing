@@ -65,5 +65,5 @@ public interface CarService {
 
     CurrentConditionResponse updateCurrentCondition(CurrentConditionRequest currentConditionRequest,
                                                     Long carId, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, AdException;
+            throws EntityNotFoundException, PrivilegeException, AdException;
 }

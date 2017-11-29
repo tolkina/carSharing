@@ -277,9 +277,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CurrentConditionResponse updateCurrentCondition(
-            CurrentConditionRequest currentConditionRequest, Long carId, Long ownerId)
-            throws EntityNotFoundException, EntityAlreadyExistException, PrivilegeException, AdException {
+    public CurrentConditionResponse updateCurrentCondition(CurrentConditionRequest currentConditionRequest,
+                                                           Long carId, Long ownerId)
+            throws EntityNotFoundException, PrivilegeException, AdException {
         Car car = getCar(carId);
         checkCarOwner(car, ownerId);
         checkCarTaken(car);

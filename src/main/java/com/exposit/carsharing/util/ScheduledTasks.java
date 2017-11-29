@@ -1,9 +1,10 @@
-package com.exposit.carsharing;
+package com.exposit.carsharing.util;
 
 import com.exposit.carsharing.domain.AdStatus;
 import com.exposit.carsharing.domain.Deal;
 import com.exposit.carsharing.domain.DealStatus;
 import com.exposit.carsharing.repository.DealRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Component
 @Transactional
 public class ScheduledTasks {
@@ -35,8 +37,7 @@ public class ScheduledTasks {
             deal.setStatus(DealStatus.OVERDUE_BOOKING);
             deal.getAd().setStatus(AdStatus.ACTUAL);
             deal.getCustomer().setCountOfOverdueBooking(deal.getCustomer().getCountOfOverdueBooking() + 1);
-            LOGGER.info("Profile with id %d overdue booking in deal with id %d", deal.getCustomer().getId(),
-                    deal.getId());
+            log.debug("User with id {} overdue booking in deal with id {}", deal.getCustomer().getId(), deal.getId());
         }
     }
 }

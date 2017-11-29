@@ -6,6 +6,7 @@ import com.exposit.carsharing.exception.EntityNotFoundException;
 import com.exposit.carsharing.exception.UnauthorizedException;
 import com.exposit.carsharing.service.PassportDataService;
 import com.exposit.carsharing.service.SecurityService;
+import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Slf4j
 @Component
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
@@ -33,6 +35,7 @@ public class PassportDataEndpoint {
     @GET
     public Response retrievePassportData() throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
+        log.debug("User with id {} retrieve passportData", ownerId);
         return Response.status(200).entity(passportDataService.getPassportDataResponse(ownerId)).build();
     }
 
@@ -40,7 +43,9 @@ public class PassportDataEndpoint {
     public Response updatePassportData(@Valid PassportDataRequest passportDataRequest)
             throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
-        return Response.status(200).entity(passportDataService.updatePassportData(ownerId, passportDataRequest)).build();
+        log.debug("User with id {} update passportData", ownerId);
+        return Response.status(200)
+                .entity(passportDataService.updatePassportData(ownerId, passportDataRequest)).build();
     }
 
     @PUT
@@ -49,8 +54,10 @@ public class PassportDataEndpoint {
     public Response uploadRegistrationPhoto(@FormDataParam("file") InputStream uploadedInputStream,
                                             @FormDataParam("file") FormDataContentDisposition fileDetail)
             throws UnauthorizedException, EntityNotFoundException, IOException, DbxException {
-        return Response.status(200).entity(passportDataService
-                .uploadRegistrationPhoto(securityService.getPrincipalId(), uploadedInputStream, fileDetail)).build();
+        Long ownerId = securityService.getPrincipalId();
+        log.debug("User with id {} upload registrationPhoto for passportData", ownerId);
+        return Response.status(200)
+                .entity(passportDataService.uploadRegistrationPhoto(ownerId, uploadedInputStream, fileDetail)).build();
     }
 
     @PUT
@@ -59,20 +66,25 @@ public class PassportDataEndpoint {
     public Response uploadPhoto(@FormDataParam("file") InputStream uploadedInputStream,
                                 @FormDataParam("file") FormDataContentDisposition fileDetail)
             throws UnauthorizedException, EntityNotFoundException, IOException, DbxException {
-        return Response.status(200).entity(passportDataService
-                .uploadPhoto(securityService.getPrincipalId(), uploadedInputStream, fileDetail)).build();
+        Long ownerId = securityService.getPrincipalId();
+        log.debug("User with id {} upload photo for passportData", ownerId);
+        return Response.status(200)
+                .entity(passportDataService.uploadPhoto(ownerId, uploadedInputStream, fileDetail)).build();
     }
 
     @DELETE
     @Path("registration-photo")
     public Response deleteRegistrationPhoto() throws UnauthorizedException, EntityNotFoundException {
-        return Response.status(200).entity(passportDataService
-                .deleteRegistrationPhoto(securityService.getPrincipalId())).build();
+        Long ownerId = securityService.getPrincipalId();
+        log.debug("User with id {} delete registrationPhoto for passportData", ownerId);
+        return Response.status(200).entity(passportDataService.deleteRegistrationPhoto(ownerId)).build();
     }
 
     @DELETE
     @Path("photo")
     public Response deletePhoto() throws UnauthorizedException, EntityNotFoundException {
-        return Response.status(200).entity(passportDataService.deletePhoto(securityService.getPrincipalId())).build();
+        Long ownerId = securityService.getPrincipalId();
+        log.debug("User with id {} delete photo for passportData", ownerId);
+        return Response.status(200).entity(passportDataService.deletePhoto(ownerId)).build();
     }
 }

@@ -42,24 +42,28 @@ public class ProfileEndpoint {
     @GET
     @Path("all")
     public Response getAllProfiles() {
+        log.debug("Retrieve all profiles");
         return Response.status(200).entity(profileService.getAll()).build();
     }
 
     @GET
     @Path("principal")
     public Response getPrincipal() throws UnauthorizedException {
+        log.debug("Retrieve principal");
         return Response.status(200).entity(securityService.getPrincipal()).build();
     }
 
     @GET
     @Path("{id}")
     public Response getProfileById(@PathParam("id") Long id) throws EntityNotFoundException {
+        log.debug("Retrieve profile with id {}", id);
         return Response.status(200).entity(profileService.getProfileResponse(id)).build();
     }
 
     @GET
     public Response getProfile() throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
+        log.debug("Retrieve principal profile with id {}", ownerId);
         return Response.status(200).entity(profileService.getProfileResponse(ownerId)).build();
     }
 
@@ -67,6 +71,7 @@ public class ProfileEndpoint {
     public Response updateProfile(@Valid ProfileRequest profileRequest)
             throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
+        log.debug("Update profile with id {}", ownerId);
         return Response.status(200).entity(profileService.updateProfile(ownerId, profileRequest)).build();
     }
 
@@ -74,6 +79,7 @@ public class ProfileEndpoint {
     @Path("check-to-confirm")
     public Response checkToConfirmProfile() throws EntityNotFoundException, UnauthorizedException, ConfirmProfileException {
         Long profileId = securityService.getPrincipalId();
+        log.debug("Set confirm status CHECK for profile with id {}", profileId);
         profileService.setConfirmProfileCheck(profileId);
         return Response.status(200).build();
     }
@@ -86,6 +92,7 @@ public class ProfileEndpoint {
                                            @DefaultValue("asc") @QueryParam(value = "direction") String direction)
             throws UnauthorizedException, EntityNotFoundException {
         Long ownerId = securityService.getPrincipalId();
+        log.debug("Get all cars for user with id {}", ownerId);
         return Response.status(200).entity(carService.getAllByOwner(ownerId, page, size, sort, direction)).build();
     }
 
@@ -93,6 +100,7 @@ public class ProfileEndpoint {
     @Path("car-without-ad")
     public Response getAllCarsWithoutAdForPrincipal() throws UnauthorizedException, EntityNotFoundException {
         Long ownerId = securityService.getPrincipalId();
+        log.debug("Get all cars without ad for user with id {}", ownerId);
         return Response.status(200).entity(carService.getAllWithoutAdByOwner(ownerId)).build();
     }
 
@@ -104,6 +112,7 @@ public class ProfileEndpoint {
                                           @DefaultValue("asc") @QueryParam(value = "direction") String direction)
             throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
+        log.debug("Get all ads for user with id {}", ownerId);
         return Response.status(200).entity(adService.getAllByOwner(ownerId, page, size, sort, direction)).build();
     }
 
@@ -113,16 +122,18 @@ public class ProfileEndpoint {
     public Response uploadProfileAvatar(@FormDataParam("file") InputStream uploadedInputStream,
                                         @FormDataParam("file") FormDataContentDisposition fileDetail)
             throws DbxException, IOException, UnauthorizedException, EntityNotFoundException {
+        Long ownerId = securityService.getPrincipalId();
+        log.debug("User with id {} upload avatar", ownerId);
         return Response.status(200)
-                .entity(profileService.uploadProfileAvatar(
-                        securityService.getPrincipalId(), uploadedInputStream, fileDetail))
-                .build();
+                .entity(profileService.uploadProfileAvatar(ownerId, uploadedInputStream, fileDetail)).build();
     }
 
     @DELETE
     @Path("avatar")
     public Response deleteProfileAvatar() throws UnauthorizedException, EntityNotFoundException {
-        return Response.status(200).entity(profileService.deleteProfileAvatar(securityService.getPrincipalId())).build();
+        Long ownerId = securityService.getPrincipalId();
+        log.debug("User with id {} delete avatar", ownerId);
+        return Response.status(200).entity(profileService.deleteProfileAvatar(ownerId)).build();
     }
 
     @PUT

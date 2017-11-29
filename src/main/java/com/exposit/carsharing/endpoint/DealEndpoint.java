@@ -7,6 +7,7 @@ import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.exception.UnauthorizedException;
 import com.exposit.carsharing.service.DealService;
 import com.exposit.carsharing.service.SecurityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Slf4j
 @Component
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
@@ -31,6 +33,7 @@ public class DealEndpoint {
     public Response createDeal(@Valid DealRequest dealRequest)
             throws EntityNotFoundException, UnauthorizedException, DealException {
         Long customerId = securityService.getPrincipalId();
+        log.debug("User with id {} create deal", customerId);
         return Response.status(201).entity(dealService.create(dealRequest, customerId)).build();
     }
 
@@ -42,8 +45,10 @@ public class DealEndpoint {
                                   @DefaultValue("asc") @QueryParam(value = "direction") String direction)
             throws EntityNotFoundException, UnauthorizedException {
         Long customerId = securityService.getPrincipalId();
-        return Response.status(200).entity(dealService.getAllByCustomer(customerId, page, size, sort, direction))
-                .build();
+        log.debug("User with id {} get all his deals. Page {}, size {}, sort {}, direction {}",
+                customerId, page, size, sort, direction);
+        return Response.status(200)
+                .entity(dealService.getAllByCustomer(customerId, page, size, sort, direction)).build();
     }
 
     @GET
@@ -54,6 +59,8 @@ public class DealEndpoint {
                                       @DefaultValue("asc") @QueryParam(value = "direction") String direction)
             throws EntityNotFoundException, UnauthorizedException {
         Long ownerId = securityService.getPrincipalId();
+        log.debug("User with id {} get all deals with  him. Page {}, size {}, sort {}, direction {}",
+                ownerId, page, size, sort, direction);
         return Response.status(200).entity(dealService.getAllByOwner(ownerId, page, size, sort, direction)).build();
     }
 
@@ -62,6 +69,7 @@ public class DealEndpoint {
     public Response getDeal(@PathParam("id") Long dealId)
             throws EntityNotFoundException, UnauthorizedException, PrivilegeException {
         Long principalId = securityService.getPrincipalId();
+        log.debug("User with id {} get deal with id {}", principalId, dealId);
         return Response.status(200).entity(dealService.get(dealId, principalId)).build();
     }
 
@@ -70,6 +78,7 @@ public class DealEndpoint {
     public Response startRental(@PathParam("id") Long dealId)
             throws UnauthorizedException, EntityNotFoundException, PrivilegeException, DealException {
         Long principalId = securityService.getPrincipalId();
+        log.debug("User with id {} start rental for deal with id {}", principalId, dealId);
         return Response.status(200).entity(dealService.startRental(dealId, principalId)).build();
     }
 
@@ -78,6 +87,7 @@ public class DealEndpoint {
     public Response stopRental(@PathParam("id") Long dealId)
             throws UnauthorizedException, EntityNotFoundException, PrivilegeException, DealException {
         Long principalId = securityService.getPrincipalId();
+        log.debug("User with id {} stop rental for deal with id {}", principalId, dealId);
         return Response.status(200).entity(dealService.stopRental(dealId, principalId)).build();
     }
 
@@ -86,6 +96,7 @@ public class DealEndpoint {
     public Response cancelBooking(@PathParam("id") Long dealId)
             throws UnauthorizedException, EntityNotFoundException, PrivilegeException, DealException {
         Long principalId = securityService.getPrincipalId();
+        log.debug("User with id {} cancel booking for deal with id {}", principalId, dealId);
         return Response.status(200).entity(dealService.cancelBooking(dealId, principalId)).build();
     }
 }
