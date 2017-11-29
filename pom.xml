@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>car-sharing</name>
-    <description></description>
+    <description>Application allow to sharing cars</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -103,6 +103,11 @@
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cz.jirutka.validator</groupId>
+            <artifactId>validator-spring</artifactId>
+            <version>1.1.0</version>
         </dependency>
 
     </dependencies>
