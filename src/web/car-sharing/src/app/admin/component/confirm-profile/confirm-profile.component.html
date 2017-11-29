@@ -53,11 +53,66 @@
       <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
-          <th class="text-center">Id</th>
-          <th class="text-center">Id пользователя</th>
-          <th class="text-center">Логин</th>
-          <th class="text-center">Статус</th>
-          <th class="text-center">Дата</th>
+          <th class="text-center">Id
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.id, direction.asc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.id ||
+                     pageParameterConfirmation.direction != direction.asc"
+                    data-placement="bottom" title="По возрастанию id">&#x25B2;
+            </button>
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.id, direction.desc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.id ||
+                    pageParameterConfirmation.direction != direction.desc"
+                    data-placement="bottom" title="По убыванию id">&#x25BC;
+            </button>
+          </th>
+          <th class="text-center">Id пользователя
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.profileId, direction.asc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.profileId ||
+                     pageParameterConfirmation.direction != direction.asc"
+                    data-placement="bottom" title="По возрастанию profileId">&#x25B2;
+            </button>
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.profileId, direction.desc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.profileId ||
+                    pageParameterConfirmation.direction != direction.desc"
+                    data-placement="bottom" title="По убыванию profileId">&#x25BC;
+            </button>
+          </th>
+          <th class="text-center">Логин
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.profileLogin, direction.asc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.profileLogin ||
+                     pageParameterConfirmation.direction != direction.asc"
+                    data-placement="bottom" title="По возрастанию profileLogin">&#x25B2;
+            </button>
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.profileLogin, direction.desc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.profileLogin ||
+                    pageParameterConfirmation.direction != direction.desc"
+                    data-placement="bottom" title="По убыванию profileLogin">&#x25BC;
+            </button>
+          </th>
+          <th class="text-center">Статус
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.confirmProfile, direction.asc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.confirmProfile ||
+                     pageParameterConfirmation.direction != direction.asc"
+                    data-placement="bottom" title="По возрастанию confirmProfile">&#x25B2;
+            </button>
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.confirmProfile, direction.desc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.confirmProfile ||
+                    pageParameterConfirmation.direction != direction.desc"
+                    data-placement="bottom" title="По убыванию confirmProfile">&#x25BC;
+            </button>
+          </th>
+          <th class="text-center">Дата
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.dateConfirm, direction.asc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.dateConfirm ||
+                     pageParameterConfirmation.direction != direction.asc"
+                    data-placement="bottom" title="По возрастанию dateConfirm">&#x25B2;
+            </button>
+            <button class="btn btn-sm btn-light" (click)="sortConfirmation(sort.dateConfirm, direction.desc)"
+                    *ngIf="pageParameterConfirmation.sort != sort.dateConfirm ||
+                    pageParameterConfirmation.direction != direction.desc"
+                    data-placement="bottom" title="По убыванию dateConfirm">&#x25BC;
+            </button>
+          </th>
           <th class="text-center"></th>
         </tr>
         </thead>
@@ -76,7 +131,7 @@
         </tr>
         </tbody>
       </table>
-      <ngb-pagination [collectionSize]="confirmations.totalElements" [(page)]="pageParameterConfirmation"
+      <ngb-pagination [collectionSize]="confirmations.totalElements" [(page)]="pageParameterConfirmation.page"
                       [pageSize]="confirmations.size" [maxSize]="5" [rotate]="true"
                       (pageChange)="getConfirmations()" *ngIf="confirmations.content.length > 0"></ngb-pagination>
     </div>
@@ -133,7 +188,10 @@
         <p><b>Дата:</b> {{confirmation.dateConfirm | date:'hh:mm dd-MM-yyyy'}}</p>
         <h5 class="text-center">Водительское удостоверение</h5>
         <p><b>Серия и номер:</b> {{confirmation.driverLicenseSeriesAndNumber}}</p>
-        <p><b>Категории:</b> {{confirmation.driverLicenseCategory}}</p></div>
+        <p><b>Категории:</b> {{confirmation.driverLicenseCategory}}</p>
+        <img src="{{confirmation.driverLicenseFrontSideImageUrl}}" alt="Лицевая сторона" width="100%">
+        <img src="{{confirmation.driverLicenseBackSideImageUrl}}" alt="Обратная сторона" width="100%">
+      </div>
       <div class="col-md-6">
         <h5 class="text-center">Паспортные данные</h5>
         <p><b>Фамилия:</b> {{confirmation.passportLastName}}</p>
@@ -144,6 +202,8 @@
         <p><b>Дата выдачи:</b> {{confirmation.passportDateOfIssue | date: 'yyyy-MM-dd'}}</p>
         <p><b>Место выдачи:</b> {{confirmation.passportPlaceOfIssue}}</p>
         <p><b>Срок действия:</b> {{confirmation.passportValidUntil | date: 'yyyy-MM-dd'}}</p>
+        <img src="{{confirmation.passportPhotoUrl}}" alt="Страница с фото" width="100%">
+        <img src="{{confirmation.passportRegistrationPhotoUrl}}" alt="Страница с пропиской" width="100%">
       </div>
     </div>
   </div>
@@ -168,6 +228,8 @@
         <h5 class="text-center">Водительское удостоверение</h5>
         <p><b>Серия и номер:</b> {{profile.driverLicenseResponse.seriesAndNumber}}</p>
         <p><b>Категории:</b> {{profile.driverLicenseResponse.category}}</p>
+        <img src="{{profile.driverLicenseResponse.frontSideImageUrl}}" alt="Лицевая сторона" width="100%">
+        <img src="{{profile.driverLicenseResponse.backSideImageUrl}}" alt="Обратная сторона" width="100%">
       </div>
       <div class="col-md-6">
         <h5 class="text-center">Паспортные данные</h5>
@@ -179,6 +241,8 @@
         <p><b>Дата выдачи:</b> {{profile.passportDataResponse.dateOfIssue | date: 'yyyy-MM-dd'}}</p>
         <p><b>Место выдачи:</b> {{profile.passportDataResponse.placeOfIssue}}</p>
         <p><b>Срок действия:</b> {{profile.passportDataResponse.validUntil | date: 'yyyy-MM-dd'}}</p>
+        <img src="{{profile.passportDataResponse.photoUrl}}" alt="Страница с фото" width="100%">
+        <img src="{{profile.passportDataResponse.registrationPhotoUrl}}" alt="Страница с пропиской" width="100%">
       </div>
     </div>
   </div>

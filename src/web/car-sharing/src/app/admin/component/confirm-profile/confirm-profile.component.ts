@@ -25,18 +25,18 @@ export class ConfirmProfileComponent implements OnInit {
   profile = new ConfirmProfile();
   sort = new Sort();
   direction = new Direction();
-  pageParameterConfirmation = new PageParameter(1, 5, this.sort.id, this.direction.asc);
+  pageParameterConfirmation = new PageParameter(1, 5, this.sort.dateConfirm, this.direction.desc);
   pageParameterConfirmProfile = new PageParameter(1, 5, this.sort.id, this.direction.asc);
   isCollapsedConfirmProfile = true;
   isCollapsedConfirmations = true;
   private modalRef: NgbModalRef;
 
   constructor(private confirmProfileService: ConfirmProfileService, private modalService: NgbModal) {
+    this.getProfilesForConfirmation();
+    this.getConfirmations()
   }
 
   ngOnInit() {
-    this.getProfilesForConfirmation();
-    this.getConfirmations()
   }
 
   notConfirmProfile() {
@@ -101,5 +101,17 @@ export class ConfirmProfileComponent implements OnInit {
   showProfile(profile, content) {
     this.profile = profile;
     this.modalRef = this.modalService.open(content, {size: 'lg'})
+  }
+
+  sortConfirmation(sortType: string, direction: string) {
+    this.pageParameterConfirmation.sort = sortType;
+    this.pageParameterConfirmation.direction = direction;
+    this.getConfirmations();
+  }
+
+  sortConfirmProfile(sortType: string, direction: string) {
+    this.pageParameterConfirmProfile.sort = sortType;
+    this.pageParameterConfirmProfile.direction = direction;
+    this.getProfilesForConfirmation();
   }
 }

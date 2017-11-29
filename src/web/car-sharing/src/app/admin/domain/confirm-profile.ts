@@ -19,5 +19,7 @@ export class ConfirmProfile {
     id: number;
     seriesAndNumber: String;
     category: String;
+    frontSideImageUrl: String;
+    backSideImageUrl: String;
   };
 }
