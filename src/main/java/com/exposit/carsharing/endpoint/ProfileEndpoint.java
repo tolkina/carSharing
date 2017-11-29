@@ -1,11 +1,9 @@
 package com.exposit.carsharing.endpoint;
 
 import com.dropbox.core.DbxException;
+import com.exposit.carsharing.dto.PasswordRequest;
 import com.exposit.carsharing.dto.ProfileRequest;
-import com.exposit.carsharing.exception.ConfirmProfileException;
-import com.exposit.carsharing.exception.EntityNotFoundException;
-import com.exposit.carsharing.exception.PrivilegeException;
-import com.exposit.carsharing.exception.UnauthorizedException;
+import com.exposit.carsharing.exception.*;
 import com.exposit.carsharing.service.AdService;
 import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.ProfileService;
@@ -133,6 +131,16 @@ public class ProfileEndpoint {
         Long principalId = securityService.getPrincipalId();
         log.debug("Disabling user with id {}", principalId);
         profileService.disableUser(principalId);
+        return Response.status(200).build();
+    }
+
+    @PUT
+    @Path("/password")
+    public Response changePassword(@Valid PasswordRequest passwordRequest)
+            throws UnauthorizedException, EntityNotFoundException, PasswordException {
+        Long principalId = securityService.getPrincipalId();
+        log.debug("Changing password for user with id {}", principalId);
+        profileService.changePassword(principalId, passwordRequest);
         return Response.status(200).build();
     }
 }

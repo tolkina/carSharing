@@ -5,17 +5,20 @@ import com.exposit.carsharing.cloud.CloudStorageClient;
 import com.exposit.carsharing.domain.AccountStatus;
 import com.exposit.carsharing.domain.ConfirmProfile;
 import com.exposit.carsharing.domain.Profile;
+import com.exposit.carsharing.dto.PasswordRequest;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.dto.UserResponse;
 import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PasswordException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import com.exposit.carsharing.repository.ProfileRepository;
 import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.util.AttachmentManager;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,13 +35,16 @@ public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
     private final CloudStorageClient cloudStorageClient;
     private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ProfileServiceImpl(ProfileRepository profileRepository, ModelMapper modelMapper,
-                              CloudStorageClient cloudStorageClient, RoleRepository roleRepository) {
+                              CloudStorageClient cloudStorageClient, RoleRepository roleRepository,
+                              BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.profileRepository = profileRepository;
         this.modelMapper = modelMapper;
         this.cloudStorageClient = cloudStorageClient;
         this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -127,6 +133,16 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public boolean isEnabled(Long id) throws EntityNotFoundException, PrivilegeException {
         return getProfile(id).getStatus() == AccountStatus.ENABLED;
+    }
+
+    @Override
+    public void changePassword(Long principalId, PasswordRequest passwordRequest)
+            throws EntityNotFoundException, PasswordException {
+        Profile profile = getProfile(principalId);
+        if (!bCryptPasswordEncoder.matches(passwordRequest.getOldPassword(), profile.getPassword())) {
+            throw new PasswordException("Incorrect old password.");
+        }
+        profile.setPassword(bCryptPasswordEncoder.encode(passwordRequest.getPassword()));
     }
 
     private ProfileResponse mapToResponse(Profile profile) {

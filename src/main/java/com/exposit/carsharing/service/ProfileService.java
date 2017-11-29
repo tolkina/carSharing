@@ -2,11 +2,13 @@ package com.exposit.carsharing.service;
 
 import com.dropbox.core.DbxException;
 import com.exposit.carsharing.domain.Profile;
+import com.exposit.carsharing.dto.PasswordRequest;
 import com.exposit.carsharing.dto.ProfileRequest;
 import com.exposit.carsharing.dto.ProfileResponse;
 import com.exposit.carsharing.dto.UserResponse;
 import com.exposit.carsharing.exception.ConfirmProfileException;
 import com.exposit.carsharing.exception.EntityNotFoundException;
+import com.exposit.carsharing.exception.PasswordException;
 import com.exposit.carsharing.exception.PrivilegeException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
@@ -37,4 +39,6 @@ public interface ProfileService {
     void disableUser(Long id) throws EntityNotFoundException, PrivilegeException;
 
     boolean isEnabled(Long id) throws EntityNotFoundException, PrivilegeException;
+
+    void changePassword(Long principalId, PasswordRequest passwordRequest) throws EntityNotFoundException, PasswordException;
 }

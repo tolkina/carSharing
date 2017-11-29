@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Profile} from "../domain/profile";
 import {Http} from "@angular/http";
 import {Confirm} from "../domain/confirm";
+import {NewPassword} from "../domain/new-password";
 
 @Injectable()
 export class ProfileService {
@@ -52,6 +53,14 @@ export class ProfileService {
   disableProfile(): Promise<void> {
     return this.http
       .put(this.profileUrl + "disable", {})
+      .toPromise()
+      .then()
+      .catch(this.handleError)
+  }
+
+  changePassword(newPassword: NewPassword): Promise<void> {
+    return this.http
+      .put(this.profileUrl + "password", newPassword)
       .toPromise()
       .then()
       .catch(this.handleError)
