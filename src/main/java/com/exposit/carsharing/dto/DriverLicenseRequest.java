@@ -11,6 +11,6 @@ import java.io.Serializable;
 public class DriverLicenseRequest implements Serializable {
     @Size(max = 20)
     private String seriesAndNumber;
-    @Size(max = 5)
+    @Size(max = 20)
     private String category;
 }

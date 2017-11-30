@@ -13,4 +13,12 @@ export class AuthGuardService implements CanActivate {
     }
     return true;
   }
+
+  canActivateChild(): boolean {
+    if (!window.localStorage.getItem("id")) {
+      this.router.navigate(['login']);
+      return false;
+    }
+    return true;
+  }
 }

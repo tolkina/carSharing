@@ -53,7 +53,7 @@ export class ProfileInfoComponent {
         this.editedProfile = new Profile();
       })
       .catch(error => {
-        this.errorUpdate = error._body
+        this.errorUpdate = error
       });
   }
 

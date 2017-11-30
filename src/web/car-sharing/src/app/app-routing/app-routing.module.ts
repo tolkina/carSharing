@@ -41,7 +41,10 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'registration', component: RegistrationComponent},
   {
-    path: 'admin', component: HomePageAdminComponent, canActivate: [RoleAuthGuardService],
+    path: 'admin',
+    component: HomePageAdminComponent,
+    canActivate: [RoleAuthGuardService],
+    canActivateChild: [RoleAuthGuardService],
     children: [
       {path: '', component: HomePageComponent},
       {
@@ -66,7 +69,10 @@ const routes: Routes = [
     children: [
       {path: '', component: HomePageComponent},
       {
-        path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService],
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuardService],
+        canActivateChild: [AuthGuardService],
         children: [
           {path: '', redirectTo: 'info', pathMatch: 'full'},
           {path: 'info', component: ProfileInfoComponent},

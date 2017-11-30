@@ -13,4 +13,12 @@ export class RoleAuthGuardService implements CanActivate {
     }
     return true;
   }
+
+  canActivateChild(): boolean {
+    if (!window.localStorage.getItem("admin")) {
+      this.router.navigate(['login']);
+      return false;
+    }
+    return true;
+  }
 }

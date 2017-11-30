@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -191,7 +192,10 @@ public class AdminServiceImpl implements AdminService {
 
     private BrandResponse mapToBrandResponse(Brand brand) {
         BrandResponse brandResponse = modelMapper.map(brand, BrandResponse.class);
-        brandResponse.setCountOfModels(brand.getModels().size());
+        Set<Model> models = brand.getModels();
+        if (models != null) {
+            brandResponse.setCountOfModels(models.size());
+        }
         return brandResponse;
     }
 

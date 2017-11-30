@@ -37,7 +37,7 @@ export class DriverLicenseComponent implements OnInit {
         this.editedDriverLicense = new DriverLicense();
         this.profileInfoComponent.setConfirmNo();
       })
-      .catch(err => this.error = err._body);
+      .catch(err => this.error = err);
   }
 
   showEdit(content) {
